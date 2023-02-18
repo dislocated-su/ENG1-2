@@ -78,6 +78,8 @@ jobs:
       with:
         markdown_path: out/SummaryGithub.md
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        report_name: Coverage Report
+        report_title: Code Coverage Report
         
     - name: Upload game JAR
       uses: actions/upload-artifact@v3.1.2
