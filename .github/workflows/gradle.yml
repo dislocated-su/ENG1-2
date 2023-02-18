@@ -60,18 +60,24 @@ jobs:
         reporter: java-junit
         fail-on-error: true
         
-    - name: Report Code Coverage
-      uses: PavanMudigonda/jacoco-reporter@v4.8
+    - name: Setup .NET Core # Required to execute ReportGenerator
+      uses: actions/setup-dotnet@v3
       with:
-        coverage_results_path: tests/build/jacoco.xml
-        coverage_report_name: Coverage
-        coverage_report_title: JaCoCo
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        skip_check_run: false
-        minimum_coverage: 80
-        fail_below_threshold: false
-        publish_only_summary: false
-      
+        dotnet-version: 6.x
+        dotnet-quality: 'ga'
+
+    - name: ReportGenerator
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.17
+      with:
+        reports: tests/build/jacoco.xml
+        targetdir: out
+        reporttypes: MarkdownSummaryGithub
+        
+    - name: Publish Coverage Report
+      uses: PavanMudigonda/markdown-reporter@v0.1
+      with:
+        markdown_path: out/SummaryGithub.md
+        
     - name: Upload game JAR
       uses: actions/upload-artifact@v3.1.2
       with:
