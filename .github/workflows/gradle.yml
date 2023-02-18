@@ -35,14 +35,21 @@ jobs:
       uses: gradle/gradle-build-action@v2.3.3
       with:
         arguments: desktop:dist
-    
-    - name: Log Checkstyle Report as Annotations
-      uses: kiancross/checkstyle-annotations-action@v1
-
-    - name: Test & CheckStyle
+        
+    - name: Run Checks
       uses: gradle/gradle-build-action@v2.3.3
       with:
         arguments: check
+    
+    - name: Add Checkstyle Report  
+      uses: jwgmeligmeyling/checkstyle-github-action@master
+      with:
+        path: '**/reports/checkstyle/*.xml'
+    
+    - name: Test
+      uses: gradle/gradle-build-action@v2.3.3
+      with:
+        arguments: tests:test
         
     - name: Report Test
       uses: dorny/test-reporter@v1.6.0
