@@ -41,15 +41,27 @@ jobs:
       with:
         arguments: tests:test
         
-    - name: Report
+    - name: Report Test
       uses: dorny/test-reporter@v1.6.0
       if: always()
       with:
-        name: Gradle Tests
+        name: Test Report
         path: tests/build/test-results/test/*.xml
         reporter: java-junit
         fail-on-error: true
         
+    - name: Report Code Coverage
+      uses: PavanMudigonda/jacoco-reporter@v4.8
+      with:
+        coverage_results_path: tests/build/jacoco.xml
+        coverage_report_name: Coverage
+        coverage_report_title: JaCoCo
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        skip_check_run: false
+        minimum_coverage: 80
+        fail_below_threshold: false
+        publish_only_summary: false
+      
     - name: Upload game JAR
       uses: actions/upload-artifact@v3.1.2
       with:
