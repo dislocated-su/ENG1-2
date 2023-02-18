@@ -35,11 +35,14 @@ jobs:
       uses: gradle/gradle-build-action@v2.3.3
       with:
         arguments: desktop:dist
-        
-    - name: Test
+    
+    - name: Log Checkstyle Report as Annotations
+      uses: kiancross/checkstyle-annotations-action@v1
+
+    - name: Test & CheckStyle
       uses: gradle/gradle-build-action@v2.3.3
       with:
-        arguments: tests:test
+        arguments: check
         
     - name: Report Test
       uses: dorny/test-reporter@v1.6.0
