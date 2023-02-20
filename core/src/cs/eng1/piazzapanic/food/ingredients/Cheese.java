@@ -4,7 +4,7 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 
 public class Cheese extends Ingredient {
 
-  public Cheese(FoodTextureManager textureManager) {
-    super("cheese", textureManager);
-  }
+    public Cheese(FoodTextureManager textureManager) {
+        super("cheese", textureManager);
+    }
 }

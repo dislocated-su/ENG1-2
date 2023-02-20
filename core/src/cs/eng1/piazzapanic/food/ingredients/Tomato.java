@@ -5,23 +5,23 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 
 public class Tomato extends Ingredient {
 
-  public Tomato(FoodTextureManager textureManager) {
-    super("tomato", textureManager);
-  }
-
-  /**
-   * Get the texture based on whether the tomato has been chopped.
-   *
-   * @return the texture to display.
-   */
-  @Override
-  public Texture getTexture() {
-    String name = getType() + "_";
-    if (isChopped) {
-      name += "chopped";
-    } else {
-      name += "raw";
+    public Tomato(FoodTextureManager textureManager) {
+        super("tomato", textureManager);
     }
-    return textureManager.getTexture(name);
-  }
+
+    /**
+     * Get the texture based on whether the tomato has been chopped.
+     *
+     * @return the texture to display.
+     */
+    @Override
+    public Texture getTexture() {
+        String name = getType() + "_";
+        if (isChopped) {
+            name += "chopped";
+        } else {
+            name += "raw";
+        }
+        return textureManager.getTexture(name);
+    }
 }

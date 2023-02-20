@@ -12,48 +12,48 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class FontManager implements Disposable {
 
-  private final FreeTypeFontGenerator fontGenerator;
-  private final BitmapFont titleFont;
-  private final BitmapFont headerFont;
-  private final BitmapFont labelFont;
+    private final FreeTypeFontGenerator fontGenerator;
+    private final BitmapFont titleFont;
+    private final BitmapFont headerFont;
+    private final BitmapFont labelFont;
 
-  public FontManager() {
-    fontGenerator =
-      new FreeTypeFontGenerator(
-        Gdx.files.internal("fonts/MontserratMedium.ttf")
-      );
+    public FontManager() {
+        fontGenerator =
+            new FreeTypeFontGenerator(
+                Gdx.files.internal("fonts/MontserratMedium.ttf")
+            );
 
-    FreeTypeFontParameter titleFontParameters = new FreeTypeFontParameter();
-    titleFontParameters.size = 32;
-    titleFont = fontGenerator.generateFont(titleFontParameters);
+        FreeTypeFontParameter titleFontParameters = new FreeTypeFontParameter();
+        titleFontParameters.size = 32;
+        titleFont = fontGenerator.generateFont(titleFontParameters);
 
-    FreeTypeFontParameter headerFontParameters = new FreeTypeFontParameter();
-    headerFontParameters.size = 24;
-    headerFont = fontGenerator.generateFont(headerFontParameters);
+        FreeTypeFontParameter headerFontParameters = new FreeTypeFontParameter();
+        headerFontParameters.size = 24;
+        headerFont = fontGenerator.generateFont(headerFontParameters);
 
-    FreeTypeFontParameter labelFontParameters = new FreeTypeFontParameter();
-    labelFontParameters.size = 12;
-    labelFont = fontGenerator.generateFont(labelFontParameters);
-  }
+        FreeTypeFontParameter labelFontParameters = new FreeTypeFontParameter();
+        labelFontParameters.size = 12;
+        labelFont = fontGenerator.generateFont(labelFontParameters);
+    }
 
-  public BitmapFont getTitleFont() {
-    return titleFont;
-  }
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
 
-  public BitmapFont getHeaderFont() {
-    return headerFont;
-  }
+    public BitmapFont getHeaderFont() {
+        return headerFont;
+    }
 
-  public BitmapFont getLabelFont() {
-    return labelFont;
-  }
+    public BitmapFont getLabelFont() {
+        return labelFont;
+    }
 
-  public BitmapFont generateFont(FreeTypeFontParameter parameter) {
-    return fontGenerator.generateFont(parameter);
-  }
+    public BitmapFont generateFont(FreeTypeFontParameter parameter) {
+        return fontGenerator.generateFont(parameter);
+    }
 
-  @Override
-  public void dispose() {
-    fontGenerator.dispose();
-  }
+    @Override
+    public void dispose() {
+        fontGenerator.dispose();
+    }
 }
