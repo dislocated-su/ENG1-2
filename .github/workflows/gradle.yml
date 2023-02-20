@@ -41,7 +41,7 @@ jobs:
     needs: format
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         codecov: [false]
         include:
         - os: ubuntu-latest
@@ -80,13 +80,14 @@ jobs:
         
     - name: Setup .NET Core # Required to execute ReportGenerator
       uses: actions/setup-dotnet@v3
-      if: ${{ matrix.codecov }}
+      if: ${{ matrix.codecov & success()}}
       with:
         dotnet-version: 6.x
         dotnet-quality: 'ga'
 
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.17
+      if: ${{ success() }}
       with:
         reports: tests/build/jacoco.xml
         targetdir: out
@@ -94,6 +95,7 @@ jobs:
         
     - name: Publish Coverage Report
       uses: PavanMudigonda/markdown-reporter@v0.1
+      if: ${{ success() }}
       with:
         markdown_path: out/SummaryGithub.md
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -102,6 +104,7 @@ jobs:
         
     - name: Upload game JAR
       uses: actions/upload-artifact@v3.1.2
+      if: ${{ success() }}
       with:
         name: piazza-panic
         path: desktop/build/libs/desktop-1.0.jar
