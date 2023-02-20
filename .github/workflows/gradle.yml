@@ -87,7 +87,7 @@ jobs:
 
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.17
-      if: ${{ success() }}
+      if: ${{ matrix.codecov && success()}}
       with:
         reports: tests/build/jacoco.xml
         targetdir: out
@@ -95,7 +95,7 @@ jobs:
         
     - name: Publish Coverage Report
       uses: PavanMudigonda/markdown-reporter@v0.1
-      if: ${{ success() }}
+      if: ${{ matrix.codecov && success()}}
       with:
         markdown_path: out/SummaryGithub.md
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -104,7 +104,7 @@ jobs:
         
     - name: Upload game JAR
       uses: actions/upload-artifact@v3.1.2
-      if: ${{ success() }}
+      if: ${{ matrix.codecov && success()}}
       with:
         name: piazza-panic
         path: desktop/build/libs/desktop-1.0.jar
