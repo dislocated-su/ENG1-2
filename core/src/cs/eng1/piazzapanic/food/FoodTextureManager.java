@@ -12,24 +12,44 @@ public class FoodTextureManager implements Disposable {
 
   public FoodTextureManager() {
     this.foodTextures = new HashMap<>();
-    this.foodTextures.put("patty_cooked",
-        new Texture(Gdx.files.internal("food/original/cooked_patty.png")));
-    this.foodTextures.put("patty_raw",
-        new Texture(Gdx.files.internal("food/original/uncooked_patty.png")));
-    this.foodTextures.put("lettuce_raw",
-        new Texture(Gdx.files.internal("food/glitch/vegetable/lettuce.png")));
-    this.foodTextures.put("lettuce_chopped",
-        new Texture(Gdx.files.internal("food/original/lettuce_chopped.png")));
-    this.foodTextures.put("tomato_raw",
-        new Texture(Gdx.files.internal("food/glitch/fruit/tomato.png")));
-    this.foodTextures.put("tomato_chopped",
-        new Texture(Gdx.files.internal("food/original/tomato_chopped.png")));
-    this.foodTextures.put("bun",
-        new Texture(Gdx.files.internal("food/glitch/misc/bun.png")));
-    this.foodTextures.put("burger",
-        new Texture(Gdx.files.internal("food/glitch/misc/sandwich_burger_04.png")));
-    this.foodTextures.put("salad",
-        new Texture(Gdx.files.internal("food/glitch/misc/salad.png")));
+    this.foodTextures.put(
+        "patty_cooked",
+        new Texture(Gdx.files.internal("food/original/cooked_patty.png"))
+      );
+    this.foodTextures.put(
+        "patty_raw",
+        new Texture(Gdx.files.internal("food/original/uncooked_patty.png"))
+      );
+    this.foodTextures.put(
+        "lettuce_raw",
+        new Texture(Gdx.files.internal("food/glitch/vegetable/lettuce.png"))
+      );
+    this.foodTextures.put(
+        "lettuce_chopped",
+        new Texture(Gdx.files.internal("food/original/lettuce_chopped.png"))
+      );
+    this.foodTextures.put(
+        "tomato_raw",
+        new Texture(Gdx.files.internal("food/glitch/fruit/tomato.png"))
+      );
+    this.foodTextures.put(
+        "tomato_chopped",
+        new Texture(Gdx.files.internal("food/original/tomato_chopped.png"))
+      );
+    this.foodTextures.put(
+        "bun",
+        new Texture(Gdx.files.internal("food/glitch/misc/bun.png"))
+      );
+    this.foodTextures.put(
+        "burger",
+        new Texture(
+          Gdx.files.internal("food/glitch/misc/sandwich_burger_04.png")
+        )
+      );
+    this.foodTextures.put(
+        "salad",
+        new Texture(Gdx.files.internal("food/glitch/misc/salad.png"))
+      );
     notFoundImage = new Texture(Gdx.files.internal("badlogic.jpg"));
   }
 

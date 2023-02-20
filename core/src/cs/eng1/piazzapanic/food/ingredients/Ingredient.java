@@ -1,7 +1,6 @@
 package cs.eng1.piazzapanic.food.ingredients;
 
 import com.badlogic.gdx.graphics.Texture;
-
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 
 public class Ingredient {
@@ -9,7 +8,7 @@ public class Ingredient {
   private final String type;
   protected final FoodTextureManager textureManager;
   protected boolean isCooked = false;
-  protected  boolean isChopped = false;
+  protected boolean isChopped = false;
 
   public Ingredient(String type, FoodTextureManager textureManager) {
     this.type = type;
@@ -19,9 +18,8 @@ public class Ingredient {
   @Override
   public String toString() {
     String output = getType() + "_";
-    if (isChopped) output += "chopped";
-    else if (isCooked) output += "cooked";
-    else output += "raw";
+    if (isChopped) output += "chopped"; else if (isCooked) output +=
+      "cooked"; else output += "raw";
     return output;
   }
 
@@ -31,8 +29,10 @@ public class Ingredient {
    * @param ingredientName the name of the ingredient which can be defined from Tiled
    * @return the Ingredient of the type defined by the input
    */
-  public static Ingredient fromString(String ingredientName,
-      FoodTextureManager textureManager) {
+  public static Ingredient fromString(
+    String ingredientName,
+    FoodTextureManager textureManager
+  ) {
     switch (ingredientName) {
       case "patty":
         return new Patty(textureManager);
@@ -54,8 +54,10 @@ public class Ingredient {
    *                           with no whitespace as defined in Tiled
    * @return An array of Ingredient based on the input string
    */
-  public static Ingredient[] arrayFromString(String csvIngredientNames,
-      FoodTextureManager textureManager) {
+  public static Ingredient[] arrayFromString(
+    String csvIngredientNames,
+    FoodTextureManager textureManager
+  ) {
     String[] ingredientNames = csvIngredientNames.split(",");
     Ingredient[] ingredients = new Ingredient[ingredientNames.length];
     for (int i = 0; i < ingredientNames.length; i++) {

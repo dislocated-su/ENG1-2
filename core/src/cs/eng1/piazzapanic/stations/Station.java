@@ -12,7 +12,6 @@ import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,8 +28,12 @@ public class Station extends Actor implements Observer<Chef> {
   protected Chef nearbyChef = null;
   private float imageRotation = 0.0f;
 
-  public Station(int id, TextureRegion image, StationUIController uiController,
-      StationActionUI.ActionAlignment alignment) {
+  public Station(
+    int id,
+    TextureRegion image,
+    StationUIController uiController,
+    StationActionUI.ActionAlignment alignment
+  ) {
     this.id = id;
     stationImage = image; // Texture of the object
     actionAlignment = alignment;
@@ -51,8 +54,18 @@ public class Station extends Actor implements Observer<Chef> {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
-    batch.draw(stationImage, getX(), getY(), 0.5f, 0.5f, getWidth(), getHeight(), 1f, 1f,
-        imageRotation);
+    batch.draw(
+      stationImage,
+      getX(),
+      getY(),
+      0.5f,
+      0.5f,
+      getWidth(),
+      getHeight(),
+      1f,
+      1f,
+      imageRotation
+    );
   }
 
   /**
@@ -91,9 +104,14 @@ public class Station extends Actor implements Observer<Chef> {
     for (Subject<Chef> chefSubject : chefSubjects) {
       if (chefSubject instanceof Actor) {
         Actor collider = (Actor) chefSubject;
-        Vector2 start = new Vector2(getX() + getWidth() / 2f, getY() + getHeight() / 2f);
-        Vector2 end = new Vector2(collider.getX() + collider.getWidth() / 2f,
-            collider.getY() + collider.getHeight() / 2f);
+        Vector2 start = new Vector2(
+          getX() + getWidth() / 2f,
+          getY() + getHeight() / 2f
+        );
+        Vector2 end = new Vector2(
+          collider.getX() + collider.getWidth() / 2f,
+          collider.getY() + collider.getHeight() / 2f
+        );
         shapes.line(start, end);
       }
     }
@@ -169,8 +187,7 @@ public class Station extends Actor implements Observer<Chef> {
    *
    * @param action the action that needs to be done by this station if it can.
    */
-  public void doStationAction(StationAction.ActionType action) {
-  }
+  public void doStationAction(StationAction.ActionType action) {}
 
   /**
    * @return the direction in which the action buttons should be displayed.

@@ -10,7 +10,6 @@ import java.util.List;
  * @param <T> The class type that will be received every time this class receives an update.
  */
 public interface Observer<T> {
-
   /**
    * Lets the implementation of Observer deal with the new value that was set in the Subject.
    *

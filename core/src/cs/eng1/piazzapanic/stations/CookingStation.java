@@ -6,11 +6,9 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-
 
 /**
  * The CookingStation class is a station representing the place in the kitchen where you cook
@@ -34,8 +32,13 @@ public class CookingStation extends Station {
    * @param alignment    Dictates where the action buttons are shown
    * @param ingredients  An array of ingredients used to define what ingredients can be cooked
    */
-  public CookingStation(int id, TextureRegion image, StationUIController uiController,
-      StationActionUI.ActionAlignment alignment, Ingredient[] ingredients) {
+  public CookingStation(
+    int id,
+    TextureRegion image,
+    StationUIController uiController,
+    StationActionUI.ActionAlignment alignment,
+    Ingredient[] ingredients
+  ) {
     super(id, image, uiController, alignment);
     validIngredients = ingredients; //A list of the ingredients that can be used by this station.
   }
@@ -58,12 +61,21 @@ public class CookingStation extends Station {
   public void act(float delta) {
     if (inUse) {
       timeCooked += delta;
-      uiController.updateProgressValue(this, (timeCooked / totalTimeToCook) * 100f);
+      uiController.updateProgressValue(
+        this,
+        (timeCooked / totalTimeToCook) * 100f
+      );
       if (timeCooked >= totalTimeToCook && progressVisible) {
-        if (currentIngredient instanceof Patty && !((Patty) currentIngredient).getIsHalfCooked()) {
+        if (
+          currentIngredient instanceof Patty &&
+          !((Patty) currentIngredient).getIsHalfCooked()
+        ) {
           ((Patty) currentIngredient).setHalfCooked();
-        } else if (currentIngredient instanceof Patty
-            && ((Patty) currentIngredient).getIsHalfCooked() && !currentIngredient.getIsCooked()) {
+        } else if (
+          currentIngredient instanceof Patty &&
+          ((Patty) currentIngredient).getIsHalfCooked() &&
+          !currentIngredient.getIsCooked()
+        ) {
           currentIngredient.setIsCooked(true);
         }
         uiController.hideProgressBar(this);
@@ -105,13 +117,20 @@ public class CookingStation extends Station {
       return actionTypes;
     }
     if (currentIngredient == null) {
-      if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
+      if (
+        nearbyChef.hasIngredient() &&
+        isCorrectIngredient(nearbyChef.getStack().peek())
+      ) {
         actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
       }
     } else {
       //check to see if total number of seconds has passed to progress the state of the patty.
-      if (currentIngredient instanceof Patty && ((Patty) currentIngredient).getIsHalfCooked()
-          && !currentIngredient.getIsCooked() && !progressVisible) {
+      if (
+        currentIngredient instanceof Patty &&
+        ((Patty) currentIngredient).getIsHalfCooked() &&
+        !currentIngredient.getIsCooked() &&
+        !progressVisible
+      ) {
         actionTypes.add(StationAction.ActionType.FLIP_ACTION);
       } else if (currentIngredient.getIsCooked()) {
         actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
@@ -141,23 +160,24 @@ public class CookingStation extends Station {
         uiController.showProgressBar(this);
         progressVisible = true;
         break;
-
       case FLIP_ACTION:
         timeCooked = 0;
         uiController.hideActions(this);
         uiController.showProgressBar(this);
         progressVisible = true;
         break;
-
       case PLACE_INGREDIENT:
-        if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
+        if (
+          this.nearbyChef != null &&
+          nearbyChef.hasIngredient() &&
+          currentIngredient == null
+        ) {
           if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
             currentIngredient = nearbyChef.placeIngredient();
           }
         }
         uiController.showActions(this, getActionTypes());
         break;
-
       case GRAB_INGREDIENT:
         if (nearbyChef.canGrabIngredient()) {
           nearbyChef.grabIngredient(currentIngredient);

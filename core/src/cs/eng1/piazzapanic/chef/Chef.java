@@ -63,14 +63,44 @@ public class Chef extends Actor implements Disposable {
 
   @Override
   public void draw(Batch batch, float parentAlpha) {
-    batch.draw(image, getX() + (1 - imageBounds.x) / 2f, getY() + (1 - imageBounds.y) / 2f,
-        imageBounds.x / 2f, imageBounds.y / 2f, imageBounds.x,
-        imageBounds.y, 1f, 1f, imageRotation, 0, 0, image.getWidth(), image.getHeight(), false,
-        false);
+    batch.draw(
+      image,
+      getX() + (1 - imageBounds.x) / 2f,
+      getY() + (1 - imageBounds.y) / 2f,
+      imageBounds.x / 2f,
+      imageBounds.y / 2f,
+      imageBounds.x,
+      imageBounds.y,
+      1f,
+      1f,
+      imageRotation,
+      0,
+      0,
+      image.getWidth(),
+      image.getHeight(),
+      false,
+      false
+    );
     for (Ingredient ingredient : ingredientStack) {
       Texture texture = ingredient.getTexture();
-      batch.draw(texture, getX() + 0.5f, getY() + 0.2f, 0f, 0.3f, 0.6f, 0.6f, 1f, 1f,
-          imageRotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
+      batch.draw(
+        texture,
+        getX() + 0.5f,
+        getY() + 0.2f,
+        0f,
+        0.3f,
+        0.6f,
+        0.6f,
+        1f,
+        1f,
+        imageRotation,
+        0,
+        0,
+        texture.getWidth(),
+        texture.getHeight(),
+        false,
+        false
+      );
     }
   }
 
@@ -95,16 +125,28 @@ public class Chef extends Actor implements Disposable {
     }
     float x = 0f;
     float y = 0f;
-    if (Gdx.input.isKeyPressed(Input.Keys.W) || Gdx.input.isKeyPressed(Input.Keys.UP)) {
+    if (
+      Gdx.input.isKeyPressed(Input.Keys.W) ||
+      Gdx.input.isKeyPressed(Input.Keys.UP)
+    ) {
       y += 1f;
     }
-    if (Gdx.input.isKeyPressed(Input.Keys.S) || Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+    if (
+      Gdx.input.isKeyPressed(Input.Keys.S) ||
+      Gdx.input.isKeyPressed(Input.Keys.DOWN)
+    ) {
       y -= 1f;
     }
-    if (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+    if (
+      Gdx.input.isKeyPressed(Input.Keys.D) ||
+      Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+    ) {
       x += 1f;
     }
-    if (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+    if (
+      Gdx.input.isKeyPressed(Input.Keys.A) ||
+      Gdx.input.isKeyPressed(Input.Keys.LEFT)
+    ) {
       x -= 1f;
     }
     setInputVector(x, y);
@@ -120,7 +162,10 @@ public class Chef extends Actor implements Disposable {
    * @return the vector representing how far the chef should move
    */
   private Vector2 calculateMovement(float delta) {
-    Vector2 movement = new Vector2(inputVector.x * speed * delta, inputVector.y * speed * delta);
+    Vector2 movement = new Vector2(
+      inputVector.x * speed * delta,
+      inputVector.y * speed * delta
+    );
 
     // Adjust movement for collision
     movement.x = adjustHorizontalMovementForCollision(movement.x);
@@ -140,15 +185,22 @@ public class Chef extends Actor implements Disposable {
    */
   private Rectangle getCollisionObjectBoundaries(float x, float y) {
     Actor actorHit = getStage().hit(x, y, false);
-    Cell tileHit = chefManager.getCellAtPosition((int) Math.floor(x), (int) Math.floor(y));
+    Cell tileHit = chefManager.getCellAtPosition(
+      (int) Math.floor(x),
+      (int) Math.floor(y)
+    );
 
     if (tileHit != null) {
       // Return the bounds of the foreground tile that the selected point overlaps
       return new Rectangle((float) Math.floor(x), (float) Math.floor(y), 1, 1);
     } else if (actorHit instanceof Station || actorHit instanceof Chef) {
       // Return the bounds of the station or chef that the point lies within.
-      return new Rectangle(actorHit.getX(), actorHit.getY(), actorHit.getWidth(),
-          actorHit.getHeight());
+      return new Rectangle(
+        actorHit.getX(),
+        actorHit.getY(),
+        actorHit.getWidth(),
+        actorHit.getHeight()
+      );
     } else {
       return null;
     }
@@ -163,10 +215,18 @@ public class Chef extends Actor implements Disposable {
     if (xMovement > 0.0001f) {
       // Check right side of chef at top, middle and bottom
       float rightBorder = getX() + getWidth() + xMovement;
-      Rectangle hitBoundsBottom = getCollisionObjectBoundaries(rightBorder, getY());
-      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(rightBorder,
-          getY() + getHeight() / 2f);
-      Rectangle hitBoundsTop = getCollisionObjectBoundaries(rightBorder, getY() + getHeight());
+      Rectangle hitBoundsBottom = getCollisionObjectBoundaries(
+        rightBorder,
+        getY()
+      );
+      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(
+        rightBorder,
+        getY() + getHeight() / 2f
+      );
+      Rectangle hitBoundsTop = getCollisionObjectBoundaries(
+        rightBorder,
+        getY() + getHeight()
+      );
 
       // Calculate new change in x relative to the collision object boundaries
       float adjustment = -getWidth() - collisionSkin - getX();
@@ -182,10 +242,18 @@ public class Chef extends Actor implements Disposable {
     } else if (xMovement < -0.0001f) {
       // Check left side of chef at top, middle and bottom
       float leftBorder = getX() + xMovement;
-      Rectangle hitBoundsBottom = getCollisionObjectBoundaries(leftBorder, getY());
-      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(leftBorder,
-          getY() + getHeight() / 2f);
-      Rectangle hitBoundsTop = getCollisionObjectBoundaries(leftBorder, getY() + getHeight());
+      Rectangle hitBoundsBottom = getCollisionObjectBoundaries(
+        leftBorder,
+        getY()
+      );
+      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(
+        leftBorder,
+        getY() + getHeight() / 2f
+      );
+      Rectangle hitBoundsTop = getCollisionObjectBoundaries(
+        leftBorder,
+        getY() + getHeight()
+      );
 
       // Calculate new change in x relative to the collision object boundaries
       float adjustment = collisionSkin - getX();
@@ -193,10 +261,15 @@ public class Chef extends Actor implements Disposable {
         xMovement = hitBoundsBottom.x + hitBoundsBottom.width + adjustment;
       }
       if (hitBoundsMiddle != null) {
-        xMovement = Math.max(xMovement, hitBoundsMiddle.x + hitBoundsMiddle.width + adjustment);
+        xMovement =
+          Math.max(
+            xMovement,
+            hitBoundsMiddle.x + hitBoundsMiddle.width + adjustment
+          );
       }
       if (hitBoundsTop != null) {
-        xMovement = Math.max(xMovement, hitBoundsTop.x + hitBoundsTop.width + adjustment);
+        xMovement =
+          Math.max(xMovement, hitBoundsTop.x + hitBoundsTop.width + adjustment);
       }
     }
     return xMovement;
@@ -212,8 +285,14 @@ public class Chef extends Actor implements Disposable {
       // Check top side of chef at left, middle and right
       float topBorder = getY() + getHeight() + yMovement;
       Rectangle hitBoundsLeft = getCollisionObjectBoundaries(getX(), topBorder);
-      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(getX() + getWidth() / 2f, topBorder);
-      Rectangle hitBoundsRight = getCollisionObjectBoundaries(getX() + getWidth(), topBorder);
+      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(
+        getX() + getWidth() / 2f,
+        topBorder
+      );
+      Rectangle hitBoundsRight = getCollisionObjectBoundaries(
+        getX() + getWidth(),
+        topBorder
+      );
 
       // Calculate new change in y relative to the collision object boundaries
       float adjustment = -getHeight() - collisionSkin - getY();
@@ -229,21 +308,41 @@ public class Chef extends Actor implements Disposable {
     } else if (yMovement < -0.0001f) {
       // Check bottom side of chef at left, middle and right
       float bottomBorder = getY() + yMovement;
-      Rectangle hitBoundsLeft = getCollisionObjectBoundaries(getX(), bottomBorder);
-      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(getX() + getWidth() / 2f,
-          bottomBorder);
-      Rectangle hitBoundsRight = getCollisionObjectBoundaries(getX() + getWidth(), bottomBorder);
+      Rectangle hitBoundsLeft = getCollisionObjectBoundaries(
+        getX(),
+        bottomBorder
+      );
+      Rectangle hitBoundsMiddle = getCollisionObjectBoundaries(
+        getX() + getWidth() / 2f,
+        bottomBorder
+      );
+      Rectangle hitBoundsRight = getCollisionObjectBoundaries(
+        getX() + getWidth(),
+        bottomBorder
+      );
 
       // Calculate new change in y relative to the collision object boundaries
       float adjustment = collisionSkin - getY();
       if (hitBoundsLeft != null) {
-        yMovement = Math.max(yMovement, hitBoundsLeft.y + hitBoundsLeft.height + adjustment);
+        yMovement =
+          Math.max(
+            yMovement,
+            hitBoundsLeft.y + hitBoundsLeft.height + adjustment
+          );
       }
       if (hitBoundsMiddle != null) {
-        yMovement = Math.max(yMovement, hitBoundsMiddle.y + hitBoundsMiddle.height + adjustment);
+        yMovement =
+          Math.max(
+            yMovement,
+            hitBoundsMiddle.y + hitBoundsMiddle.height + adjustment
+          );
       }
       if (hitBoundsRight != null) {
-        yMovement = Math.max(yMovement, hitBoundsRight.y + hitBoundsRight.height + adjustment);
+        yMovement =
+          Math.max(
+            yMovement,
+            hitBoundsRight.y + hitBoundsRight.height + adjustment
+          );
       }
     }
     return yMovement;

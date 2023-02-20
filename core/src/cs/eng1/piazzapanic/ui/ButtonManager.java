@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
-
 import java.util.HashMap;
 
 /**
@@ -21,7 +20,11 @@ import java.util.HashMap;
 public class ButtonManager implements Disposable {
 
   public enum ButtonColour {
-    BLUE, GREEN, GREY, RED, YELLOW
+    BLUE,
+    GREEN,
+    GREY,
+    RED,
+    YELLOW,
   }
 
   private final HashMap<ButtonColour, TextButton.TextButtonStyle> textButtonStyles;
@@ -39,40 +42,76 @@ public class ButtonManager implements Disposable {
     checkBoxStyles = new HashMap<>();
 
     String basePath = "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/";
-    checkboxUnchecked = new Texture(
-        Gdx.files.internal(basePath + "grey_box.png"));
+    checkboxUnchecked =
+      new Texture(Gdx.files.internal(basePath + "grey_box.png"));
 
     for (ButtonColour buttonColour : ButtonColour.values()) {
-
       // Generate all the different base colour styles from images and store them in a HashMap
       TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
-          new TextureRegionDrawable(new Texture(Gdx.files.internal(
-              basePath + buttonColour.name().toLowerCase() + "_button_flat_up.png"))),
-          new TextureRegionDrawable(new Texture(Gdx.files.internal(
-              basePath + buttonColour.name().toLowerCase() + "_button_flat_down.png"))),
-          null,
-          fontManager.getLabelFont());
-      if (buttonColour == ButtonColour.GREY || buttonColour == ButtonColour.YELLOW) {
+        new TextureRegionDrawable(
+          new Texture(
+            Gdx.files.internal(
+              basePath +
+              buttonColour.name().toLowerCase() +
+              "_button_flat_up.png"
+            )
+          )
+        ),
+        new TextureRegionDrawable(
+          new Texture(
+            Gdx.files.internal(
+              basePath +
+              buttonColour.name().toLowerCase() +
+              "_button_flat_down.png"
+            )
+          )
+        ),
+        null,
+        fontManager.getLabelFont()
+      );
+      if (
+        buttonColour == ButtonColour.GREY || buttonColour == ButtonColour.YELLOW
+      ) {
         textButtonStyle.fontColor = Color.BLACK;
       }
       textButtonStyles.put(buttonColour, textButtonStyle);
 
       // Generate all the base image button colour styles
       Button.ButtonStyle imageButtonBaseStyle = new Button.ButtonStyle(
-          new TextureRegionDrawable(new Texture(Gdx.files.internal(
-              basePath + buttonColour.name().toLowerCase() + "_button_square_flat_up.png"))),
-          new TextureRegionDrawable(new Texture(Gdx.files.internal(
-              basePath + buttonColour.name().toLowerCase() + "_button_square_flat_down.png"))),
-          null);
+        new TextureRegionDrawable(
+          new Texture(
+            Gdx.files.internal(
+              basePath +
+              buttonColour.name().toLowerCase() +
+              "_button_square_flat_up.png"
+            )
+          )
+        ),
+        new TextureRegionDrawable(
+          new Texture(
+            Gdx.files.internal(
+              basePath +
+              buttonColour.name().toLowerCase() +
+              "_button_square_flat_down.png"
+            )
+          )
+        ),
+        null
+      );
       imageButtonBaseStyles.put(buttonColour, imageButtonBaseStyle);
 
       // Generate all the base checkbox colour styles
       CheckBoxStyle checkBoxStyle = new CheckBoxStyle(
-          new TextureRegionDrawable(checkboxUnchecked),
-          new TextureRegionDrawable(new Texture(Gdx.files.internal(
-              basePath + buttonColour.name().toLowerCase() + "_boxCheckmark.png"))),
-          fontManager.getLabelFont(),
-          Color.BLACK
+        new TextureRegionDrawable(checkboxUnchecked),
+        new TextureRegionDrawable(
+          new Texture(
+            Gdx.files.internal(
+              basePath + buttonColour.name().toLowerCase() + "_boxCheckmark.png"
+            )
+          )
+        ),
+        fontManager.getLabelFont(),
+        Color.BLACK
       );
       checkBoxStyles.put(buttonColour, checkBoxStyle);
     }
@@ -97,9 +136,14 @@ public class ButtonManager implements Disposable {
    * @param yPressedOffset The amount to move the top image when the button has been pressed.
    * @return The image button constructed based on the input with a default of 0 padding.
    */
-  public ImageButton createImageButton(Drawable image, ButtonColour colour, float yPressedOffset) {
+  public ImageButton createImageButton(
+    Drawable image,
+    ButtonColour colour,
+    float yPressedOffset
+  ) {
     ImageButton.ImageButtonStyle btnStyle = new ImageButton.ImageButtonStyle(
-        imageButtonBaseStyles.get(colour));
+      imageButtonBaseStyles.get(colour)
+    );
     btnStyle.imageUp = image;
     btnStyle.pressedOffsetY = yPressedOffset;
     return new ImageButton(btnStyle);
@@ -133,7 +177,9 @@ public class ButtonManager implements Disposable {
 
     checkboxUnchecked.dispose();
     for (CheckBoxStyle style : checkBoxStyles.values()) {
-      ((TextureRegionDrawable) style.checkboxOn).getRegion().getTexture().dispose();
+      ((TextureRegionDrawable) style.checkboxOn).getRegion()
+        .getTexture()
+        .dispose();
     }
   }
 }

@@ -2,16 +2,15 @@ package cs.eng1.piazzapanic.stations;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.CustomerManager;
-import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +21,7 @@ import java.util.Objects;
  * the customer via the station.
  */
 public class RecipeStation extends Station {
+
   private final FoodTextureManager textureManager;
   private final CustomerManager customerManager;
   protected int bunCount = 0;
@@ -43,9 +43,14 @@ public class RecipeStation extends Station {
    * @param customerManager       The controller from which we can get information on what food
    *                              needs to be served
    */
-  public RecipeStation(int id, TextureRegion textureRegion, StationUIController stationUIController,
-      ActionAlignment alignment, FoodTextureManager textureManager,
-      CustomerManager customerManager) {
+  public RecipeStation(
+    int id,
+    TextureRegion textureRegion,
+    StationUIController stationUIController,
+    ActionAlignment alignment,
+    FoodTextureManager textureManager,
+    CustomerManager customerManager
+  ) {
     super(id, textureRegion, stationUIController, alignment);
     this.textureManager = textureManager;
     this.customerManager = customerManager;
@@ -73,18 +78,27 @@ public class RecipeStation extends Station {
     if (nearbyChef != null) {
       if (!nearbyChef.getStack().isEmpty()) {
         Ingredient checkItem = nearbyChef.getStack().peek();
-        if (checkItem.getIsChopped() || checkItem.getIsCooked() || Objects.equals(
-            checkItem.getType(), "bun")) {
+        if (
+          checkItem.getIsChopped() ||
+          checkItem.getIsCooked() ||
+          Objects.equals(checkItem.getType(), "bun")
+        ) {
           //If a chef is nearby and is carrying at least one ingredient
           // and the top ingredient is cooked, chopped or a bun then display the action
           actionTypes.add(ActionType.PLACE_INGREDIENT);
         }
       }
       if (completedRecipe == null) {
-        if (pattyCount >= 1 && bunCount >= 1 && nearbyChef.getStack().hasSpace()) {
+        if (
+          pattyCount >= 1 && bunCount >= 1 && nearbyChef.getStack().hasSpace()
+        ) {
           actionTypes.add(ActionType.MAKE_BURGER);
         }
-        if (tomatoCount >= 1 && lettuceCount >= 1 && nearbyChef.getStack().hasSpace()) {
+        if (
+          tomatoCount >= 1 &&
+          lettuceCount >= 1 &&
+          nearbyChef.getStack().hasSpace()
+        ) {
           actionTypes.add(ActionType.MAKE_SALAD);
         }
       } else if (customerManager.checkRecipe(completedRecipe)) {
@@ -130,13 +144,11 @@ public class RecipeStation extends Station {
         pattyCount -= 1;
         bunCount -= 1;
         break;
-
       case MAKE_SALAD:
         completedRecipe = new Salad(textureManager);
         tomatoCount -= 1;
         lettuceCount -= 1;
         break;
-
       case SUBMIT_ORDER:
         if (completedRecipe != null) {
           if (customerManager.checkRecipe(completedRecipe)) {

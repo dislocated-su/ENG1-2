@@ -3,10 +3,10 @@ package cs.eng1.piazzapanic;
 import com.badlogic.gdx.Game;
 import cs.eng1.piazzapanic.screens.GameScreen;
 import cs.eng1.piazzapanic.screens.HomeScreen;
-import cs.eng1.piazzapanic.ui.SettingsOverlay;
-import cs.eng1.piazzapanic.ui.TutorialOverlay;
 import cs.eng1.piazzapanic.ui.ButtonManager;
 import cs.eng1.piazzapanic.ui.FontManager;
+import cs.eng1.piazzapanic.ui.SettingsOverlay;
+import cs.eng1.piazzapanic.ui.TutorialOverlay;
 
 public class PiazzaPanicGame extends Game {
 

@@ -8,7 +8,6 @@ package cs.eng1.piazzapanic.observable;
  *            observers whenever it is updated.
  */
 public interface Subject<T> {
-
   /**
    * Add an observer which will be notified with every new T
    *

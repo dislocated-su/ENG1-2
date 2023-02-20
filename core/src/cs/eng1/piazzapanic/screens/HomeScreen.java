@@ -33,46 +33,60 @@ public class HomeScreen implements Screen {
     final SettingsOverlay settingsOverlay = game.getSettingsOverlay();
     settingsOverlay.addToStage(uiStage);
 
-    Label welcomeLabel = new Label("Welcome to Piazza Panic!",
-        new Label.LabelStyle(game.getFontManager().getTitleFont(), null));
+    Label welcomeLabel = new Label(
+      "Welcome to Piazza Panic!",
+      new Label.LabelStyle(game.getFontManager().getTitleFont(), null)
+    );
 
     // Initialize buttons and callbacks
-    TextButton startButton = game.getButtonManager()
-        .createTextButton("Start", ButtonManager.ButtonColour.BLUE);
+    TextButton startButton = game
+      .getButtonManager()
+      .createTextButton("Start", ButtonManager.ButtonColour.BLUE);
     startButton.sizeBy(3f);
-    startButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        game.loadGameScreen();
+    startButton.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          game.loadGameScreen();
+        }
       }
-    });
-    TextButton tutorialButton = game.getButtonManager()
-        .createTextButton("Tutorial", ButtonManager.ButtonColour.BLUE);
+    );
+    TextButton tutorialButton = game
+      .getButtonManager()
+      .createTextButton("Tutorial", ButtonManager.ButtonColour.BLUE);
     tutorialButton.sizeBy(3f);
-    tutorialButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        tutorialOverlay.show();
+    tutorialButton.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          tutorialOverlay.show();
+        }
       }
-    });
-    TextButton settingsButton = game.getButtonManager()
-        .createTextButton("Settings", ButtonManager.ButtonColour.BLUE);
+    );
+    TextButton settingsButton = game
+      .getButtonManager()
+      .createTextButton("Settings", ButtonManager.ButtonColour.BLUE);
     settingsButton.sizeBy(3f);
-    settingsButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        settingsOverlay.show();
+    settingsButton.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          settingsOverlay.show();
+        }
       }
-    });
-    TextButton quitButton = game.getButtonManager()
-        .createTextButton("Exit to Desktop", ButtonManager.ButtonColour.RED);
+    );
+    TextButton quitButton = game
+      .getButtonManager()
+      .createTextButton("Exit to Desktop", ButtonManager.ButtonColour.RED);
     quitButton.sizeBy(3f);
-    quitButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        Gdx.app.exit();
+    quitButton.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          Gdx.app.exit();
+        }
       }
-    });
+    );
 
     // Add UI elements to the table and position them
     table.add(welcomeLabel).padBottom(100f);
@@ -108,19 +122,13 @@ public class HomeScreen implements Screen {
   }
 
   @Override
-  public void pause() {
-
-  }
+  public void pause() {}
 
   @Override
-  public void resume() {
-
-  }
+  public void resume() {}
 
   @Override
-  public void hide() {
-
-  }
+  public void hide() {}
 
   @Override
   public void dispose() {

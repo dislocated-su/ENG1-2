@@ -5,7 +5,6 @@ import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,8 +30,12 @@ public class StationCollider extends Actor implements Subject<Chef> {
       // Check if the chef's centre point overlaps this class's bounds.
       float chefCentreX = chef.getX() + chef.getWidth() / 2f;
       float chefCentreY = chef.getY() + chef.getHeight() / 2f;
-      if (chefCentreX >= getX() && chefCentreX < getX() + getWidth()
-          && chefCentreY >= getY() && chefCentreY < getY() + getHeight()) {
+      if (
+        chefCentreX >= getX() &&
+        chefCentreX < getX() + getWidth() &&
+        chefCentreY >= getY() &&
+        chefCentreY < getY() + getHeight()
+      ) {
         notifyObservers(chef);
         hasChef = true;
         break;

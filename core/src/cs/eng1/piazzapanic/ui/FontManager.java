@@ -18,7 +18,10 @@ public class FontManager implements Disposable {
   private final BitmapFont labelFont;
 
   public FontManager() {
-    fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MontserratMedium.ttf"));
+    fontGenerator =
+      new FreeTypeFontGenerator(
+        Gdx.files.internal("fonts/MontserratMedium.ttf")
+      );
 
     FreeTypeFontParameter titleFontParameters = new FreeTypeFontParameter();
     titleFontParameters.size = 32;

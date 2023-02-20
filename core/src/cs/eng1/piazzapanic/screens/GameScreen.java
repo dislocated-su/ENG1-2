@@ -21,13 +21,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.CustomerManager;
-import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.stations.*;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
-
 import java.util.HashMap;
 
 /**
@@ -51,7 +50,8 @@ public class GameScreen implements Screen {
     TiledMap map = new TmxMapLoader().load("main-game-map.tmx");
     int sizeX = map.getProperties().get("width", Integer.class);
     int sizeY = map.getProperties().get("height", Integer.class);
-    float tileUnitSize = 1 / (float) map.getProperties().get("tilewidth", Integer.class);
+    float tileUnitSize =
+      1 / (float) map.getProperties().get("tilewidth", Integer.class);
 
     // Initialize stage and camera
     OrthographicCamera camera = new OrthographicCamera();
@@ -66,10 +66,13 @@ public class GameScreen implements Screen {
     // Initialize tilemap
     this.tileMapRenderer = new OrthogonalTiledMapRenderer(map, tileUnitSize);
     MapLayer objectLayer = map.getLayers().get("Stations");
-    TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map.getLayers().get("Foreground");
+    TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map
+      .getLayers()
+      .get("Foreground");
 
     foodTextureManager = new FoodTextureManager();
-    chefManager = new ChefManager(tileUnitSize * 2.5f, collisionLayer, uiOverlay);
+    chefManager =
+      new ChefManager(tileUnitSize * 2.5f, collisionLayer, uiOverlay);
     customerManager = new CustomerManager(uiOverlay);
 
     // Add tile objects
@@ -84,23 +87,33 @@ public class GameScreen implements Screen {
    *                     capabilities.
    */
   private void initialiseStations(float tileUnitSize, MapLayer objectLayer) {
-    Array<TiledMapTileMapObject> tileObjects = objectLayer.getObjects()
-        .getByType(TiledMapTileMapObject.class);
-    Array<RectangleMapObject> colliderObjects = objectLayer.getObjects()
-        .getByType(RectangleMapObject.class);
+    Array<TiledMapTileMapObject> tileObjects = objectLayer
+      .getObjects()
+      .getByType(TiledMapTileMapObject.class);
+    Array<RectangleMapObject> colliderObjects = objectLayer
+      .getObjects()
+      .getByType(RectangleMapObject.class);
     HashMap<Integer, StationCollider> colliders = new HashMap<>();
 
-    for (RectangleMapObject colliderObject : new Array.ArrayIterator<>(colliderObjects)) {
+    for (RectangleMapObject colliderObject : new Array.ArrayIterator<>(
+      colliderObjects
+    )) {
       Integer id = colliderObject.getProperties().get("id", Integer.class);
       StationCollider collider = new StationCollider(chefManager);
       Rectangle bounds = colliderObject.getRectangle();
-      collider.setBounds(bounds.getX() * tileUnitSize, bounds.getY() * tileUnitSize,
-          bounds.getWidth() * tileUnitSize, bounds.getHeight() * tileUnitSize);
+      collider.setBounds(
+        bounds.getX() * tileUnitSize,
+        bounds.getY() * tileUnitSize,
+        bounds.getWidth() * tileUnitSize,
+        bounds.getHeight() * tileUnitSize
+      );
       stage.addActor(collider);
       colliders.put(id, collider);
     }
 
-    for (TiledMapTileMapObject tileObject : new Array.ArrayIterator<>(tileObjects)) {
+    for (TiledMapTileMapObject tileObject : new Array.ArrayIterator<>(
+      tileObjects
+    )) {
       // Check if it is actually a station
       if (!tileObject.getProperties().containsKey("stationType")) {
         continue;
@@ -109,31 +122,65 @@ public class GameScreen implements Screen {
       // Get basic station properties
       Station station;
       int id = tileObject.getProperties().get("id", Integer.class);
-      String ingredients = tileObject.getProperties().get("ingredients", String.class);
+      String ingredients = tileObject
+        .getProperties()
+        .get("ingredients", String.class);
       StationActionUI.ActionAlignment alignment = StationActionUI.ActionAlignment.valueOf(
-          tileObject.getProperties().get("actionAlignment", "TOP", String.class));
+        tileObject.getProperties().get("actionAlignment", "TOP", String.class)
+      );
 
       // Initialize specific station types
       switch (tileObject.getProperties().get("stationType", String.class)) {
         case "cookingStation":
-          station = new CookingStation(id, tileObject.getTextureRegion(), stationUIController,
-              alignment, Ingredient.arrayFromString(ingredients, foodTextureManager));
+          station =
+            new CookingStation(
+              id,
+              tileObject.getTextureRegion(),
+              stationUIController,
+              alignment,
+              Ingredient.arrayFromString(ingredients, foodTextureManager)
+            );
           break;
         case "ingredientStation":
-          station = new IngredientStation(id, tileObject.getTextureRegion(), stationUIController,
-              alignment, Ingredient.fromString(ingredients, foodTextureManager));
+          station =
+            new IngredientStation(
+              id,
+              tileObject.getTextureRegion(),
+              stationUIController,
+              alignment,
+              Ingredient.fromString(ingredients, foodTextureManager)
+            );
           break;
         case "choppingStation":
-          station = new ChoppingStation(id, tileObject.getTextureRegion(), stationUIController,
-              alignment, Ingredient.arrayFromString(ingredients, foodTextureManager));
+          station =
+            new ChoppingStation(
+              id,
+              tileObject.getTextureRegion(),
+              stationUIController,
+              alignment,
+              Ingredient.arrayFromString(ingredients, foodTextureManager)
+            );
           break;
         case "recipeStation":
-          station = new RecipeStation(id, tileObject.getTextureRegion(), stationUIController,
-              alignment, foodTextureManager, customerManager);
+          station =
+            new RecipeStation(
+              id,
+              tileObject.getTextureRegion(),
+              stationUIController,
+              alignment,
+              foodTextureManager,
+              customerManager
+            );
           customerManager.addRecipeStation((RecipeStation) station);
           break;
         default:
-          station = new Station(id, tileObject.getTextureRegion(), stationUIController, alignment);
+          station =
+            new Station(
+              id,
+              tileObject.getTextureRegion(),
+              stationUIController,
+              alignment
+            );
       }
       float tileX = tileObject.getX() * tileUnitSize;
       float tileY = tileObject.getY() * tileUnitSize;
@@ -153,7 +200,9 @@ public class GameScreen implements Screen {
       station.setImageRotation(-tileObject.getRotation());
       stage.addActor(station);
 
-      String colliderIDs = tileObject.getProperties().get("collisionObjectIDs", String.class);
+      String colliderIDs = tileObject
+        .getProperties()
+        .get("collisionObjectIDs", String.class);
       for (String idString : colliderIDs.split(",")) {
         try {
           Integer colliderID = Integer.parseInt(idString);
@@ -164,7 +213,6 @@ public class GameScreen implements Screen {
         } catch (NumberFormatException e) {
           System.out.println("Error parsing collider ID: " + e.getMessage());
         }
-
       }
     }
   }
@@ -218,19 +266,13 @@ public class GameScreen implements Screen {
   }
 
   @Override
-  public void pause() {
-
-  }
+  public void pause() {}
 
   @Override
-  public void resume() {
-
-  }
+  public void resume() {}
 
   @Override
-  public void hide() {
-
-  }
+  public void hide() {}
 
   @Override
   public void dispose() {

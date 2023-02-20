@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -34,8 +33,13 @@ public class ChoppingStation extends Station {
    * @param ingredients   An array of ingredients used to define what ingredients can be
    *                      chopped
    */
-  public ChoppingStation(int id, TextureRegion image, StationUIController uiController,
-      StationActionUI.ActionAlignment alignment, Ingredient[] ingredients) {
+  public ChoppingStation(
+    int id,
+    TextureRegion image,
+    StationUIController uiController,
+    StationActionUI.ActionAlignment alignment,
+    Ingredient[] ingredients
+  ) {
     super(id, image, uiController, alignment);
     validIngredients = ingredients; //A list of the ingredients that can be used by this station.
   }
@@ -51,7 +55,10 @@ public class ChoppingStation extends Station {
   public void act(float delta) {
     if (inUse) {
       timeChopped += delta;
-      uiController.updateProgressValue(this, (timeChopped / totalTimeToChop) * 100f);
+      uiController.updateProgressValue(
+        this,
+        (timeChopped / totalTimeToChop) * 100f
+      );
       if (timeChopped >= totalTimeToChop && progressVisible) {
         currentIngredient.setIsChopped(true);
         uiController.hideProgressBar(this);
@@ -96,7 +103,10 @@ public class ChoppingStation extends Station {
       return actionTypes;
     }
     if (currentIngredient == null) {
-      if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
+      if (
+        nearbyChef.hasIngredient() &&
+        isCorrectIngredient(nearbyChef.getStack().peek())
+      ) {
         actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
       }
     } else {
@@ -127,19 +137,24 @@ public class ChoppingStation extends Station {
         nearbyChef.setPaused(true);
         progressVisible = true;
         break;
-
       case PLACE_INGREDIENT:
-        if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
+        if (
+          this.nearbyChef != null &&
+          nearbyChef.hasIngredient() &&
+          currentIngredient == null
+        ) {
           if ((this.isCorrectIngredient(nearbyChef.getStack().peek()))) {
             currentIngredient = nearbyChef.placeIngredient();
           }
         }
         uiController.showActions(this, getActionTypes());
         break;
-
       case GRAB_INGREDIENT:
-        if (this.nearbyChef != null && nearbyChef.canGrabIngredient()
-            && currentIngredient != null) {
+        if (
+          this.nearbyChef != null &&
+          nearbyChef.canGrabIngredient() &&
+          currentIngredient != null
+        ) {
           nearbyChef.grabIngredient(currentIngredient);
           currentIngredient = null;
           inUse = false;
@@ -157,7 +172,6 @@ public class ChoppingStation extends Station {
     super.reset();
   }
 
-
   /**
    * Displays ingredients that have been placed on the station
    *
@@ -172,5 +186,4 @@ public class ChoppingStation extends Station {
       drawFoodTexture(batch, currentIngredient.getTexture());
     }
   }
-
 }

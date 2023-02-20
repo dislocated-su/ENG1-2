@@ -1,6 +1,5 @@
 package cs.eng1.piazzapanic.ui;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -21,7 +20,6 @@ public class SettingsOverlay {
   private final Table table;
   PiazzaPanicGame game;
 
-
   public SettingsOverlay(final PiazzaPanicGame game) {
     this.game = game;
     table = new Table();
@@ -32,35 +30,41 @@ public class SettingsOverlay {
     bgPixmap.setColor(Color.LIGHT_GRAY);
     bgPixmap.fill();
     TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-        new Texture(bgPixmap));
+      new Texture(bgPixmap)
+    );
     table.setBackground(textureRegionDrawableBg);
 
-    TextButton backButton = game.getButtonManager()
-        .createTextButton("Back", ButtonManager.ButtonColour.GREY);
-    backButton.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        hide();
-      }
-    });
-
-    final CheckBox fullscreenCheckbox = game.getButtonManager()
-        .createCheckbox("Fullscreen", ButtonColour.BLUE);
-    fullscreenCheckbox.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        if (fullscreenCheckbox.isChecked()) {
-          Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        } else {
-          Gdx.graphics.setWindowedMode(1920 / 2, 1080 / 2);
+    TextButton backButton = game
+      .getButtonManager()
+      .createTextButton("Back", ButtonManager.ButtonColour.GREY);
+    backButton.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          hide();
         }
       }
-    });
+    );
+
+    final CheckBox fullscreenCheckbox = game
+      .getButtonManager()
+      .createCheckbox("Fullscreen", ButtonColour.BLUE);
+    fullscreenCheckbox.addListener(
+      new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+          if (fullscreenCheckbox.isChecked()) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+          } else {
+            Gdx.graphics.setWindowedMode(1920 / 2, 1080 / 2);
+          }
+        }
+      }
+    );
     table.add(fullscreenCheckbox);
     table.row();
     table.add(backButton).padTop(20f);
   }
-
 
   public void addToStage(Stage uiStage) {
     uiStage.addActor(table);

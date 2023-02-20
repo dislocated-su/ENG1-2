@@ -14,9 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.stations.StationAction;
-
 import java.util.List;
-
 
 public class StationActionUI extends Table {
 
@@ -26,13 +24,12 @@ public class StationActionUI extends Table {
     LEFT,
     TOP,
     RIGHT,
-    BOTTOM
+    BOTTOM,
   }
 
   private final Station station;
   private final PiazzaPanicGame game;
   private final ProgressBar progress;
-
 
   public StationActionUI(final Station station, final PiazzaPanicGame game) {
     this.station = station;
@@ -41,11 +38,24 @@ public class StationActionUI extends Table {
     center();
     bottom();
 
-    ProgressBarStyle progressBarStyle = new ProgressBarStyle(new TextureRegionDrawable(new Texture(
-        Gdx.files.internal(
-            "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png"))), null);
-    progressBarStyle.knobBefore = new TextureRegionDrawable(new Texture(Gdx.files.internal(
-        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png")));
+    ProgressBarStyle progressBarStyle = new ProgressBarStyle(
+      new TextureRegionDrawable(
+        new Texture(
+          Gdx.files.internal(
+            "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png"
+          )
+        )
+      ),
+      null
+    );
+    progressBarStyle.knobBefore =
+      new TextureRegionDrawable(
+        new Texture(
+          Gdx.files.internal(
+            "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png"
+          )
+        )
+      );
     progress = new ProgressBar(0, 100, 0.1f, false, progressBarStyle);
   }
 
@@ -79,15 +89,18 @@ public class StationActionUI extends Table {
     hideActions();
     for (final StationAction.ActionType action : actions) {
       String actionDescription = StationAction.getActionDescription(action);
-      TextButton actionButton = game.getButtonManager()
-          .createTextButton(actionDescription, ButtonManager.ButtonColour.BLUE);
-      actionButton.addListener(new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-          station.doStationAction(action);
-          super.clicked(event, x, y);
+      TextButton actionButton = game
+        .getButtonManager()
+        .createTextButton(actionDescription, ButtonManager.ButtonColour.BLUE);
+      actionButton.addListener(
+        new ClickListener() {
+          @Override
+          public void clicked(InputEvent event, float x, float y) {
+            station.doStationAction(action);
+            super.clicked(event, x, y);
+          }
         }
-      });
+      );
       add(actionButton).width(100).height(30).pad(2f);
       row();
     }
@@ -162,7 +175,10 @@ public class StationActionUI extends Table {
         worldPosition.y = station.getY();
         break;
     }
-    Vector3 screenPosition = station.getStage().getCamera().project(worldPosition);
+    Vector3 screenPosition = station
+      .getStage()
+      .getCamera()
+      .project(worldPosition);
     setPosition(screenPosition.x, screenPosition.y);
   }
 }
