@@ -55,17 +55,7 @@ jobs:
       uses: gradle/gradle-build-action@v2.3.3
       with:
         arguments: desktop:dist
-        
-    - name: Run Checks
-      uses: gradle/gradle-build-action@v2.3.3
-      with:
-        arguments: check
-    
-    - name: Add Checkstyle Report  
-      uses: jwgmeligmeyling/checkstyle-github-action@master
-      with:
-        path: '**/reports/checkstyle/*.xml'
-    
+            
     - name: Test
       uses: gradle/gradle-build-action@v2.3.3
       with:
@@ -108,7 +98,7 @@ jobs:
         path: desktop/build/libs/desktop-1.0.jar
         
   checkstyle:
-    needs: [format, build]
+    needs: [format]
     runs-on: ubuntu-latest
     
     steps:
