@@ -25,7 +25,7 @@ public class AssetTests {
      * This test is here to make sure the testing environment is not broken.
      */
     public void alwaysTrueTest() {
-        assertTrue("This test should pass every time", true);
+            assertTrue("This test should pass every time", true);
     }
 
     @Test
@@ -79,17 +79,76 @@ public class AssetTests {
         assertTrue("Passes if badlogic.jpg exists", Gdx.files.internal("badlogic.jpg").exists());
     }
 
-    @Test
-    public void testingAssetsAreCorrectlyMade(){
-        // This checks the foodType fetches the correct texture in FoodTextureManager
-        FoodTextureManager foodTextureManager = new FoodTextureManager();
-        Texture pattyTexture = foodTextureManager.getTexture("patty_cooked");
-        Texture truePattyTexture = new Texture(Gdx.files.internal("food/original/cooked_patty.png"));
-    
-        assertEquals("The foodType matches the texture returned", pattyTexture.getTextureData().toString(), truePattyTexture.getTextureData().toString());
-    }
-}
 
+        // This checks the foodType fetches the correct texture in FoodTextureManager
+    FoodTextureManager foodTextureManager = new FoodTextureManager();
+
+    @Test
+    public void falseTextureTest(){
+        Texture falseTexture = foodTextureManager.getTexture("not_real");
+        assertEquals("A false foodType should return badlogic.jpg",
+         falseTexture.getTextureData().toString(), "badlogic.jpg");
+    }
+        
+    @Test
+    public void cookedPattyFetchTest(){
+        Texture cookedPattyTexture = foodTextureManager.getTexture("patty_cooked");
+        assertEquals("The foodType should return the texture cooked_patty.png", 
+        cookedPattyTexture.getTextureData().toString(),"food/original/cooked_patty.png");
+    }
+    
+    @Test
+    public void uncookedPattyFetchTest(){
+        Texture uncookedpattyTexture = foodTextureManager.getTexture("patty_raw");
+        assertEquals("The foodType should return the texture uncooked_patty.png", 
+        uncookedpattyTexture.getTextureData().toString(),"food/original/uncooked_patty.png");
+    }
+
+    @Test
+    public void lettuceFetchTest(){
+        Texture lettuceTexture = foodTextureManager.getTexture("lettuce_raw");
+        assertEquals("The foodType should return the texture lettuce.png", 
+        lettuceTexture.getTextureData().toString(),"food/glitch/vegetable/lettuce.png");
+    }
+
+    @Test
+    public void tomatoFetchTest(){
+        Texture tomatoRawTexture = foodTextureManager.getTexture("tomato_raw");
+        assertEquals("The foodType should return the texture tomato.png", 
+        tomatoRawTexture.getTextureData().toString(),"food/glitch/fruit/tomato.png");
+    }
+
+    @Test
+    public void tomatoChoppedPattyFetchTest(){
+        Texture tomatoChoppedTexture = foodTextureManager.getTexture("tomato_chopped");
+        assertEquals("The foodType should return the texture tomato_chopped.png ", 
+        tomatoChoppedTexture.getTextureData().toString(),"food/original/tomato_chopped.png");
+    }
+
+    @Test
+    public void bunFetchTest(){
+        Texture bunTexture = foodTextureManager.getTexture("bun");
+        assertEquals("The foodType should return the texure bun.png", 
+        bunTexture.getTextureData().toString(),"food/glitch/misc/bun.png");
+    }
+
+    @Test
+    public void sandwichBurgerFetchTest(){
+        Texture burgerTexture = foodTextureManager.getTexture("burger");
+        assertEquals("The foodType should return the texture sandwich_burger_04.png ", 
+        burgerTexture.getTextureData().toString(),"food/glitch/misc/sandwich_burger_04.png");
+    }
+
+    @Test
+    public void saladFetchTest(){
+        Texture saladTexture = foodTextureManager.getTexture("salad");
+        assertEquals("The foodType should return the texture salad.png", 
+        saladTexture.getTextureData().toString(),"food/glitch/misc/salad.png");
+    }
+    
+
+    
+}
 
 
     
