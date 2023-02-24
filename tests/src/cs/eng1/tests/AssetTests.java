@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 
@@ -93,8 +95,15 @@ public class AssetTests {
     @Test
     public void cookedPattyFetchTest(){
         Texture cookedPattyTexture = foodTextureManager.getTexture("patty_cooked");
-        assertEquals("The foodType should return the texture cooked_patty.png", 
-        cookedPattyTexture.getTextureData().toString(),"food/original/cooked_patty.png");
+        TextureData texturedata = cookedPattyTexture.getTextureData();
+        if (texturedata instanceof FileTextureData) {
+            assertEquals("The foodType should return the texture cooked_patty.png", 
+            ((FileTextureData) texturedata).getFileHandle().path(),"food/original/cooked_patty.png");
+        }
+        else {
+            fail("Failed to load texture.");
+        }
+
     }
     
     @Test
