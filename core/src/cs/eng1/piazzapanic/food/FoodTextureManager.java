@@ -54,13 +54,12 @@ public class FoodTextureManager implements Disposable {
          *         texture does not
          *         exist.
          */
-        public Texture getTexture(String foodType) throws IllegalArgumentException {
+        public Texture getTexture(String foodType) {
                 Texture texture = foodTextures.get(foodType);
                 if (texture != null) {
                         return texture;
                 } else {
-                        throw new IllegalArgumentException("badlogic");
-                        //return notFoundImage;
+                        return notFoundImage;
                 }
         }
 
