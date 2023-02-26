@@ -98,9 +98,9 @@ public class AssetTests {
         TextureData texturedata = cookedPattyTexture.getTextureData();
         if (texturedata instanceof FileTextureData) {
             assertEquals("The foodType should return the texture cooked_patty.png", 
-            ((FileTextureData) texturedata).getFileHandle().path(),"food/original/cooked_patty.png");
+            "food/original/cooked_patty.png", ((FileTextureData) texturedata).getFileHandle().path());
         }
-        else {
+        else { 
             fail("Failed to load texture.");
         }
 
