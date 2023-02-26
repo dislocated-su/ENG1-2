@@ -12,10 +12,10 @@ public class FoodTextureManager implements Disposable {
 
   public FoodTextureManager() {
     this.foodTextures = new HashMap<>();
-    this.foodTextures.put("patty_cooked",
-        new Texture(Gdx.files.internal("food/original/cooked_patty.png")));
     this.foodTextures.put("patty_raw",
         new Texture(Gdx.files.internal("food/original/uncooked_patty.png")));
+    this.foodTextures.put("patty_cooked",
+        new Texture(Gdx.files.internal("food/original/cooked_patty.png")));
     this.foodTextures.put("lettuce_raw",
         new Texture(Gdx.files.internal("food/glitch/vegetable/lettuce.png")));
     this.foodTextures.put("lettuce_chopped",
