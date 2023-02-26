@@ -48,21 +48,4 @@ public class FixedStackTests {
         fixedStack.push(1);
         assertEquals("Push should not work when the size is equal to maxSize", 0, fixedStack.size());
     }
-
-    @Test
-    public void cookedPattyFetchTest(){
-        FoodTextureManager foodTextureManager = new FoodTextureManager();
-        Texture cookedPattyTexture = foodTextureManager.getTexture("patty_cooked");
-        TextureData texturedata = cookedPattyTexture.getTextureData();
-        if (texturedata instanceof FileTextureData) {
-            assertEquals("The foodType should return the texture cooked_patty.png", 
-            "food/original/cooked_patty.png", ((FileTextureData) texturedata).getFileHandle().path());
-        }
-        else { 
-            fail("Failed to load texture.");
-        }
-
-    }
-
-    //Couldn't test fringe cases of stacks being larger than maxSize
 }

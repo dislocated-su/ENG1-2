@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 public class FoodTextureManager implements Disposable {
 
@@ -37,13 +38,15 @@ public class FoodTextureManager implements Disposable {
    * @param foodType The food string to get the corresponding texture from the hashmap.
    * @return the texture for the specified food or an image to signify that the texture does not
    * exist.
+   * @throws Exception
    */
-  public Texture getTexture(String foodType) {
+  public Texture getTexture(String foodType) throws IllegalArgumentException {
     Texture texture = foodTextures.get(foodType);
     if (texture != null) {
       return texture;
     } else {
-      return notFoundImage;
+      throw new IllegalArgumentException("badlogic");
+      //return notFoundImage;
     }
   }
 
