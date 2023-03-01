@@ -14,10 +14,10 @@ import java.util.List;
 
 public class CustomerManager {
 
-  private final Queue<Recipe> customerOrders;
-  private Recipe currentOrder;
-  private final List<SubmitStation> recipeStations;
-  private final UIOverlay overlay;
+  public final Queue<Recipe> customerOrders;
+  public Recipe currentOrder;
+  public final List<SubmitStation> recipeStations;
+  public final UIOverlay overlay;
 
   public CustomerManager(UIOverlay overlay) {
     this.overlay = overlay;
