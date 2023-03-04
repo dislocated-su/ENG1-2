@@ -3,13 +3,9 @@ package cs.eng1.tests;
 import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationUIController;
-import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Null;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -17,11 +13,8 @@ import static org.mockito.Mockito.mock;
 import java.util.List;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.CookingStation;
-import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
-import cs.eng1.piazzapanic.food.ingredients.BasicCookable;
-import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.ingredients.Potato;
 import cs.eng1.piazzapanic.food.recipes.Salad;
 
