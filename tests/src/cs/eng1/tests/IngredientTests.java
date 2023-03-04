@@ -55,7 +55,6 @@ public class IngredientTests {
     public void testToString() {
         Ingredient ingredient = Ingredient.fromString("patty", textureManager);
         assertEquals("patty_raw", ingredient.toString());
-        
     }
 
 

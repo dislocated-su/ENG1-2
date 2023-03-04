@@ -56,7 +56,7 @@ public class ChoppingStation extends Station {
       boolean complete = currentIngredient.choppingTick(delta);
 
       uiController.updateProgressValue(this, currentIngredient.getChoppingProgress());
-      
+
       if (complete && progressVisible) {
         uiController.hideProgressBar(this);
         progressVisible = false;
@@ -148,6 +148,8 @@ public class ChoppingStation extends Station {
           inUse = false;
         }
         uiController.showActions(this, getActionTypes());
+        break;
+      default:
         break;
     }
   }
