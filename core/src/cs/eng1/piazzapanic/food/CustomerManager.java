@@ -83,7 +83,7 @@ public class CustomerManager {
    * there is a new recipe
    * to be built.
    */
-  private void notifySubmitStations() {
+  public void notifySubmitStations() {
     for (SubmitStation recipeStation : recipeStations) {
       recipeStation.updateOrderActions();
     }

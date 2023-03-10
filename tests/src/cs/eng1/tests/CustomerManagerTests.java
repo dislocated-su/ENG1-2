@@ -3,26 +3,19 @@ package cs.eng1.tests;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
-
 import static org.junit.Assert.*;
 
 import cs.eng1.piazzapanic.food.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
-import cs.eng1.piazzapanic.food.recipes.JacketPotato;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.food.recipes.Salad;
 
 import com.badlogic.gdx.utils.Queue;
-import cs.eng1.piazzapanic.stations.RecipeStation;
+
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import java.util.LinkedList;
-import java.util.List;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
@@ -66,6 +59,24 @@ public class CustomerManagerTests {
         assertFalse(customerManager.checkRecipe(burger));
     }
 
-    
-    
+    @Test
+    public void addStationTest(){
+        CustomerManager customerManager = new CustomerManager(overlay);
+        SubmitStation station = new SubmitStation(0, null, null, null, customerManager);
+        customerManager.addStation(station);
+        assertEquals("Station should equal station added to an empty list", station, customerManager.recipeStations.remove(0));
+        customerManager.addStation(station);
+        customerManager.addStation(station);
+        assertEquals("Station should have another station added to the list", station, customerManager.recipeStations.remove(1));
+    }
+
+    // @Test
+    // public void notifySubmitStationsTest(){
+    //     CustomerManager customerManager = new CustomerManager(overlay);
+    //     SubmitStation station = new SubmitStation(0, null, null, null, customerManager);
+    //     customerManager.addStation(station);
+    //     assertEquals(station.updateOrderActions(), customerManager.notifySubmitStations());
+    // }
+    //
+    // nothing can be tested for submitStations as it returns a void and the elements reference UI so untestable.
 }
