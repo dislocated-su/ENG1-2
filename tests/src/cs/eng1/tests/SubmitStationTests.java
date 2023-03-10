@@ -16,6 +16,8 @@ import java.util.List;
 import cs.eng1.piazzapanic.food.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
+import cs.eng1.piazzapanic.food.recipes.Pizza;
+import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
@@ -56,7 +58,20 @@ public class SubmitStationTests {
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         boolean a = actionTypes.contains(ActionType.SUBMIT_ORDER);
         assertTrue("submit order is added to action types if the chef has a correct recipe", a);
+    }
 
+    @Test
+    public void testDoStationAction(){
+        customerManager.init(textureManager);
+        SubmitStation station = new SubmitStation(1, null, uiController, null, customerManager);
+        station.nearbyChef = chef;
+        chef.grabItem(new Salad(textureManager));
+        customerManager.nextRecipe();
+        station.doStationAction(ActionType.SUBMIT_ORDER);
+        assertTrue("nothing changes if the wrong recipie is submited", customerManager.checkRecipe(new JacketPotato(textureManager)));
+        chef.grabItem(new JacketPotato(textureManager));
+        station.doStationAction(ActionType.SUBMIT_ORDER);
+        assertTrue("the next recipe can be submited after the current one is submited", customerManager.checkRecipe(new Pizza(textureManager)));
     }
 
 }
