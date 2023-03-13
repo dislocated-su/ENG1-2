@@ -1,16 +1,16 @@
 package cs.eng1.piazzapanic.stations;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import java.util.HashMap;
+import java.util.Map;
 
 public class IngredientStack {
 
     private int maxStackSize;
 
-    private Map<String, FixedStack<Ingredient>> map = new HashMap<String, FixedStack<Ingredient>>();
+    private Map<String, FixedStack<Ingredient>> map =
+        new HashMap<String, FixedStack<Ingredient>>();
 
     public IngredientStack(int maxStackSize) {
         this.maxStackSize = maxStackSize;
@@ -32,7 +32,9 @@ public class IngredientStack {
 
     public void addIngredient(String type, Ingredient ingredient) {
         if (!map.containsKey(type)) {
-            FixedStack<Ingredient> newStack = new FixedStack<Ingredient>(maxStackSize);
+            FixedStack<Ingredient> newStack = new FixedStack<Ingredient>(
+                maxStackSize
+            );
             newStack.add(ingredient);
             map.put(type, newStack);
         } else {
@@ -51,5 +53,4 @@ public class IngredientStack {
     public void reset() {
         map.clear();
     }
-
 }

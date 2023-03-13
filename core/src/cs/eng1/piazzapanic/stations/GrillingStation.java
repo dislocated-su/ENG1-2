@@ -1,24 +1,26 @@
 package cs.eng1.piazzapanic.stations;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GrillingStation extends Station {
 
     public Grillable currentIngredient;
     public boolean progressVisible = false;
 
-    public GrillingStation(int id, TextureRegion image, StationUIController uiController,
-            StationActionUI.ActionAlignment alignment) {
+    public GrillingStation(
+        int id,
+        TextureRegion image,
+        StationUIController uiController,
+        StationActionUI.ActionAlignment alignment
+    ) {
         super(id, image, uiController, alignment);
     }
 
@@ -41,7 +43,10 @@ public class GrillingStation extends Station {
         if (inUse) {
             currentIngredient.grillTick(delta);
 
-            uiController.updateProgressValue(this, currentIngredient.getGrillProgress());
+            uiController.updateProgressValue(
+                this,
+                currentIngredient.getGrillProgress()
+            );
 
             if (currentIngredient.grillStepComplete() && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -85,14 +90,19 @@ public class GrillingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-
-            if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
+            if (
+                nearbyChef.hasIngredient() &&
+                isCorrectIngredient(nearbyChef.getStack().peek())
+            ) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
             // check to see if total number of seconds has passed to progress the state of
             // the patty.
-            if (currentIngredient.grillStepComplete() && !currentIngredient.getGrilled()) {
+            if (
+                currentIngredient.grillStepComplete() &&
+                !currentIngredient.getGrilled()
+            ) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
@@ -105,7 +115,6 @@ public class GrillingStation extends Station {
             }
         }
         return actionTypes;
-
     }
 
     @Override
@@ -119,23 +128,27 @@ public class GrillingStation extends Station {
                 uiController.showProgressBar(this);
                 progressVisible = true;
                 break;
-
             case FLIP_ACTION:
                 currentIngredient.flip();
                 uiController.hideActions(this);
                 uiController.showProgressBar(this);
                 progressVisible = true;
                 break;
-
             case PLACE_INGREDIENT:
-                if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
-                    if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
-                        currentIngredient = (Grillable) nearbyChef.popIngredient();
+                if (
+                    this.nearbyChef != null &&
+                    nearbyChef.hasIngredient() &&
+                    currentIngredient == null
+                ) {
+                    if (
+                        this.isCorrectIngredient(nearbyChef.getStack().peek())
+                    ) {
+                        currentIngredient =
+                            (Grillable) nearbyChef.popIngredient();
                     }
                 }
                 uiController.showActions(this, getActionTypes());
                 break;
-
             case GRAB_INGREDIENT:
                 if (nearbyChef.canGrabIngredient()) {
                     nearbyChef.grabItem(currentIngredient.getGrillResult());
