@@ -33,6 +33,11 @@ public class SubmitStationTests {
     CustomerManager customerManager = new CustomerManager(overlay);
 
     @Test
+    /**
+     * Tests that getActionTypes returns nothing when the user is unable to use the station
+     * because there is no nearby chef, the chef isn't holding anything or they aren't
+     * holding a recipe
+     */
     public void testGetActionTypesNothing() {
         SubmitStation station = new SubmitStation(1, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -49,6 +54,10 @@ public class SubmitStationTests {
     }
 
     @Test
+    /**
+     * Tests that getActionTypes returns SUBMIT_ORDER when the chef has the next recipe
+     * that needs to be submited
+     */
     public void testCorrectRecipe() {
         customerManager.init(textureManager);
         SubmitStation station = new SubmitStation(1, null, null, null, customerManager);
@@ -61,6 +70,11 @@ public class SubmitStationTests {
     }
 
     @Test
+    /**
+     * Tests that doStationAction(SUBMIT_ORDER) does nothing when the wrong recipe is
+     * submitted, and that it moves onto the next order when the correct recipe is
+     * submitted
+     */
     public void testDoStationAction(){
         customerManager.init(textureManager);
         SubmitStation station = new SubmitStation(1, null, uiController, null, customerManager);
