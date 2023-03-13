@@ -58,5 +58,4 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
         accumulator = 0;
         flipped = true;
     }
-
 }

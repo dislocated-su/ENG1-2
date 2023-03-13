@@ -4,7 +4,7 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 
 public class Lettuce extends BasicChoppable {
 
-  public Lettuce(FoodTextureManager textureManager) {
-    super("lettuce", textureManager);
-  }
+    public Lettuce(FoodTextureManager textureManager) {
+        super("lettuce", textureManager);
+    }
 }

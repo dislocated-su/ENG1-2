@@ -5,12 +5,12 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 
 public class Patty extends BasicGrillable {
 
-  public Patty(FoodTextureManager textureManager) {
-    super("patty", textureManager);
-  }
+    public Patty(FoodTextureManager textureManager) {
+        super("patty", textureManager);
+    }
 
-  @Override
-  public Holdable getGrillResult() {
-    return this;
-  }
+    @Override
+    public Holdable getGrillResult() {
+        return this;
+    }
 }

@@ -9,22 +9,22 @@ import java.util.Stack;
  */
 public class FixedStack<T> extends Stack<T> {
 
-  public final int maxSize;
+    public final int maxSize;
 
-  public FixedStack(int size) {
-    super();
-    this.maxSize = size;
-  }
-
-  @Override
-  public T push(T item) {
-    if (!hasSpace()) {
-      return null;
+    public FixedStack(int size) {
+        super();
+        this.maxSize = size;
     }
-    return super.push(item);
-  }
 
-  public boolean hasSpace() {
-    return this.size() != maxSize;
-  }
+    @Override
+    public T push(T item) {
+        if (!hasSpace()) {
+            return null;
+        }
+        return super.push(item);
+    }
+
+    public boolean hasSpace() {
+        return this.size() != maxSize;
+    }
 }
