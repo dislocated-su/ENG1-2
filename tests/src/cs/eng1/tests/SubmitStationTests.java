@@ -44,7 +44,7 @@ public class SubmitStationTests {
                 actionTypes.isEmpty());
         chef.grabItem(new Patty(textureManager));
         actionTypes = station.getActionTypes();
-        assertTrue("nothing is added to action types if the chef has an ingredient that can't be cooked",
+        assertTrue("Nothing is added to action types if the chef has an item that is not a Recipe.",
                 actionTypes.isEmpty());
     }
 
