@@ -29,7 +29,6 @@ jobs:
       with:
         prettier_plugins: prettier-plugin-java
         prettier_options: '--write **/*.java --tab-width 4'
-        only_changed: true
    
   build:
     needs: format
