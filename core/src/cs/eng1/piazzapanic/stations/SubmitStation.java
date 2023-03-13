@@ -1,16 +1,14 @@
 package cs.eng1.piazzapanic.stations;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import cs.eng1.piazzapanic.food.CustomerManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
-import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
+import cs.eng1.piazzapanic.ui.StationUIController;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * AssembleStation
@@ -19,8 +17,13 @@ public class SubmitStation extends Station {
 
     private CustomerManager customerManager;
 
-    public SubmitStation(int id, TextureRegion image, StationUIController uiController, ActionAlignment alignment,
-            CustomerManager customerManager) {
+    public SubmitStation(
+        int id,
+        TextureRegion image,
+        StationUIController uiController,
+        ActionAlignment alignment,
+        CustomerManager customerManager
+    ) {
         super(id, image, uiController, alignment);
         this.customerManager = customerManager;
     }
@@ -57,7 +60,6 @@ public class SubmitStation extends Station {
                 }
                 customerManager.nextRecipe();
                 break;
-
             default:
                 break;
         }
@@ -71,5 +73,4 @@ public class SubmitStation extends Station {
     public void updateOrderActions() {
         uiController.showActions(this, getActionTypes());
     }
-
 }

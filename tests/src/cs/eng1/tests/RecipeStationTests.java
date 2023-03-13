@@ -1,11 +1,7 @@
 package cs.eng1.tests;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-
-import java.util.List;
 
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
@@ -24,9 +20,13 @@ import cs.eng1.piazzapanic.stations.RecipeStation;
 import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import java.util.List;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class RecipeStationTests {
+
     private ChefManager chefManager = mock(ChefManager.class);
     private StationUIController mockUI = mock(StationUIController.class);
 
@@ -37,7 +37,10 @@ public class RecipeStationTests {
     public void testGetActionTypesNoChef() {
         RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue("Nothing is added to action types if no chef is nearby.", actionTypes.isEmpty());
+        assertTrue(
+            "Nothing is added to action types if no chef is nearby.",
+            actionTypes.isEmpty()
+        );
     }
 
     @Test
@@ -50,8 +53,10 @@ public class RecipeStationTests {
         Chef chef = new Chef(null, null, null);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue("Nothing is added to action types if the chef has nothing in their inventory.",
-                actionTypes.isEmpty());
+        assertTrue(
+            "Nothing is added to action types if the chef has nothing in their inventory.",
+            actionTypes.isEmpty()
+        );
     }
 
     @Test
@@ -65,8 +70,10 @@ public class RecipeStationTests {
         chef.grabItem(new Potato(null));
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue("Nothing is added to action types if the chef has nothing in their inventory.",
-                actionTypes.isEmpty());
+        assertTrue(
+            "Nothing is added to action types if the chef has nothing in their inventory.",
+            actionTypes.isEmpty()
+        );
     }
 
     @Test
@@ -82,8 +89,10 @@ public class RecipeStationTests {
         lettuce.setChopped(true);
         chef.grabItem(lettuce);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue("Returns PLACE_INGREDIENT if the chef has a processed ingredient.",
-                actionTypes.contains(ActionType.PLACE_INGREDIENT));
+        assertTrue(
+            "Returns PLACE_INGREDIENT if the chef has a processed ingredient.",
+            actionTypes.contains(ActionType.PLACE_INGREDIENT)
+        );
     }
 
     @Test
@@ -99,7 +108,10 @@ public class RecipeStationTests {
         lettuce.setChopped(true);
         chef.grabItem(lettuce);
         station.doStationAction(ActionType.PLACE_INGREDIENT);
-        assertTrue("The chef puts lettuce on the station.", station.ingredientStack.contains(lettuce.getType()));
+        assertTrue(
+            "The chef puts lettuce on the station.",
+            station.ingredientStack.contains(lettuce.getType())
+        );
     }
 
     @Test
@@ -113,7 +125,10 @@ public class RecipeStationTests {
         station.nearbyChef = chef;
         station.completedRecipe = new Burger(null);
         station.doStationAction(ActionType.GRAB_INGREDIENT);
-        assertFalse("A burger is taken by the chef.", chef.getStack().isEmpty());
+        assertFalse(
+            "A burger is taken by the chef.",
+            chef.getStack().isEmpty()
+        );
     }
 
     @Test
@@ -126,8 +141,10 @@ public class RecipeStationTests {
         station.placeIngredient(new Bun(null));
         station.placeIngredient(new Patty(null));
         station.doStationAction(ActionType.MAKE_BURGER);
-        assertTrue("A salad is made when the appropriate ingredients are given.",
-                station.completedRecipe instanceof Burger);
+        assertTrue(
+            "A salad is made when the appropriate ingredients are given.",
+            station.completedRecipe instanceof Burger
+        );
     }
 
     @Test
@@ -136,12 +153,20 @@ public class RecipeStationTests {
      * if given Lettuce and Tomato
      */
     public void testDoMakeSaladAction() {
-        RecipeStation station = new RecipeStation(1, null, mock(StationUIController.class), null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mock(StationUIController.class),
+            null,
+            null
+        );
         station.placeIngredient(new Lettuce(null));
         station.placeIngredient(new Tomato(null));
         station.doStationAction(ActionType.MAKE_SALAD);
-        assertTrue("A salad is made when the appropriate ingredients are given.",
-                station.completedRecipe instanceof Salad);
+        assertTrue(
+            "A salad is made when the appropriate ingredients are given.",
+            station.completedRecipe instanceof Salad
+        );
     }
 
     @Test
@@ -154,8 +179,10 @@ public class RecipeStationTests {
         station.placeIngredient(new Potato(null));
         station.placeIngredient(new Cheese(null));
         station.doStationAction(ActionType.MAKE_JACKET);
-        assertTrue("A jacket potato is made when the appropriate ingredients are given.",
-                station.completedRecipe instanceof JacketPotato);
+        assertTrue(
+            "A jacket potato is made when the appropriate ingredients are given.",
+            station.completedRecipe instanceof JacketPotato
+        );
     }
 
     @Test
@@ -169,8 +196,10 @@ public class RecipeStationTests {
         station.placeIngredient(new Cheese(null));
         station.placeIngredient(new Tomato(null));
         station.doStationAction(ActionType.ASSEMBLE_PIZZA);
-        assertTrue("A salad is made when the appropriate ingredients are given.",
-                station.completedRecipe instanceof UncookedPizza);
+        assertTrue(
+            "A salad is made when the appropriate ingredients are given.",
+            station.completedRecipe instanceof UncookedPizza
+        );
     }
 
     @Test
@@ -182,7 +211,10 @@ public class RecipeStationTests {
         station.completedRecipe = new Salad(null);
         station.placeIngredient(new Potato(null));
         station.reset();
-        assertTrue((station.completedRecipe == null) && station.displayIngredient.isEmpty()
-                && !station.ingredientStack.contains(new Potato(null).getType()));
+        assertTrue(
+            (station.completedRecipe == null) &&
+            station.displayIngredient.isEmpty() &&
+            !station.ingredientStack.contains(new Potato(null).getType())
+        );
     }
 }

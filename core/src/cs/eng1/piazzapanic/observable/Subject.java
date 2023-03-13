@@ -8,30 +8,29 @@ package cs.eng1.piazzapanic.observable;
  *            observers whenever it is updated.
  */
 public interface Subject<T> {
+    /**
+     * Add an observer which will be notified with every new T
+     *
+     * @param observer the observer to register to this subject
+     */
+    void register(Observer<T> observer);
 
-  /**
-   * Add an observer which will be notified with every new T
-   *
-   * @param observer the observer to register to this subject
-   */
-  void register(Observer<T> observer);
+    /**
+     * Stop an observer from receiving future updates from this subject
+     *
+     * @param observer the observer to deregister from this subject
+     */
+    void deregister(Observer<T> observer);
 
-  /**
-   * Stop an observer from receiving future updates from this subject
-   *
-   * @param observer the observer to deregister from this subject
-   */
-  void deregister(Observer<T> observer);
+    void clearAllObservers();
 
-  void clearAllObservers();
+    /**
+     * @param update The new T to send to every registered observer
+     */
+    void notifyObservers(T update);
 
-  /**
-   * @param update The new T to send to every registered observer
-   */
-  void notifyObservers(T update);
-
-  /**
-   * @return the most recent value that was sent to the observers.
-   */
-  T getLastNotification();
+    /**
+     * @return the most recent value that was sent to the observers.
+     */
+    T getLastNotification();
 }

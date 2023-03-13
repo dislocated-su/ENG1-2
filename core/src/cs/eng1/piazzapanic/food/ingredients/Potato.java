@@ -9,7 +9,6 @@ public class Potato extends BasicCookable {
         super("potato", textureManager);
     }
 
-
     public Holdable getCookingResult() {
         return this;
     }
