@@ -6,7 +6,7 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 
-public class BasicGrillable extends Ingredient implements Grillable {
+public abstract class BasicGrillable extends Ingredient implements Grillable {
     private float accumulator = 0f;
     private final float grillStepTime = 2f;
 
