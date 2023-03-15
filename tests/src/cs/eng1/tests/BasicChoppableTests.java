@@ -18,7 +18,9 @@ public class BasicChoppableTests {
     FoodTextureManager foodTextureManager = new FoodTextureManager();
     Choppable tomato = new BasicChoppable("tomato", foodTextureManager) {};
 
-    // These tests make sure the chopping ticks work correctly
+    /**
+     * choppingTick returns correct chopping status
+     */
     @Test
     public void choppingTickTests() {
         assertFalse(
@@ -35,8 +37,9 @@ public class BasicChoppableTests {
         );
     }
 
-    // These test chopping progress returns percentage results for how far the
-    // ingredient has been chopped
+    /**
+     * getChoppingProgress returns correct chopping percentages
+     */
     @Test
     public void getChoppingProgressTests() {
         assertEquals(
@@ -61,7 +64,9 @@ public class BasicChoppableTests {
         );
     }
 
-    // These test when the ingredients are marked as chopped and raw based on progress
+    /**
+     * getChoppingResult checked to add correct tags (via .toString() of the return Holdable)
+     */
     @Test
     public void getChoppingResultTests() {
         assertEquals(
@@ -89,7 +94,9 @@ public class BasicChoppableTests {
         );
     }
 
-    // These test chopped becomes true when accumulator = chopTime
+    /**
+     * getTexture returns correct texture based on whether the choppable is chopped or not.
+     */
     @Test
     public void getChoppedTests() {
         assertFalse(
@@ -103,6 +110,9 @@ public class BasicChoppableTests {
         );
     }
 
+    /**
+     * getTexture returns correct texture based on whether the choppable is chopped or not.
+     */
     @Test
     public void getTextureTests() {
         final Texture rawTomato = foodTextureManager.getTexture("tomato_raw");
