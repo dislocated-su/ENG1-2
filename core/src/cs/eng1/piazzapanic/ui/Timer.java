@@ -1,4 +1,5 @@
 package cs.eng1.piazzapanic.ui;
+
 // Simple timer by @tedigc
 
 // https://gist.github.com/tedigc/fe28616706025b00c6c540af4d03c827
@@ -6,7 +7,7 @@ package cs.eng1.piazzapanic.ui;
 /**
  * Simple timer class suitable for this project.
  * Modified for this project.
- * 
+ *
  * @author tedigc
  */
 public class Timer {
@@ -18,7 +19,7 @@ public class Timer {
 
     /**
      * Create a timer.
-     * 
+     *
      * @param delay   delay in milliseconds.
      * @param running whether the timer is running when it's created
      * @param looping does the timer restart itself after elapsing.
@@ -31,7 +32,7 @@ public class Timer {
 
     /**
      * Progress the timer
-     * 
+     *
      * @param delta time since last frame.
      * @return Whether the timer is finished.
      */
