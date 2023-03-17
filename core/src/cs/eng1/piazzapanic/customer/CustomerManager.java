@@ -1,7 +1,6 @@
 package cs.eng1.piazzapanic.customer;
 
 import com.badlogic.gdx.utils.Queue;
-
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -48,12 +47,13 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerOrders.clear();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         generateCustomer();
 
