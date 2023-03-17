@@ -1,7 +1,7 @@
 package cs.eng1.piazzapanic.stations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import cs.eng1.piazzapanic.food.CustomerManager;
+import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
@@ -18,12 +18,11 @@ public class SubmitStation extends Station {
     private CustomerManager customerManager;
 
     public SubmitStation(
-        int id,
-        TextureRegion image,
-        StationUIController uiController,
-        ActionAlignment alignment,
-        CustomerManager customerManager
-    ) {
+            int id,
+            TextureRegion image,
+            StationUIController uiController,
+            ActionAlignment alignment,
+            CustomerManager customerManager) {
         super(id, image, uiController, alignment);
         this.customerManager = customerManager;
     }
