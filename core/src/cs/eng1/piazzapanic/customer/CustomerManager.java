@@ -1,12 +1,15 @@
-package cs.eng1.piazzapanic.food;
+package cs.eng1.piazzapanic.customer;
 
 import com.badlogic.gdx.utils.Queue;
+
+import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
+import cs.eng1.piazzapanic.ui.Timer;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +23,7 @@ public class CustomerManager {
     private int totalCustomers;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-
+    private Timer timer = new Timer(1000, false, true);
     private Random random;
 
     public CustomerManager(UIOverlay overlay, int customers) {
@@ -43,19 +46,31 @@ public class CustomerManager {
      *                       recipes
      */
     public void init(FoodTextureManager textureManager) {
-        // Salad, Burger, Burger, Salad, Burger. This can be replaced by randomly
-        // selecting from possibleRecipes or by using another scenario
         customerOrders.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
-        generateOrders();
+        generateCustomer();
+
+        timer.start();
+    }
+
+    public void act(float delta) {
+        checkSpawn(delta);
+    }
+
+    public void checkSpawn(float delta) {
+        if (timer.tick(delta)) {
+            generateCustomer();
+            overlay.updateRecipeUI(getFirstOrder());
+
+            timer.reset();
+        }
     }
 
     /**
@@ -86,13 +101,13 @@ public class CustomerManager {
         overlay.updateRecipeCounter(completedOrders);
         if (completedOrders != totalCustomers) {
             customerOrders.removeFirst();
-            generateOrders();
+            // generateCustomer();
         }
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
-        overlay.updateRecipeUI(customerOrders.first());
+        // overlay.updateRecipeUI(getFirstOrder());
         if (completedOrders == totalCustomers) {
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
@@ -113,10 +128,10 @@ public class CustomerManager {
         recipeStations.add(station);
     }
 
-    public void generateOrders() {
+    public void generateCustomer() {
         // implement random generation of two or three customers at once here
-
-        customerOrders.addLast(possibleRecipes[random.nextInt(4)]);
+        Recipe temp = possibleRecipes[random.nextInt(4)];
+        customerOrders.addFirst(temp);
     }
 
     public Recipe getFirstOrder() {

@@ -1,69 +1,63 @@
 package cs.eng1.piazzapanic.ui;
+// Simple timer by @tedigc
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+// https://gist.github.com/tedigc/fe28616706025b00c6c540af4d03c827
 
-public class Timer extends Label {
+/**
+ * Simple timer class suitable for this project.
+ * Modified for this project.
+ * 
+ * @author tedigc
+ */
+public class Timer {
 
-    private float totalTime = 0;
-    private boolean isRunning = false;
+    private int delay;
+    private int elapsed;
+    private boolean running;
+    private boolean looping;
 
-    public Timer(Label.LabelStyle labelStyle) {
-        super("0:00", labelStyle);
-    }
-
-    public void reset() {
-        stop();
-        totalTime = 0;
-        setText("0:00");
-    }
-
-    public void start() {
-        isRunning = true;
-    }
-
-    public void stop() {
-        isRunning = false;
-    }
-
-    public void setTime(float time) {
-        totalTime = time;
-        updateTimer();
-    }
-
-    public float getTime() {
-        return totalTime;
-    }
-
-    @Override
-    public void act(float delta) {
-        if (isRunning) {
-            totalTime += delta;
-            updateTimer();
-        }
+    /**
+     * Create a timer.
+     * 
+     * @param delay   delay in milliseconds.
+     * @param running whether the timer is running when it's created
+     * @param looping does the timer restart itself after elapsing.
+     */
+    public Timer(int delay, boolean running, boolean looping) {
+        this.delay = delay;
+        this.running = running;
+        this.looping = looping;
     }
 
     /**
-     * Show the minutes and seconds correctly based on the total number of seconds that have passed.
+     * Progress the timer
+     * 
+     * @param delta time since last frame.
+     * @return Whether the timer is finished.
      */
-    public void updateTimer() {
-        DecimalFormat df = new DecimalFormat("#");
-        df.setRoundingMode((RoundingMode.FLOOR));
-        if (totalTime >= 60) {
-            int seconds = (int) (totalTime % 60);
-            int minutes = (int) (totalTime / 60);
-            if (seconds < 10) {
-                this.setText(minutes + ":0" + df.format(seconds));
-            } else {
-                this.setText(minutes + ":" + df.format(seconds));
-            }
-        } else {
-            if (totalTime < 10) {
-                this.setText("0:0" + df.format(totalTime));
-            } else {
-                this.setText("0:" + df.format(totalTime));
+    public boolean tick(float delta) {
+        if (running) {
+            elapsed += delta * 1000;
+            if (elapsed > delay) {
+                elapsed -= looping ? delay : 0;
+                return true;
             }
         }
+        return false;
+    }
+
+    public void start() {
+        this.running = true;
+    }
+
+    public void stop() {
+        this.running = false;
+    }
+
+    /**
+     * Reset the timer. This does not stop it, for that use {@code GdxTimer.stop()}
+     */
+    public void reset() {
+        this.elapsed = 0;
     }
 }
