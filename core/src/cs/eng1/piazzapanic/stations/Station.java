@@ -28,6 +28,11 @@ public class Station extends Actor implements Observer<Chef> {
     public Chef nearbyChef = null;
     private float imageRotation = 0.0f;
 
+    public List<Subject<Chef>> getChefSubjects() {
+        return chefSubjects;
+    }
+
+
     public Station(
         int id,
         TextureRegion image,

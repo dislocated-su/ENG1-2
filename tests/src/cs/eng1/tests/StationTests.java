@@ -35,4 +35,41 @@ public class StationTests {
         station.update(null);
         assertEquals("tests that nearbyChef is set to null if there is no chef",null, station.nearbyChef);
     }
+        }
+    @Test
+    public void testSubject(){
+        Station station = new Station(0, null, uiController, null);
+        station.addSubject(chefSubject);
+        assertEquals("tests that addSubject adds a subject to the list",chefSubject, station.getChefSubjects().get(0));
+
+        station.removeSubject(chefSubject);
+        assertEquals("tests that removeSubject removes a subject from the list",0, station.getChefSubjects().size());
+    }
+
+    @Test
+    public void testDeregisterFromAllSubjects(){
+        Station station = new Station(0, null, uiController, null);
+        station.deregisterFromAllSubjects();
+        assertEquals("tests that deregisterFromAllSubjects removes all subjects from the list",0, station.getChefSubjects().size());
+    }
+
+    @Test
+    public void testGetActionTypesNoActions(){
+        Station station = new Station(0, null, uiController, null);
+        List<String> actionTypes = new LinkedList<>();
+        assertEquals("tests that getActionTypes returns an empty list if there are no actions",actionTypes, station.getActionTypes());
+    }
+
+    @Test
+    public void testDoStationActionNothing(){
+        Station station = new Station(0, null, uiController, null);
+        station.doStationAction(null);
+        assertEquals("tests that doStationAction does nothing if the action is null",null, station.nearbyChef);
+    }
+
+    @Test 
+    public void testGetId(){
+        Station station = new Station(0, null, uiController, null);
+        assertEquals("tests that getId returns the correct id",0, station.getId());
+    }
 }
