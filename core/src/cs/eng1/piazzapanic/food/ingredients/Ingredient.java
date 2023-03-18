@@ -21,8 +21,17 @@ public class Ingredient implements Holdable {
     @Override
     public String toString() {
         String output = getType() + "_";
-        if (chopped) output += "chopped"; else if (cooked) output +=
-            "cooked"; else output += "raw";
+        if (!useable) {
+            output += "ruined";}
+
+        else if (cooked) {
+            output += "cooked";} 
+        else if (grilled) {
+            output += "grilled";}
+        else if (chopped) {
+            output += "chopped";} 
+        else {
+            output += "raw";}
         return output;
     }
 
