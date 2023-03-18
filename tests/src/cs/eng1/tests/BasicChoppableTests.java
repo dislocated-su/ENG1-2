@@ -2,13 +2,10 @@ package cs.eng1.tests;
 
 import static org.junit.Assert.*;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.BasicChoppable;
-import cs.eng1.piazzapanic.food.interfaces.Choppable;
+import cs.eng1.piazzapanic.food.ingredients.Tomato;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,7 +13,7 @@ import org.junit.runner.RunWith;
 public class BasicChoppableTests {
 
     FoodTextureManager foodTextureManager = new FoodTextureManager();
-    Choppable tomato = new BasicChoppable("tomato", foodTextureManager) {};
+    BasicChoppable tomato = new Tomato(foodTextureManager) {};
 
     /**
      * choppingTick returns correct chopping status

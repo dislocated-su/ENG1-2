@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.BasicCookable;
+import cs.eng1.piazzapanic.food.ingredients.Potato;
 import cs.eng1.piazzapanic.food.interfaces.Cookable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import org.junit.runner.RunWith;
 public class BasicCookableTests {
 
     FoodTextureManager foodTextureManager = new FoodTextureManager();
-    Cookable potato = new BasicCookable("potato", foodTextureManager) {};
+    Cookable potato = new Potato(foodTextureManager) {};
 
     /*
      * These test that cooking tick properly adds time to the Cookable and recognises when it is complete, as well as resetting when it is flipped.
@@ -68,7 +69,7 @@ public class BasicCookableTests {
      * These test that getCookingResult returns whether or not a BasicCookable has been cooked by returning its Texture name
      */
     @Test
-    public void getCookingResult() {
+    public void getCookingResultTests() {
         assertEquals(
             "A BasicCookable should be uncooked before interacting with it.",
             "potato_raw",
