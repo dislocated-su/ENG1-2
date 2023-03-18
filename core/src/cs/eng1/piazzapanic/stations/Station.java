@@ -25,8 +25,11 @@ public class Station extends Actor implements Observer<Chef> {
     protected boolean inUse = false;
 
     protected final List<Subject<Chef>> chefSubjects = new LinkedList<>();
+
     public Chef nearbyChef = null;
     private float imageRotation = 0.0f;
+
+
 
     public Station(
         int id,
@@ -205,5 +208,11 @@ public class Station extends Actor implements Observer<Chef> {
 
     public int getId() {
         return id;
+    }
+    public List<Subject<Chef>> getChefSubjects() {
+        return chefSubjects;
+    }
+    public float getImageRotation() {
+        return imageRotation;
     }
 }
