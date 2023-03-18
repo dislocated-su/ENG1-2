@@ -22,16 +22,16 @@ public class Ingredient implements Holdable {
     public String toString() {
         String output = getType() + "_";
         if (!useable) {
-            output += "ruined";}
-
-        else if (cooked) {
-            output += "cooked";} 
-        else if (grilled) {
-            output += "grilled";}
-        else if (chopped) {
-            output += "chopped";} 
-        else {
-            output += "raw";}
+            output += "ruined";
+        } else if (cooked) {
+            output += "cooked";
+        } else if (grilled) {
+            output += "grilled";
+        } else if (chopped) {
+            output += "chopped";
+        } else {
+            output += "raw";
+        }
         return output;
     }
 
