@@ -35,7 +35,10 @@ public class BasicChoppableTests {
             "When accumulator ticks and the choppable has already been chopped, it should still be considered chopped",
             tomato.choppingTick(1)
         );
-        assertFalse("When a BasicChoppable is chopped for too long, it should become unuseable.", tomato.choppingTick(3));
+        assertFalse(
+            "When a BasicChoppable is chopped for too long, it should become unuseable.",
+            tomato.choppingTick(3)
+        );
     }
 
     /**
@@ -95,14 +98,14 @@ public class BasicChoppableTests {
         );
         tomato.choppingTick(2);
         assertEquals(
-            "The BasicCookable has been chopped for too long, so the result should be +=_ruined.", 
-            "tomato_ruined", 
+            "The BasicCookable has been chopped for too long, so the result should be +=_ruined.",
+            "tomato_ruined",
             tomato.getChoppingResult().toString()
         );
         tomato.choppingTick(400);
         assertEquals(
-            "The BasicCookable has been chopped for too long, so the result should be +=_ruined and should remain this way indefinitely.", 
-            "tomato_ruined", 
+            "The BasicCookable has been chopped for too long, so the result should be +=_ruined and should remain this way indefinitely.",
+            "tomato_ruined",
             tomato.getChoppingResult().toString()
         );
     }
@@ -128,8 +131,9 @@ public class BasicChoppableTests {
         );
         tomato.choppingTick(400);
         assertTrue(
-            "A BasicChoppable should remain indefinitely chopped after becoming chopped.", 
-            tomato.getChopped());
+            "A BasicChoppable should remain indefinitely chopped after becoming chopped.",
+            tomato.getChopped()
+        );
     }
 
     /**
@@ -137,9 +141,7 @@ public class BasicChoppableTests {
      */
     @Test
     public void getTextureTests() {
-        final Texture rawTomato = foodTextureManager.getTexture(
-            "tomato_raw"
-        );
+        final Texture rawTomato = foodTextureManager.getTexture("tomato_raw");
         final Texture choppedTomato = foodTextureManager.getTexture(
             "tomato_chopped"
         );
