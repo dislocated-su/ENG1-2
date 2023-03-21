@@ -61,7 +61,7 @@ public class FoodTextureManager implements Disposable {
                 new Texture(Gdx.files.internal("food/glitch/grain/corn.png"))
             );
         this.foodTextures.put(
-                "potato",
+                "potato", // Change to potato raw, check first
                 new Texture(
                     Gdx.files.internal("food/glitch/vegetable/potato.png")
                 )

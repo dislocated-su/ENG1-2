@@ -2,13 +2,10 @@ package cs.eng1.tests;
 
 import static org.junit.Assert.*;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.BasicChoppable;
-import cs.eng1.piazzapanic.food.interfaces.Choppable;
+import cs.eng1.piazzapanic.food.ingredients.Tomato;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,7 +13,7 @@ import org.junit.runner.RunWith;
 public class BasicChoppableTests {
 
     FoodTextureManager foodTextureManager = new FoodTextureManager();
-    Choppable tomato = new BasicChoppable("tomato", foodTextureManager) {};
+    BasicChoppable tomato = new Tomato(foodTextureManager) {};
 
     /**
      * choppingTick returns correct chopping status
@@ -34,6 +31,10 @@ public class BasicChoppableTests {
         assertTrue(
             "When accumulator ticks and the choppable has already been chopped, it should still be considered chopped",
             tomato.choppingTick(1)
+        );
+        assertFalse(
+            "When a BasicChoppable is chopped for too long, it should become unuseable.",
+            tomato.choppingTick(3)
         );
     }
 
@@ -62,6 +63,13 @@ public class BasicChoppableTests {
             tomato.getChoppingProgress(),
             0.01
         );
+        tomato.choppingTick(1);
+        assertEquals(
+            "Chopping should continue to progress, even after the BasicChoppable is fully chopped.",
+            150,
+            tomato.getChoppingProgress(),
+            0.01
+        );
     }
 
     /**
@@ -70,26 +78,38 @@ public class BasicChoppableTests {
     @Test
     public void getChoppingResultTests() {
         assertEquals(
-            "The chopping result of tomato should be +=_raw, as no progress has been made",
+            "The chopping result of tomato should be +=_raw, as no progress has been made.",
             "tomato_raw",
             tomato.getChoppingResult().toString()
         );
         tomato.choppingTick(1);
         assertEquals(
-            "The chopping result of tomato should be +=_raw, as progress has only been partially made",
+            "The chopping result of tomato should be +=_raw, as progress has only been partially made.",
             "tomato_raw",
             tomato.getChoppingResult().toString()
         );
         tomato.choppingTick(1);
         assertEquals(
-            "The chopping result of tomato should be +=_chopped, as progress has finished",
+            "The chopping result of tomato should be +=_chopped, as progress has finished.",
             "tomato_chopped",
             tomato.getChoppingResult().toString()
         );
         tomato.choppingTick(1);
         assertEquals(
-            "The chopping result of tomato should be +=_chopped, as progress has already finished",
+            "The chopping result of tomato should be +=_chopped, as progress has already finished.",
             "tomato_chopped",
+            tomato.getChoppingResult().toString()
+        );
+        tomato.choppingTick(2);
+        assertEquals(
+            "The BasicCookable has been chopped for too long, so the result should be +=_ruined.",
+            "tomato_ruined",
+            tomato.getChoppingResult().toString()
+        );
+        tomato.choppingTick(400);
+        assertEquals(
+            "The BasicCookable has been chopped for too long, so the result should be +=_ruined and should remain this way indefinitely.",
+            "tomato_ruined",
             tomato.getChoppingResult().toString()
         );
     }
@@ -100,10 +120,15 @@ public class BasicChoppableTests {
     @Test
     public void getChoppedTests() {
         assertFalse(
-            "Tomato shouldn't be chopped, as no ticks have happened",
+            "Tomato shouldn't be chopped, as no time has passed",
             tomato.getChopped()
         );
-        tomato.choppingTick(2);
+        tomato.choppingTick(1);
+        assertFalse(
+            "Tomato shouldn't be chopped, as it hasn't been chopped for long enough",
+            tomato.getChopped()
+        );
+        tomato.choppingTick(1);
         assertTrue(
             "Tomato should be chopped, as accumulator = chopTime",
             tomato.getChopped()
@@ -119,15 +144,24 @@ public class BasicChoppableTests {
         final Texture choppedTomato = foodTextureManager.getTexture(
             "tomato_chopped"
         );
+        final Texture ruinedTomato = foodTextureManager.getTexture(
+            "tomato_ruined"
+        );
         assertEquals(
-            "The tomato texture should be tomato_raw, as it is unchopped",
+            "The BasicChoppable texture should be += _raw, as it is unchopped",
             rawTomato,
             tomato.getTexture()
         );
         tomato.choppingTick(2);
         assertEquals(
-            "The tomato texture should be tomato_chopped, as it has been chopped",
+            "The BasicChoppable texture should be += _chopped, as it has been chopped",
             choppedTomato,
+            tomato.getTexture()
+        );
+        tomato.choppingTick(3);
+        assertEquals(
+            "The BasicChoppable texture should be += _ruined, as it has been ruined",
+            ruinedTomato,
             tomato.getTexture()
         );
     }
