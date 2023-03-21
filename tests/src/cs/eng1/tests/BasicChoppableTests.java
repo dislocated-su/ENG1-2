@@ -134,9 +134,10 @@ public class BasicChoppableTests {
             tomato.getChopped()
         );
         tomato.choppingTick(3);
-        assertTrue("A BasicChoppable should be ruined after chopping for too long but remain chopped.", 
-            (!tomato.getUseable()) && 
-            tomato.getChopped());
+        assertTrue(
+            "A BasicChoppable should be ruined after chopping for too long but remain chopped.",
+            (!tomato.getUseable()) && tomato.getChopped()
+        );
         tomato.choppingTick(400);
         assertTrue(
             "A BasicChoppable should remain indefinitely chopped after becoming chopped.",
