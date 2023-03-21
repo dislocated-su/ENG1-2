@@ -35,10 +35,7 @@ public class BasicChoppableTests {
             "When accumulator ticks and the choppable has already been chopped, it should still be considered chopped",
             tomato.choppingTick(1)
         );
-<<<<<<< Updated upstream
-=======
         assertFalse("When a BasicChoppable is chopped for too long, it should become unuseable.", tomato.choppingTick(3));
->>>>>>> Stashed changes
     }
 
     /**
@@ -96,8 +93,6 @@ public class BasicChoppableTests {
             "tomato_chopped",
             tomato.getChoppingResult().toString()
         );
-<<<<<<< Updated upstream
-=======
         tomato.choppingTick(2);
         assertEquals(
             "The BasicCookable has been chopped for too long, so the result should be +=_ruined.", 
@@ -110,7 +105,6 @@ public class BasicChoppableTests {
             "tomato_ruined", 
             tomato.getChoppingResult().toString()
         );
->>>>>>> Stashed changes
     }
 
     /**
@@ -119,16 +113,12 @@ public class BasicChoppableTests {
     @Test
     public void getChoppedTests() {
         assertFalse(
-<<<<<<< Updated upstream
-            "Tomato shouldn't be chopped, as no ticks have happened",
-=======
             "A BasicChoppable should not become chopped immediately,",
             tomato.getChopped()
         );
         tomato.choppingTick(1);
         assertFalse(
             "A BasicChoppable should not be chopped before it has chopped for its chopTime.",
->>>>>>> Stashed changes
             tomato.getChopped()
         );
         tomato.choppingTick(2);
