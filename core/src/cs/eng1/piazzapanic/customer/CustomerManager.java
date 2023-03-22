@@ -48,12 +48,13 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         generateCustomer();
 
@@ -143,12 +144,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-                new Customer(possibleRecipes[random.nextInt(4)], this));
+            new Customer(possibleRecipes[random.nextInt(4)], this)
+        );
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty())
-            return null;
+        if (customerQueue.isEmpty()) return null;
         return customerQueue.first().getOrder();
     }
 }
