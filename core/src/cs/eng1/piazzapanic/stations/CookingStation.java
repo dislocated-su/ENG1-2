@@ -33,11 +33,10 @@ public class CookingStation extends Station {
      *                     can be cooked
      */
     public CookingStation(
-        int id,
-        TextureRegion image,
-        StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
-    ) {
+            int id,
+            TextureRegion image,
+            StationUIController uiController,
+            StationActionUI.ActionAlignment alignment) {
         super(id, image, uiController, alignment);
     }
 
@@ -61,9 +60,8 @@ public class CookingStation extends Station {
             currentIngredient.cookingTick(delta);
 
             uiController.updateProgressValue(
-                this,
-                currentIngredient.getCookingProgress()
-            );
+                    this,
+                    currentIngredient.getCookingProgress());
 
             if (currentIngredient.cookingStepComplete() && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -87,7 +85,7 @@ public class CookingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
-                return !((Cookable) itemToCheck).getCooked();
+                return !((Cookable) itemToCheck).getCooked() && ((Ingredient) itemToCheck).getUseable();
             }
         }
         return false;
@@ -107,23 +105,19 @@ public class CookingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-            if (
-                nearbyChef.hasIngredient() &&
-                isCorrectIngredient(nearbyChef.getStack().peek())
-            ) {
+            if (nearbyChef.hasIngredient() &&
+                    isCorrectIngredient(nearbyChef.getStack().peek())) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
             // check to see if total number of seconds has passed to progress the state of
             // the patty.
-            if (
-                currentIngredient.cookingStepComplete() &&
-                !currentIngredient.getCooked()
-            ) {
+            if (currentIngredient.cookingStepComplete() &&
+                    !currentIngredient.getCooked() && (((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getCooked()) {
+            if (currentIngredient.getCooked() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -159,16 +153,11 @@ public class CookingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
-                    if (
-                        this.isCorrectIngredient(nearbyChef.getStack().peek())
-                    ) {
-                        currentIngredient =
-                            (Cookable) nearbyChef.popIngredient();
+                if (this.nearbyChef != null &&
+                        nearbyChef.hasIngredient() &&
+                        currentIngredient == null) {
+                    if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
+                        currentIngredient = (Cookable) nearbyChef.popIngredient();
                     }
                 }
                 uiController.showActions(this, getActionTypes());

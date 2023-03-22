@@ -16,11 +16,10 @@ public class GrillingStation extends Station {
     public boolean progressVisible = false;
 
     public GrillingStation(
-        int id,
-        TextureRegion image,
-        StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
-    ) {
+            int id,
+            TextureRegion image,
+            StationUIController uiController,
+            StationActionUI.ActionAlignment alignment) {
         super(id, image, uiController, alignment);
     }
 
@@ -44,9 +43,8 @@ public class GrillingStation extends Station {
             currentIngredient.grillTick(delta);
 
             uiController.updateProgressValue(
-                this,
-                currentIngredient.getGrillProgress()
-            );
+                    this,
+                    currentIngredient.getGrillProgress());
 
             if (currentIngredient.grillStepComplete() && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -70,7 +68,7 @@ public class GrillingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Grillable) {
-                return !((Grillable) itemToCheck).getGrilled();
+                return !((Grillable) itemToCheck).getGrilled() && ((Ingredient) itemToCheck).getUseable();
             }
         }
         return false;
@@ -90,23 +88,19 @@ public class GrillingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-            if (
-                nearbyChef.hasIngredient() &&
-                isCorrectIngredient(nearbyChef.getStack().peek())
-            ) {
+            if (nearbyChef.hasIngredient() &&
+                    isCorrectIngredient(nearbyChef.getStack().peek())) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
             // check to see if total number of seconds has passed to progress the state of
             // the patty.
-            if (
-                currentIngredient.grillStepComplete() &&
-                !currentIngredient.getGrilled()
-            ) {
+            if (currentIngredient.grillStepComplete() &&
+                    !currentIngredient.getGrilled() && (((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getGrilled()) {
+            if (currentIngredient.getGrilled() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -135,16 +129,11 @@ public class GrillingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
-                    if (
-                        this.isCorrectIngredient(nearbyChef.getStack().peek())
-                    ) {
-                        currentIngredient =
-                            (Grillable) nearbyChef.popIngredient();
+                if (this.nearbyChef != null &&
+                        nearbyChef.hasIngredient() &&
+                        currentIngredient == null) {
+                    if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
+                        currentIngredient = (Grillable) nearbyChef.popIngredient();
                     }
                 }
                 uiController.showActions(this, getActionTypes());
