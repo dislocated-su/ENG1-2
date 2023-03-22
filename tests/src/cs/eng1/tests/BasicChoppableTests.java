@@ -120,17 +120,27 @@ public class BasicChoppableTests {
     @Test
     public void getChoppedTests() {
         assertFalse(
-            "Tomato shouldn't be chopped, as no time has passed",
+            "A BasicChoppable should not become chopped immediately,",
             tomato.getChopped()
         );
         tomato.choppingTick(1);
         assertFalse(
-            "Tomato shouldn't be chopped, as it hasn't been chopped for long enough",
+            "A BasicChoppable should not be chopped before it has chopped for its chopTime.",
             tomato.getChopped()
         );
         tomato.choppingTick(1);
         assertTrue(
-            "Tomato should be chopped, as accumulator = chopTime",
+            "A BasicChoppable should become chopped after chopping for its chopTime.",
+            tomato.getChopped()
+        );
+        tomato.choppingTick(3);
+        assertTrue(
+            "A BasicChoppable should be ruined after chopping for too long but remain chopped.",
+            (!tomato.getUseable()) && tomato.getChopped()
+        );
+        tomato.choppingTick(400);
+        assertTrue(
+            "A BasicChoppable should remain indefinitely chopped after becoming chopped.",
             tomato.getChopped()
         );
     }
