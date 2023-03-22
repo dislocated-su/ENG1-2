@@ -1,6 +1,5 @@
 package cs.eng1.piazzapanic.customer;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
@@ -12,9 +11,10 @@ public class Customer extends Actor implements Disposable {
     private Recipe order;
     private CustomerManager customerManager;
     private boolean reputation = true;
+    private boolean orderCompleted = false;
 
     public Customer(Recipe order, CustomerManager customerManager) {
-        repTimer = new Timer(3000, true, false);
+        repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
     }
@@ -23,13 +23,19 @@ public class Customer extends Actor implements Disposable {
         return order;
     }
 
+    public void fulfillOrder() {
+        orderCompleted = true;
+    }
+
     @Override
     public void act(float delta) {
-        if (repTimer.tick(delta) && reputation) {
+        if (repTimer.tick(delta) && reputation && !orderCompleted) {
             customerManager.loseReputation();
         }
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+
+    }
 }

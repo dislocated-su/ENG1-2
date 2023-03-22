@@ -22,7 +22,7 @@ public class CustomerManager {
     private int totalCustomers;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private Timer timer = new Timer(1000, false, true);
+    private Timer timer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
 
@@ -48,13 +48,12 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
         generateCustomer();
 
@@ -112,6 +111,7 @@ public class CustomerManager {
         completedOrders++;
         overlay.updateRecipeCounter(completedOrders);
         if (completedOrders != totalCustomers) {
+            customerQueue.first().fulfillOrder();
             customerQueue.removeFirst();
             // generateCustomer();
         }
@@ -119,7 +119,7 @@ public class CustomerManager {
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
-        // overlay.updateRecipeUI(getFirstOrder());
+        overlay.updateRecipeUI(getFirstOrder());
         if (completedOrders == totalCustomers) {
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
@@ -143,11 +143,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-            new Customer(possibleRecipes[random.nextInt(4)], this)
-        );
+                new Customer(possibleRecipes[random.nextInt(4)], this));
     }
 
     public Recipe getFirstOrder() {
+        if (customerQueue.isEmpty())
+            return null;
         return customerQueue.first().getOrder();
     }
 }
