@@ -31,6 +31,5 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 }
