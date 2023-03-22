@@ -37,10 +37,11 @@ public class ChoppingStation extends Station {
      *                     chopped
      */
     public ChoppingStation(
-            int id,
-            TextureRegion image,
-            StationUIController uiController,
-            StationActionUI.ActionAlignment alignment) {
+        int id,
+        TextureRegion image,
+        StationUIController uiController,
+        StationActionUI.ActionAlignment alignment
+    ) {
         super(id, image, uiController, alignment);
     }
 
@@ -57,8 +58,9 @@ public class ChoppingStation extends Station {
             boolean complete = currentIngredient.choppingTick(delta);
 
             uiController.updateProgressValue(
-                    this,
-                    currentIngredient.getChoppingProgress());
+                this,
+                currentIngredient.getChoppingProgress()
+            );
 
             if (complete && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -83,7 +85,10 @@ public class ChoppingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Choppable) {
-                return !((Choppable) itemToCheck).getChopped() && ((Ingredient) itemToCheck).getUseable();
+                return (
+                    !((Choppable) itemToCheck).getChopped() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -102,12 +107,17 @@ public class ChoppingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-            if (nearbyChef.hasIngredient() &&
-                    isCorrectIngredient(nearbyChef.getStack().peek())) {
+            if (
+                nearbyChef.hasIngredient() &&
+                isCorrectIngredient(nearbyChef.getStack().peek())
+            ) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
-            if (currentIngredient.getChopped() || !(((Ingredient) currentIngredient).getUseable())) {
+            if (
+                currentIngredient.getChopped() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
             if (!inUse) {
@@ -135,19 +145,26 @@ public class ChoppingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (this.nearbyChef != null &&
-                        nearbyChef.hasIngredient() &&
-                        currentIngredient == null) {
-                    if ((this.isCorrectIngredient(nearbyChef.getStack().peek()))) {
-                        currentIngredient = (Choppable) nearbyChef.popIngredient();
+                if (
+                    this.nearbyChef != null &&
+                    nearbyChef.hasIngredient() &&
+                    currentIngredient == null
+                ) {
+                    if (
+                        (this.isCorrectIngredient(nearbyChef.getStack().peek()))
+                    ) {
+                        currentIngredient =
+                            (Choppable) nearbyChef.popIngredient();
                     }
                 }
                 uiController.showActions(this, getActionTypes());
                 break;
             case GRAB_INGREDIENT:
-                if (this.nearbyChef != null &&
-                        nearbyChef.canGrabIngredient() &&
-                        currentIngredient != null) {
+                if (
+                    this.nearbyChef != null &&
+                    nearbyChef.canGrabIngredient() &&
+                    currentIngredient != null
+                ) {
                     nearbyChef.grabItem(currentIngredient.getChoppingResult());
                     currentIngredient = null;
                     inUse = false;
