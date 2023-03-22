@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class CustomerManager {
 
-    private final Queue<Recipe> customerOrders;
+    private final Queue<Customer> customerQueue;
     private final List<SubmitStation> recipeStations;
     private final UIOverlay overlay;
     private int totalCustomers;
@@ -24,11 +24,12 @@ public class CustomerManager {
     private Recipe[] possibleRecipes;
     private Timer timer = new Timer(1000, false, true);
     private Random random;
+    private int reputation = 3;
 
     public CustomerManager(UIOverlay overlay, int customers) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
-        customerOrders = new Queue<>();
+        customerQueue = new Queue<>();
         totalCustomers = customers;
         random = new Random();
     }
@@ -45,15 +46,14 @@ public class CustomerManager {
      *                       recipes
      */
     public void init(FoodTextureManager textureManager) {
-        customerOrders.clear();
+        customerQueue.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
         generateCustomer();
 
@@ -61,7 +61,14 @@ public class CustomerManager {
     }
 
     public void act(float delta) {
+        if (reputation == 0) {
+            overlay.finishGameUI();
+        }
         checkSpawn(delta);
+
+        for (Customer customer : customerQueue) {
+            customer.act(delta);
+        }
     }
 
     public void checkSpawn(float delta) {
@@ -73,6 +80,10 @@ public class CustomerManager {
         }
     }
 
+    public void loseReputation() {
+        reputation--;
+    }
+
     /**
      * Check to see if the recipe matches the currently requested order.
      *
@@ -80,13 +91,13 @@ public class CustomerManager {
      * @return a boolean signifying if the recipe is correct.
      */
     public boolean checkRecipe(Recipe recipe) {
-        if (customerOrders.isEmpty()) {
+        if (customerQueue.isEmpty()) {
             return false;
         }
 
         // could be changed to allow entering in any order, allowing you to do later
         // recipes by checking with .contains and then getting first index.
-        return recipe.getType().equals(customerOrders.first().getType());
+        return recipe.getType().equals(getFirstOrder().getType());
     }
 
     /**
@@ -100,7 +111,7 @@ public class CustomerManager {
         completedOrders++;
         overlay.updateRecipeCounter(completedOrders);
         if (completedOrders != totalCustomers) {
-            customerOrders.removeFirst();
+            customerQueue.removeFirst();
             // generateCustomer();
         }
 
@@ -130,11 +141,10 @@ public class CustomerManager {
 
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
-        Recipe temp = possibleRecipes[random.nextInt(4)];
-        customerOrders.addFirst(temp);
+        customerQueue.addFirst(new Customer(possibleRecipes[random.nextInt(4)], this));
     }
 
     public Recipe getFirstOrder() {
-        return customerOrders.first();
+        return customerQueue.first().getOrder();
     }
 }
