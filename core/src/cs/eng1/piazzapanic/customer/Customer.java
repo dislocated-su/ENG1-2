@@ -29,7 +29,7 @@ public class Customer extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        if (repTimer.tick(delta) && reputation && !orderCompleted) {
+        if (!orderCompleted && reputation && repTimer.tick(delta)) {
             customerManager.loseReputation();
             reputation = false;
         }
