@@ -13,14 +13,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import cs.eng1.piazzapanic.MapLoader;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.chef.ChefManager;
-import cs.eng1.piazzapanic.food.CustomerManager;
+import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.*;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.utility.MapLoader;
 
 /**
  * The screen which can be used to load the tilemap and keep track of everything
@@ -118,6 +118,7 @@ public class GameScreen implements Screen {
         // Render stage
         stage.act(delta);
         uiStage.act(delta);
+        customerManager.act(delta);
 
         stage.draw();
         uiStage.draw();

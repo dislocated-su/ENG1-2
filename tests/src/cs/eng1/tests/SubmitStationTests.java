@@ -5,7 +5,7 @@ import static org.mockito.Mockito.mock;
 
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
-import cs.eng1.piazzapanic.food.CustomerManager;
+import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -125,7 +125,7 @@ public class SubmitStationTests {
 
         chef.getStack().clear();
         chef.grabItem(new Pizza(textureManager));
-
+        customerManager.generateCustomer();
         station.doStationAction(ActionType.SUBMIT_ORDER);
         assertTrue(
             "Chef loses correct item and order switches to JacketPotato",

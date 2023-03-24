@@ -19,6 +19,7 @@ public class CookingStation extends Station {
 
     public Cookable currentIngredient;
     public boolean progressVisible = false;
+    private boolean checkUpdateUI = false;
 
     /**
      * The constructor method for the class
@@ -60,6 +61,15 @@ public class CookingStation extends Station {
         if (inUse) {
             currentIngredient.cookingTick(delta);
 
+            if (
+                currentIngredient != null &&
+                !((Ingredient) currentIngredient).getUseable() &&
+                !checkUpdateUI
+            ) {
+                uiController.showActions(this, getActionTypes());
+                checkUpdateUI = true;
+            }
+
             uiController.updateProgressValue(
                 this,
                 currentIngredient.getCookingProgress()
@@ -87,7 +97,10 @@ public class CookingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
-                return !((Cookable) itemToCheck).getCooked();
+                return (
+                    !((Cookable) itemToCheck).getCooked() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -118,12 +131,16 @@ public class CookingStation extends Station {
             // the patty.
             if (
                 currentIngredient.cookingStepComplete() &&
-                !currentIngredient.getCooked()
+                !currentIngredient.getCooked() &&
+                (((Ingredient) currentIngredient).getUseable())
             ) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getCooked()) {
+            if (
+                currentIngredient.getCooked() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -179,6 +196,7 @@ public class CookingStation extends Station {
                     currentIngredient = null;
                     inUse = false;
                 }
+                checkUpdateUI = false;
                 uiController.showActions(this, getActionTypes());
                 break;
             default:
