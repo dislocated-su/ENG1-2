@@ -37,9 +37,11 @@ public class StationTests {
         station.nearbyChef = chef;
         chefSubject.notifyObservers(chef2);
         station.update(null);
-        assertEquals("tests that nearby chef chenges when a chef leaves but a different chef is still in range of the station",
+        assertEquals(
+            "tests that nearby chef chenges when a chef leaves but a different chef is still in range of the station",
             chef2,
-            station.nearbyChef);
+            station.nearbyChef
+        );
         chefSubject.deregister(station);
         station.update(null);
         assertEquals(
