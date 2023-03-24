@@ -207,12 +207,4 @@ public class Station extends Actor implements Observer<Chef> {
     public int getId() {
         return id;
     }
-
-    public List<Subject<Chef>> getChefSubjects() {
-        return chefSubjects;
-    }
-
-    public float getImageRotation() {
-        return imageRotation;
-    }
 }
