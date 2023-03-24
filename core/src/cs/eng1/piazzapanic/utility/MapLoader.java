@@ -1,4 +1,4 @@
-package cs.eng1.piazzapanic;
+package cs.eng1.piazzapanic.utility;
 
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.MapLayer;
@@ -68,25 +68,24 @@ public class MapLoader {
     }
 
     public void createStations(
-        String stationLayerName,
-        String colliderLayerName,
-        ChefManager chefManager,
-        Stage stage,
-        StationUIController stationUIController,
-        FoodTextureManager foodTextureManager,
-        CustomerManager customerManager
-    ) {
+            String stationLayerName,
+            String colliderLayerName,
+            ChefManager chefManager,
+            Stage stage,
+            StationUIController stationUIController,
+            FoodTextureManager foodTextureManager,
+            CustomerManager customerManager) {
         MapLayer stationLayer = map.getLayers().get(stationLayerName);
 
         Array<TiledMapTileMapObject> tileObjects = stationLayer
-            .getObjects()
-            .getByType(TiledMapTileMapObject.class);
+                .getObjects()
+                .getByType(TiledMapTileMapObject.class);
 
         MapLayer colliderLayer = map.getLayers().get(colliderLayerName);
 
         Array<RectangleMapObject> colliderObjects = colliderLayer
-            .getObjects()
-            .getByType(RectangleMapObject.class);
+                .getObjects()
+                .getByType(RectangleMapObject.class);
 
         HashMap<Integer, StationCollider> colliders = new HashMap<>();
 
@@ -96,11 +95,10 @@ public class MapLoader {
             StationCollider collider = new StationCollider(chefManager);
             Rectangle bounds = colliderObject.getRectangle();
             collider.setBounds(
-                bounds.getX() * unitScale,
-                bounds.getY() * unitScale,
-                bounds.getWidth() * unitScale,
-                bounds.getHeight() * unitScale
-            );
+                    bounds.getX() * unitScale,
+                    bounds.getY() * unitScale,
+                    bounds.getWidth() * unitScale,
+                    bounds.getHeight() * unitScale);
 
             stage.addActor(collider);
             colliders.put(id, collider);
@@ -116,88 +114,69 @@ public class MapLoader {
             Station station;
             int id = tileObject.getProperties().get("id", Integer.class);
             String ingredients = tileObject
-                .getProperties()
-                .get("ingredients", String.class);
-            StationActionUI.ActionAlignment alignment =
-                StationActionUI.ActionAlignment.valueOf(
+                    .getProperties()
+                    .get("ingredients", String.class);
+            StationActionUI.ActionAlignment alignment = StationActionUI.ActionAlignment.valueOf(
                     tileObject
-                        .getProperties()
-                        .get("actionAlignment", "TOP", String.class)
-                );
+                            .getProperties()
+                            .get("actionAlignment", "TOP", String.class));
 
             // Initialize specific station types
-            switch (
-                tileObject.getProperties().get("stationType", String.class)
-            ) {
+            switch (tileObject.getProperties().get("stationType", String.class)) {
                 case "cookingStation":
-                    station =
-                        new CookingStation(
+                    station = new CookingStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
-                        );
+                            alignment);
                     break;
                 case "ingredientStation":
-                    station =
-                        new IngredientStation(
+                    station = new IngredientStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
                             Ingredient.fromString(
-                                ingredients,
-                                foodTextureManager
-                            )
-                        );
+                                    ingredients,
+                                    foodTextureManager));
                     break;
                 case "choppingStation":
-                    station =
-                        new ChoppingStation(
+                    station = new ChoppingStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
-                        );
+                            alignment);
                     break;
                 case "recipeStation":
-                    station =
-                        new RecipeStation(
+                    station = new RecipeStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
-                            foodTextureManager
-                        );
+                            foodTextureManager);
                     break;
                 case "grillingStation":
-                    station =
-                        new GrillingStation(
+                    station = new GrillingStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
-                        );
+                            alignment);
                     break;
                 case "submitStation":
-                    station =
-                        new SubmitStation(
+                    station = new SubmitStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
-                            customerManager
-                        );
+                            customerManager);
                     customerManager.addStation((SubmitStation) station);
                     break;
                 default:
-                    station =
-                        new Station(
+                    station = new Station(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
-                        );
+                            alignment);
             }
             float tileX = tileObject.getX() * unitScale;
             float tileY = tileObject.getY() * unitScale;
@@ -219,8 +198,8 @@ public class MapLoader {
             stage.addActor(station);
 
             String colliderIDs = tileObject
-                .getProperties()
-                .get("collisionObjectIDs", String.class);
+                    .getProperties()
+                    .get("collisionObjectIDs", String.class);
             for (String idString : colliderIDs.split(",")) {
                 try {
                     Integer colliderID = Integer.parseInt(idString);
@@ -230,8 +209,7 @@ public class MapLoader {
                     }
                 } catch (NumberFormatException e) {
                     System.out.println(
-                        "Error parsing collider ID: " + e.getMessage()
-                    );
+                            "Error parsing collider ID: " + e.getMessage());
                 }
             }
         }

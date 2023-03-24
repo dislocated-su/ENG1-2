@@ -1,4 +1,4 @@
-package cs.eng1.piazzapanic.ui;
+package cs.eng1.piazzapanic.utility;
 
 // Simple timer by @tedigc
 
