@@ -2,6 +2,8 @@ package cs.eng1.piazzapanic.chef;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,8 +17,7 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Input.Keys;
+
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
  * and put down
@@ -33,7 +34,6 @@ public class Chef extends Actor implements Disposable {
     private final Texture image;
     private final Vector2 imageBounds;
     private float imageRotation = 0f;
-    
 
     private final ChefManager chefManager;
     private final FixedStack<Holdable> ingredientStack = new FixedStack<>(5);
@@ -298,9 +298,10 @@ public class Chef extends Actor implements Disposable {
     }
 
     /*
-    * Attempt to implement InputProcessor rather than gdx.input
-    */
+     * Attempt to implement InputProcessor rather than gdx.input
+     */
     public boolean left, right, up, down;
+
     public void keyDown(int keycode) {
         inputVector.y = 0;
         inputVector.x = 0;
