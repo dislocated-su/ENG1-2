@@ -15,7 +15,8 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
  * and put down
@@ -32,6 +33,7 @@ public class Chef extends Actor implements Disposable {
     private final Texture image;
     private final Vector2 imageBounds;
     private float imageRotation = 0f;
+    
 
     private final ChefManager chefManager;
     private final FixedStack<Holdable> ingredientStack = new FixedStack<>(5);
@@ -293,5 +295,47 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void dispose() {
         image.dispose();
+    }
+
+    /*
+    * Attempt to implement InputProcessor rather than gdx.input
+    */
+    public boolean left, right, up, down;
+    public void keyDown(int keycode) {
+        inputVector.y = 0;
+        inputVector.x = 0;
+        float x = 0f;
+        float y = 0f;
+        switch (keycode) {
+            case Keys.LEFT:
+            case Keys.A:
+                x -= 1f;
+            case Keys.RIGHT:
+            case Keys.D:
+                x += 1f;
+            case Keys.UP:
+            case Keys.W:
+                y += 1f;
+            case Keys.DOWN:
+            case Keys.S:
+                y -= 1f;
+        }
+        setInputVector(x, y);
+        if (inputVector.len() > 0.01f) {
+            imageRotation = inputVector.angleDeg(Vector2.X);
+        }
+        // Vector2 movement = calculateMovement(delta);
+
+        // Vector2 bodyVector2 = body.getPosition();
+
+        // if (!movement.isZero(0.1f)) {
+        //     body.applyLinearImpulse(movement.scl(4.5f), bodyVector2, true);
+        // }
+
+        // bodyVector2 = body.getPosition();
+
+        // setPosition(bodyVector2.x - 0.5f, bodyVector2.y - 0.5f);
+
+        // super.act(delta);
     }
 }
