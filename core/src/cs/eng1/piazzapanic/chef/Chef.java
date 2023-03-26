@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
+import cs.eng1.piazzapanic.chef.KeyboardInput;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
@@ -59,6 +60,8 @@ public class Chef extends Actor implements Disposable {
         this.imageBounds = imageBounds;
         this.chefManager = chefManager;
         inputVector = new Vector2();
+
+        kbInput = new KeyboardInput();
     }
 
     public void createBody() {

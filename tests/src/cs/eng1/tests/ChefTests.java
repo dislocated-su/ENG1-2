@@ -40,7 +40,7 @@ public class ChefTests {
 
     @Test
     public void keyDownTests() {
-        chef.keyDown(21, 1);
+        chef.keyDown(21);
         assertEquals(-1f, chef.getX(), 0.1f);
         assertEquals(0, chef.getY(), 0.1f);
     }
