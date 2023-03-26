@@ -142,5 +142,5 @@ public class KeyboardInput implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
+    
 }

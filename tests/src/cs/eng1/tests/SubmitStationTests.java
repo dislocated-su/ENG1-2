@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class SubmitStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null, null);
     Chef chef = new Chef(null, null, chefManager);
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);

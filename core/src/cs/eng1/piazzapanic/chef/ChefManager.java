@@ -22,6 +22,8 @@ import java.util.List;
 public class ChefManager implements Disposable {
 
     public World world;
+    protected KeyboardInput keyboardInput;
+
     private final ArrayList<Chef> chefs;
     private Chef currentChef = null;
     private final UIOverlay overlay;
@@ -38,9 +40,10 @@ public class ChefManager implements Disposable {
      * @param overlay        the user interface overlay to display information about the current chef
      *                       and time, and to provide more controls.
      */
-    public ChefManager(float chefScale, UIOverlay overlay, World world) {
+    public ChefManager(float chefScale, UIOverlay overlay, World world, KeyboardInput keyboardInput) {
         this.overlay = overlay;
         this.world = world;
+        this.keyboardInput = keyboardInput;
 
         // Load chef sprites
         chefs = new ArrayList<>(chefSprites.length);

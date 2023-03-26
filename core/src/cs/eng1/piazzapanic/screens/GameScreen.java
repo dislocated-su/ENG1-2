@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import cs.eng1.piazzapanic.MapLoader;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.chef.ChefManager;
+import cs.eng1.piazzapanic.chef.KeyboardInput;
 import cs.eng1.piazzapanic.food.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.*;
@@ -42,6 +43,7 @@ public class GameScreen implements Screen {
     private boolean isFirstFrame = true;
     private final Box2DDebugRenderer box2dDebugRenderer;
     private final World world;
+    private KeyboardInput kbInput;
 
     public GameScreen(final PiazzaPanicGame game, int totalCustomers) {
         world = new World(new Vector2(0, 0), true);
@@ -58,6 +60,8 @@ public class GameScreen implements Screen {
         ); // Number of tiles
         this.stage = new Stage(viewport);
 
+        kbInput = new KeyboardInput();
+
         ScreenViewport uiViewport = new ScreenViewport();
         this.uiStage = new Stage(uiViewport);
         this.stationUIController = new StationUIController(uiStage, game);
@@ -69,7 +73,7 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         chefManager =
-            new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world);
+            new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world, kbInput);
         customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
         mapLoader.createStations(
@@ -89,6 +93,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(kbInput);
         multiplexer.addProcessor(uiStage);
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
