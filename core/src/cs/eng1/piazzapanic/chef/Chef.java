@@ -14,10 +14,10 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
+import cs.eng1.piazzapanic.chef.KeyboardInput;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.chef.KeyboardInput;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
