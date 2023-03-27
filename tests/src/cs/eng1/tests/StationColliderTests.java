@@ -33,4 +33,38 @@ public class StationColliderTests{
         assertEquals("tests that notfiyObservers tells the observers(stations) about a chef" ,chef, station.nearbyChef);
         assertEquals("tests getLastNotification returns the last thing that was notified" ,chef, stationCollider.getLastNotification());
     }
+    @Test
+    /**
+     * Tests that register and deregister work correctly
+     */
+    public void testDeregister(){
+        StationCollider stationCollider = new StationCollider(chefManager);
+        stationCollider.register(station);
+        stationCollider.deregister(station);
+        station.update(null);
+        assertEquals("tests that deregister removes the nearbyChef" ,null , station.nearbyChef);
+    }
+
+    @Test
+    /**
+     * Tests that clearAllObservesr corectly deregisters the station from all its
+     * current observers
+     */
+    public void testDeregisterFromAllSubjects() {
+        StationCollider stationCollider = new StationCollider(chefManager);
+        stationCollider.register(station);
+        stationCollider.clearAllObservers();
+        station.update(null);
+        assertEquals("tests that clearAllObservers removes all nearbyChef" ,null , station.nearbyChef);
+    }
+
+    @Test
+
+    public void testRegister(){
+        StationCollider stationCollider = new StationCollider(chefManager);
+        stationCollider.register(station);
+        stationCollider.notifyObservers(chef);
+        station.update(null);
+        assertEquals("tests that register adds the nearbyChef" ,chef , station.nearbyChef);
+    }
 }
