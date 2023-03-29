@@ -2,8 +2,8 @@ package cs.eng1.piazzapanic.chef;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -58,7 +58,7 @@ public class Chef extends Actor implements Disposable {
     public Chef(Texture image, Vector2 imageBounds, ChefManager chefManager) {
         this.image = image;
         this.imageBounds = imageBounds;
-        this.chefManager = chefManager;   
+        this.chefManager = chefManager;
     }
 
     public void createBody() {
@@ -152,7 +152,7 @@ public class Chef extends Actor implements Disposable {
      */
     private Vector2 getInput() {
         if (!isInputEnabled() || isPaused()) {
-            return new Vector2(0,0);
+            return new Vector2(0, 0);
         }
 
         Vector2 direction = new Vector2();
@@ -257,5 +257,4 @@ public class Chef extends Actor implements Disposable {
     public void dispose() {
         image.dispose();
     }
-
 }

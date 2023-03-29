@@ -43,7 +43,12 @@ public class ChefManager implements Disposable {
      *                  current chef
      *                  and time, and to provide more controls.
      */
-    public ChefManager(float chefScale, UIOverlay overlay, World world, KeyboardInput keyboardInput) {
+    public ChefManager(
+        float chefScale,
+        UIOverlay overlay,
+        World world,
+        KeyboardInput keyboardInput
+    ) {
         this.overlay = overlay;
         this.world = world;
         this.keyboardInput = keyboardInput;

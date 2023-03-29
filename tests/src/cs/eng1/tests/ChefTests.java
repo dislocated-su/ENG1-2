@@ -40,7 +40,6 @@
 //     ChefManager chefManager = new ChefManager(1f, null, null, kbInput);
 //     Chef chef = new Chef(null, null, chefManager);
 //     Vector2 vector = new Vector2(0, 0);
-   
 
 //     @Test
 //     public void keyDownTests() {

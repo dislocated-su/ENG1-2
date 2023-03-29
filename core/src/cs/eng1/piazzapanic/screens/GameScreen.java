@@ -73,7 +73,12 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         chefManager =
-            new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world, kbInput);
+            new ChefManager(
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                kbInput
+            );
         customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
         mapLoader.createStations(
