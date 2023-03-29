@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The controller that handles switching control between chefs and tells them about the surrounding
+ * The controller that handles switching control between chefs and tells them
+ * about the surrounding
  * environment.
  */
 public class ChefManager implements Disposable {
@@ -35,10 +36,12 @@ public class ChefManager implements Disposable {
     final float[] chefY = new float[] { 3f, 3f };
 
     /**
-     * @param chefScale      the amount to scale the texture by so that each chef is an accurate
-     *                       size.
-     * @param overlay        the user interface overlay to display information about the current chef
-     *                       and time, and to provide more controls.
+     * @param chefScale the amount to scale the texture by so that each chef is an
+     *                  accurate
+     *                  size.
+     * @param overlay   the user interface overlay to display information about the
+     *                  current chef
+     *                  and time, and to provide more controls.
      */
     public ChefManager(float chefScale, UIOverlay overlay, World world, KeyboardInput keyboardInput) {
         this.overlay = overlay;
@@ -101,8 +104,6 @@ public class ChefManager implements Disposable {
                     Actor actorHit = stage.hit(x, y, false);
                     if (actorHit instanceof Chef) {
                         manager.setCurrentChef((Chef) actorHit);
-                    } else {
-                        manager.setCurrentChef(null);
                     }
                 }
             }
@@ -110,7 +111,8 @@ public class ChefManager implements Disposable {
     }
 
     /**
-     * Given a chef, update the state of the chefs to make sure that only one has input enabled.
+     * Given a chef, update the state of the chefs to make sure that only one has
+     * input enabled.
      *
      * @param chef the chef to be controlled by the user
      */

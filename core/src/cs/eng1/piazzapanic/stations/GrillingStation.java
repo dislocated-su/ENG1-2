@@ -14,6 +14,7 @@ public class GrillingStation extends Station {
 
     public Grillable currentIngredient;
     public boolean progressVisible = false;
+    private boolean checkUpdateUI = false;
 
     public GrillingStation(
         int id,
@@ -43,6 +44,14 @@ public class GrillingStation extends Station {
         if (inUse) {
             currentIngredient.grillTick(delta);
 
+            if (
+                currentIngredient != null &&
+                !((Ingredient) currentIngredient).getUseable() &&
+                !checkUpdateUI
+            ) {
+                uiController.showActions(this, getActionTypes());
+                checkUpdateUI = true;
+            }
             uiController.updateProgressValue(
                 this,
                 currentIngredient.getGrillProgress()
@@ -70,7 +79,10 @@ public class GrillingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Grillable) {
-                return !((Grillable) itemToCheck).getGrilled();
+                return (
+                    !((Grillable) itemToCheck).getGrilled() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -101,12 +113,16 @@ public class GrillingStation extends Station {
             // the patty.
             if (
                 currentIngredient.grillStepComplete() &&
-                !currentIngredient.getGrilled()
+                !currentIngredient.getGrilled() &&
+                (((Ingredient) currentIngredient).getUseable())
             ) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getGrilled()) {
+            if (
+                currentIngredient.getGrilled() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -155,6 +171,7 @@ public class GrillingStation extends Station {
                     currentIngredient = null;
                     inUse = false;
                 }
+                checkUpdateUI = false;
                 uiController.showActions(this, getActionTypes());
                 break;
             default:
