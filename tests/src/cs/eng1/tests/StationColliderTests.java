@@ -41,6 +41,7 @@ public class StationColliderTests{
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
         stationCollider.deregister(station);
+        stationCollider.notifyObservers(chef);
         station.update(null);
         assertEquals("tests that deregister removes the nearbyChef" ,null , station.nearbyChef);
     }
@@ -54,17 +55,34 @@ public class StationColliderTests{
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
         stationCollider.clearAllObservers();
+        stationCollider.notifyObservers(chef);
         station.update(null);
         assertEquals("tests that clearAllObservers removes all nearbyChef" ,null , station.nearbyChef);
     }
 
     @Test
-
+    /**
+     * Tests that register adds the station to the station coliders observers
+     */
     public void testRegister(){
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals("tests that register adds the nearbyChef" ,chef , station.nearbyChef);
+        assertEquals("tests that register adds the nearbyChef when a station has been registered" ,chef , station.nearbyChef);
     }
+
+    //@Test
+    ///**
+    // * tests that act works corectly
+    // */
+    //public void testAct(){
+    //    StationCollider stationCollider = new StationCollider(chefManager);
+    //    stationCollider.register(station);
+    //    chef.setX(stationCollider.getX());
+    //    chef.setY(stationCollider.getY());
+    //    stationCollider.act(0);
+    //    station.update(null);
+    //    assertEquals(chef, station.nearbyChef);
+    //}
 }
