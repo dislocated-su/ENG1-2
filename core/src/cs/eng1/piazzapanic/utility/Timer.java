@@ -61,4 +61,8 @@ public class Timer {
     public void reset() {
         this.elapsed = 0;
     }
+
+    public boolean getRunning() {
+        return this.running;
+    }
 }

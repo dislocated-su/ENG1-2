@@ -1,6 +1,8 @@
 package cs.eng1.piazzapanic.customer;
 
 import com.badlogic.gdx.utils.Queue;
+
+import cs.eng1.piazzapanic.chef.PowerUps;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -25,17 +27,19 @@ public class CustomerManager {
     private Timer timer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
+    private PowerUps powerUp;
 
-    public CustomerManager(UIOverlay overlay, int customers) {
+    public CustomerManager(UIOverlay overlay, int customers, PowerUps powerUp) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
+        this.powerUp = powerUp;
         customerQueue = new Queue<>();
         totalCustomers = customers;
         random = new Random();
     }
 
-    public CustomerManager(UIOverlay overlay, int customers, long seed) {
-        this(overlay, customers);
+    public CustomerManager(UIOverlay overlay, int customers, long seed, PowerUps powerUp) {
+        this(overlay, customers, powerUp);
         random.setSeed(seed);
     }
 
@@ -48,13 +52,12 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
         generateCustomer();
 
@@ -144,12 +147,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-            new Customer(possibleRecipes[random.nextInt(4)], this)
-        );
+                new Customer(possibleRecipes[random.nextInt(4)], this, powerUp));
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty()) return null;
+        if (customerQueue.isEmpty())
+            return null;
         return customerQueue.first().getOrder();
     }
 }

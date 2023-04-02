@@ -2,8 +2,6 @@ package cs.eng1.piazzapanic.chef;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,8 +25,8 @@ public class ChefManager implements Disposable {
     private Chef currentChef = null;
     private final UIOverlay overlay;
     final String[] chefSprites = new String[] {
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
     };
     final float[] chefX = new float[] { 5f, 10f };
     final float[] chefY = new float[] { 3f, 3f };
@@ -41,7 +39,7 @@ public class ChefManager implements Disposable {
      *                  current chef
      *                  and time, and to provide more controls.
      */
-    public ChefManager(float chefScale, UIOverlay overlay, World world) {
+    public ChefManager(float chefScale, UIOverlay overlay, World world, PowerUps powerUp) {
         this.overlay = overlay;
         this.world = world;
 
@@ -53,19 +51,17 @@ public class ChefManager implements Disposable {
             String sprite = chefSprites[i];
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));
             Chef chef = new Chef(
-                chefTexture,
-                new Vector2(
-                    chefTexture.getWidth() * chefScale,
-                    chefTexture.getHeight() * chefScale
-                ),
-                this
-            );
+                    chefTexture,
+                    new Vector2(
+                            chefTexture.getWidth() * chefScale,
+                            chefTexture.getHeight() * chefScale),
+                    this,
+                    powerUp);
             chef.setBounds(
-                chefX[i],
-                chefY[i],
-                chefTexture.getHeight() * chefScale,
-                chefTexture.getHeight() * chefScale
-            );
+                    chefX[i],
+                    chefY[i],
+                    chefTexture.getHeight() * chefScale,
+                    chefTexture.getHeight() * chefScale);
             chef.setInputEnabled(false);
             chefs.add(chef);
         }
@@ -95,16 +91,15 @@ public class ChefManager implements Disposable {
         }
         final ChefManager manager = this;
         stage.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Actor actorHit = stage.hit(x, y, false);
-                    if (actorHit instanceof Chef) {
-                        manager.setCurrentChef((Chef) actorHit);
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Actor actorHit = stage.hit(x, y, false);
+                        if (actorHit instanceof Chef) {
+                            manager.setCurrentChef((Chef) actorHit);
+                        }
                     }
-                }
-            }
-        );
+                });
     }
 
     /**

@@ -18,52 +18,46 @@ public class IngredientStationTests {
     @Test
     public void testGetActionTypesNoChef() {
         IngredientStation station = new IngredientStation(
-            1,
-            null,
-            null,
-            null,
-            null
-        );
+                1,
+                null,
+                null,
+                null,
+                null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if no chef is nearby",
+                actionTypes.isEmpty());
     }
 
     @Test
     public void testGetActionTypesWithChef() {
         IngredientStation station = new IngredientStation(
-            1,
-            null,
-            null,
-            null,
-            null
-        );
-        Chef chef = new Chef(null, null, null);
+                1,
+                null,
+                null,
+                null,
+                null);
+        Chef chef = new Chef(null, null, null, null);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "adds GRAB_INGREDIENT to actionTypes when a chef is nearby",
-            actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT)
-        );
+                "adds GRAB_INGREDIENT to actionTypes when a chef is nearby",
+                actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT));
     }
 
     @Test
     public void testGettingIngredients() {
         IngredientStation station = new IngredientStation(
-            1,
-            null,
-            null,
-            null,
-            new Patty(new FoodTextureManager())
-        );
-        Chef chef = new Chef(null, null, new ChefManager(0, null, null));
+                1,
+                null,
+                null,
+                null,
+                new Patty(new FoodTextureManager()));
+        Chef chef = new Chef(null, null, new ChefManager(0, null, null, null), null);
         station.nearbyChef = chef;
         station.doStationAction(StationAction.ActionType.GRAB_INGREDIENT);
         assertTrue(
-            "The chef can pick up ingredients from the ingredients station",
-            chef.hasIngredient()
-        );
+                "The chef can pick up ingredients from the ingredients station",
+                chef.hasIngredient());
     }
 }
