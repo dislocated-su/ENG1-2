@@ -54,9 +54,10 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-                mapLoader.mapSize.x,
-                mapLoader.mapSize.y,
-                camera); // Number of tiles
+            mapLoader.mapSize.x,
+            mapLoader.mapSize.y,
+            camera
+        ); // Number of tiles
         this.stage = new Stage(viewport);
 
         ScreenViewport uiViewport = new ScreenViewport();
@@ -70,17 +71,25 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         powerUps = new PowerUps();
-        chefManager = new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world, powerUps);
-        customerManager = new CustomerManager(uiOverlay, totalCustomers, powerUps);
+        chefManager =
+            new ChefManager(
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                powerUps
+            );
+        customerManager =
+            new CustomerManager(uiOverlay, totalCustomers, powerUps);
 
         mapLoader.createStations(
-                "Stations",
-                "Sensors",
-                chefManager,
-                stage,
-                stationUIController,
-                foodTextureManager,
-                customerManager);
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            foodTextureManager,
+            customerManager
+        );
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
         chefManager.addChefsToStage(stage);
@@ -139,16 +148,13 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {

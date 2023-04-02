@@ -3,7 +3,6 @@ package cs.eng1.piazzapanic.customer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
-
 import cs.eng1.piazzapanic.chef.PowerUps;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
@@ -17,7 +16,11 @@ public class Customer extends Actor implements Disposable {
     private boolean reputation = true;
     private boolean orderCompleted = false;
 
-    public Customer(Recipe order, CustomerManager customerManager, PowerUps failCheck) {
+    public Customer(
+        Recipe order,
+        CustomerManager customerManager,
+        PowerUps failCheck
+    ) {
         repTimer = new Timer(6000, true, false);
         this.order = order;
         this.customerManager = customerManager;
@@ -34,7 +37,12 @@ public class Customer extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        if (repTimer.tick(delta) && reputation && !orderCompleted && !failCheck.getBuffActive(3)) {
+        if (
+            repTimer.tick(delta) &&
+            reputation &&
+            !orderCompleted &&
+            !failCheck.getBuffActive(3)
+        ) {
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
@@ -42,6 +50,5 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 }

@@ -6,11 +6,11 @@ public class PowerUps {
 
     // doubleChefSpeed, doublePrepSpeed, noFailPrep, noRepLoss, moreMoney
     private Timer[] powerUpTimers = {
-            new Timer(60000, false, false), // doubleChefSpeed
-            new Timer(60000, false, false), // doublePrepSpeed
-            new Timer(60000, false, false), // noFailPrep
-            new Timer(60000, false, false), // noRepLoss
-            new Timer(60000, false, false), // moreMoney
+        new Timer(60000, false, false), // doubleChefSpeed
+        new Timer(60000, false, false), // doublePrepSpeed
+        new Timer(60000, false, false), // noFailPrep
+        new Timer(60000, false, false), // noRepLoss
+        new Timer(60000, false, false), // moreMoney
     };
 
     /**
@@ -21,12 +21,10 @@ public class PowerUps {
      * private boolean moreMoney = false;
      */
 
-    public PowerUps() {
-    }
+    public PowerUps() {}
 
     public void act(float delta) {
         for (Timer timer : powerUpTimers) {
-
             // first check if a timer is running, then check if timer is ticking for
             // efficiency
             if (timer.getRunning()) {

@@ -54,7 +54,12 @@ public class Chef extends Actor implements Disposable {
      *                    the chefs and
      *                    their surrounding environment
      */
-    public Chef(Texture image, Vector2 imageBounds, ChefManager chefManager, PowerUps powerUp) {
+    public Chef(
+        Texture image,
+        Vector2 imageBounds,
+        ChefManager chefManager,
+        PowerUps powerUp
+    ) {
         this.image = image;
         this.imageBounds = imageBounds;
         this.chefManager = chefManager;
@@ -91,41 +96,43 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-                image,
-                getX() + (1 - imageBounds.x) / 2f,
-                getY() + (1 - imageBounds.y) / 2f,
-                imageBounds.x / 2f,
-                imageBounds.y / 2f,
-                imageBounds.x,
-                imageBounds.y,
+            image,
+            getX() + (1 - imageBounds.x) / 2f,
+            getY() + (1 - imageBounds.y) / 2f,
+            imageBounds.x / 2f,
+            imageBounds.y / 2f,
+            imageBounds.x,
+            imageBounds.y,
+            1f,
+            1f,
+            imageRotation,
+            0,
+            0,
+            image.getWidth(),
+            image.getHeight(),
+            false,
+            false
+        );
+        for (Holdable item : ingredientStack) {
+            Texture texture = item.getTexture();
+            batch.draw(
+                texture,
+                getX() + 0.5f,
+                getY() + 0.2f,
+                0f,
+                0.3f,
+                0.6f,
+                0.6f,
                 1f,
                 1f,
                 imageRotation,
                 0,
                 0,
-                image.getWidth(),
-                image.getHeight(),
+                texture.getWidth(),
+                texture.getHeight(),
                 false,
-                false);
-        for (Holdable item : ingredientStack) {
-            Texture texture = item.getTexture();
-            batch.draw(
-                    texture,
-                    getX() + 0.5f,
-                    getY() + 0.2f,
-                    0f,
-                    0.3f,
-                    0.6f,
-                    0.6f,
-                    1f,
-                    1f,
-                    imageRotation,
-                    0,
-                    0,
-                    texture.getWidth(),
-                    texture.getHeight(),
-                    false,
-                    false);
+                false
+            );
         }
     }
 
@@ -159,20 +166,28 @@ public class Chef extends Actor implements Disposable {
         }
         float x = 0f;
         float y = 0f;
-        if (Gdx.input.isKeyPressed(Input.Keys.W) ||
-                Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (
+            Gdx.input.isKeyPressed(Input.Keys.W) ||
+            Gdx.input.isKeyPressed(Input.Keys.UP)
+        ) {
             y += 1f;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) ||
-                Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+        if (
+            Gdx.input.isKeyPressed(Input.Keys.S) ||
+            Gdx.input.isKeyPressed(Input.Keys.DOWN)
+        ) {
             y -= 1f;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) ||
-                Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (
+            Gdx.input.isKeyPressed(Input.Keys.D) ||
+            Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+        ) {
             x += 1f;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) ||
-                Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+        if (
+            Gdx.input.isKeyPressed(Input.Keys.A) ||
+            Gdx.input.isKeyPressed(Input.Keys.LEFT)
+        ) {
             x -= 1f;
         }
         setInputVector(x, y);
@@ -189,8 +204,9 @@ public class Chef extends Actor implements Disposable {
      */
     private Vector2 calculateMovement(float delta) {
         Vector2 movement = new Vector2(
-                inputVector.x * (speed * (powerUp.getBuffActive(0) ? 2 : 1)),
-                inputVector.y * (speed * (powerUp.getBuffActive(0) ? 2 : 1)));
+            inputVector.x * (speed * (powerUp.getBuffActive(0) ? 2 : 1)),
+            inputVector.y * (speed * (powerUp.getBuffActive(0) ? 2 : 1))
+        );
 
         return movement;
     }
