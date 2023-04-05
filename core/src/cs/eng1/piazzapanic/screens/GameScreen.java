@@ -14,10 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.stations.*;
+import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.MapLoader;
@@ -70,7 +71,8 @@ public class GameScreen implements Screen {
 
         chefManager =
             new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world);
-        customerManager = new CustomerManager(uiOverlay, totalCustomers);
+        customerManager =
+            new CustomerManager(uiOverlay, totalCustomers, new PlayerState());
 
         mapLoader.createStations(
             "Stations",
