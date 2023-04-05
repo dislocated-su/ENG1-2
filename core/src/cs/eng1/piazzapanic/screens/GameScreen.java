@@ -14,11 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.chef.PowerUps;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.stations.*;
+import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.MapLoader;
@@ -40,7 +41,7 @@ public class GameScreen implements Screen {
     private final UIOverlay uiOverlay;
     private final FoodTextureManager foodTextureManager;
     private final CustomerManager customerManager;
-    private final PowerUps powerUps;
+    // private final PowerUps powerUps;
     private boolean isFirstFrame = true;
     private final Box2DDebugRenderer box2dDebugRenderer;
     private final World world;
@@ -54,10 +55,9 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x,
-            mapLoader.mapSize.y,
-            camera
-        ); // Number of tiles
+                mapLoader.mapSize.x,
+                mapLoader.mapSize.y,
+                camera); // Number of tiles
         this.stage = new Stage(viewport);
 
         ScreenViewport uiViewport = new ScreenViewport();
@@ -70,26 +70,18 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
-        powerUps = new PowerUps();
-        chefManager =
-            new ChefManager(
-                mapLoader.unitScale * 2.5f,
-                uiOverlay,
-                world,
-                powerUps
-            );
-        customerManager =
-            new CustomerManager(uiOverlay, totalCustomers, powerUps);
+        // powerUps = new PowerUps();
+        chefManager = new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world);
+        customerManager = new CustomerManager(uiOverlay, totalCustomers, new PlayerState());
 
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            foodTextureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                foodTextureManager,
+                customerManager);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
         chefManager.addChefsToStage(stage);
@@ -128,7 +120,7 @@ public class GameScreen implements Screen {
         stage.act(delta);
         uiStage.act(delta);
         customerManager.act(delta);
-        powerUps.act(delta);
+        // powerUps.act(delta);
 
         stage.draw();
         uiStage.draw();
@@ -148,13 +140,16 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

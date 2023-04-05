@@ -3,6 +3,7 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -22,12 +23,17 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class SubmitStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null, null);
-    Chef chef = new Chef(null, null, chefManager, null);
+    ChefManager chefManager = new ChefManager(0, null, null);
+    Chef chef = new Chef(null, null, chefManager);
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(overlay, 0, null);
+    CustomerManager customerManager = new CustomerManager(
+        overlay,
+        0,
+        new PlayerState(),
+        0
+    );
 
     // pizza, jacket, burger, pizza
 
@@ -67,7 +73,7 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(overlay, 0, 0, null);
+        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
@@ -99,7 +105,7 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0, 0, null);
+        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(

@@ -17,10 +17,9 @@ public class Customer extends Actor implements Disposable {
     private boolean orderCompleted = false;
 
     public Customer(
-        Recipe order,
-        CustomerManager customerManager,
-        PowerUps failCheck
-    ) {
+            Recipe order,
+            CustomerManager customerManager,
+            PowerUps failCheck) {
         repTimer = new Timer(6000, true, false);
         this.order = order;
         this.customerManager = customerManager;
@@ -37,12 +36,11 @@ public class Customer extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        if (
-            repTimer.tick(delta) &&
-            reputation &&
-            !orderCompleted &&
-            !failCheck.getBuffActive(3)
-        ) {
+        if (!orderCompleted &&
+                reputation &&
+                repTimer.tick(delta) &&
+                !failCheck.getBuffActive(3)) {
+
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
@@ -50,5 +48,6 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 }
