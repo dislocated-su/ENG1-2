@@ -28,7 +28,12 @@ public class SubmitStationTests {
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(overlay, 0,new PlayerState(), 0);
+    CustomerManager customerManager = new CustomerManager(
+        overlay,
+        0,
+        new PlayerState(),
+        0
+    );
 
     // pizza, jacket, burger, pizza
 
@@ -100,7 +105,7 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0,new PlayerState(), 0);
+        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(

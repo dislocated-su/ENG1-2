@@ -2,7 +2,6 @@ package cs.eng1.piazzapanic.customer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Queue;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
@@ -30,7 +29,11 @@ public class CustomerManager {
     private int reputation = 3;
     private PlayerState playerState;
 
-    public CustomerManager(UIOverlay overlay, int customers, PlayerState state) {
+    public CustomerManager(
+        UIOverlay overlay,
+        int customers,
+        PlayerState state
+    ) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
@@ -42,12 +45,17 @@ public class CustomerManager {
     /**
      * Initialise CustomerManager with an empty state and set random seed. This is
      * useful for testing.
-     * 
+     *
      * @param overlay {@link UIOverlay} (probably mocked)
      * @param customers The total number of customers to spawn - 0 means endless
      * @param seed seed for the {@link Random} instance to generate set orders
      */
-    public CustomerManager(UIOverlay overlay, int customers, PlayerState state, long seed) {
+    public CustomerManager(
+        UIOverlay overlay,
+        int customers,
+        PlayerState state,
+        long seed
+    ) {
         this(overlay, customers, state);
         random.setSeed(seed);
     }
@@ -61,12 +69,13 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         generateCustomer();
 
@@ -158,12 +167,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-                new Customer(possibleRecipes[random.nextInt(4)], this));
+            new Customer(possibleRecipes[random.nextInt(4)], this)
+        );
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty())
-            return null;
+        if (customerQueue.isEmpty()) return null;
         return customerQueue.first().getOrder();
     }
 }

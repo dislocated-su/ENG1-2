@@ -7,14 +7,14 @@ public class PlayerState {
 
     public boolean powerUpActive;
     public int powerUpLevel = 0;
-    
+
     public double powerupMult() {
         return ((powerUpLevel * 4) / (powerUpLevel * 30)) + 1;
     }
 
     private double totalMultiplier() {
         double totalMultiplier = 1;
-        if (customerHappy){
+        if (customerHappy) {
             totalMultiplier *= happinessMult;
         }
         if (powerUpActive) {
@@ -22,7 +22,7 @@ public class PlayerState {
         }
         return totalMultiplier;
     }
-    
+
     public double cash;
 
     public void earnCash(float baseAmount) {
@@ -38,6 +38,5 @@ public class PlayerState {
 
         return true;
     }
-
     // Powerups and other stuff here
 }
