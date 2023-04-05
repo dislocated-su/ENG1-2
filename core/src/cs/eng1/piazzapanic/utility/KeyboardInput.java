@@ -1,4 +1,4 @@
-package cs.eng1.piazzapanic.chef;
+package cs.eng1.piazzapanic.utility;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
@@ -16,7 +16,7 @@ public class KeyboardInput implements InputProcessor {
     public boolean interact;
 
     public boolean disableHud;
-    
+
     public void clearInputs() {
         left = false;
         right = false;
@@ -142,5 +142,4 @@ public class KeyboardInput implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-    
 }
