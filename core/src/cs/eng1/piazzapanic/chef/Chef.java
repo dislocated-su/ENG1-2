@@ -1,7 +1,5 @@
 package cs.eng1.piazzapanic.chef;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -21,6 +19,7 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import java.util.ArrayList;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up

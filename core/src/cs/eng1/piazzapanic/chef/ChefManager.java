@@ -94,7 +94,7 @@ public class ChefManager implements Disposable {
     }
 
     public void act(float delta) {
-        if (keyboardInput.changeCooks){
+        if (keyboardInput.changeCooks) {
             keyboardInput.changeCooks = false;
             int chefIndex = chefs.indexOf(currentChef);
             chefIndex++;
@@ -102,8 +102,8 @@ public class ChefManager implements Disposable {
                 chefIndex = 0;
             }
             setCurrentChef(chefs.get(chefIndex));
-            }
         }
+    }
 
     /**
      * Add the created Chefs to the game world
