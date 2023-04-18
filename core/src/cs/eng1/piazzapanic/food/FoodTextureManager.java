@@ -27,23 +27,23 @@ public class FoodTextureManager implements Disposable {
         this.foodTextures.put(
                 "lettuce_raw",
                 new Texture(
-                    Gdx.files.internal("food/glitch/vegetable/lettuce.png")
+                    Gdx.files.internal("food/buff_chef/lettuce.png")
                 )
             );
         this.foodTextures.put(
                 "lettuce_chopped",
                 new Texture(
-                    Gdx.files.internal("food/original/lettuce_chopped.png")
+                    Gdx.files.internal("food/buff_chef/sliced_lettuce.png")
                 )
             );
         this.foodTextures.put(
                 "tomato_raw",
-                new Texture(Gdx.files.internal("food/glitch/fruit/tomato.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/tomato.png"))
             );
         this.foodTextures.put(
                 "tomato_chopped",
                 new Texture(
-                    Gdx.files.internal("food/original/tomato_chopped.png")
+                    Gdx.files.internal("food/buff_chef/sliced_tomato.png")
                 )
             );
         this.foodTextures.put(
@@ -58,7 +58,7 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "dough",
-                new Texture(Gdx.files.internal("food/glitch/grain/corn.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/dough.png"))
             );
         this.foodTextures.put(
                 "potato", // Change to potato raw, check first
@@ -88,8 +88,11 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "jacket_potato",
-                new Texture(Gdx.files.internal("food/glitch/misc/ice_cube.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/jacket_potato.png"))
             );
+        this.foodTextures.put(
+                "cheese_sliced",new Texture("food/buff_chef/grated_cheese.png")
+        );
 
         notFoundImage = new Texture(Gdx.files.internal("badlogic.jpg"));
     }
