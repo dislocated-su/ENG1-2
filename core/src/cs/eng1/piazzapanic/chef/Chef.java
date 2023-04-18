@@ -2,6 +2,9 @@ package cs.eng1.piazzapanic.chef;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +20,7 @@ import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
+import cs.eng1.piazzapanic.utility.KeyboardInput;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
@@ -38,7 +42,6 @@ public class Chef extends Actor implements Disposable {
     private final ChefManager chefManager;
     private final FixedStack<Holdable> ingredientStack = new FixedStack<>(5);
 
-    private final Vector2 inputVector;
     private final float speed = 3f;
     private Body body;
 
@@ -61,7 +64,6 @@ public class Chef extends Actor implements Disposable {
         this.image = image;
         this.imageBounds = imageBounds;
         this.chefManager = chefManager;
-        inputVector = new Vector2();
     }
 
     public void createBody() {
@@ -133,9 +135,7 @@ public class Chef extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        getInput();
-
-        Vector2 movement = calculateMovement(delta);
+        Vector2 movement = getInput().scl(speed);
 
         Vector2 bodyVector2 = body.getPosition();
 
@@ -153,48 +153,34 @@ public class Chef extends Actor implements Disposable {
     /**
      * Set the input vector based on the input keys for movement
      */
-    private void getInput() {
-        inputVector.x = 0;
-        inputVector.y = 0;
+    private Vector2 getInput() {
         if (!isInputEnabled() || isPaused()) {
-            return;
+            return new Vector2(0, 0);
         }
-        float x = 0f;
-        float y = 0f;
-        if (Gdx.input.isKeyPressed(Input.Keys.W) ||
-                Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            y += 1f;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S) ||
-                Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            y -= 1f;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) ||
-                Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            x += 1f;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) ||
-                Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            x -= 1f;
-        }
-        setInputVector(x, y);
-        if (inputVector.len() > 0.01f) {
-            imageRotation = inputVector.angleDeg(Vector2.X);
-        }
-    }
 
-    /**
-     * Calculate how far the chef should move based on the input vector
-     *
-     * @param delta the time that has passed since the last frame
-     * @return the vector representing how far the chef should move
-     */
-    private Vector2 calculateMovement(float delta) {
-        Vector2 movement = new Vector2(
-                inputVector.x * (speed * (PlayerState.getInstance().getBuffActive(0) ? 2 : 1)),
-                inputVector.y * (speed * (PlayerState.getInstance().getBuffActive(0) ? 2 : 1)));
+        Vector2 direction = new Vector2();
 
-        return movement;
+        if (chefManager.keyboardInput.up) {
+            direction.add(0, 1);
+        }
+        if (chefManager.keyboardInput.down) {
+            direction.sub(0, 1);
+        }
+        if (chefManager.keyboardInput.right) {
+            direction.add(1, 0);
+        }
+        if (chefManager.keyboardInput.left) {
+            direction.sub(1, 0);
+        }
+
+        direction.nor();
+
+        // Rotate the chef image according to movement direction
+        if (!direction.isZero(0.1f)) {
+            imageRotation = direction.angleDeg(Vector2.X);
+        }
+
+        return direction;
     }
 
     public boolean hasIngredient() {
@@ -237,20 +223,6 @@ public class Chef extends Actor implements Disposable {
 
     public FixedStack<Holdable> getStack() {
         return ingredientStack;
-    }
-
-    /**
-     * Sets the input vector based on x and y, but ensuring that the vector is never
-     * greater than a
-     * length of 1
-     *
-     * @param x the x input value
-     * @param y the y input value
-     */
-    public void setInputVector(float x, float y) {
-        inputVector.x = x;
-        inputVector.y = y;
-        inputVector.nor();
     }
 
     public boolean isInputEnabled() {

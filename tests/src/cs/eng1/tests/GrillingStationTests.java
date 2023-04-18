@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class GrillingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null, null);
     FoodTextureManager textureManager = new FoodTextureManager();
     Patty patty = new Patty(textureManager);
     Chef chef = new Chef(null, null, chefManager);

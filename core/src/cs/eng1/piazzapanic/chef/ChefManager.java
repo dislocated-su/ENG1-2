@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.utility.KeyboardInput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class ChefManager implements Disposable {
 
     public World world;
+    protected KeyboardInput keyboardInput;
+
     private final ArrayList<Chef> chefs;
     private Chef currentChef = null;
     private final UIOverlay overlay;
@@ -40,11 +43,15 @@ public class ChefManager implements Disposable {
      *                  and time, and to provide more controls.
      */
     public ChefManager(
-            float chefScale,
-            UIOverlay overlay,
-            World world) {
+
+        float chefScale,
+        UIOverlay overlay,
+        World world,
+        KeyboardInput keyboardInput
+    ) {
         this.overlay = overlay;
         this.world = world;
+        this.keyboardInput = keyboardInput;
 
         // Load chef sprites
         chefs = new ArrayList<>(chefSprites.length);

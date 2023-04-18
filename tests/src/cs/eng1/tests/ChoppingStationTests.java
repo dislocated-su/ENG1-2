@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class ChoppingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null, null);
     Chef chef = new Chef(null, null, chefManager);
     FoodTextureManager textureManager = new FoodTextureManager();
     Lettuce lettuce = new Lettuce(textureManager);
