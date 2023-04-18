@@ -26,9 +26,7 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "lettuce_raw",
-                new Texture(
-                    Gdx.files.internal("food/buff_chef/lettuce.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/lettuce.png"))
             );
         this.foodTextures.put(
                 "lettuce_chopped",
@@ -88,11 +86,14 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "jacket_potato",
-                new Texture(Gdx.files.internal("food/buff_chef/jacket_potato.png"))
+                new Texture(
+                    Gdx.files.internal("food/buff_chef/jacket_potato.png")
+                )
             );
         this.foodTextures.put(
-                "cheese_sliced",new Texture("food/buff_chef/grated_cheese.png")
-        );
+                "cheese_sliced",
+                new Texture("food/buff_chef/grated_cheese.png")
+            );
 
         notFoundImage = new Texture(Gdx.files.internal("badlogic.jpg"));
     }

@@ -80,7 +80,8 @@ public class GameScreen implements Screen {
                 world,
                 kbInput
             );
-        customerManager = new CustomerManager(uiOverlay, totalCustomers, new PlayerState());
+        customerManager =
+            new CustomerManager(uiOverlay, totalCustomers, new PlayerState());
 
         mapLoader.createStations(
             "Stations",
