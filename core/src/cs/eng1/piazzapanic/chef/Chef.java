@@ -19,6 +19,7 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import java.util.ArrayList;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
@@ -133,7 +134,6 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void act(float delta) {
         Vector2 movement = getInput().scl(speed);
-
         Vector2 bodyVector2 = body.getPosition();
 
         if (!movement.isZero(0.1f)) {
@@ -154,9 +154,7 @@ public class Chef extends Actor implements Disposable {
         if (!isInputEnabled() || isPaused()) {
             return new Vector2(0, 0);
         }
-
         Vector2 direction = new Vector2();
-
         if (chefManager.keyboardInput.up) {
             direction.add(0, 1);
         }
