@@ -1,6 +1,8 @@
 package cs.eng1.piazzapanic.customer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Queue;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -25,17 +27,36 @@ public class CustomerManager {
     private Timer timer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
+    private PlayerState playerState;
 
-    public CustomerManager(UIOverlay overlay, int customers) {
+    public CustomerManager(
+        UIOverlay overlay,
+        int customers,
+        PlayerState state
+    ) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
         totalCustomers = customers;
+        this.playerState = state;
         random = new Random();
     }
 
-    public CustomerManager(UIOverlay overlay, int customers, long seed) {
-        this(overlay, customers);
+    /**
+     * Initialise CustomerManager with an empty state and set random seed. This is
+     * useful for testing.
+     *
+     * @param overlay {@link UIOverlay} (probably mocked)
+     * @param customers The total number of customers to spawn - 0 means endless
+     * @param seed seed for the {@link Random} instance to generate set orders
+     */
+    public CustomerManager(
+        UIOverlay overlay,
+        int customers,
+        PlayerState state,
+        long seed
+    ) {
+        this(overlay, customers, state);
         random.setSeed(seed);
     }
 
@@ -110,6 +131,8 @@ public class CustomerManager {
      */
     public void nextRecipe() {
         completedOrders++;
+        playerState.cash += 5;
+        Gdx.app.log("Current cash", Double.toString(playerState.cash));
         overlay.updateRecipeCounter(completedOrders);
         if (completedOrders != totalCustomers) {
             customerQueue.first().fulfillOrder();
