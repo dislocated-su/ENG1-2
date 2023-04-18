@@ -58,7 +58,7 @@ public class IngredientStationTests {
             null,
             new Patty(new FoodTextureManager())
         );
-        Chef chef = new Chef(null, null, new ChefManager(0, null, null));
+        Chef chef = new Chef(null, null, new ChefManager(0, null, null, null));
         station.nearbyChef = chef;
         station.doStationAction(StationAction.ActionType.GRAB_INGREDIENT);
         assertTrue(
