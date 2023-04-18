@@ -29,11 +29,10 @@ public class SubmitStationTests {
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
     CustomerManager customerManager = new CustomerManager(
-        overlay,
-        0,
-        new PlayerState(),
-        0
-    );
+            overlay,
+            0,
+            null,
+            0);
 
     // pizza, jacket, burger, pizza
 
@@ -49,21 +48,18 @@ public class SubmitStationTests {
         SubmitStation station = new SubmitStation(1, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if no chef is nearby",
+                actionTypes.isEmpty());
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if the chef and station have no ingredients",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if the chef and station have no ingredients",
+                actionTypes.isEmpty());
         chef.grabItem(new Patty(textureManager));
         actionTypes = station.getActionTypes();
         assertTrue(
-            "Nothing is added to action types if the chef has an item that is not a Recipe.",
-            actionTypes.isEmpty()
-        );
+                "Nothing is added to action types if the chef has an item that is not a Recipe.",
+                actionTypes.isEmpty());
     }
 
     @Test
@@ -73,16 +69,15 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
+        customerManager = new CustomerManager(overlay, 0, null, 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
-            1,
-            null,
-            null,
-            null,
-            customerManager
-        );
+                1,
+                null,
+                null,
+                null,
+                customerManager);
         station.nearbyChef = chef;
 
         chef.getStack().clear();
@@ -92,9 +87,8 @@ public class SubmitStationTests {
 
         boolean test = actionTypes.contains(ActionType.SUBMIT_ORDER);
         assertTrue(
-            "submit order is added to action types if the chef has a correct recipe",
-            test
-        );
+                "submit order is added to action types if the chef has a correct recipe",
+                test);
     }
 
     @Test
@@ -105,16 +99,15 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
+        customerManager = new CustomerManager(overlay, 0, null, 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
-            1,
-            null,
-            uiController,
-            null,
-            customerManager
-        );
+                1,
+                null,
+                uiController,
+                null,
+                customerManager);
 
         station.nearbyChef = chef;
 
@@ -124,19 +117,17 @@ public class SubmitStationTests {
         station.doStationAction(ActionType.SUBMIT_ORDER);
 
         assertTrue(
-            "Chef loses wrong item and order remains to be Pizza (instead of next JacketPotato)",
-            chef.getStack().size() == 0 &&
-            customerManager.checkRecipe(new Pizza(textureManager))
-        );
+                "Chef loses wrong item and order remains to be Pizza (instead of next JacketPotato)",
+                chef.getStack().size() == 0 &&
+                        customerManager.checkRecipe(new Pizza(textureManager)));
 
         chef.getStack().clear();
         chef.grabItem(new Pizza(textureManager));
         customerManager.generateCustomer();
         station.doStationAction(ActionType.SUBMIT_ORDER);
         assertTrue(
-            "Chef loses correct item and order switches to JacketPotato",
-            chef.getStack().size() == 0 &&
-            customerManager.checkRecipe(new JacketPotato(textureManager))
-        );
+                "Chef loses correct item and order switches to JacketPotato",
+                chef.getStack().size() == 0 &&
+                        customerManager.checkRecipe(new JacketPotato(textureManager)));
     }
 }

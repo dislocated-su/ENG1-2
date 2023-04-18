@@ -19,10 +19,10 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class CookingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null);
     FoodTextureManager textureManager = new FoodTextureManager();
     Potato potato = new Potato(textureManager);
-    Chef chef = new Chef(null, null, chefManager, null);
+    Chef chef = new Chef(null, null, chefManager);
     StationUIController uiController = mock(StationUIController.class);
 
     @Test
@@ -30,21 +30,18 @@ public class CookingStationTests {
         CookingStation station = new CookingStation(1, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if no chef is nearby",
+                actionTypes.isEmpty());
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if the chef and station have no ingredients",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if the chef and station have no ingredients",
+                actionTypes.isEmpty());
         chef.grabItem(new Salad(textureManager));
         actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if the chef has an ingredient that can't be cooked",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if the chef has an ingredient that can't be cooked",
+                actionTypes.isEmpty());
     }
 
     @Test
@@ -54,83 +51,73 @@ public class CookingStationTests {
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "adds PLACE_INGREDIENT to actionTypes when a chef is nearby with a cookable ingredient",
-            actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT)
-        );
+                "adds PLACE_INGREDIENT to actionTypes when a chef is nearby with a cookable ingredient",
+                actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT));
     }
 
     @Test
     public void testCooking() {
         CookingStation station = new CookingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.nearbyChef = chef;
         station.currentIngredient = potato;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "adds COOK_ACTION to actionTypes when a chef is nearby and an ingredient is in the station",
-            actionTypes.contains(StationAction.ActionType.COOK_ACTION)
-        );
+                "adds COOK_ACTION to actionTypes when a chef is nearby and an ingredient is in the station",
+                actionTypes.contains(StationAction.ActionType.COOK_ACTION));
         station.doStationAction(StationAction.ActionType.COOK_ACTION);
         station.act(1);
         station.act(1);
         actionTypes = station.getActionTypes();
         assertTrue(
-            "adds FLIP_ACTION to action types when the ingredient is ready to be flipped",
-            actionTypes.contains(StationAction.ActionType.FLIP_ACTION)
-        );
+                "adds FLIP_ACTION to action types when the ingredient is ready to be flipped",
+                actionTypes.contains(StationAction.ActionType.FLIP_ACTION));
         station.doStationAction(StationAction.ActionType.FLIP_ACTION);
         station.act(2);
         actionTypes = station.getActionTypes();
         assertTrue(
-            "adds GRAB_INGREDIENT to action types when the ingredient is fully cooked",
-            actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT)
-        );
+                "adds GRAB_INGREDIENT to action types when the ingredient is fully cooked",
+                actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT));
         station.doStationAction(ActionType.GRAB_INGREDIENT);
         assertTrue(
-            "the chef collects a cooked ingredient and the station is empty",
-            potato.getCooked() &&
-            station.currentIngredient == null &&
-            chef.getStack().peek() == potato
-        );
+                "the chef collects a cooked ingredient and the station is empty",
+                potato.getCooked() &&
+                        station.currentIngredient == null &&
+                        chef.getStack().peek() == potato);
     }
 
     @Test
     public void testPlaceIngredient() {
         CookingStation station = new CookingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.nearbyChef = chef;
         chef.grabItem(potato);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
         assertEquals(
-            "an ingredient can be placed on the station",
-            potato,
-            station.currentIngredient
-        );
+                "an ingredient can be placed on the station",
+                potato,
+                station.currentIngredient);
     }
 
     @Test
     public void testReset() {
         CookingStation station = new CookingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.currentIngredient = potato;
         station.progressVisible = true;
         station.reset();
         assertTrue(
-            "Tests the reset method",
-            station.currentIngredient == null &&
-            station.progressVisible == false
-        );
+                "Tests the reset method",
+                station.currentIngredient == null &&
+                        station.progressVisible == false);
     }
 }

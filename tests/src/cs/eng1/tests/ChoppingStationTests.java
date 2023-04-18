@@ -19,8 +19,8 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class ChoppingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null, null);
-    Chef chef = new Chef(null, null, chefManager, null);
+    ChefManager chefManager = new ChefManager(0, null, null);
+    Chef chef = new Chef(null, null, chefManager);
     FoodTextureManager textureManager = new FoodTextureManager();
     Lettuce lettuce = new Lettuce(textureManager);
     StationUIController uiController = mock(StationUIController.class);
@@ -30,21 +30,18 @@ public class ChoppingStationTests {
         ChoppingStation station = new ChoppingStation(1, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if no chef is nearby",
+                actionTypes.isEmpty());
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if the chef and station have no ingredients",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if the chef and station have no ingredients",
+                actionTypes.isEmpty());
         chef.grabItem(new Patty(textureManager));
         actionTypes = station.getActionTypes();
         assertTrue(
-            "nothing is added to action types if the chef has an ingredient that can't be cooked",
-            actionTypes.isEmpty()
-        );
+                "nothing is added to action types if the chef has an ingredient that can't be cooked",
+                actionTypes.isEmpty());
     }
 
     @Test
@@ -54,76 +51,67 @@ public class ChoppingStationTests {
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "adds PLACE_INGREDIENT to actionTypes when a chef is nearby with a choppable ingredient",
-            actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT)
-        );
+                "adds PLACE_INGREDIENT to actionTypes when a chef is nearby with a choppable ingredient",
+                actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT));
     }
 
     @Test
     public void testChopping() {
         ChoppingStation station = new ChoppingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.nearbyChef = chef;
         station.currentIngredient = lettuce;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-            "adds CHOP_ACTION to actionTypes when a chef is nearby and an ingredient is in the station",
-            actionTypes.contains(StationAction.ActionType.CHOP_ACTION)
-        );
+                "adds CHOP_ACTION to actionTypes when a chef is nearby and an ingredient is in the station",
+                actionTypes.contains(StationAction.ActionType.CHOP_ACTION));
         station.doStationAction(StationAction.ActionType.CHOP_ACTION);
         station.act(1);
         station.act(1);
         actionTypes = station.getActionTypes();
         assertTrue(
-            "adds GRAB_INGREDIENT to action types when the ingredient is chopped",
-            actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT)
-        );
+                "adds GRAB_INGREDIENT to action types when the ingredient is chopped",
+                actionTypes.contains(StationAction.ActionType.GRAB_INGREDIENT));
         station.doStationAction(ActionType.GRAB_INGREDIENT);
         assertTrue(
-            "the chef collects a cooked ingredient and the station is empty",
-            lettuce.getChopped() &&
-            station.currentIngredient == null &&
-            chef.getStack().peek() == lettuce
-        );
+                "the chef collects a cooked ingredient and the station is empty",
+                lettuce.getChopped() &&
+                        station.currentIngredient == null &&
+                        chef.getStack().peek() == lettuce);
     }
 
     @Test
     public void testPlaceIngredient() {
         ChoppingStation station = new ChoppingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.nearbyChef = chef;
         chef.grabItem(lettuce);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
         assertEquals(
-            "an ingredient can be placed on the station",
-            lettuce,
-            station.currentIngredient
-        );
+                "an ingredient can be placed on the station",
+                lettuce,
+                station.currentIngredient);
     }
 
     @Test
     public void testReset() {
         ChoppingStation station = new ChoppingStation(
-            1,
-            null,
-            uiController,
-            null
-        );
+                1,
+                null,
+                uiController,
+                null);
         station.currentIngredient = lettuce;
         station.progressVisible = true;
         station.reset();
         assertTrue(
-            "Tests the reset method",
-            station.currentIngredient == null &&
-            station.progressVisible == false
-        );
+                "Tests the reset method",
+                station.currentIngredient == null &&
+                        station.progressVisible == false);
     }
 }
