@@ -93,6 +93,18 @@ public class ChefManager implements Disposable {
         return chefs;
     }
 
+    public void act(float delta) {
+        if (keyboardInput.changeCooks){
+            keyboardInput.changeCooks = false;
+            int chefIndex = chefs.indexOf(currentChef);
+            chefIndex++;
+            if (chefIndex >= chefs.size()) {
+                chefIndex = 0;
+            }
+            setCurrentChef(chefs.get(chefIndex));
+            }
+        }
+
     /**
      * Add the created Chefs to the game world
      *

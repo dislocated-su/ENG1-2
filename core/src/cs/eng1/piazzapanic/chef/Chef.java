@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic.chef;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
@@ -133,7 +135,6 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void act(float delta) {
         Vector2 movement = getInput().scl(speed);
-
         Vector2 bodyVector2 = body.getPosition();
 
         if (!movement.isZero(0.1f)) {
@@ -154,9 +155,7 @@ public class Chef extends Actor implements Disposable {
         if (!isInputEnabled() || isPaused()) {
             return new Vector2(0, 0);
         }
-
         Vector2 direction = new Vector2();
-
         if (chefManager.keyboardInput.up) {
             direction.add(0, 1);
         }

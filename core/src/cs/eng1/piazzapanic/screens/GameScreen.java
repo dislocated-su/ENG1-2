@@ -130,6 +130,7 @@ public class GameScreen implements Screen {
         stage.act(delta);
         uiStage.act(delta);
         customerManager.act(delta);
+        chefManager.act(delta);
 
         stage.draw();
         uiStage.draw();
