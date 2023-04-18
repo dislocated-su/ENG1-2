@@ -20,9 +20,12 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
 
     @Override
     public boolean cookingTick(float delta) {
-        accumulator += (delta * ((PlayerState.getInstance().getBuffActive(1)) ? 2 : 1));
-        if (accumulator >= (cookingStepTime + failTime)
-                && !PlayerState.getInstance().getBuffActive(2)) {
+        accumulator +=
+            (delta * ((PlayerState.getInstance().getBuffActive(1)) ? 2 : 1));
+        if (
+            accumulator >= (cookingStepTime + failTime) &&
+            !PlayerState.getInstance().getBuffActive(2)
+        ) {
             setUseable(false);
         } else if (accumulator >= cookingStepTime) {
             if (!getHalfCooked()) {

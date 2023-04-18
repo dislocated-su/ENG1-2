@@ -15,7 +15,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
@@ -57,10 +56,7 @@ public class Chef extends Actor implements Disposable {
      *                    the chefs and
      *                    their surrounding environment
      */
-    public Chef(
-            Texture image,
-            Vector2 imageBounds,
-            ChefManager chefManager) {
+    public Chef(Texture image, Vector2 imageBounds, ChefManager chefManager) {
         this.image = image;
         this.imageBounds = imageBounds;
         this.chefManager = chefManager;
@@ -95,41 +91,43 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-                image,
-                getX() + (1 - imageBounds.x) / 2f,
-                getY() + (1 - imageBounds.y) / 2f,
-                imageBounds.x / 2f,
-                imageBounds.y / 2f,
-                imageBounds.x,
-                imageBounds.y,
+            image,
+            getX() + (1 - imageBounds.x) / 2f,
+            getY() + (1 - imageBounds.y) / 2f,
+            imageBounds.x / 2f,
+            imageBounds.y / 2f,
+            imageBounds.x,
+            imageBounds.y,
+            1f,
+            1f,
+            imageRotation,
+            0,
+            0,
+            image.getWidth(),
+            image.getHeight(),
+            false,
+            false
+        );
+        for (Holdable item : ingredientStack) {
+            Texture texture = item.getTexture();
+            batch.draw(
+                texture,
+                getX() + 0.5f,
+                getY() + 0.2f,
+                0f,
+                0.3f,
+                0.6f,
+                0.6f,
                 1f,
                 1f,
                 imageRotation,
                 0,
                 0,
-                image.getWidth(),
-                image.getHeight(),
+                texture.getWidth(),
+                texture.getHeight(),
                 false,
-                false);
-        for (Holdable item : ingredientStack) {
-            Texture texture = item.getTexture();
-            batch.draw(
-                    texture,
-                    getX() + 0.5f,
-                    getY() + 0.2f,
-                    0f,
-                    0.3f,
-                    0.6f,
-                    0.6f,
-                    1f,
-                    1f,
-                    imageRotation,
-                    0,
-                    0,
-                    texture.getWidth(),
-                    texture.getHeight(),
-                    false,
-                    false);
+                false
+            );
         }
     }
 

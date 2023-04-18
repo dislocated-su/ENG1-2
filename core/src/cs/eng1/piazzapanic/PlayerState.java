@@ -20,8 +20,7 @@ public class PlayerState {
         }
     }
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     // enum for power up types if needed, would require implementing valued enum
     // though
@@ -68,11 +67,11 @@ public class PlayerState {
 
     // Powerups and other stuff here
     private static Timer[] powerUpTimers = {
-            new Timer(60000, false, false), // doubleChefSpeed
-            new Timer(60000, false, false), // doublePrepSpeed
-            new Timer(60000, false, false), // noFailPrep
-            new Timer(60000, false, false), // noRepLoss
-            new Timer(60000, false, false), // moreMoney
+        new Timer(60000, false, false), // doubleChefSpeed
+        new Timer(60000, false, false), // doublePrepSpeed
+        new Timer(60000, false, false), // noFailPrep
+        new Timer(60000, false, false), // noRepLoss
+        new Timer(60000, false, false), // moreMoney
     };
 
     public void act(float delta) {
@@ -91,5 +90,4 @@ public class PlayerState {
     public boolean getBuffActive(int index) {
         return powerUpTimers[index].getRunning();
     }
-
 }
