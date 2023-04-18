@@ -82,7 +82,6 @@ public class GameScreen implements Screen {
             );
         customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
-
         mapLoader.createStations(
             "Stations",
             "Sensors",
