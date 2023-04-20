@@ -54,10 +54,14 @@ public class ChefManagerTests {
     @Test
     public void setCurrentChefTests() {
         assertNull(chefManager.getCurrentChef());
-        for (i = 0; i <= chefManager.getChefs().length; i++) {
+        for (i = 0; i <= chefManager.getChefs().length+1; i++) {
             chefManager.setCurrentChef(chefManager.getChefs().get(i));
-            assertEquals(chefManager.getChefs().get(i), chefManager.getCurrentChef());
+            assertEquals(
+                "setCurrentChef should properly assign currentChef.", 
+                chefManager.getChefs().get(i), 
+                chefManager.getCurrentChef());
         }
+
     }
 
 }
