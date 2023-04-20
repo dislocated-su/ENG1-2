@@ -76,7 +76,6 @@ public class GameScreen implements Screen {
 
         PlayerState.reset();
 
-        // powerUps = new PowerUps();
         chefManager =
             new ChefManager(
                 mapLoader.unitScale * 2.5f,
