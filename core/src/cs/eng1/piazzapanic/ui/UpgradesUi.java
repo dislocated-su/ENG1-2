@@ -109,9 +109,9 @@ public class UpgradesUi{
         table.add(returnButton).width(scale2).height(scale);
         table.add(powerup1).width(scale2).height(scale).pad(1);
         table.add(powerup2).width(scale2).height(scale).pad(1);
-        table.add(powerup3).width(scale2).height(scale);
-        table.add(powerup4).width(scale2).height(scale);
-        table.add(powerup5).width(scale2).height(scale);
+        table.add(powerup3).width(scale2).height(scale).pad(1);
+        table.add(powerup4).width(scale2).height(scale).pad(1);
+        table.add(powerup5).width(scale2).height(scale).pad(1);
     
     }
     // foo being the boolean that makes the table visible or not
