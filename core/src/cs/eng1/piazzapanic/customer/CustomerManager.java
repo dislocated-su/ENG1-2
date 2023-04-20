@@ -12,6 +12,7 @@ import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
+import cs.eng1.piazzapanic.chef.Chef;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -27,18 +28,14 @@ public class CustomerManager {
     private Timer timer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
-    public PlayerState playerState;
 
     public CustomerManager(
-        UIOverlay overlay,
-        int customers,
-        PlayerState state
-    ) {
+            UIOverlay overlay,
+            int customers) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
         totalCustomers = customers;
-        this.playerState = state;
         random = new Random();
     }
 
@@ -51,12 +48,10 @@ public class CustomerManager {
      * @param seed      seed for the {@link Random} instance to generate set orders
      */
     public CustomerManager(
-        UIOverlay overlay,
-        int customers,
-        PlayerState state,
-        long seed
-    ) {
-        this(overlay, customers, state);
+            UIOverlay overlay,
+            int customers,
+            long seed) {
+        this(overlay, customers);
         random.setSeed(seed);
     }
 
@@ -69,13 +64,12 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
         generateCustomer();
 
@@ -129,22 +123,19 @@ public class CustomerManager {
      * With the current implementation, it is possible to have endless mode use the
      * totalCustomers value of 0 without requiring changes
      */
-    public void nextRecipe() {
+    public void nextRecipe(Chef chef) {
         completedOrders++;
-        playerState.cash += 5;
-        Gdx.app.log("Current cash", Double.toString(playerState.cash));
         overlay.updateRecipeCounter(completedOrders);
-        if (completedOrders != totalCustomers) {
-            customerQueue.first().fulfillOrder();
-            customerQueue.removeFirst();
-            // generateCustomer();
-        }
+        customerQueue.first().fulfillOrder();
+        customerQueue.removeFirst();
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
         overlay.updateRecipeUI(getFirstOrder());
+        overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
+            timer.stop();
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
         }
@@ -167,12 +158,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-            new Customer(possibleRecipes[random.nextInt(4)], this)
-        );
+                new Customer(possibleRecipes[random.nextInt(4)], this));
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty()) return null;
+        if (customerQueue.isEmpty())
+            return null;
         return customerQueue.first().getOrder();
     }
 }

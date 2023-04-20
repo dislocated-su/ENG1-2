@@ -4,55 +4,57 @@ import cs.eng1.piazzapanic.utility.Timer;
 
 public class PlayerState {
 
-    public boolean customerHappy;
-    private float happinessMult = 1.3f;
-
-    public boolean powerUpActive;
-    public int powerUpLevel = 0;
+    private final float happinessMult = 1.3f;
 
     private static PlayerState instance = null;
 
+    public float cash = 0;
+
+    private Timer[] powerUpTimers = {
+            new Timer(60000, false, false), // doubleChefSpeed
+            new Timer(60000, false, false), // doublePrepSpeed
+            new Timer(60000, false, false), // noFailPrep
+            new Timer(60000, false, false), // noRepLoss
+            new Timer(60000, false, false), // moreMoney
+    };
+
     public static PlayerState getInstance() {
         if (instance == null) {
-            return new PlayerState();
-        } else {
-            return instance;
+            instance = new PlayerState();
         }
+        return instance;
     }
 
-    private PlayerState() {}
+    private PlayerState() {
+    }
+
+    public float getCash() {
+        return cash;
+    }
 
     // enum for power up types if needed, would require implementing valued enum
     // though
-    /*
-     * public enum PowerUp {
-     * DOUBLE_CHEF_SPEED,
-     * DOUBLE_PREP_SPEED,
-     * NO_FAIL_PREP,
-     * NO_REP_LOSS,
-     * MORE_MONEY
-     * }
-     */
-
-    public double powerupMult() {
-        return ((powerUpLevel * 4) / (powerUpLevel * 30)) + 1;
+    public enum PowerUp {
+        DOUBLE_CHEF_SPEED,
+        DOUBLE_PREP_SPEED,
+        NO_FAIL_PREP,
+        NO_REP_LOSS,
+        MORE_MONEY
     }
 
-    private double totalMultiplier() {
+    private double totalMultiplier(boolean customerHappy) {
         double totalMultiplier = 1;
         if (customerHappy) {
             totalMultiplier *= happinessMult;
         }
-        if (powerUpActive) {
-            totalMultiplier *= powerupMult();
+        if (getBuffActive(4)) {
+            totalMultiplier *= 2;
         }
         return totalMultiplier;
     }
 
-    public double cash;
-
-    public void earnCash(float baseAmount) {
-        cash += baseAmount * totalMultiplier();
+    public void earnCash(float baseAmount, boolean customerHappy) {
+        getInstance().cash += baseAmount * totalMultiplier(customerHappy);
     }
 
     public boolean spendCash(double amount) {
@@ -65,18 +67,9 @@ public class PlayerState {
         return true;
     }
 
-    // Powerups and other stuff here
-    private static Timer[] powerUpTimers = {
-        new Timer(60000, false, false), // doubleChefSpeed
-        new Timer(60000, false, false), // doublePrepSpeed
-        new Timer(60000, false, false), // noFailPrep
-        new Timer(60000, false, false), // noRepLoss
-        new Timer(60000, false, false), // moreMoney
-    };
-
     public void act(float delta) {
         for (Timer timer : powerUpTimers) {
-            // first check if a timer is running, then check if timer is ticking for
+            // first check if a timer is running, then check if timer is complete for
             // efficiency
             if (timer.getRunning()) {
                 if (timer.tick(delta)) {
@@ -89,5 +82,9 @@ public class PlayerState {
 
     public boolean getBuffActive(int index) {
         return powerUpTimers[index].getRunning();
+    }
+
+    public void activateBuff(int index) {
+        powerUpTimers[index].start();
     }
 }

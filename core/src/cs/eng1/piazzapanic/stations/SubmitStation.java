@@ -18,12 +18,11 @@ public class SubmitStation extends Station {
     private CustomerManager customerManager;
 
     public SubmitStation(
-        int id,
-        TextureRegion image,
-        StationUIController uiController,
-        ActionAlignment alignment,
-        CustomerManager customerManager
-    ) {
+            int id,
+            TextureRegion image,
+            StationUIController uiController,
+            ActionAlignment alignment,
+            CustomerManager customerManager) {
         super(id, image, uiController, alignment);
         this.customerManager = customerManager;
     }
@@ -58,7 +57,7 @@ public class SubmitStation extends Station {
                 if (!checkCorrectRecipe(topItem)) {
                     return;
                 }
-                customerManager.nextRecipe();
+                customerManager.nextRecipe(nearbyChef);
                 break;
             default:
                 break;
