@@ -3,7 +3,6 @@ package cs.eng1.piazzapanic.customer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
@@ -30,7 +29,10 @@ public class Customer extends Actor implements Disposable {
         PlayerState.getInstance().earnCash(100, reputation);
         orderCompleted = true;
         PlayerState.getInstance();
-        Gdx.app.log("Current cash", Float.toString(PlayerState.getInstance().getCash()));
+        Gdx.app.log(
+            "Current cash",
+            Float.toString(PlayerState.getInstance().getCash())
+        );
     }
 
     @Override
@@ -43,6 +45,5 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 }

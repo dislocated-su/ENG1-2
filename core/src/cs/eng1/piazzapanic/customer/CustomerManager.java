@@ -3,6 +3,7 @@ package cs.eng1.piazzapanic.customer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Queue;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -12,7 +13,6 @@ import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
-import cs.eng1.piazzapanic.chef.Chef;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -29,9 +29,7 @@ public class CustomerManager {
     private Random random;
     private int reputation = 3;
 
-    public CustomerManager(
-            UIOverlay overlay,
-            int customers) {
+    public CustomerManager(UIOverlay overlay, int customers) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
@@ -47,10 +45,7 @@ public class CustomerManager {
      * @param customers The total number of customers to spawn - 0 means endless
      * @param seed      seed for the {@link Random} instance to generate set orders
      */
-    public CustomerManager(
-            UIOverlay overlay,
-            int customers,
-            long seed) {
+    public CustomerManager(UIOverlay overlay, int customers, long seed) {
         this(overlay, customers);
         random.setSeed(seed);
     }
@@ -64,12 +59,13 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         generateCustomer();
 
@@ -158,12 +154,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-                new Customer(possibleRecipes[random.nextInt(4)], this));
+            new Customer(possibleRecipes[random.nextInt(4)], this)
+        );
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty())
-            return null;
+        if (customerQueue.isEmpty()) return null;
         return customerQueue.first().getOrder();
     }
 }

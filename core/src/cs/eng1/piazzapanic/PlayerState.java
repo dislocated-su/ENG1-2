@@ -11,11 +11,11 @@ public class PlayerState {
     public float cash = 0;
 
     private Timer[] powerUpTimers = {
-            new Timer(10000, true, false), // doubleChefSpeed
-            new Timer(60000, false, false), // doublePrepSpeed
-            new Timer(60000, false, false), // noFailPrep
-            new Timer(60000, false, false), // noRepLoss
-            new Timer(60000, false, false), // moreMoney
+        new Timer(10000, true, false), // doubleChefSpeed
+        new Timer(60000, false, false), // doublePrepSpeed
+        new Timer(60000, false, false), // noFailPrep
+        new Timer(60000, false, false), // noRepLoss
+        new Timer(60000, false, false), // moreMoney
     };
 
     public static PlayerState getInstance() {
@@ -25,8 +25,7 @@ public class PlayerState {
         return instance;
     }
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     public float getCash() {
         return cash;
@@ -39,7 +38,7 @@ public class PlayerState {
         DOUBLE_PREP_SPEED,
         NO_FAIL_PREP,
         NO_REP_LOSS,
-        MORE_MONEY
+        MORE_MONEY,
     }
 
     private double totalMultiplier(boolean customerHappy) {
