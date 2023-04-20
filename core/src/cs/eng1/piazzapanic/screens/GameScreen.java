@@ -73,6 +73,8 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
+        PlayerState.reset();
+
         // powerUps = new PowerUps();
         chefManager = new ChefManager(
                 mapLoader.unitScale * 2.5f,
