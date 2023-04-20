@@ -12,13 +12,26 @@ import cs.eng1.piazzapanic.stations.ChoppingStation;
 import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 @RunWith(GdxTestRunner.class)
 public class ChefManagerTests {
-    ChefManager chefManager = new ChefManager(2.5 / (float) pixelsPerTile, null, World world, KeyboardInput kbInput);
-    
+    World world = new World(new Vector2(0, 0), true);
+    UIOverlay overlay = mock(UIOverlay.class);
+    KeyboardInput kbInput = new KeyboardInput();
+    ChefManager chefManager = new ChefManager(1, overlay, null, kbInput);
+
+    @Test
+    public void actTest() {
+        kbInput.keyDown(Keys.E);
+        chefManager.act(1);
+        assertEquals(chefManager.getCurrentChef(), chefManager.getChefs());
+    }
 }
