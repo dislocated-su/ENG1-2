@@ -28,6 +28,7 @@ public class PiazzaPanicGame extends Game {
         tutorialOverlay = new TutorialOverlay(this);
         settingsOverlay = new SettingsOverlay(this);
         modeSelect = new ModeSelectOverlay(this);
+        upgrades = new UpgradesUi(this);
         loadHomeScreen();
     }
 

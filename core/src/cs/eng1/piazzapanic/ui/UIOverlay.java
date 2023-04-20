@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,6 +48,15 @@ public class UIOverlay {
         table.setFillParent(true);
         table.center().top().pad(15f);
         uiStage.addActor(table);
+
+        Table bottomTable = new Table();
+        table.setFillParent(true);
+        table.bottom().top().pad(15f);
+        uiStage.addActor(bottomTable);
+
+
+        final UpgradesUi upgradesUi = game.getUpgradesUi();
+        upgradesUi.addToStage(uiStage);
 
         // Initialise pointer image
         pointer =
@@ -159,21 +169,22 @@ public class UIOverlay {
         resultTimer.setVisible(false);
 
         // Initialize button for Upgrade implementation
-        TextButton upgradesUi = game
-        .getButtonManager()
-        .createTextButton("Start", ButtonManager.ButtonColour.BLUE);
-        startButton.sizeBy(3f);
-        startButton.addListener(
+        TextButton upgrades = game.getButtonManager()
+        .createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
+        upgrades.sizeBy(1f);
+        upgrades.addListener(
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    modeOverlay.show();
+                    UpgradesUi.visible(true);
                 }
             }
         );
 
         // Add everything
         Value scale = Value.percentWidth(0.04f, table);
+        Value scale2 = Value.percentWidth(0.08f, table);
+        Value padding = Value.percentWidth(0.12f, table);
         Value timerWidth = Value.percentWidth(0.2f, table);
         table.add(chefDisplay).left().width(scale).height(scale);
         table.add(timer).expandX().width(timerWidth).height(scale);
@@ -186,6 +197,9 @@ public class UIOverlay {
         table.add(resultLabel).colspan(3);
         table.row();
         table.add(resultTimer).colspan(3);
+        bottomTable.padLeft(padding);
+        bottomTable.padBottom(scale2);
+        bottomTable.add(upgrades).left().width(scale2).height(scale);
     }
 
     /**

@@ -23,8 +23,6 @@ public class ModeSelectOverlay {
         table.setVisible(false);
         table.center();
 
-        final UpgradesUi upgrades = game.getUpgradesUi();
-
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
