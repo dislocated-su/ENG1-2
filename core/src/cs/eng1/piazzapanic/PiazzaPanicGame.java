@@ -8,6 +8,7 @@ import cs.eng1.piazzapanic.ui.FontManager;
 import cs.eng1.piazzapanic.ui.ModeSelectOverlay;
 import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
+import cs.eng1.piazzapanic.ui.UpgradesUi;
 
 public class PiazzaPanicGame extends Game {
 
@@ -18,6 +19,7 @@ public class PiazzaPanicGame extends Game {
     private TutorialOverlay tutorialOverlay;
     private SettingsOverlay settingsOverlay;
     private ModeSelectOverlay modeSelect;
+    private UpgradesUi upgrades;
 
     @Override
     public void create() {
@@ -70,5 +72,9 @@ public class PiazzaPanicGame extends Game {
 
     public ButtonManager getButtonManager() {
         return buttonManager;
+    }
+
+    public UpgradesUi getUpgradesUi(){
+        return upgrades;
     }
 }

@@ -158,6 +158,20 @@ public class UIOverlay {
         resultTimer = new UIStopwatch(labelStyle);
         resultTimer.setVisible(false);
 
+        // Initialize button for Upgrade implementation
+        TextButton upgradesUi = game
+        .getButtonManager()
+        .createTextButton("Start", ButtonManager.ButtonColour.BLUE);
+        startButton.sizeBy(3f);
+        startButton.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    modeOverlay.show();
+                }
+            }
+        );
+
         // Add everything
         Value scale = Value.percentWidth(0.04f, table);
         Value timerWidth = Value.percentWidth(0.2f, table);

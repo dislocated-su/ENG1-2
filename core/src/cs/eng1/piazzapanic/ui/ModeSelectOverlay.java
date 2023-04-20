@@ -22,6 +22,9 @@ public class ModeSelectOverlay {
         table.setFillParent(true);
         table.setVisible(false);
         table.center();
+
+        final UpgradesUi upgrades = game.getUpgradesUi();
+
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
@@ -70,6 +73,7 @@ public class ModeSelectOverlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     game.loadGameScreen(0);
+                    
                 }
             }
         );
