@@ -135,10 +135,6 @@ public class ChefManager implements Disposable {
      * @param chef the chef to be controlled by the user
      */
     public void setCurrentChef(Chef chef) {
-        if (chef == null && currentChef != null) {
-            currentChef.setInputEnabled(false);
-            currentChef = null;
-        }
         if (currentChef != chef) {
             if (currentChef != null) {
                 currentChef.setInputEnabled(false);
