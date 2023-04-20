@@ -131,8 +131,9 @@ public class GameScreen implements Screen {
         // Render stage
         stage.act(delta);
         uiStage.act(delta);
-        customerManager.act(delta);
         PlayerState.getInstance().act(delta);
+        customerManager.act(delta);
+        chefManager.act(delta);
 
         stage.draw();
         uiStage.draw();
