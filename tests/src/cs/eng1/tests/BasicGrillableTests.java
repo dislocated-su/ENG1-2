@@ -183,7 +183,8 @@ public class BasicGrillableTests {
     }
 
     /*
-     * These test that getTexture returns the filename of the texture of the BasicGrillable in it's current state
+     * These test that getTexture returns the filename of the texture of the
+     * BasicGrillable in it's current state
      */
     @Test
     public void getTextureTests() {
@@ -248,7 +249,8 @@ public class BasicGrillableTests {
     }
 
     /*
-     * These test the grillStepComplete returns if the BasicGrillable is interactable to either flip or pick up.
+     * These test the grillStepComplete returns if the BasicGrillable is
+     * interactable to either flip or pick up.
      */
     @Test
     public void grillStepCompleteTests() {

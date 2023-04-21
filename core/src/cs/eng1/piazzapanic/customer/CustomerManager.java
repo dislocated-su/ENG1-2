@@ -3,6 +3,7 @@ package cs.eng1.piazzapanic.customer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Queue;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
 import cs.eng1.piazzapanic.food.recipes.JacketPotato;
@@ -27,18 +28,12 @@ public class CustomerManager {
     private Timer timer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
-    private PlayerState playerState;
 
-    public CustomerManager(
-        UIOverlay overlay,
-        int customers,
-        PlayerState state
-    ) {
+    public CustomerManager(UIOverlay overlay, int customers) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
         totalCustomers = customers;
-        this.playerState = state;
         random = new Random();
     }
 
@@ -46,17 +41,12 @@ public class CustomerManager {
      * Initialise CustomerManager with an empty state and set random seed. This is
      * useful for testing.
      *
-     * @param overlay {@link UIOverlay} (probably mocked)
+     * @param overlay   {@link UIOverlay} (probably mocked)
      * @param customers The total number of customers to spawn - 0 means endless
-     * @param seed seed for the {@link Random} instance to generate set orders
+     * @param seed      seed for the {@link Random} instance to generate set orders
      */
-    public CustomerManager(
-        UIOverlay overlay,
-        int customers,
-        PlayerState state,
-        long seed
-    ) {
-        this(overlay, customers, state);
+    public CustomerManager(UIOverlay overlay, int customers, long seed) {
+        this(overlay, customers);
         random.setSeed(seed);
     }
 
@@ -129,22 +119,19 @@ public class CustomerManager {
      * With the current implementation, it is possible to have endless mode use the
      * totalCustomers value of 0 without requiring changes
      */
-    public void nextRecipe() {
+    public void nextRecipe(Chef chef) {
         completedOrders++;
-        playerState.cash += 5;
-        Gdx.app.log("Current cash", Double.toString(playerState.cash));
         overlay.updateRecipeCounter(completedOrders);
-        if (completedOrders != totalCustomers) {
-            customerQueue.first().fulfillOrder();
-            customerQueue.removeFirst();
-            // generateCustomer();
-        }
+        customerQueue.first().fulfillOrder();
+        customerQueue.removeFirst();
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
         overlay.updateRecipeUI(getFirstOrder());
+        overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
+            timer.stop();
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
         }

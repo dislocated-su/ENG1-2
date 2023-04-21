@@ -3,7 +3,6 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -28,12 +27,7 @@ public class SubmitStationTests {
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(
-        overlay,
-        0,
-        new PlayerState(),
-        0
-    );
+    CustomerManager customerManager = new CustomerManager(overlay, 0, 0);
 
     // pizza, jacket, burger, pizza
 
@@ -73,7 +67,7 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
+        customerManager = new CustomerManager(overlay, 0, 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
@@ -105,7 +99,7 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0, new PlayerState(), 0);
+        customerManager = new CustomerManager(overlay, 0, 0);
         customerManager.init(textureManager);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
