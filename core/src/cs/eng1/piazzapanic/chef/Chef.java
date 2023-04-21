@@ -1,10 +1,5 @@
 package cs.eng1.piazzapanic.chef;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
@@ -133,7 +129,8 @@ public class Chef extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        Vector2 movement = getInput().scl(speed);
+        Vector2 movement = getInput()
+            .scl(speed * (PlayerState.getInstance().getBuffActive(0) ? 2 : 1));
         Vector2 bodyVector2 = body.getPosition();
 
         if (!movement.isZero(0.1f)) {

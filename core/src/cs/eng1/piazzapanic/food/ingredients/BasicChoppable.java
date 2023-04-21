@@ -1,6 +1,7 @@
 package cs.eng1.piazzapanic.food.ingredients;
 
 import com.badlogic.gdx.graphics.Texture;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Choppable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
@@ -17,9 +18,13 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     @Override
     public boolean choppingTick(float delta) {
-        accumulator += delta;
+        accumulator +=
+            (delta * ((PlayerState.getInstance().getBuffActive(1)) ? 2 : 1));
 
-        if (accumulator >= (chopTime + failTime)) {
+        if (
+            accumulator >= (chopTime + failTime) &&
+            !PlayerState.getInstance().getBuffActive(2)
+        ) {
             setUseable(false);
             return false;
         } else if (accumulator >= chopTime) {

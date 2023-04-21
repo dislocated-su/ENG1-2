@@ -73,6 +73,8 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
+        PlayerState.reset();
+
         chefManager =
             new ChefManager(
                 mapLoader.unitScale * 2.5f,
@@ -80,7 +82,7 @@ public class GameScreen implements Screen {
                 world,
                 kbInput
             );
-        customerManager = new CustomerManager(uiOverlay, totalCustomers, null);
+        customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
         mapLoader.createStations(
             "Stations",
@@ -129,6 +131,7 @@ public class GameScreen implements Screen {
         // Render stage
         stage.act(delta);
         uiStage.act(delta);
+        PlayerState.getInstance().act(delta);
         customerManager.act(delta);
         chefManager.act(delta);
 

@@ -58,7 +58,7 @@ public class SubmitStation extends Station {
                 if (!checkCorrectRecipe(topItem)) {
                     return;
                 }
-                customerManager.nextRecipe();
+                customerManager.nextRecipe(nearbyChef);
                 break;
             default:
                 break;
