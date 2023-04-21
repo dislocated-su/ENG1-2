@@ -77,7 +77,18 @@ public class Station extends Actor implements Observer<Chef> {
      * @param foodTexture the texture to be drawn onto the screen.
      */
     protected void drawFoodTexture(Batch batch, Texture foodTexture) {
-        batch.draw(foodTexture, getX() + .2f, getY() + .2f, .6f, .6f);
+        drawFoodTexture(batch, foodTexture, 1);
+    }
+
+    /**
+     * Take a food texture and render it on top of the station with a custom scaling.
+     *
+     * @param batch       the sprite batch to draw rectangles to the screen.
+     * @param foodTexture the texture to be drawn onto the screen.
+     * @param scale       how big the texture is to be drawn (relative to default size of .6f)
+     */
+    protected void drawFoodTexture(Batch batch, Texture foodTexture, float scale) {
+        batch.draw(foodTexture, getX() + (float)(.2f / Math.pow(scale, 2)), getY() + (float)(.2f / Math.pow(scale, 2)), .6f * scale, .6f * scale);
     }
 
     /**
