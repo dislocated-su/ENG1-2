@@ -130,9 +130,7 @@ public class AssetTests {
     public void burgerAssetTest() {
         assertTrue(
             "Passes if food/buff_chef/burger.png exists",
-            Gdx.files
-                .internal("food/buff_chef/burger.png")
-                .exists()
+            Gdx.files.internal("food/buff_chef/burger.png").exists()
         );
     }
 

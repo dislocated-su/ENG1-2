@@ -50,9 +50,7 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "cheese",
-                new Texture(
-                    Gdx.files.internal("food/buff_chef/cheese.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/cheese.png"))
             );
         this.foodTextures.put(
                 "dough",
@@ -60,21 +58,17 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "potato", // Change to potato raw, check first
-                new Texture(
-                    Gdx.files.internal("food/buff_chef/potato.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/potato.png"))
             );
         this.foodTextures.put(
                 "uncooked_pizza",
-                new Texture(Gdx.files.internal("food/buff_chef/formed_pizza.png"))
+                new Texture(
+                    Gdx.files.internal("food/buff_chef/formed_pizza.png")
+                )
             );
         this.foodTextures.put(
                 "burger",
-                new Texture(
-                    Gdx.files.internal(
-                        "food/buff_chef/burger.png"
-                    )
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/burger.png"))
             );
         this.foodTextures.put(
                 "salad",
@@ -82,7 +76,9 @@ public class FoodTextureManager implements Disposable {
             );
         this.foodTextures.put(
                 "pizza",
-                new Texture(Gdx.files.internal("food/buff_chef/cooked_pizza.png"))
+                new Texture(
+                    Gdx.files.internal("food/buff_chef/cooked_pizza.png")
+                )
             );
         this.foodTextures.put(
                 "jacket_potato",

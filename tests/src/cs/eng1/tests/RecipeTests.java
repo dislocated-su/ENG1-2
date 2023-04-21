@@ -37,10 +37,7 @@ public class RecipeTests {
             "food/buff_chef/burger.png",
             burger.getTexture().toString()
         );
-        assertEquals(
-            "food/buff_chef/salad.png",
-            salad.getTexture().toString()
-        );
+        assertEquals("food/buff_chef/salad.png", salad.getTexture().toString());
         assertEquals(
             "food/buff_chef/jacket_potato.png",
             potato.getTexture().toString()
