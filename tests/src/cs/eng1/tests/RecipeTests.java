@@ -30,19 +30,19 @@ public class RecipeTests {
     @Test
     public void getTextureTests() {
         assertEquals(
-            "food/glitch/misc/pizza_01.png",
+            "food/buff_chef/cooked_pizza.png",
             pizza.getTexture().toString()
         );
         assertEquals(
-            "food/glitch/misc/sandwich_burger_04.png",
+            "food/buff_chef/burger.png",
             burger.getTexture().toString()
         );
         assertEquals(
-            "food/glitch/misc/salad.png",
+            "food/buff_chef/salad.png",
             salad.getTexture().toString()
         );
         assertEquals(
-            "food/glitch/misc/ice_cube.png",
+            "food/buff_chef/jacket_potato.png",
             potato.getTexture().toString()
         );
     }
