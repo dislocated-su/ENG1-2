@@ -90,43 +90,41 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-            image,
-            getX() + (1 - imageBounds.x) / 2f,
-            getY() + (1 - imageBounds.y) / 2f,
-            imageBounds.x / 2f,
-            imageBounds.y / 2f,
-            imageBounds.x,
-            imageBounds.y,
-            1f,
-            1f,
-            imageRotation,
-            0,
-            0,
-            image.getWidth(),
-            image.getHeight(),
-            false,
-            false
-        );
-        for (Holdable item : ingredientStack) {
-            Texture texture = item.getTexture();
-            batch.draw(
-                texture,
-                getX() + 0.5f,
-                getY() + 0.2f,
-                0f,
-                0.3f,
-                0.6f,
-                0.6f,
+                image,
+                getX() + (1 - imageBounds.x) / 2f,
+                getY() + (1 - imageBounds.y) / 2f,
+                imageBounds.x / 2f,
+                imageBounds.y / 2f,
+                imageBounds.x,
+                imageBounds.y,
                 1f,
                 1f,
                 imageRotation,
                 0,
                 0,
-                texture.getWidth(),
-                texture.getHeight(),
+                image.getWidth(),
+                image.getHeight(),
                 false,
-                false
-            );
+                false);
+        for (Holdable item : ingredientStack) {
+            Texture texture = item.getTexture();
+            batch.draw(
+                    texture,
+                    getX() + 0.5f,
+                    getY() + 0.2f,
+                    0f,
+                    0.3f,
+                    0.6f,
+                    0.6f,
+                    1f,
+                    1f,
+                    imageRotation,
+                    0,
+                    0,
+                    texture.getWidth(),
+                    texture.getHeight(),
+                    false,
+                    false);
         }
     }
 
@@ -198,14 +196,11 @@ public class Chef extends Actor implements Disposable {
      *
      * @return the ingredient that was popped from the stack.
      */
-    public Ingredient popIngredient() {
-        Holdable item = ingredientStack.peek();
-        if (item instanceof Ingredient) {
-            ingredientStack.pop();
-            notifyAboutUpdatedStack();
-            return (Ingredient) item;
-        }
-        return null;
+    public Holdable popFood() {
+        Holdable item = ingredientStack.pop();
+        notifyAboutUpdatedStack();
+        return item;
+
     }
 
     public Recipe placeRecipe() {
