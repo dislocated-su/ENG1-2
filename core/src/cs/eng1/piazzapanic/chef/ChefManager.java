@@ -33,8 +33,8 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
     };
-    final float[] chefX = new float[] { 5f, 10f };
-    final float[] chefY = new float[] { 3f, 3f };
+    private final float[] chefX = new float[] { 5f, 10f };
+    private final float[] chefY = new float[] { 3f, 3f };
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an
@@ -72,13 +72,22 @@ public class ChefManager implements Disposable {
             chef.setBounds(
                 chefX[i],
                 chefY[i],
-                chefTexture.getHeight() * chefScale,
+                chefTexture.getWidth() * chefScale,
                 chefTexture.getHeight() * chefScale
             );
             chef.setInputEnabled(false);
             chefs.add(chef);
         }
     }
+
+    public float[] getChefX() {
+        return chefX;
+    }
+
+    public float[] getChefY() {
+        return chefY;
+    }
+
 
     /**
      * Reset each chef to their original position when you load
@@ -141,7 +150,7 @@ public class ChefManager implements Disposable {
             currentChef = chef;
             currentChef.setInputEnabled(true);
         }
-        overlay.updateChefUI(currentChef);
+        currentChefStackUpdated();
     }
 
     public Chef getCurrentChef() {

@@ -21,13 +21,25 @@ public class ChefManagerTests {
 
     @Test
     public void initialiseTests() {
+        chefManager.init();
         assertFalse(
             "There should be at least 2 chefs.", 
             chefManager.getChefs().size() < 2);
         for (int i = 0; i < chefManager.getChefs().size(); i++){
-            assertNotEquals("The texture for each chef should exist", 
+            assertNotEquals("The texture for each chef should exist.", 
             "badlogic.jpg", 
             chefManager.getChefs().get(i).getTexture().toString());
+            assertEquals(
+                "ChefManager init should set the X of each chef to initial values.", 
+                chefManager.getChefs().get(i).getX(), 
+                chefManager.getChefX()[i], 0.1);
+            assertEquals(
+                "ChefManager init should set the Y of each chef to initial values.", 
+                chefManager.getChefs().get(i).getY(), 
+                chefManager.getChefY()[i], 0.1);
+            assertFalse(
+                "Input should not be allowed at the start of a game instance.", 
+                chefManager.getChefs().get(i).isInputEnabled());
         }
 
     }
