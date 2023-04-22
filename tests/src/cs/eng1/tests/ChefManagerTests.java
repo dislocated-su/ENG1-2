@@ -20,7 +20,19 @@ public class ChefManagerTests {
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
 
     @Test
-    public void actTest() {
+    public void initialiseTests() {
+        assertFalse(
+            "There should be at least 2 chefs.", 
+            chefManager.getChefs().size() < 2);
+        for (int i = 0; i < chefManager.getChefs().size(); i++){
+            assertNotEquals("The texture for each chef should exist", 
+            "badlogic.jpg", 
+            chefManager.getChefs().get(i).getTexture().toString());
+        }
+
+    }
+    @Test
+    public void actTests() {
         kbInput.keyDown(Keys.E);
         chefManager.act(1);
         int chefIndex = chefManager.getChefs().indexOf(chefManager.getCurrentChef());

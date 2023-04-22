@@ -96,8 +96,7 @@ public class ChefManager implements Disposable {
     public void act(float delta) {
         if (keyboardInput.changeCooks) {
             keyboardInput.changeCooks = false;
-            int chefIndex = chefs.indexOf(currentChef);
-            chefIndex++;
+            int chefIndex = chefs.indexOf(currentChef) + 1;
             if (chefIndex >= chefs.size()) {
                 chefIndex = 0;
             }
