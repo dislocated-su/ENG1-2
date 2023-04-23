@@ -88,7 +88,6 @@ public class ChefManager implements Disposable {
         return chefY;
     }
 
-
     /**
      * Reset each chef to their original position when you load
      */
