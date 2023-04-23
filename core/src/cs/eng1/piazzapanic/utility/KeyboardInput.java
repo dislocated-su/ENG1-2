@@ -17,7 +17,6 @@ public class KeyboardInput implements InputProcessor {
         up = false;
         down = false;
         changeCooks = false;
-        disableHud = false;
     }
 
     @Override
@@ -43,8 +42,6 @@ public class KeyboardInput implements InputProcessor {
             case Keys.E:
                 changeCooks = true;
                 break;
-            case Keys.H:
-                disableHud = true;
             default:
                 processed = false;
         }
@@ -73,8 +70,7 @@ public class KeyboardInput implements InputProcessor {
                 break;
             case Keys.E:
                 changeCooks = false;
-            case Keys.H:
-                disableHud = false;
+                break;
             default:
                 processed = false;
         }
