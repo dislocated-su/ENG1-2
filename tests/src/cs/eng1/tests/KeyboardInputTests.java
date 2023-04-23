@@ -22,8 +22,8 @@ public class KeyboardInputTests {
 
     @Test
     public void variablesTest() {
-        assertNotNull(
-            "All keys for movement and chef switching should exist.",
+        assertFalse(
+            "All keys for movement and chef switching should start as false.",
             kbInput.left &&
             kbInput.right &&
             kbInput.up &&
