@@ -9,12 +9,6 @@ public class KeyboardInput implements InputProcessor {
 
     public boolean changeCooks;
 
-    public boolean putDown;
-
-    public boolean pickUp;
-
-    public boolean interact;
-
     public boolean disableHud;
 
     public void clearInputs() {
@@ -23,9 +17,6 @@ public class KeyboardInput implements InputProcessor {
         up = false;
         down = false;
         changeCooks = false;
-        putDown = false;
-        pickUp = false;
-        interact = false;
         disableHud = false;
     }
 
@@ -49,17 +40,8 @@ public class KeyboardInput implements InputProcessor {
             case Keys.S:
                 down = true;
                 break;
-            case Keys.F:
-                putDown = true;
-                break;
             case Keys.E:
                 changeCooks = true;
-                break;
-            case Keys.R:
-                pickUp = true;
-                break;
-            case Keys.Q:
-                interact = true;
                 break;
             case Keys.H:
                 disableHud = true;
@@ -91,15 +73,6 @@ public class KeyboardInput implements InputProcessor {
                 break;
             case Keys.E:
                 changeCooks = false;
-            case Keys.F:
-                putDown = false;
-                break;
-            case Keys.R:
-                pickUp = false;
-                break;
-            case Keys.Q:
-                interact = false;
-                break;
             case Keys.H:
                 disableHud = false;
             default:
