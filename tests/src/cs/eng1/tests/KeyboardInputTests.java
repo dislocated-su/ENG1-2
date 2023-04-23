@@ -67,7 +67,7 @@ public class KeyboardInputTests {
     @Test
     public void absentFunctionTest() {
         assertFalse(
-            "None of these functions should be used",
+            "None of these functions should return true.",
             kbInput.keyTyped('a') &&
             kbInput.touchDown(0, 0, 0, 0) &&
             kbInput.touchUp(0, 0, 0, 0) &&
