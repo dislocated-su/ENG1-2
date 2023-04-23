@@ -31,8 +31,8 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
     };
-    final float[] chefX = new float[] { 5f, 10f };
-    final float[] chefY = new float[] { 3f, 3f };
+    private final float[] chefX = new float[] { 5f, 10f };
+    private final float[] chefY = new float[] { 3f, 3f };
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an
@@ -70,12 +70,20 @@ public class ChefManager implements Disposable {
             chef.setBounds(
                 chefX[i],
                 chefY[i],
-                chefTexture.getHeight() * chefScale,
+                chefTexture.getWidth() * chefScale,
                 chefTexture.getHeight() * chefScale
             );
             chef.setInputEnabled(false);
             chefs.add(chef);
         }
+    }
+
+    public float[] getChefX() {
+        return chefX;
+    }
+
+    public float[] getChefY() {
+        return chefY;
     }
 
     /**
@@ -94,8 +102,7 @@ public class ChefManager implements Disposable {
     public void act(float delta) {
         if (keyboardInput.changeCooks) {
             keyboardInput.changeCooks = false;
-            int chefIndex = chefs.indexOf(currentChef);
-            chefIndex++;
+            int chefIndex = chefs.indexOf(currentChef) + 1;
             if (chefIndex >= chefs.size()) {
                 chefIndex = 0;
             }
@@ -133,10 +140,6 @@ public class ChefManager implements Disposable {
      * @param chef the chef to be controlled by the user
      */
     public void setCurrentChef(Chef chef) {
-        if (chef == null && currentChef != null) {
-            currentChef.setInputEnabled(false);
-            currentChef = null;
-        }
         if (currentChef != chef) {
             if (currentChef != null) {
                 currentChef.setInputEnabled(false);
@@ -144,7 +147,7 @@ public class ChefManager implements Disposable {
             currentChef = chef;
             currentChef.setInputEnabled(true);
         }
-        overlay.updateChefUI(currentChef);
+        currentChefStackUpdated();
     }
 
     public Chef getCurrentChef() {
