@@ -18,12 +18,17 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
+
     UIOverlay overlay = mock(UIOverlay.class);
     CustomerManager customerManager = new CustomerManager(overlay, 5, 0);
     FoodTextureManager textureManager = new FoodTextureManager();
+
     @Test
     public void initTests() {
         customerManager.init(textureManager);
-        assertEquals(new Pizza(textureManager).getTexture(), customerManager.getFirstOrder().getTexture());
+        assertEquals(
+            new Pizza(textureManager).getTexture(),
+            customerManager.getFirstOrder().getTexture()
+        );
     }
 }
