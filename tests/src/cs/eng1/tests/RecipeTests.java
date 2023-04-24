@@ -1,11 +1,11 @@
 package cs.eng1.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(GdxTestRunner.class)
 public class RecipeTests {
