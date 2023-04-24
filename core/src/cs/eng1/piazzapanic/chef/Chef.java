@@ -237,6 +237,10 @@ public class Chef extends Actor implements Disposable {
         return image;
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     /**
      * Whenever the stack has items added or removed from it, notify the chef
      * manager about the new
