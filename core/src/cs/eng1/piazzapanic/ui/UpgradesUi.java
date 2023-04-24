@@ -25,6 +25,8 @@ public class UpgradesUi {
     private int timerForPowerUp1, timerForPowerUp2, timerForPowerUp3,
             timerForPowerUp4, timerForPowerUp5;
 
+    private Label titleLabel;
+
     private Label LabelForAllTimers, timerLabelPowerUp1, timerLabelPowerUp2,
             timerLabelPowerUp3, timerLabelPowerUp4,
             timerLabelPowerUp5;
@@ -36,6 +38,8 @@ public class UpgradesUi {
     private Label labelForAllCosts, costLabelPowerUp1, costLabelPowerUp2,
             costLabelPowerUp3, costLabelPowerUp4,
             costLabelPowerUp5;
+
+    TextButton powerup1, powerup2, powerup3, powerup4, powerup5;
 
     public UpgradesUi(PiazzaPanicGame game) {
 
@@ -57,18 +61,7 @@ public class UpgradesUi {
         hudLabelStyle = new Label.LabelStyle();
         hudLabelStyle.font = fontManager.getLabelFont();
 
-        // return button basicall just hides the whole table
-        TextButton returnButton = game
-                .getButtonManager()
-                .createTextButton("return", ButtonManager.ButtonColour.BLUE);
-        returnButton.sizeBy(1f);
-
-        returnButton.addListener(
-                new ClickListener() {
-                    public void clicked(InputEvent event, float x, float y) {
-                        visible(false);
-                    }
-                });
+        titleLabel = new Label("Upgrades Shop", hudLabelStyle);
 
         timerForPowerUp1 = 20; // proof of concept
         costForPowerUp1 = 12;
@@ -142,6 +135,22 @@ public class UpgradesUi {
                     }
                 });
 
+        Value scale2 = Value.percentWidth(0.25f, table);
+        Value scale = Value.percentWidth(0.05f, table);
+        table.add(titleLabel).colspan(3);
+        table.row();
+        table.add(powerup1).width(scale2).height(scale).pad(5);
+        table.add(timerLabelPowerUp1).width(scale).height(scale);
+        table.add(costLabelPowerUp1).width(scale).height(scale);
+        table.row();
+        table.add(powerup2).width(scale2).height(scale).pad(5);
+        table.row();
+        table.add(powerup3).width(scale2).height(scale).pad(5);
+        table.row();
+        table.add(powerup4).width(scale2).height(scale).pad(5);
+        table.row();
+        table.add(powerup5).width(scale2).height(scale).pad(5);
+
         Pixmap bgPixmap = new Pixmap(100, 100, Pixmap.Format.RGB565);
         bgPixmap.setColor(1, 1, 0, 0.2f);
         bgPixmap.setBlending(Blending.SourceOver);
@@ -149,20 +158,6 @@ public class UpgradesUi {
 
         TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
-
-        Value scale2 = Value.percentWidth(0.12f, table);
-        Value scale = Value.percentWidth(0.03f, table);
-        Value scaleSmall = Value.percentWidth(0.02f, table);
-        table.add(timerLabelPowerUp1).colspan(6).width(scale).height(scaleSmall);
-        table.row();
-        table.add(costLabelPowerUp1).colspan(6).width(scale).height(scaleSmall);
-        table.row();
-        table.add(returnButton).width(scale2).height(scale);
-        table.add(powerup1).width(scale2).height(scale).pad(1);
-        table.add(powerup2).width(scale2).height(scale).pad(1);
-        table.add(powerup3).width(scale2).height(scale).pad(1);
-        table.add(powerup4).width(scale2).height(scale).pad(1);
-        table.add(powerup5).width(scale2).height(scale).pad(1);
 
     }
 

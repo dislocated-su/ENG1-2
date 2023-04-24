@@ -39,6 +39,7 @@ public class UIOverlay {
     private final Label resultLabel;
     private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
+    int counter = 0;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
@@ -141,14 +142,28 @@ public class UIOverlay {
         resultTimer.setVisible(false);
 
         // Initialize button for Upgrade implementation
+        String message = "";
+        if (counter == 0){ // counter to change button text
+            message = "Upgrades";
+        }
+        else {
+            message = "Return";
+        }
         TextButton upgrades = game.getButtonManager()
-                .createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
+        .createTextButton(message, ButtonManager.ButtonColour.BLUE);
         upgrades.sizeBy(1f);
         upgrades.addListener(
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        upgradesUi.visible(true);
+                        if (counter == 0){ // counter to check whether to hid or unhide the upgrades panel
+                            upgradesUi.visible(true);
+                            counter += 1;
+                        }
+                        else {
+                            upgradesUi.visible(false);  
+                            counter -= 1;
+                        }  
                     }
                 });
 
