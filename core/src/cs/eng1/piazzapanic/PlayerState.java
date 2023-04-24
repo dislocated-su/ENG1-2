@@ -13,18 +13,17 @@ public class PlayerState {
     private int difficultyLevel;
 
     private Timer[] powerUpTimers = {
-            new Timer(10000, true, false), // doubleChefSpeed
-            new Timer(60000, false, false), // doublePrepSpeed
-            new Timer(60000, false, false), // noFailPrep
-            new Timer(60000, false, false), // noRepLoss
-            new Timer(60000, false, false), // moreMoney
+        new Timer(10000, true, false), // doubleChefSpeed
+        new Timer(60000, false, false), // doublePrepSpeed
+        new Timer(60000, false, false), // noFailPrep
+        new Timer(60000, false, false), // noRepLoss
+        new Timer(60000, false, false), // moreMoney
     };
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     /**
-     * 
+     *
      * @return
      */
     public static PlayerState getInstance() {
@@ -35,14 +34,14 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      */
     public static void reset() {
         instance = null;
     }
 
     /**
-     * 
+     *
      * @return
      */
     public float getCash() {
@@ -50,7 +49,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param customerHappy
      * @return
      */
@@ -66,7 +65,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param baseAmount
      * @param customerHappy
      */
@@ -75,7 +74,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param amount
      * @return
      */
@@ -90,7 +89,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param delta
      */
     public void act(float delta) {
@@ -107,7 +106,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param index
      * @return
      */
@@ -116,7 +115,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param index
      */
     public void activateBuff(int index) {
@@ -130,5 +129,4 @@ public class PlayerState {
     public void setDifficulty(int value) {
         difficultyLevel = value;
     }
-
 }
