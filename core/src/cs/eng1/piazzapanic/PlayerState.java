@@ -11,7 +11,7 @@ public class PlayerState {
     public float cash = 0;
 
     private Timer[] powerUpTimers = {
-        new Timer(10000, true, false), // doubleChefSpeed
+        new Timer(10000, false, false), // doubleChefSpeed
         new Timer(60000, false, false), // doublePrepSpeed
         new Timer(60000, false, false), // noFailPrep
         new Timer(60000, false, false), // noRepLoss
