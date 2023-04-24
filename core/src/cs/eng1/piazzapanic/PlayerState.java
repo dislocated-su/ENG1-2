@@ -8,16 +8,25 @@ public class PlayerState {
 
     private static PlayerState instance = null;
 
-    public float cash = 0;
+    private float cash = 0;
+
+    private int difficultyLevel;
 
     private Timer[] powerUpTimers = {
-        new Timer(10000, true, false), // doubleChefSpeed
-        new Timer(60000, false, false), // doublePrepSpeed
-        new Timer(60000, false, false), // noFailPrep
-        new Timer(60000, false, false), // noRepLoss
-        new Timer(60000, false, false), // moreMoney
+            new Timer(10000, true, false), // doubleChefSpeed
+            new Timer(60000, false, false), // doublePrepSpeed
+            new Timer(60000, false, false), // noFailPrep
+            new Timer(60000, false, false), // noRepLoss
+            new Timer(60000, false, false), // moreMoney
     };
 
+    private PlayerState() {
+    }
+
+    /**
+     * 
+     * @return
+     */
     public static PlayerState getInstance() {
         if (instance == null) {
             instance = new PlayerState();
@@ -25,22 +34,26 @@ public class PlayerState {
         return instance;
     }
 
-    private PlayerState() {}
+    /**
+     * 
+     */
+    public static void reset() {
+        instance = null;
+    }
 
+    /**
+     * 
+     * @return
+     */
     public float getCash() {
         return cash;
     }
 
-    // enum for power up types if needed, would require implementing valued enum
-    // though
-    public enum PowerUp {
-        DOUBLE_CHEF_SPEED,
-        DOUBLE_PREP_SPEED,
-        NO_FAIL_PREP,
-        NO_REP_LOSS,
-        MORE_MONEY,
-    }
-
+    /**
+     * 
+     * @param customerHappy
+     * @return
+     */
     private double totalMultiplier(boolean customerHappy) {
         double totalMultiplier = 1;
         if (customerHappy) {
@@ -52,10 +65,20 @@ public class PlayerState {
         return totalMultiplier;
     }
 
+    /**
+     * 
+     * @param baseAmount
+     * @param customerHappy
+     */
     public void earnCash(float baseAmount, boolean customerHappy) {
         getInstance().cash += baseAmount * totalMultiplier(customerHappy);
     }
 
+    /**
+     * 
+     * @param amount
+     * @return
+     */
     public boolean spendCash(double amount) {
         if (cash < amount) {
             return false;
@@ -66,6 +89,10 @@ public class PlayerState {
         return true;
     }
 
+    /**
+     * 
+     * @param delta
+     */
     public void act(float delta) {
         for (Timer timer : powerUpTimers) {
             // first check if a timer is running, then check if timer is complete for
@@ -79,21 +106,29 @@ public class PlayerState {
         }
     }
 
+    /**
+     * 
+     * @param index
+     * @return
+     */
     public boolean getBuffActive(int index) {
         return powerUpTimers[index].getRunning();
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void activateBuff(int index) {
         powerUpTimers[index].start();
     }
 
-    public static void reset() {
-        instance = null;
-        // for (Timer timer : powerUpTimers)
-        // {
-        // timer.stop();
-        // timer.reset();
-        // }
-        // cash = 0;
+    public int getDifficulty() {
+        return difficultyLevel;
     }
+
+    public void setDifficulty(int value) {
+        difficultyLevel = value;
+    }
+
 }

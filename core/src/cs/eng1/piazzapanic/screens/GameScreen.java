@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     private final World world;
     private KeyboardInput kbInput;
 
-    public GameScreen(final PiazzaPanicGame game, int totalCustomers) {
+    public GameScreen(final PiazzaPanicGame game, int totalCustomers, int difficulty) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -55,10 +55,9 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x,
-            mapLoader.mapSize.y,
-            camera
-        ); // Number of tiles
+                mapLoader.mapSize.x,
+                mapLoader.mapSize.y,
+                camera); // Number of tiles
         this.stage = new Stage(viewport);
 
         kbInput = new KeyboardInput();
@@ -74,25 +73,23 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         PlayerState.reset();
+        PlayerState.getInstance().setDifficulty(difficulty);
 
-        chefManager =
-            new ChefManager(
+        chefManager = new ChefManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                kbInput
-            );
+                kbInput);
         customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            foodTextureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                foodTextureManager,
+                customerManager);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
         chefManager.addChefsToStage(stage);
@@ -153,13 +150,16 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

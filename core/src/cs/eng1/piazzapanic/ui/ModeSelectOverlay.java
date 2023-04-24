@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -26,58 +27,60 @@ public class ModeSelectOverlay {
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
 
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(new Texture(bgPixmap));
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
         final TextField scenarioNumber = game
-            .getButtonManager()
-            .createTextField("");
+                .getButtonManager()
+                .createTextField("");
+
+        final SelectBox<String> difficultySelection = game
+                .getButtonManager()
+                .createSelectBox(new String[] { "Easy", "Medium", "Hard" });
 
         TextButton backButton = game
-            .getButtonManager()
-            .createTextButton("Back", ButtonManager.ButtonColour.GREY);
+                .getButtonManager()
+                .createTextButton("Back", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    hide();
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        hide();
+                    }
+                });
 
         final TextButton scenarioCheckbox = game
-            .getButtonManager()
-            .createTextButton("Scenario Mode", ButtonColour.BLUE);
+                .getButtonManager()
+                .createTextButton("Scenario Mode", ButtonColour.BLUE);
         scenarioCheckbox.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    String text = scenarioNumber.getText();
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        String text = scenarioNumber.getText();
 
-                    if (text.matches("[1-9]{1,}")) {
-                        game.loadGameScreen(Integer.parseInt(text));
-                    } else {}
-                }
-            }
-        );
+                        if (text.matches("[1-9]{1,}")) {
+                            game.loadGameScreen(Integer.parseInt(text), difficultySelection.getSelectedIndex());
+                        }
+                    }
+                });
 
         final TextButton endlessCheckbox = game
-            .getButtonManager()
-            .createTextButton("Endless Mode", ButtonColour.BLUE);
+                .getButtonManager()
+                .createTextButton("Endless Mode", ButtonColour.BLUE);
         endlessCheckbox.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    game.loadGameScreen(0);
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        game.loadGameScreen(0, difficultySelection.getSelectedIndex());
+                    }
+                });
 
         table.add(scenarioCheckbox);
         table.add(scenarioNumber);
         table.row();
         table.add(endlessCheckbox);
+        table.row();
+        table.add(difficultySelection);
         table.row();
         table.add(backButton).padTop(20f);
     }
