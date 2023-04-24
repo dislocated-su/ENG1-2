@@ -15,80 +15,80 @@ public class FoodTextureManager implements Disposable {
         this.foodTextures.put(
                 "patty_grilled",
                 new Texture(
-                    Gdx.files.internal("food/original/cooked_patty.png")
+                    Gdx.files.internal("food/buff_chef/grilled_patty.png")
                 )
             );
         this.foodTextures.put(
                 "patty_raw",
                 new Texture(
-                    Gdx.files.internal("food/original/uncooked_patty.png")
+                    Gdx.files.internal("food/buff_chef/formed_patty.png")
                 )
             );
         this.foodTextures.put(
                 "lettuce_raw",
-                new Texture(
-                    Gdx.files.internal("food/glitch/vegetable/lettuce.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/lettuce.png"))
             );
         this.foodTextures.put(
                 "lettuce_chopped",
                 new Texture(
-                    Gdx.files.internal("food/original/lettuce_chopped.png")
+                    Gdx.files.internal("food/buff_chef/sliced_lettuce.png")
                 )
             );
         this.foodTextures.put(
                 "tomato_raw",
-                new Texture(Gdx.files.internal("food/glitch/fruit/tomato.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/tomato.png"))
             );
         this.foodTextures.put(
                 "tomato_chopped",
                 new Texture(
-                    Gdx.files.internal("food/original/tomato_chopped.png")
+                    Gdx.files.internal("food/buff_chef/sliced_tomato.png")
                 )
             );
         this.foodTextures.put(
                 "bun",
-                new Texture(Gdx.files.internal("food/glitch/misc/bun.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/buns.png"))
             );
         this.foodTextures.put(
                 "cheese",
-                new Texture(
-                    Gdx.files.internal("food/glitch/dairy/cheese_01.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/cheese.png"))
             );
         this.foodTextures.put(
                 "dough",
-                new Texture(Gdx.files.internal("food/glitch/grain/corn.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/dough.png"))
             );
         this.foodTextures.put(
                 "potato", // Change to potato raw, check first
-                new Texture(
-                    Gdx.files.internal("food/glitch/vegetable/potato.png")
-                )
+                new Texture(Gdx.files.internal("food/buff_chef/potato.png"))
             );
         this.foodTextures.put(
                 "uncooked_pizza",
-                new Texture(Gdx.files.internal("food/glitch/misc/pizza_02.png"))
-            );
-        this.foodTextures.put(
-                "burger",
                 new Texture(
-                    Gdx.files.internal(
-                        "food/glitch/misc/sandwich_burger_04.png"
-                    )
+                    Gdx.files.internal("food/buff_chef/formed_pizza.png")
                 )
             );
         this.foodTextures.put(
+                "burger",
+                new Texture(Gdx.files.internal("food/buff_chef/burger.png"))
+            );
+        this.foodTextures.put(
                 "salad",
-                new Texture(Gdx.files.internal("food/glitch/misc/salad.png"))
+                new Texture(Gdx.files.internal("food/buff_chef/salad.png"))
             );
         this.foodTextures.put(
                 "pizza",
-                new Texture(Gdx.files.internal("food/glitch/misc/pizza_01.png"))
+                new Texture(
+                    Gdx.files.internal("food/buff_chef/cooked_pizza.png")
+                )
             );
         this.foodTextures.put(
                 "jacket_potato",
-                new Texture(Gdx.files.internal("food/glitch/misc/ice_cube.png"))
+                new Texture(
+                    Gdx.files.internal("food/buff_chef/jacket_potato.png")
+                )
+            );
+        this.foodTextures.put(
+                "cheese_sliced",
+                new Texture("food/buff_chef/grated_cheese.png")
             );
 
         notFoundImage = new Texture(Gdx.files.internal("badlogic.jpg"));

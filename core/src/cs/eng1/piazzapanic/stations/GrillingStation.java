@@ -159,8 +159,7 @@ public class GrillingStation extends Station {
                     if (
                         this.isCorrectIngredient(nearbyChef.getStack().peek())
                     ) {
-                        currentIngredient =
-                            (Grillable) nearbyChef.popIngredient();
+                        currentIngredient = (Grillable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());

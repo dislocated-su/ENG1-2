@@ -157,8 +157,7 @@ public class ChoppingStation extends Station {
                     if (
                         (this.isCorrectIngredient(nearbyChef.getStack().peek()))
                     ) {
-                        currentIngredient =
-                            (Choppable) nearbyChef.popIngredient();
+                        currentIngredient = (Choppable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());

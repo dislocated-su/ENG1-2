@@ -26,121 +26,119 @@ public class AssetTests {
         // Checks if "cooked_patty.png" exists
         assertTrue(
             "Passes if cooked_patty.png exists",
-            Gdx.files.internal("food/original/cooked_patty.png").exists()
+            Gdx.files.internal("food/buff_chef/grilled_patty.png").exists()
         );
     }
 
     @Test
     public void uncookedPattyAssetTest() {
         assertTrue(
-            "Passes if food/original/uncooked_patty.png exists",
-            Gdx.files.internal("food/original/uncooked_patty.png").exists()
+            "Passes if food/buff_chef/formed_patty.png exists",
+            Gdx.files.internal("food/buff_chef/formed_patty.png").exists()
         );
     }
 
     @Test
     public void lettuceAssetTest() {
         assertTrue(
-            "Passes if food/glitch/vegetable/lettuce.png exists",
-            Gdx.files.internal("food/glitch/vegetable/lettuce.png").exists()
+            "Passes if food/buff_chef/lettuce.png exists",
+            Gdx.files.internal("food/buff_chef/lettuce.png").exists()
         );
     }
 
     @Test
     public void lettuceChoppedAssetTest() {
         assertTrue(
-            "Passes if food/original/lettuce_chopped.png exists",
-            Gdx.files.internal("food/original/lettuce_chopped.png").exists()
+            "Passes if food/buff_chef/sliced_lettuce.png exists",
+            Gdx.files.internal("food/buff_chef/sliced_lettuce.png").exists()
         );
     }
 
     @Test
     public void tomatoAssetTest() {
         assertTrue(
-            "Passes if food/glitch/fruit/tomato.png exists",
-            Gdx.files.internal("food/glitch/fruit/tomato.png").exists()
+            "Passes if food/buff_chef/tomato.png",
+            Gdx.files.internal("food/buff_chef/tomato.png").exists()
         );
     }
 
     @Test
     public void tomatoChoppedAssetTest() {
         assertTrue(
-            "Passes if food/original/tomato_chopped.png exists",
-            Gdx.files.internal("food/original/tomato_chopped.png").exists()
+            "Passes if food/buff_chef/sliced_tomato.png exists",
+            Gdx.files.internal("food/buff_chef/sliced_tomato.png").exists()
         );
     }
 
     @Test
     public void cheeseAssetTest() {
         assertTrue(
-            "Passes if food/glitch/dairy/cheese_01.png exists",
-            Gdx.files.internal("food/glitch/dairy/cheese_01.png").exists()
+            "Passes if food/buff_chef/cheese.png exists",
+            Gdx.files.internal("food/buff_chef/cheese.png").exists()
         );
     }
 
     @Test
     public void doughAssetTest() {
         assertTrue(
-            "Passes if food/glitch/grain/corn.png exists",
-            Gdx.files.internal("food/glitch/grain/corn.png").exists()
+            "Passes if food/buff_chef/dough.png exists",
+            Gdx.files.internal("food/buff_chef/dough.png").exists()
         );
     }
 
     @Test
     public void potatoAssetTest() {
         assertTrue(
-            "Passes if food/glitch/vegetable/potato.png exists",
-            Gdx.files.internal("food/glitch/vegetable/potato.png").exists()
+            "Passes if food/buff_chef/potato.png exists",
+            Gdx.files.internal("food/buff_chef/potato.png").exists()
         );
     }
 
     @Test
     public void uncookedPizzaAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/pizza_02.png exists",
-            Gdx.files.internal("food/glitch/misc/pizza_02.png").exists()
+            "Passes if food/buff_chef/formed_pizza.png exists",
+            Gdx.files.internal("food/buff_chef/formed_pizza.png").exists()
         );
     }
 
     @Test
     public void pizzaAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/pizza_01.png exists",
-            Gdx.files.internal("food/glitch/misc/pizza_01.png").exists()
+            "Passes if food/buff_chef/cooked_pizza.png exists",
+            Gdx.files.internal("food/buff_chef/cooked_pizza.png").exists()
         );
     }
 
     @Test
     public void jacketPotatoAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/ice_cube.png exists",
-            Gdx.files.internal("food/glitch/misc/ice_cube.png").exists()
+            "Passes if food/buff_chef/jacket_potato.png exists",
+            Gdx.files.internal("food/buff_chef/jacket_potato.png").exists()
         );
     }
 
     @Test
     public void bunAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/bun.png exists",
-            Gdx.files.internal("food/glitch/misc/bun.png").exists()
+            "Passes if food/buff_chef/buns.png exists",
+            Gdx.files.internal("food/buff_chef/buns.png").exists()
         );
     }
 
     @Test
     public void burgerAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/sandwich_burger_04.png exists",
-            Gdx.files
-                .internal("food/glitch/misc/sandwich_burger_04.png")
-                .exists()
+            "Passes if food/buff_chef/burger.png exists",
+            Gdx.files.internal("food/buff_chef/burger.png").exists()
         );
     }
 
     @Test
     public void saladAssetTest() {
         assertTrue(
-            "Passes if food/glitch/misc/salad.png exists",
-            Gdx.files.internal("food/glitch/misc/salad.png").exists()
+            "Passes if food/buff_chef/salad.png exists",
+            Gdx.files.internal("food/buff_chef/salad.png").exists()
         );
     }
 
@@ -174,7 +172,7 @@ public class AssetTests {
         if (texturedata instanceof FileTextureData) {
             assertEquals(
                 "The foodType should return the texture cooked_patty.png",
-                "food/original/cooked_patty.png",
+                "food/buff_chef/grilled_patty.png",
                 ((FileTextureData) texturedata).getFileHandle().path()
             );
         } else {
@@ -189,7 +187,7 @@ public class AssetTests {
         );
         assertEquals(
             "The foodType should return the texture uncooked_patty.png",
-            "food/original/uncooked_patty.png",
+            "food/buff_chef/formed_patty.png",
             uncookedpattyTexture.getTextureData().toString()
         );
     }
@@ -199,7 +197,7 @@ public class AssetTests {
         Texture lettuceTexture = foodTextureManager.getTexture("lettuce_raw");
         assertEquals(
             "The foodType should return the texture lettuce.png",
-            "food/glitch/vegetable/lettuce.png",
+            "food/buff_chef/lettuce.png",
             lettuceTexture.getTextureData().toString()
         );
     }
@@ -209,7 +207,7 @@ public class AssetTests {
         Texture tomatoRawTexture = foodTextureManager.getTexture("tomato_raw");
         assertEquals(
             "The foodType should return the texture tomato.png",
-            "food/glitch/fruit/tomato.png",
+            "food/buff_chef/tomato.png",
             tomatoRawTexture.getTextureData().toString()
         );
     }
@@ -221,7 +219,7 @@ public class AssetTests {
         );
         assertEquals(
             "The foodType should return the texture tomato_chopped.png ",
-            "food/original/tomato_chopped.png",
+            "food/buff_chef/sliced_tomato.png",
             tomatoChoppedTexture.getTextureData().toString()
         );
     }
@@ -230,8 +228,8 @@ public class AssetTests {
     public void bunFetchTest() {
         Texture bunTexture = foodTextureManager.getTexture("bun");
         assertEquals(
-            "The foodType should return the texure bun.png",
-            "food/glitch/misc/bun.png",
+            "The foodType should return the texure buns.png",
+            "food/buff_chef/buns.png",
             bunTexture.getTextureData().toString()
         );
     }
@@ -240,8 +238,8 @@ public class AssetTests {
     public void sandwichBurgerFetchTest() {
         Texture burgerTexture = foodTextureManager.getTexture("burger");
         assertEquals(
-            "The foodType should return the texture sandwich_burger_04.png ",
-            "food/glitch/misc/sandwich_burger_04.png",
+            "The foodType should return the texture burger.png ",
+            "food/buff_chef/burger.png",
             burgerTexture.getTextureData().toString()
         );
     }
@@ -251,7 +249,7 @@ public class AssetTests {
         Texture saladTexture = foodTextureManager.getTexture("salad");
         assertEquals(
             "The foodType should return the texture salad.png",
-            "food/glitch/misc/salad.png",
+            "food/buff_chef/salad.png",
             saladTexture.getTextureData().toString()
         );
     }
@@ -260,8 +258,8 @@ public class AssetTests {
     public void pizzaFetchTest() {
         Texture pizzaTexture = foodTextureManager.getTexture("pizza");
         assertEquals(
-            "The foodType should return the texture pizza_01.png",
-            "food/glitch/misc/pizza_01.png",
+            "The foodType should return the texture cooked_pizza.png",
+            "food/buff_chef/cooked_pizza.png",
             pizzaTexture.getTextureData().toString()
         );
     }
@@ -272,8 +270,8 @@ public class AssetTests {
             "uncooked_pizza"
         );
         assertEquals(
-            "The foodType should return the texture pizza_02.png",
-            "food/glitch/misc/pizza_02.png",
+            "The foodType should return the texture fomed_pizza.png",
+            "food/buff_chef/formed_pizza.png",
             uncookedPizzaTexture.getTextureData().toString()
         );
     }
@@ -284,8 +282,8 @@ public class AssetTests {
             "jacket_potato"
         );
         assertEquals(
-            "The foodType should return the texture ice_cube.png", // CHANGE TO JACKET POTATO LATER
-            "food/glitch/misc/ice_cube.png",
+            "The foodType should return the texture jacket_potato.png",
+            "food/buff_chef/jacket_potato.png",
             jacketPotatoTexture.getTextureData().toString()
         );
     }
@@ -295,7 +293,7 @@ public class AssetTests {
         Texture potatoTexture = foodTextureManager.getTexture("potato");
         assertEquals(
             "The foodType should return the texture potato.png",
-            "food/glitch/vegetable/potato.png",
+            "food/buff_chef/potato.png",
             potatoTexture.getTextureData().toString()
         );
     }
@@ -304,8 +302,8 @@ public class AssetTests {
     public void doughFetchTest() {
         Texture doughTexture = foodTextureManager.getTexture("dough");
         assertEquals(
-            "The foodType should return the texture corn.png",
-            "food/glitch/grain/corn.png",
+            "The foodType should return the texture dough.png",
+            "food/buff_chef/dough.png",
             doughTexture.getTextureData().toString()
         );
     }
@@ -314,8 +312,8 @@ public class AssetTests {
     public void cheeseFetchTest() {
         Texture cheeseTexture = foodTextureManager.getTexture("cheese");
         assertEquals(
-            "The foodType should return the texture corn.png",
-            "food/glitch/dairy/cheese_01.png",
+            "The foodType should return the texture cheese.png",
+            "food/buff_chef/cheese.png",
             cheeseTexture.getTextureData().toString()
         );
     }
