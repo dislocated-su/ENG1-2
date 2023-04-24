@@ -1,16 +1,11 @@
 package cs.eng1.tests;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.food.recipes.Burger;
-import cs.eng1.piazzapanic.food.recipes.JacketPotato;
-import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.food.recipes.Salad;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(GdxTestRunner.class)
 public class RecipeTests {
@@ -62,7 +57,7 @@ public class RecipeTests {
     public void getRecipeIngredientsTests() {
         assertEquals(
             "getRecipeIngredients should return the list of ingredients for a burger",
-            "[bun, patty_cooked]",
+            "[bun, patty_grilled]",
             burger.getRecipeIngredients().toString()
         );
         assertEquals(
