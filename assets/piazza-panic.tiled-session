@@ -1,30 +1,51 @@
 {
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
     "activeFile": "main-game-map.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/Tilesheet/Topdown Shooter Full 2.xml": {
-            "scaleInDock": 0.33
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.75
         },
         "big-map.tmx": {
             "scale": 0.23255208333333333,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 961.0750279955207,
-                "y": 640.7166853303472
+                "x": 1296.4837625979844,
+                "y": 632.1164613661815
+            }
+        },
+        "e.tmx": {
+            "scale": 0.5,
+            "selectedLayer": -1,
+            "viewCenter": {
+                "x": 1945,
+                "y": 974
             }
         },
         "main-game-map.tmx": {
             "scale": 0.5,
-            "selectedLayer": 2,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 1025,
-                "y": 576
+                "x": 1271,
+                "y": 766
             }
         }
     },
+    "map.height": 24,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 128,
+    "map.tileWidth": 128,
+    "map.width": 32,
     "openFiles": [
         "main-game-map.tmx",
         "big-map.tmx"
@@ -32,7 +53,9 @@
     "project": "piazza-panic.tiled-project",
     "property.type": "Ingredient",
     "recentFiles": [
-        "big-map.tmx",
-        "main-game-map.tmx"
+        "e.tmx",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/Tilesheet/Topdown Shooter Full 2.xml",
+        "main-game-map.tmx",
+        "big-map.tmx"
     ]
 }
