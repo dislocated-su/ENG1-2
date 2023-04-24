@@ -14,13 +14,14 @@ import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import java.lang.Math;
 import java.util.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import java.lang.Math;
 
 @RunWith(GdxTestRunner.class)
 public class ChefTests {
+
     World world = new World(new Vector2(0, 0), true);
     UIOverlay overlay = mock(UIOverlay.class);
     KeyboardInput kbInput = new KeyboardInput();
@@ -67,13 +68,28 @@ public class ChefTests {
         clear();
         kbInput.keyDown(Keys.RIGHT);
         move();
-        assertEquals("When the chef moves right for 1 second, it should move properly.", 4, chef.getBody().getPosition().x, 0.1);
-        assertEquals("When the chef moves right, its vertical position shouldn't change.", 0, chef.getBody().getPosition().y, 0.1);
+        assertEquals(
+            "When the chef moves right for 1 second, it should move properly.",
+            4,
+            chef.getBody().getPosition().x,
+            0.1
+        );
+        assertEquals(
+            "When the chef moves right, its vertical position shouldn't change.",
+            0,
+            chef.getBody().getPosition().y,
+            0.1
+        );
         clear();
         kbInput.keyDown(Keys.LEFT);
         kbInput.keyDown(Keys.UP);
         move();
-        assertEquals("When the chef moves left and up, it should be normalised to a diagonal.", -2.7, chef.getBody().getPosition().x, 0.1);
+        assertEquals(
+            "When the chef moves left and up, it should be normalised to a diagonal.",
+            -2.7,
+            chef.getBody().getPosition().x,
+            0.1
+        );
         assertEquals(2.5, chef.getBody().getPosition().y, 0.1);
         clear();
         kbInput.keyDown(Keys.A);
@@ -82,11 +98,10 @@ public class ChefTests {
         kbInput.keyDown(Keys.S);
         move();
         assertEquals(start, (Vector2) chef.getBody().getPosition());
-
-
     }
+
     /**
-     * Acts for the chef and world to allow "movement" to happen. 
+     * Acts for the chef and world to allow "movement" to happen.
      * Clears the inputs afterwards.
      */
     private void move() {
@@ -105,6 +120,6 @@ public class ChefTests {
             chef.act((float) 1 / 60);
             world.step((float) 1 / 60, 6, 2);
         }
-        chef.init(0,0);
+        chef.init(0, 0);
     }
 }
