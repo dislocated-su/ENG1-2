@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -122,6 +123,15 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (chefManager.getCurrentChef() != null) {
+            OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
+            camera.position.lerp(new Vector3(chefManager.getCurrentChef().getX(), chefManager.getCurrentChef().getY(),1), 0.1f);
+            camera.position.x = (float) Math.round(camera.position.x * 1000f) / 1000f;
+            camera.position.y = (float) Math.round(camera.position.y * 1000f) / 1000f;
+        }
+
+
         stage.getCamera().update();
         uiStage.getCamera().update();
 

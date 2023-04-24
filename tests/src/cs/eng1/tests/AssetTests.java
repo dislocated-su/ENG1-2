@@ -142,6 +142,10 @@ public class AssetTests {
         );
     }
 
+    public void cookedPotatoTest() {
+        assertTrue("Passes if food/buff_chef/cooked_potato.png", Gdx.files.internal("food/buff_chef/cooked_potato.png").exists());
+    }
+
     @Test
     public void badlogicTest() {
         assertTrue(

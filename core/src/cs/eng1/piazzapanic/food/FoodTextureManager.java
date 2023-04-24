@@ -90,6 +90,10 @@ public class FoodTextureManager implements Disposable {
                 "cheese_sliced",
                 new Texture("food/buff_chef/grated_cheese.png")
             );
+        this.foodTextures.put(
+                "potato_cooked",
+                new Texture("food/buff_chef/cooked_potato.png")
+            );
 
         notFoundImage = new Texture(Gdx.files.internal("badlogic.jpg"));
     }
