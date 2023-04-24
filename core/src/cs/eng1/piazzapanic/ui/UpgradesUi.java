@@ -19,6 +19,7 @@ import cs.eng1.piazzapanic.PiazzaPanicGame;
 public class UpgradesUi {
 
     private static Table table;
+    Table root;
     private LabelStyle hudLabelStyle;
 
     private int timerForPowerUp1, timerForPowerUp2, timerForPowerUp3,
@@ -38,10 +39,18 @@ public class UpgradesUi {
 
     public UpgradesUi(PiazzaPanicGame game) {
 
+
+        root = new Table();
+        root.setFillParent(true);
+
         table = new Table();
-        table.setFillParent(true);
-        table.bottom();
+        root.add(table).width(700).height(700).center();
+        root.debug();
+        table.debug();
+
+        table.setHeight(1000);
         table.setVisible(false);
+
 
         FontManager fontManager = new FontManager();
 
@@ -163,7 +172,7 @@ public class UpgradesUi {
     }
 
     public void addToStage(Stage uiStage) {
-        uiStage.addActor(table);
+        uiStage.addActor(root);
     }
 
     public void update() {
