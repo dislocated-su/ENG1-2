@@ -13,6 +13,10 @@ import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Cheese;
+import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import cs.eng1.piazzapanic.food.ingredients.Patty;
+import cs.eng1.piazzapanic.food.interfaces.Holdable;
+import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import java.lang.Math;
@@ -28,6 +32,7 @@ public class ChefTests {
     KeyboardInput kbInput = new KeyboardInput();
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
     Vector2 start = new Vector2((float) 0.0, (float) 0.2);
+    FoodTextureManager foodManager = new FoodTextureManager();
     Texture fake = new Texture(
         Gdx.files.internal(
             "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
@@ -49,45 +54,76 @@ public class ChefTests {
     );
 
     @Test
-    public void grabItemTests() {
+    public void chefStackTests() {
         chef.init(0, 0);
-        chef.grabItem(Cheese);
+        Ingredient cheese = new Cheese(foodManager);
+        Patty patty = new Patty(foodManager);
+        Pizza pizza = new Pizza(foodManager);
+        assertTrue(
+            "A chef with an empty stack should be able to grab ingredients.", 
+            chef.canGrabIngredient()
+        );
+        chef.grabItem(cheese);
+        assertTrue(chef.hasIngredient());
+        chef.popIngredient();
+        assertFalse(chef.hasIngredient());
+        chef.grabItem(patty);
+        assertTrue(chef.hasIngredient());
+        for (int i=0; i<chef.getStack().size(); i++) {
+            chef.grabItem(cheese);
+        }
+        assertFalse(chef.canGrabIngredient());
+        chef.popIngredient();
+        assertTrue(chef.canGrabIngredient());
+        chef.grabItem(pizza);
+        Holdable top = chef.getStack().peek();
+        assertEquals(
+            "placeRecipe should return the top of the stack if it's a recipe.", 
+            pizza, 
+            chef.placeRecipe()
+        );
+        assertNotEquals(
+            "placeRecipe should remove the top item of a list if it's a recipe.", 
+            top, 
+            chef.getStack().peek()
+        );
+        assertNull("placeRecipe should return null if the top of the stack isn't a recipe.", chef.placeRecipe());
     }
 
     @Test
     public void initTests() {
         chef.init(0, 0);
         assertEquals(
-            "Init(0, 0) should set the chef co-ordinates to (0, 0).",
-            0,
-            chef.getX(),
+            "Init(0, 0) should set the chef X to 0.",
+            0, 
+            chef.getX(), 
             0.1
         );
 
         assertEquals(
-            "Init(0, 0) should set the chef co-ordinates to (0, 0).",
-            0,
-            chef.getY(),
+            "Init(0, 0) should set the chef Y to 0.",
+            0, 
+            chef.getY(), 
             0.1
         );
 
         chef.init(10, 10);
         assertEquals(
-            "Init(10, 10) should set the chef co-ordinates to (10, 10).",
-            10,
-            chef.getX(),
+            "Init(10, 10) should set the chef X to 10.",
+            10, 
+            chef.getX(), 
             0.1
         );
 
         assertEquals(
-            "Init(10, 10) should set the chef co-ordinates to (10, 10).",
-            10,
-            chef.getY(),
+            "Init(10, 10) should set the chef Y to 10.",
+            10, 
+            chef.getY(), 
             0.1
         );
 
         assertFalse(
-            "init should set the stack for the chef to an empty list.",
+            "init should set the chef stack to an empty list.", 
             chef.hasIngredient()
         );
     }
@@ -95,12 +131,16 @@ public class ChefTests {
     @Test
     public void createBodyTests() {
         chef.createBody();
-        assertNotNull("Create body should create a body.", chef.getBody());
+        assertNotNull(
+            "Create body should create a body.", 
+            chef.getBody()
+        );
         assertEquals(
-            "CreateBody should initialise at (0, 0.2)",
-            start,
+            "CreateBody should initialise at (0, 0.2)", 
+            start, 
             chef.getBody().getPosition()
         );
+
     }
 
     @Test
@@ -139,9 +179,9 @@ public class ChefTests {
             0.1
         );
         assertEquals(
-            "When the chef moves left and up, it should be normalised to a diagonal.",
-            2.5,
-            chef.getBody().getPosition().y,
+            "When the chef moves left and up, it should be normalised to a diagonal.", 
+            2.5, 
+            chef.getBody().getPosition().y, 
             0.1
         );
         clear();
@@ -151,8 +191,8 @@ public class ChefTests {
         kbInput.keyDown(Keys.S);
         move();
         assertEquals(
-            "When the chef moves in every direction, no movement should happen.",
-            start,
+            "When the chef moves in every direction, no movement should happen.", 
+            start, 
             (Vector2) chef.getBody().getPosition()
         );
     }
