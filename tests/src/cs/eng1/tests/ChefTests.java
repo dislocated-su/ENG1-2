@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.Cheese;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import java.lang.Math;
@@ -48,11 +49,61 @@ public class ChefTests {
     );
 
     @Test
+    public void grabItemTests() {
+        chef.init(0, 0);
+        chef.grabItem(Cheese);
+    }
+    @Test
     public void initTests() {
         chef.init(0, 0);
-        assertEquals(0, chef.getX(), 0.1);
-        assertEquals(0, chef.getY(), 0.1);
-        assertEquals(chef.getStack(), new ArrayList<>());
+        assertEquals(
+            "Init(0, 0) should set the chef co-ordinates to (0, 0).",
+            0, 
+            chef.getX(), 
+            0.1
+        );
+
+        assertEquals(
+            "Init(0, 0) should set the chef co-ordinates to (0, 0).",
+            0, 
+            chef.getY(), 
+            0.1
+        );
+
+        chef.init(10, 10);
+        assertEquals(
+            "Init(10, 10) should set the chef co-ordinates to (10, 10).",
+            10, 
+            chef.getX(), 
+            0.1
+        );
+
+        assertEquals(
+            "Init(10, 10) should set the chef co-ordinates to (10, 10).",
+            10, 
+            chef.getY(), 
+            0.1
+        );
+
+        assertFalse(
+            "init should set the stack for the chef to an empty list.", 
+            chef.hasIngredient()
+        );
+    }
+
+    @Test
+    public void createBodyTests() {
+        chef.createBody();
+        assertNotNull(
+            "Create body should create a body.", 
+            chef.getBody()
+        );
+        assertEquals(
+            "CreateBody should initialise at (0, 0.2)", 
+            start, 
+            chef.getBody().getPosition()
+        );
+
     }
 
     @Test
@@ -90,14 +141,23 @@ public class ChefTests {
             chef.getBody().getPosition().x,
             0.1
         );
-        assertEquals(2.5, chef.getBody().getPosition().y, 0.1);
+        assertEquals(
+            "When the chef moves left and up, it should be normalised to a diagonal.", 
+            2.5, 
+            chef.getBody().getPosition().y, 
+            0.1
+        );
         clear();
         kbInput.keyDown(Keys.A);
         kbInput.keyDown(Keys.D);
         kbInput.keyDown(Keys.W);
         kbInput.keyDown(Keys.S);
         move();
-        assertEquals(start, (Vector2) chef.getBody().getPosition());
+        assertEquals(
+            "When the chef moves in every direction, no movement should happen.", 
+            start, 
+            (Vector2) chef.getBody().getPosition()
+        );
     }
 
     /**
