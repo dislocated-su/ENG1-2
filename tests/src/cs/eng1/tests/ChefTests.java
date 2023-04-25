@@ -60,7 +60,7 @@ public class ChefTests {
         Patty patty = new Patty(foodManager);
         Pizza pizza = new Pizza(foodManager);
         assertTrue(
-            "A chef with an empty stack should be able to grab ingredients.", 
+            "A chef with an empty stack should be able to grab ingredients.",
             chef.canGrabIngredient()
         );
         chef.grabItem(cheese);
@@ -69,7 +69,7 @@ public class ChefTests {
         assertFalse(chef.hasIngredient());
         chef.grabItem(patty);
         assertTrue(chef.hasIngredient());
-        for (int i=0; i<chef.getStack().size(); i++) {
+        for (int i = 0; i < chef.getStack().size(); i++) {
             chef.grabItem(cheese);
         }
         assertFalse(chef.canGrabIngredient());
@@ -78,16 +78,19 @@ public class ChefTests {
         chef.grabItem(pizza);
         Holdable top = chef.getStack().peek();
         assertEquals(
-            "placeRecipe should return the top of the stack if it's a recipe.", 
-            pizza, 
+            "placeRecipe should return the top of the stack if it's a recipe.",
+            pizza,
             chef.placeRecipe()
         );
         assertNotEquals(
-            "placeRecipe should remove the top item of a list if it's a recipe.", 
-            top, 
+            "placeRecipe should remove the top item of a list if it's a recipe.",
+            top,
             chef.getStack().peek()
         );
-        assertNull("placeRecipe should return null if the top of the stack isn't a recipe.", chef.placeRecipe());
+        assertNull(
+            "placeRecipe should return null if the top of the stack isn't a recipe.",
+            chef.placeRecipe()
+        );
     }
 
     @Test
@@ -95,35 +98,35 @@ public class ChefTests {
         chef.init(0, 0);
         assertEquals(
             "Init(0, 0) should set the chef X to 0.",
-            0, 
-            chef.getX(), 
+            0,
+            chef.getX(),
             0.1
         );
 
         assertEquals(
             "Init(0, 0) should set the chef Y to 0.",
-            0, 
-            chef.getY(), 
+            0,
+            chef.getY(),
             0.1
         );
 
         chef.init(10, 10);
         assertEquals(
             "Init(10, 10) should set the chef X to 10.",
-            10, 
-            chef.getX(), 
+            10,
+            chef.getX(),
             0.1
         );
 
         assertEquals(
             "Init(10, 10) should set the chef Y to 10.",
-            10, 
-            chef.getY(), 
+            10,
+            chef.getY(),
             0.1
         );
 
         assertFalse(
-            "init should set the chef stack to an empty list.", 
+            "init should set the chef stack to an empty list.",
             chef.hasIngredient()
         );
     }
@@ -131,16 +134,12 @@ public class ChefTests {
     @Test
     public void createBodyTests() {
         chef.createBody();
-        assertNotNull(
-            "Create body should create a body.", 
-            chef.getBody()
-        );
+        assertNotNull("Create body should create a body.", chef.getBody());
         assertEquals(
-            "CreateBody should initialise at (0, 0.2)", 
-            start, 
+            "CreateBody should initialise at (0, 0.2)",
+            start,
             chef.getBody().getPosition()
         );
-
     }
 
     @Test
@@ -179,9 +178,9 @@ public class ChefTests {
             0.1
         );
         assertEquals(
-            "When the chef moves left and up, it should be normalised to a diagonal.", 
-            2.5, 
-            chef.getBody().getPosition().y, 
+            "When the chef moves left and up, it should be normalised to a diagonal.",
+            2.5,
+            chef.getBody().getPosition().y,
             0.1
         );
         clear();
@@ -191,8 +190,8 @@ public class ChefTests {
         kbInput.keyDown(Keys.S);
         move();
         assertEquals(
-            "When the chef moves in every direction, no movement should happen.", 
-            start, 
+            "When the chef moves in every direction, no movement should happen.",
+            start,
             (Vector2) chef.getBody().getPosition()
         );
     }
