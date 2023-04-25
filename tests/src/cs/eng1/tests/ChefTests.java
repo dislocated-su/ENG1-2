@@ -65,15 +65,13 @@ public class ChefTests {
         );
         chef.grabItem(cheese);
         assertTrue(chef.hasIngredient());
-        chef.popIngredient();
-        assertFalse(chef.hasIngredient());
         chef.grabItem(patty);
         assertTrue(chef.hasIngredient());
         for (int i = 0; i < chef.getStack().size(); i++) {
             chef.grabItem(cheese);
         }
         assertFalse(chef.canGrabIngredient());
-        chef.popIngredient();
+        assertEquals(cheese, chef.popIngredient());
         assertTrue(chef.canGrabIngredient());
         chef.grabItem(pizza);
         Holdable top = chef.getStack().peek();
