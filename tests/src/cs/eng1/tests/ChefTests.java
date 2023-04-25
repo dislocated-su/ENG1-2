@@ -53,45 +53,45 @@ public class ChefTests {
         )
     );
 
-    // @Test
-    // public void chefStackTests() {
-    //     chef.init(0, 0);
-    //     Ingredient cheese = new Cheese(foodManager);
-    //     Patty patty = new Patty(foodManager);
-    //     Pizza pizza = new Pizza(foodManager);
-    //     assertTrue(
-    //         "A chef with an empty stack should be able to grab ingredients.",
-    //         chef.canGrabIngredient()
-    //     );
-    //     chef.grabItem(cheese);
-    //     assertTrue(chef.hasIngredient());
-    //     chef.popIngredient();
-    //     assertFalse(chef.hasIngredient());
-    //     chef.grabItem(patty);
-    //     assertTrue(chef.hasIngredient());
-    //     for (int i = 0; i < chef.getStack().size(); i++) {
-    //         chef.grabItem(cheese);
-    //     }
-    //     assertFalse(chef.canGrabIngredient());
-    //     chef.popIngredient();
-    //     assertTrue(chef.canGrabIngredient());
-    //     chef.grabItem(pizza);
-    //     Holdable top = chef.getStack().peek();
-    //     assertEquals(
-    //         "placeRecipe should return the top of the stack if it's a recipe.",
-    //         pizza,
-    //         chef.placeRecipe()
-    //     );
-    //     assertNotEquals(
-    //         "placeRecipe should remove the top item of a list if it's a recipe.",
-    //         top,
-    //         chef.getStack().peek()
-    //     );
-    //     assertNull(
-    //         "placeRecipe should return null if the top of the stack isn't a recipe.",
-    //         chef.placeRecipe()
-    //     );
-    // }
+    @Test
+    public void chefStackTests() {
+        chef.init(0, 0);
+        Ingredient cheese = new Cheese(foodManager);
+        Patty patty = new Patty(foodManager);
+        Pizza pizza = new Pizza(foodManager);
+        assertTrue(
+            "A chef with an empty stack should be able to grab ingredients.",
+            chef.canGrabIngredient()
+        );
+        chef.grabItem(cheese);
+        assertTrue(chef.hasIngredient());
+        chef.popIngredient();
+        assertFalse(chef.hasIngredient());
+        chef.grabItem(patty);
+        assertTrue(chef.hasIngredient());
+        for (int i = 0; i < chef.getStack().size(); i++) {
+            chef.grabItem(cheese);
+        }
+        assertFalse(chef.canGrabIngredient());
+        chef.popIngredient();
+        assertTrue(chef.canGrabIngredient());
+        chef.grabItem(pizza);
+        Holdable top = chef.getStack().peek();
+        assertEquals(
+            "placeRecipe should return the top of the stack if it's a recipe.",
+            pizza,
+            chef.placeRecipe()
+        );
+        assertNotEquals(
+            "placeRecipe should remove the top item of a list if it's a recipe.",
+            top,
+            chef.getStack().peek()
+        );
+        assertNull(
+            "placeRecipe should return null if the top of the stack isn't a recipe.",
+            chef.placeRecipe()
+        );
+    }
 
     @Test
     public void initTests() {
