@@ -53,40 +53,41 @@ public class ChefTests {
         chef.init(0, 0);
         chef.grabItem(Cheese);
     }
+
     @Test
     public void initTests() {
         chef.init(0, 0);
         assertEquals(
             "Init(0, 0) should set the chef co-ordinates to (0, 0).",
-            0, 
-            chef.getX(), 
+            0,
+            chef.getX(),
             0.1
         );
 
         assertEquals(
             "Init(0, 0) should set the chef co-ordinates to (0, 0).",
-            0, 
-            chef.getY(), 
+            0,
+            chef.getY(),
             0.1
         );
 
         chef.init(10, 10);
         assertEquals(
             "Init(10, 10) should set the chef co-ordinates to (10, 10).",
-            10, 
-            chef.getX(), 
+            10,
+            chef.getX(),
             0.1
         );
 
         assertEquals(
             "Init(10, 10) should set the chef co-ordinates to (10, 10).",
-            10, 
-            chef.getY(), 
+            10,
+            chef.getY(),
             0.1
         );
 
         assertFalse(
-            "init should set the stack for the chef to an empty list.", 
+            "init should set the stack for the chef to an empty list.",
             chef.hasIngredient()
         );
     }
@@ -94,16 +95,12 @@ public class ChefTests {
     @Test
     public void createBodyTests() {
         chef.createBody();
-        assertNotNull(
-            "Create body should create a body.", 
-            chef.getBody()
-        );
+        assertNotNull("Create body should create a body.", chef.getBody());
         assertEquals(
-            "CreateBody should initialise at (0, 0.2)", 
-            start, 
+            "CreateBody should initialise at (0, 0.2)",
+            start,
             chef.getBody().getPosition()
         );
-
     }
 
     @Test
@@ -142,9 +139,9 @@ public class ChefTests {
             0.1
         );
         assertEquals(
-            "When the chef moves left and up, it should be normalised to a diagonal.", 
-            2.5, 
-            chef.getBody().getPosition().y, 
+            "When the chef moves left and up, it should be normalised to a diagonal.",
+            2.5,
+            chef.getBody().getPosition().y,
             0.1
         );
         clear();
@@ -154,8 +151,8 @@ public class ChefTests {
         kbInput.keyDown(Keys.S);
         move();
         assertEquals(
-            "When the chef moves in every direction, no movement should happen.", 
-            start, 
+            "When the chef moves in every direction, no movement should happen.",
+            start,
             (Vector2) chef.getBody().getPosition()
         );
     }
