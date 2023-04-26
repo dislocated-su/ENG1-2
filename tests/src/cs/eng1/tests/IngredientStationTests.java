@@ -22,7 +22,8 @@ public class IngredientStationTests {
             null,
             null,
             null,
-                null, null
+            null,
+            null
         );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
@@ -38,7 +39,8 @@ public class IngredientStationTests {
             null,
             null,
             null,
-                null, null
+            null,
+            null
         );
         Chef chef = new Chef(null, null, null);
         station.nearbyChef = chef;
@@ -56,7 +58,8 @@ public class IngredientStationTests {
             null,
             null,
             null,
-                null, new Patty(new FoodTextureManager())
+            null,
+            new Patty(new FoodTextureManager())
         );
         Chef chef = new Chef(null, null, new ChefManager(0, null, null, null));
         station.nearbyChef = chef;

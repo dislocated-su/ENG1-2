@@ -66,7 +66,8 @@ public class CookingStationTests {
             null,
             uiController,
             null,
-                null);
+            null
+        );
         station.nearbyChef = chef;
         station.currentIngredient = potato;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -105,7 +106,8 @@ public class CookingStationTests {
             null,
             uiController,
             null,
-                null);
+            null
+        );
         station.nearbyChef = chef;
         chef.grabItem(potato);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
@@ -123,7 +125,8 @@ public class CookingStationTests {
             null,
             uiController,
             null,
-                null);
+            null
+        );
         station.currentIngredient = potato;
         station.progressVisible = true;
         station.reset();

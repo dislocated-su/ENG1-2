@@ -18,11 +18,12 @@ public class SubmitStation extends Station {
     private final CustomerManager customerManager;
 
     public SubmitStation(
-            int id,
-            TextureRegion image,
-            StationUIController uiController,
-            ActionAlignment alignment,
-            Boolean locked, CustomerManager customerManager
+        int id,
+        TextureRegion image,
+        StationUIController uiController,
+        ActionAlignment alignment,
+        Boolean locked,
+        CustomerManager customerManager
     ) {
         super(id, image, uiController, alignment, locked);
         this.customerManager = customerManager;

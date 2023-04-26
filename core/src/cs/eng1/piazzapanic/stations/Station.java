@@ -37,7 +37,8 @@ public class Station extends Actor implements Observer<Chef> {
         TextureRegion image,
         StationUIController uiController,
         StationActionUI.ActionAlignment alignment,
-        Boolean locked) {
+        Boolean locked
+    ) {
         this.locked = locked == null ? false : locked;
         this.id = id;
         stationImage = image; // Texture of the object
@@ -210,12 +211,16 @@ public class Station extends Actor implements Observer<Chef> {
      *         state
      */
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        if (locked && PlayerState.getInstance().getCash() > PlayerState.getInstance().getUpgradeCost(false)) {
-            LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+        if (
+            locked &&
+            PlayerState.getInstance().getCash() >
+            PlayerState.getInstance().getUpgradeCost(false)
+        ) {
+            LinkedList<StationAction.ActionType> actionTypes =
+                new LinkedList<>();
             actionTypes.add(StationAction.ActionType.BUY_STATION);
             return actionTypes;
-        }
-        else {
+        } else {
             return new LinkedList<>();
         }
     }
@@ -230,8 +235,10 @@ public class Station extends Actor implements Observer<Chef> {
     public void doStationAction(StationAction.ActionType action) {
         if (action == StationAction.ActionType.BUY_STATION) {
             locked = false;
-            PlayerState.getInstance().spendCash(PlayerState.getInstance().getUpgradeCost(true));
-            uiController.showActions(this,getActionTypes());
+            PlayerState
+                .getInstance()
+                .spendCash(PlayerState.getInstance().getUpgradeCost(true));
+            uiController.showActions(this, getActionTypes());
         }
     }
 

@@ -77,11 +77,12 @@ public class RecipeStation extends Station {
      *                            each ingredient should have
      */
     public RecipeStation(
-            int id,
-            TextureRegion textureRegion,
-            StationUIController stationUIController,
-            ActionAlignment alignment,
-            Boolean locked, FoodTextureManager textureManager
+        int id,
+        TextureRegion textureRegion,
+        StationUIController stationUIController,
+        ActionAlignment alignment,
+        Boolean locked,
+        FoodTextureManager textureManager
     ) {
         super(id, textureRegion, stationUIController, alignment, locked);
         this.textureManager = textureManager;
@@ -105,7 +106,8 @@ public class RecipeStation extends Station {
      */
     @Override
     public LinkedList<ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -118,13 +120,13 @@ public class RecipeStation extends Station {
                 Ingredient checkItem = (Ingredient) item;
                 if (
                     checkItem.getUseable() &&
-                            (
-                                    checkItem.getChopped() ||
-                                            checkItem.getCooked() ||
-                                            checkItem.getGrilled() ||
-                                            checkItem.getType() == "bun" ||
-                                            checkItem.getType() == "dough"
-                            )
+                    (
+                        checkItem.getChopped() ||
+                        checkItem.getCooked() ||
+                        checkItem.getGrilled() ||
+                        checkItem.getType() == "bun" ||
+                        checkItem.getType() == "dough"
+                    )
                 ) {
                     // If a chef is nearby and is carrying at least one ingredient
                     // and the top ingredient is cooked, chopped or a bun then display the action

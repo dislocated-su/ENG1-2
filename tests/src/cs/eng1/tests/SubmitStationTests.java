@@ -40,7 +40,14 @@ public class SubmitStationTests {
      * holding a recipe
      */
     public void testGetActionTypesNothing() {
-        SubmitStation station = new SubmitStation(1, null, null, null, null, null);
+        SubmitStation station = new SubmitStation(
+            1,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "nothing is added to action types if no chef is nearby",
@@ -75,7 +82,8 @@ public class SubmitStationTests {
             null,
             null,
             null,
-                null, customerManager
+            null,
+            customerManager
         );
         station.nearbyChef = chef;
 
@@ -107,7 +115,8 @@ public class SubmitStationTests {
             null,
             uiController,
             null,
-                null, customerManager
+            null,
+            customerManager
         );
 
         station.nearbyChef = chef;

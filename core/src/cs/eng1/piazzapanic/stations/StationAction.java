@@ -16,7 +16,7 @@ public class StationAction {
         MAKE_PIZZA,
         MAKE_JACKET,
         SUBMIT_ORDER,
-        BUY_STATION
+        BUY_STATION,
     }
 
     public static String getActionDescription(ActionType actionType) {
@@ -44,7 +44,11 @@ public class StationAction {
             case ASSEMBLE_PIZZA:
                 return "Assemble Pizza";
             case BUY_STATION:
-                return "Unlock station (" + PlayerState.getInstance().getUpgradeCost(false) + ")";
+                return (
+                    "Unlock station (" +
+                    PlayerState.getInstance().getUpgradeCost(false) +
+                    ")"
+                );
             default:
                 return "Unknown Action";
         }

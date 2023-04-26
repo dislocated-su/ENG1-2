@@ -36,7 +36,8 @@ public class CookingStation extends Station {
         TextureRegion image,
         StationUIController uiController,
         StationActionUI.ActionAlignment alignment,
-        Boolean locked) {
+        Boolean locked
+    ) {
         super(id, image, uiController, alignment, locked);
     }
 
@@ -113,7 +114,8 @@ public class CookingStation extends Station {
      */
     @Override
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
