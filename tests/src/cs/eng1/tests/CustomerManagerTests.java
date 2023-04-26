@@ -29,8 +29,13 @@ public class CustomerManagerTests {
 
     @Test
     public void initTests() {
-        assertNull("By default, customerManagers orders should be empty.", customerManager.getFirstOrder());
+        assertNull("By default, customerManager should have no orders.", customerManager.getFirstOrder());
+        assertFalse(customerManager.getTimer().getRunning());
+        assertEquals(0, customerManager.getCustomerQueue().size);
         customerManager.init(textureManager);
+        assertEquals(3, customerManager.getReputation());
+        assertTrue(customerManager.getTimer().getRunning());
+        assertEquals(1, customerManager.getCustomerQueue().size);
         assertEquals(
             new Pizza(textureManager).getTexture(),
             customerManager.getFirstOrder().getTexture()
@@ -47,7 +52,19 @@ public class CustomerManagerTests {
     }
 
     @Test
+    public void checkSpawnTests() {
+        customerManager.init(textureManager);
+        customerManager.checkSpawn(61);
+        assertEquals(2, customerManager.getCustomerQueue().size);
+    }
+
+    @Test
     public void actTests(){
-        customerManager.loseReputation();
+        customerManager.init(textureManager);
+        for (int i = 0; i <= 4000 ; i++) {
+            customerManager.act((float)1/60);
+        }
+        assertEquals(2, customerManager.getCustomerQueue().size);
+        assertEquals(2, customerManager.getReputation());
     }
 }
