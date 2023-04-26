@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Queue;
-
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.Customer;
@@ -26,6 +25,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
+
     UIOverlay overlay = mock(UIOverlay.class);
     CustomerManager customerManager = new CustomerManager(overlay, 5, 0);
     FoodTextureManager textureManager = new FoodTextureManager();
@@ -45,7 +45,7 @@ public class CustomerManagerTests {
         )
     );
     Chef chef = new Chef(fake, new Vector2(1, 1), chefManager);
-    
+
     @Test
     public void initTests() {
         assertNull(
@@ -106,7 +106,7 @@ public class CustomerManagerTests {
         customerManager.nextRecipe(chef);
         assertTrue(first.isOrderCompleted());
         assertNotEquals(first.getOrder(), customerManager.getFirstOrder());
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             customerManager.generateCustomer();
             customerManager.nextRecipe(chef);
         }
