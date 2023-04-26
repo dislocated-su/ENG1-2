@@ -162,4 +162,9 @@ public class CustomerManager {
         if (customerQueue.isEmpty()) return null;
         return customerQueue.first().getOrder();
     }
+
+    public List<SubmitStation> getRecipeStations() {
+        return recipeStations;
+    }
+
 }
