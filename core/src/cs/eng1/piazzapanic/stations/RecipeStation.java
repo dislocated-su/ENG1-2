@@ -12,7 +12,6 @@ import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -72,20 +71,19 @@ public class RecipeStation extends Station {
      *                            the action
      *                            buttons belonging to the station
      * @param alignment           Dictates where the action buttons are shown
+     * @param locked
      * @param textureManager      The controller from which we can get information
      *                            on what texture
      *                            each ingredient should have
-     * @param customerManager     The controller from which we can get information
-     *                            on what food needs to be served
      */
     public RecipeStation(
-        int id,
-        TextureRegion textureRegion,
-        StationUIController stationUIController,
-        ActionAlignment alignment,
-        FoodTextureManager textureManager
+            int id,
+            TextureRegion textureRegion,
+            StationUIController stationUIController,
+            ActionAlignment alignment,
+            Boolean locked, FoodTextureManager textureManager
     ) {
-        super(id, textureRegion, stationUIController, alignment);
+        super(id, textureRegion, stationUIController, alignment, locked);
         this.textureManager = textureManager;
     }
 
@@ -106,43 +104,47 @@ public class RecipeStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<ActionType> getActionTypes() {
-        LinkedList<ActionType> actionTypes = new LinkedList<>();
-        if (nearbyChef != null) {
-            if (!nearbyChef.getStack().isEmpty()) {
-                Holdable item = nearbyChef.getStack().peek();
-                if (item instanceof Ingredient) {
-                    Ingredient checkItem = (Ingredient) item;
-                    if (
-                        checkItem.getUseable() &&
-                        (
-                            checkItem.getChopped() ||
-                            checkItem.getCooked() ||
-                            checkItem.getGrilled() ||
-                            checkItem.getType() == "bun" ||
-                            checkItem.getType() == "dough"
-                        )
-                    ) {
-                        // If a chef is nearby and is carrying at least one ingredient
-                        // and the top ingredient is cooked, chopped or a bun then display the action
-                        actionTypes.add(ActionType.PLACE_INGREDIENT);
-                    }
+    public LinkedList<ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
+        if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
+            return actionTypes;
+        }
+        if (!nearbyChef.getStack().isEmpty()) {
+            Holdable item = nearbyChef.getStack().peek();
+            if (item instanceof Ingredient) {
+                Ingredient checkItem = (Ingredient) item;
+                if (
+                    checkItem.getUseable() &&
+                            (
+                                    checkItem.getChopped() ||
+                                            checkItem.getCooked() ||
+                                            checkItem.getGrilled() ||
+                                            checkItem.getType() == "bun" ||
+                                            checkItem.getType() == "dough"
+                            )
+                ) {
+                    // If a chef is nearby and is carrying at least one ingredient
+                    // and the top ingredient is cooked, chopped or a bun then display the action
+                    actionTypes.add(ActionType.PLACE_INGREDIENT);
                 }
             }
-            if (completedRecipe == null) {
-                for (ActionType makeAction : makeActions.keySet()) {
-                    boolean canMake = true;
-                    for (String ingredientType : makeActions.get(makeAction)) {
-                        canMake =
-                            canMake && ingredientStack.contains(ingredientType);
-                    }
-                    if (canMake) {
-                        actionTypes.add(makeAction);
-                    }
+        }
+        if (completedRecipe == null) {
+            for (ActionType makeAction : makeActions.keySet()) {
+                boolean canMake = true;
+                for (String ingredientType : makeActions.get(makeAction)) {
+                    canMake =
+                        canMake && ingredientStack.contains(ingredientType);
                 }
-            } else {
-                actionTypes.add(ActionType.GRAB_INGREDIENT);
+                if (canMake) {
+                    actionTypes.add(makeAction);
+                }
             }
+        } else {
+            actionTypes.add(ActionType.GRAB_INGREDIENT);
         }
         return actionTypes;
     }
@@ -156,6 +158,7 @@ public class RecipeStation extends Station {
      */
     @Override
     public void doStationAction(ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case PLACE_INGREDIENT:
                 if (!(nearbyChef.getStack().peek() instanceof Ingredient)) {

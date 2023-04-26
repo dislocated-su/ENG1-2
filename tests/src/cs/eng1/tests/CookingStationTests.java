@@ -27,7 +27,7 @@ public class CookingStationTests {
 
     @Test
     public void testGetActionTypesNothing() {
-        CookingStation station = new CookingStation(1, null, null, null);
+        CookingStation station = new CookingStation(1, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "nothing is added to action types if no chef is nearby",
@@ -49,7 +49,7 @@ public class CookingStationTests {
 
     @Test
     public void testGetActionPlaceIngredient() {
-        CookingStation station = new CookingStation(1, null, null, null);
+        CookingStation station = new CookingStation(1, null, null, null, null);
         chef.grabItem(potato);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -65,8 +65,8 @@ public class CookingStationTests {
             1,
             null,
             uiController,
-            null
-        );
+            null,
+                null);
         station.nearbyChef = chef;
         station.currentIngredient = potato;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -104,8 +104,8 @@ public class CookingStationTests {
             1,
             null,
             uiController,
-            null
-        );
+            null,
+                null);
         station.nearbyChef = chef;
         chef.grabItem(potato);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
@@ -122,8 +122,8 @@ public class CookingStationTests {
             1,
             null,
             uiController,
-            null
-        );
+            null,
+                null);
         station.currentIngredient = potato;
         station.progressVisible = true;
         station.reset();

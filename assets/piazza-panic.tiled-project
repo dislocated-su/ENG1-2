@@ -57,6 +57,11 @@
                     "value": ""
                 },
                 {
+                    "name": "locked",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "stationType",
                     "propertyType": "StationType",
                     "type": "string",
