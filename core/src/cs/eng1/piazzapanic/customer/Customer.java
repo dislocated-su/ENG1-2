@@ -44,6 +44,10 @@ public class Customer extends Actor implements Disposable {
         }
     }
 
+    public boolean isOrderCompleted() {
+        return orderCompleted;
+    }
+
     @Override
     public void dispose() {}
 }

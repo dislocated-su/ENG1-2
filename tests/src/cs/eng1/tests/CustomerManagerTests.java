@@ -3,10 +3,16 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Queue;
+
+import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
+import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
@@ -20,10 +26,12 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
-
     UIOverlay overlay = mock(UIOverlay.class);
     CustomerManager customerManager = new CustomerManager(overlay, 5, 0);
     FoodTextureManager textureManager = new FoodTextureManager();
+    World world = new World(new Vector2(0, 0), true);
+    KeyboardInput kbInput = new KeyboardInput();
+    ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
     SubmitStation submitStation = new SubmitStation(
         0,
         null,
@@ -31,7 +39,13 @@ public class CustomerManagerTests {
         null,
         customerManager
     );
-
+    Texture fake = new Texture(
+        Gdx.files.internal(
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
+        )
+    );
+    Chef chef = new Chef(fake, new Vector2(1, 1), chefManager);
+    
     @Test
     public void initTests() {
         assertNull(
@@ -74,5 +88,28 @@ public class CustomerManagerTests {
         }
         assertEquals(2, customerManager.getCustomerQueue().size);
         assertEquals(2, customerManager.getReputation());
+        customerManager.loseReputation();
+        assertEquals(1, customerManager.getReputation());
+    }
+
+    @Test
+    public void checkRecipeTests() {
+        assertFalse(customerManager.checkRecipe(new Pizza(textureManager)));
+        customerManager.init(textureManager);
+        assertTrue(customerManager.checkRecipe(new Pizza(textureManager)));
+    }
+
+    @Test
+    public void nextRecipeTests() {
+        customerManager.init(textureManager);
+        Customer first = customerManager.getCustomerQueue().first();
+        customerManager.nextRecipe(chef);
+        assertTrue(first.isOrderCompleted());
+        assertNotEquals(first.getOrder(), customerManager.getFirstOrder());
+        for (int i = 0; i < 4; i++){
+            customerManager.generateCustomer();
+            customerManager.nextRecipe(chef);
+        }
+        assertFalse(customerManager.getTimer().getRunning());
     }
 }
