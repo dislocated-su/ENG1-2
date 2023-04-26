@@ -15,7 +15,6 @@ import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
-import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
@@ -49,16 +48,29 @@ public class CustomerManagerTests {
     @Test
     public void initTests() {
         assertNull(
-            "By default, customerManager should have no orders.",
+            "customerManager should have no orders before initialising.",
             customerManager.getFirstOrder()
         );
-        assertFalse(customerManager.getTimer().getRunning());
-        assertEquals(0, customerManager.getCustomerQueue().size);
-        customerManager.init(textureManager);
-        assertEquals(3, customerManager.getReputation());
-        assertTrue(customerManager.getTimer().getRunning());
-        assertEquals(1, customerManager.getCustomerQueue().size);
+        assertFalse(
+            "customerManager timer should not be running before initialising.", 
+            customerManager.getTimer().getRunning());
         assertEquals(
+            "customerManager should have no customers before initialising.", 
+            0, 
+            customerManager.getCustomerQueue().size);
+        customerManager.init(textureManager);
+        assertEquals(
+            "Reputation should initialise as 0.", 
+            3, 
+            customerManager.getReputation());
+        assertTrue(
+            "After initialising, customerManager's timer should be running.",
+            customerManager.getTimer().getRunning());
+        assertEquals("customerManager should have 1 customer after initialising.", 
+        1, 
+        customerManager.getCustomerQueue().size);
+        assertEquals(
+            "customerManager should have a recipe after initialising.",
             new Pizza(textureManager).getTexture(),
             customerManager.getFirstOrder().getTexture()
         );
@@ -67,17 +79,33 @@ public class CustomerManagerTests {
     @Test
     public void addStationTests() {
         LinkedList<SubmitStation> list = new LinkedList<>();
-        assertEquals(list, customerManager.getRecipeStations());
+        assertEquals(
+            "customerManager should start without any stations.", 
+            list, 
+            customerManager.getRecipeStations());
         customerManager.addStation(submitStation);
         list.add(submitStation);
-        assertEquals(list, customerManager.getRecipeStations());
+        assertEquals(
+            "addStation should add a station to customerManager.", 
+            list, 
+            customerManager.getRecipeStations());
     }
 
     @Test
     public void checkSpawnTests() {
         customerManager.init(textureManager);
-        customerManager.checkSpawn(61);
-        assertEquals(2, customerManager.getCustomerQueue().size);
+        customerManager.checkSpawn((float) 1 / 60);
+        assertEquals(
+            "checkSpawn shouldn't change customerQueue until time equal to delay is passed.", 
+            1, 
+            customerManager.getCustomerQueue().size);
+        for (int i = 0; i <= 4000; i++) {
+            customerManager.checkSpawn((float) 1 / 60);
+        }
+        assertEquals(
+            "checkSpawn should add a customer when enough time has passed.", 
+            2, 
+            customerManager.getCustomerQueue().size);
     }
 
     @Test
@@ -86,17 +114,32 @@ public class CustomerManagerTests {
         for (int i = 0; i <= 4000; i++) {
             customerManager.act((float) 1 / 60);
         }
-        assertEquals(2, customerManager.getCustomerQueue().size);
-        assertEquals(2, customerManager.getReputation());
+        assertEquals(
+            "act should add a customer when enough time has passed.", 
+            2, 
+            customerManager.getCustomerQueue().size);
+        assertEquals(
+            "act should reduce reputation when a customer's order hasn't been met for long enough.", 
+            2, 
+            customerManager.getReputation());
         customerManager.loseReputation();
-        assertEquals(1, customerManager.getReputation());
+        assertEquals(
+            "loseReputation should decrease reputation.", 
+            1, 
+            customerManager.getReputation());
     }
 
     @Test
     public void checkRecipeTests() {
-        assertFalse(customerManager.checkRecipe(new Pizza(textureManager)));
+        assertFalse(
+            "checkRecipe should return false when there is no recipe.", 
+            customerManager.checkRecipe(new Pizza(textureManager))
+        );
         customerManager.init(textureManager);
-        assertTrue(customerManager.checkRecipe(new Pizza(textureManager)));
+        assertTrue(
+            "checkRecipe should return the top recipe of customerQueue (in customerManager).", 
+            customerManager.checkRecipe(new Pizza(textureManager))
+        );
     }
 
     @Test
@@ -104,12 +147,21 @@ public class CustomerManagerTests {
         customerManager.init(textureManager);
         Customer first = customerManager.getCustomerQueue().first();
         customerManager.nextRecipe(chef);
-        assertTrue(first.isOrderCompleted());
-        assertNotEquals(first.getOrder(), customerManager.getFirstOrder());
-        for (int i = 0; i < 4; i++) {
+        assertTrue(
+            "nextRecipe should complete the current order.", 
+            first.isOrderCompleted()
+        );
+        assertNotEquals(
+            "nextRecipe should change the current order.", 
+            first.getOrder(), 
+            customerManager.getFirstOrder()
+        );
+        for (int i = 0; i < 4; i++){
             customerManager.generateCustomer();
             customerManager.nextRecipe(chef);
         }
-        assertFalse(customerManager.getTimer().getRunning());
+        assertFalse(
+            "nextRecipe should stop the timer when all orders have been delivered.", 
+            customerManager.getTimer().getRunning());
     }
 }
