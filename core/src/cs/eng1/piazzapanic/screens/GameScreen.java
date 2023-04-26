@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -50,13 +51,13 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
-        MapLoader mapLoader = new MapLoader("main-game-map.tmx");
+        MapLoader mapLoader = new MapLoader("e.tmx");
 
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x,
-            mapLoader.mapSize.y,
+            mapLoader.mapSize.x / 2,
+            mapLoader.mapSize.y / 2,
             camera
         ); // Number of tiles
         this.stage = new Stage(viewport);
@@ -122,6 +123,25 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (chefManager.getCurrentChef() != null) {
+            OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
+            camera.position.lerp(
+                new Vector3(
+                    chefManager.getCurrentChef().getX(),
+                    chefManager.getCurrentChef().getY(),
+                    1
+                ),
+                0.1f
+            );
+            camera.position.x =
+                (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y =
+                (float) Math.round(camera.position.y * 100f) / 100f;
+        } else {
+            stage.getCamera().position.set(15, 15, 1);
+        }
+
         stage.getCamera().update();
         uiStage.getCamera().update();
 
