@@ -126,14 +126,21 @@ public class GameScreen implements Screen {
 
         if (chefManager.getCurrentChef() != null) {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
-            camera.position.lerp(new Vector3(chefManager.getCurrentChef().getX(), chefManager.getCurrentChef().getY(),1), 0.1f);
-            camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
-            camera.position.y = (float) Math.round(camera.position.y * 100f) / 100f;
+            camera.position.lerp(
+                new Vector3(
+                    chefManager.getCurrentChef().getX(),
+                    chefManager.getCurrentChef().getY(),
+                    1
+                ),
+                0.1f
+            );
+            camera.position.x =
+                (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y =
+                (float) Math.round(camera.position.y * 100f) / 100f;
+        } else {
+            stage.getCamera().position.set(15, 15, 1);
         }
-        else {
-            stage.getCamera().position.set(15,15,1);
-        }
-
 
         stage.getCamera().update();
         uiStage.getCamera().update();
