@@ -178,5 +178,4 @@ public class CustomerManager {
     public int getReputation() {
         return reputation;
     }
-
 }

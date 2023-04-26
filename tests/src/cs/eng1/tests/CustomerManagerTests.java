@@ -3,8 +3,6 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -16,6 +14,7 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import java.util.LinkedList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,11 +24,20 @@ public class CustomerManagerTests {
     UIOverlay overlay = mock(UIOverlay.class);
     CustomerManager customerManager = new CustomerManager(overlay, 5, 0);
     FoodTextureManager textureManager = new FoodTextureManager();
-    SubmitStation submitStation = new SubmitStation(0, null, null, null, customerManager);
+    SubmitStation submitStation = new SubmitStation(
+        0,
+        null,
+        null,
+        null,
+        customerManager
+    );
 
     @Test
     public void initTests() {
-        assertNull("By default, customerManager should have no orders.", customerManager.getFirstOrder());
+        assertNull(
+            "By default, customerManager should have no orders.",
+            customerManager.getFirstOrder()
+        );
         assertFalse(customerManager.getTimer().getRunning());
         assertEquals(0, customerManager.getCustomerQueue().size);
         customerManager.init(textureManager);
@@ -59,10 +67,10 @@ public class CustomerManagerTests {
     }
 
     @Test
-    public void actTests(){
+    public void actTests() {
         customerManager.init(textureManager);
-        for (int i = 0; i <= 4000 ; i++) {
-            customerManager.act((float)1/60);
+        for (int i = 0; i <= 4000; i++) {
+            customerManager.act((float) 1 / 60);
         }
         assertEquals(2, customerManager.getCustomerQueue().size);
         assertEquals(2, customerManager.getReputation());
