@@ -167,4 +167,16 @@ public class CustomerManager {
         return recipeStations;
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public Queue<Customer> getCustomerQueue() {
+        return customerQueue;
+    }
+
+    public int getReputation() {
+        return reputation;
+    }
+
 }
