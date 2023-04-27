@@ -19,10 +19,10 @@ public class PlayerState {
         new Timer(60000, false, false), // noRepLoss
         new Timer(60000, false, false), // moreMoney
     };
+
     // private boolean[] powerUps = { false, false, false, false, false };
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     /**
      *
