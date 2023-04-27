@@ -22,9 +22,23 @@ public class BasicGrillable extends Ingredient implements Grillable {
 
     @Override
     public boolean grillTick(float delta) {
-        accumulator += (delta * ((PlayerState.getInstance().getBuffActive(PowerUp.DOUBLE_PREP_SPEED)) ? 2 : 1));
-        if (accumulator >= (grillStepTime + failTime) &&
-                !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)) {
+        accumulator +=
+            (
+                delta *
+                (
+                    (
+                            PlayerState
+                                .getInstance()
+                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                        )
+                        ? 2
+                        : 1
+                )
+            );
+        if (
+            accumulator >= (grillStepTime + failTime) &&
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
+        ) {
             setUseable(false);
         } else if (accumulator >= grillStepTime) {
             if (!getHalfGrilled()) {

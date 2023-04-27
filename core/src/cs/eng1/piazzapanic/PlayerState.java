@@ -1,8 +1,7 @@
 package cs.eng1.piazzapanic;
 
-import java.util.HashMap;
-
 import cs.eng1.piazzapanic.utility.Timer;
+import java.util.HashMap;
 
 public class PlayerState {
 
@@ -18,7 +17,8 @@ public class PlayerState {
 
     private float upgradeCost = 100f;
 
-    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>();
+    private HashMap<PowerUp, Timer> powerUpTimers =
+        new HashMap<PowerUp, Timer>();
 
     public enum PowerUp {
         DOUBLE_CHEF_SPEED,
@@ -32,13 +32,19 @@ public class PlayerState {
         // for (PowerUp powerUp : PowerUp.values()) {
         // powerUpTimers.put(powerUp, new Timer(60000, false, false));
         // }
-        powerUpTimers.put(PowerUp.DOUBLE_CHEF_SPEED, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.DOUBLE_PREP_SPEED, new Timer(60000, false, false));
+        powerUpTimers.put(
+            PowerUp.DOUBLE_CHEF_SPEED,
+            new Timer(60000, false, false)
+        );
+        powerUpTimers.put(
+            PowerUp.DOUBLE_PREP_SPEED,
+            new Timer(60000, false, false)
+        );
         powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-    } 
-    
+    }
+
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
         if (buying) {
@@ -146,7 +152,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public int getDifficulty() {
@@ -154,7 +160,7 @@ public class PlayerState {
     }
 
     /**
-     * 
+     *
      * @param value
      */
     public void setDifficulty(int value) {
