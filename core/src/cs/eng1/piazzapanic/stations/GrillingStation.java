@@ -8,7 +8,6 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
 
 public class GrillingStation extends Station {
 
@@ -20,9 +19,10 @@ public class GrillingStation extends Station {
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class GrillingStation extends Station {
      * Checks the presented ingredient with the list of valid ingredients to see if
      * it can be cooked
      *
-     * @param ingredientToCheck The ingredient presented by the chef to be checked
+     * @param itemToCheck The item presented by the chef to be checked
      *                          if it can be used
      *                          by the station
      * @return true if the ingredient is in the validIngredients array; false
@@ -96,9 +96,13 @@ public class GrillingStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
             return actionTypes;
         }
         if (currentIngredient == null) {
@@ -135,6 +139,7 @@ public class GrillingStation extends Station {
 
     @Override
     public void doStationAction(StationAction.ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case COOK_ACTION:
                 // timeCooked is used to track how long the

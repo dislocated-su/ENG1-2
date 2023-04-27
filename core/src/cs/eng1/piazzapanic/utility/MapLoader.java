@@ -125,6 +125,10 @@ public class MapLoader {
                         .get("actionAlignment", "TOP", String.class)
                 );
 
+            Boolean locked = tileObject
+                .getProperties()
+                .get("locked", Boolean.class);
+
             // Initialize specific station types
             switch (
                 tileObject.getProperties().get("stationType", String.class)
@@ -135,7 +139,8 @@ public class MapLoader {
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
+                            alignment,
+                            locked
                         );
                     break;
                 case "ingredientStation":
@@ -145,6 +150,7 @@ public class MapLoader {
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
+                            locked,
                             Ingredient.fromString(
                                 ingredients,
                                 foodTextureManager
@@ -157,7 +163,8 @@ public class MapLoader {
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
+                            alignment,
+                            locked
                         );
                     break;
                 case "recipeStation":
@@ -167,6 +174,7 @@ public class MapLoader {
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
+                            locked,
                             foodTextureManager
                         );
                     break;
@@ -176,7 +184,8 @@ public class MapLoader {
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
+                            alignment,
+                            locked
                         );
                     break;
                 case "submitStation":
@@ -186,6 +195,7 @@ public class MapLoader {
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
+                            locked,
                             customerManager
                         );
                     customerManager.addStation((SubmitStation) station);
@@ -196,7 +206,8 @@ public class MapLoader {
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
-                            alignment
+                            alignment,
+                            locked
                         );
             }
             float tileX = tileObject.getX() * unitScale;

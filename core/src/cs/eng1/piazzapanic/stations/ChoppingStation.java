@@ -9,7 +9,6 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The ChoppingStation class is a station representing the place in
@@ -34,17 +33,16 @@ public class ChoppingStation extends Station {
      *                     action
      *                     buttons belonging to the station
      * @param alignment    Dictates where the action buttons are shown
-     * @param ingredients  An array of ingredients used to define what ingredients
-     *                     can be
-     *                     chopped
+     * @param locked
      */
     public ChoppingStation(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
     }
 
     /**
@@ -104,11 +102,16 @@ public class ChoppingStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
             return actionTypes;
         }
+
         if (currentIngredient == null) {
             if (
                 nearbyChef.hasIngredient() &&
@@ -139,6 +142,7 @@ public class ChoppingStation extends Station {
      */
     @Override
     public void doStationAction(StationAction.ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case CHOP_ACTION:
                 inUse = true;

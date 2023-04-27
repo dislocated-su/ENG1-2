@@ -10,13 +10,23 @@ public class PlayerState {
 
     public float cash = 0;
 
-    private Timer[] powerUpTimers = {
+    private float upgradeCost = 100f;
+
+    private final Timer[] powerUpTimers = {
         new Timer(10000, false, false), // doubleChefSpeed
         new Timer(60000, false, false), // doublePrepSpeed
         new Timer(60000, false, false), // noFailPrep
         new Timer(60000, false, false), // noRepLoss
         new Timer(60000, false, false), // moreMoney
     };
+
+    public float getUpgradeCost(boolean buying) {
+        float returnCost = upgradeCost;
+        if (buying) {
+            upgradeCost += 100f;
+        }
+        return returnCost;
+    }
 
     public static PlayerState getInstance() {
         if (instance == null) {
