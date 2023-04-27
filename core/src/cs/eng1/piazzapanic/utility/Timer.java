@@ -65,4 +65,12 @@ public class Timer {
     public boolean getRunning() {
         return this.running;
     }
+
+    public void setDelay(int value) {
+        delay = value;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
 }

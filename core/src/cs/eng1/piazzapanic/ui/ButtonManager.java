@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -176,6 +177,14 @@ public class ButtonManager implements Disposable {
 
     public TextField createTextField(String text) {
         return new TextField(text, (Skin) assetManager.get("skin/skin.json"));
+    }
+
+    public SelectBox<String> createSelectBox(String[] options) {
+        SelectBox<String> temp = new SelectBox<String>(
+            (Skin) assetManager.get("skin/skin.json")
+        );
+        temp.setItems(options);
+        return temp;
     }
 
     /**

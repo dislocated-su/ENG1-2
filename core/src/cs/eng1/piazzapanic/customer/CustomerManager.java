@@ -34,10 +34,13 @@ public class CustomerManager {
     final World world;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private final Timer timer = new Timer(60000, false, true);
+    
+    private Timer spawnTimer = new Timer(60000, false, true);
+    private Timer endlessTimer = new Timer(60000, false, true);
     // Separate random instances are used to not break existing tests relying on a set permutation of orders.
     private final Random randomOrders;
     private final Random randomTextures;
+
     private int reputation = 3;
 
     private Map<Integer, Box2dLocation> objectives;
@@ -107,13 +110,42 @@ public class CustomerManager {
         Collections.sort(objectiveIds);
 
         generateCustomer();
+        float difficultyMod = 1f;
+        Gdx.app.log(PlayerState.getInstance().getDifficulty() + "", "");
 
-        timer.start();
+        switch (PlayerState.getInstance().getDifficulty()) {
+            case 0:
+                difficultyMod = 2f;
+                break;
+            case 1:
+                difficultyMod = 1f;
+                break;
+            case 2:
+                difficultyMod = 0.75f;
+                break;
+        }
+        // spawnTimer = new Timer((int) (60000 * difficultyMod), true, true);
+        spawnTimer.setDelay((int) (spawnTimer.getDelay() * difficultyMod));
+        spawnTimer.start();
+
+        if (totalCustomers == 0) {
+            endlessTimer.start();
+        }
     }
 
     public void act(float delta) {
         if (reputation == 0) {
             overlay.finishGameUI();
+        }
+
+        if (endlessTimer.getRunning()) {
+            if (endlessTimer.tick(delta)) {
+                spawnTimer.setDelay(Math.round(spawnTimer.getDelay() * 0.95f));
+                Gdx.app.log(
+                    "Changing spawnTimer delay",
+                    spawnTimer.getDelay() + ""
+                );
+            }
         }
         checkSpawn(delta);
 
@@ -123,10 +155,11 @@ public class CustomerManager {
     }
 
     public void checkSpawn(float delta) {
-        if (timer.tick(delta)) {
+        if (spawnTimer.tick(delta)) {
             generateCustomer();
             overlay.updateRecipeUI(getFirstOrder());
-            timer.reset();
+            
+            spawnTimer.reset();
         }
     }
 
@@ -169,7 +202,7 @@ public class CustomerManager {
         overlay.updateRecipeUI(getFirstOrder());
         overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
-            timer.stop();
+            spawnTimer.stop();
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
         }
@@ -265,7 +298,7 @@ public class CustomerManager {
     }
 
     public Timer getTimer() {
-        return timer;
+        return spawnTimer;
     }
 
     public Queue<Customer> getCustomerQueue() {

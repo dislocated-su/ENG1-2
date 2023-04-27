@@ -47,7 +47,11 @@ public class GameScreen implements Screen {
     private final World world;
     private KeyboardInput kbInput;
 
-    public GameScreen(final PiazzaPanicGame game, int totalCustomers) {
+    public GameScreen(
+        final PiazzaPanicGame game,
+        int totalCustomers,
+        int difficulty
+    ) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -78,6 +82,7 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         PlayerState.reset();
+        PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager =
             new ChefManager(
