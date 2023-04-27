@@ -25,7 +25,7 @@ public class CustomerManager {
     private int totalCustomers;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private Timer spawnTimer;
+    private Timer spawnTimer = new Timer(60000, false, true);
     private Timer endlessTimer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
@@ -82,7 +82,10 @@ public class CustomerManager {
                 difficultyMod = 0.75f;
                 break;
         }
-        spawnTimer = new Timer((int) (10000 * difficultyMod), true, true);
+        // spawnTimer = new Timer((int) (60000 * difficultyMod), true, true);
+        spawnTimer.setDelay((int) (spawnTimer.getDelay() * difficultyMod));
+        spawnTimer.start();
+
         if (totalCustomers == 0) {
             endlessTimer.start();
         }

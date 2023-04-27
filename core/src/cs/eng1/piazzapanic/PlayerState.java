@@ -14,7 +14,7 @@ public class PlayerState {
 
     private boolean paused = false;
 
-    private int difficultyLevel;
+    private int difficultyLevel = 1;
 
     private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>();
 
@@ -30,7 +30,7 @@ public class PlayerState {
         // for (PowerUp powerUp : PowerUp.values()) {
         // powerUpTimers.put(powerUp, new Timer(60000, false, false));
         // }
-        powerUpTimers.put(PowerUp.DOUBLE_CHEF_SPEED, new Timer(10000, true, false));
+        powerUpTimers.put(PowerUp.DOUBLE_CHEF_SPEED, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.DOUBLE_PREP_SPEED, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
