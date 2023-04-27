@@ -3,6 +3,8 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -72,17 +74,19 @@ public class StationColliderTests{
         assertEquals("tests that register adds the nearbyChef when a station has been registered" ,chef , station.nearbyChef);
     }
 
-    //@Test
+    @Test
     ///**
     // * tests that act works corectly
     // */
-    //public void testAct(){
-    //    StationCollider stationCollider = new StationCollider(chefManager);
-    //    stationCollider.register(station);
-    //    chef.setX(stationCollider.getX());
-    //    chef.setY(stationCollider.getY());
-    //    stationCollider.act(0);
-    //    station.update(null);
-    //    assertEquals(chef, station.nearbyChef);
-    //}
+    public void testAct(){
+        StationCollider stationCollider = new StationCollider(chefManager);
+        stationCollider.setX(5);
+        stationCollider.setY(3);
+        stationCollider.register(station);
+        stationCollider.setWidth(1);
+        stationCollider.setHeight(1);
+        stationCollider.act(0);
+        station.update(null);
+        assertEquals(chefManager.getChefs().get(0), station.nearbyChef);
+    }
 }
