@@ -260,13 +260,7 @@ public class UpgradesUi {
         table.add(timerLabelForChefs).width(scale).height(scale).pad(3);
         table.add(costLabelForChefs).width(scale).height(scale).pad(3);
 
-        // Pixmap bgPixmap = new Pixmap(100, 100, Pixmap.Format.RGB565);
-        // bgPixmap.setColor(1, 1, 0, 0.2f);
-        // bgPixmap.setBlending(Blending.SourceOver);
-        // bgPixmap.fillRectangle(10, 10, 80, 80);
-
-        // TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
-        // table.setBackground(textureRegionDrawableBg);
+        
 
     }
 

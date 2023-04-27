@@ -39,7 +39,8 @@ public class UIOverlay {
     private final Label resultLabel;
     private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
-    int counter = 0;
+    private boolean checker = false;
+
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
@@ -50,13 +51,9 @@ public class UIOverlay {
         table.center().top().pad(15f);
         uiStage.addActor(table);
 
-        Table bottomTable = new Table();
-        table.setFillParent(true);
-        table.bottom().top().pad(15f);
-        uiStage.addActor(bottomTable);
+        // Initialize button for Upgrade implementation
+        updateButton(uiStage);
 
-        final UpgradesUi upgradesUi = game.getUpgradesUi();
-        upgradesUi.addToStage(uiStage);
 
         // Initialise pointer image
         pointer = new Image(
@@ -141,36 +138,9 @@ public class UIOverlay {
         resultTimer = new UIStopwatch(labelStyle);
         resultTimer.setVisible(false);
 
-        // Initialize button for Upgrade implementation
-        String message = "";
-        if (counter == 0){ // counter to change button text
-            message = "Upgrades";
-        }
-        else {
-            message = "Return";
-        }
-        TextButton upgrades = game.getButtonManager()
-        .createTextButton(message, ButtonManager.ButtonColour.BLUE);
-        upgrades.sizeBy(1f);
-        upgrades.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if (counter == 0){ // counter to check whether to hid or unhide the upgrades panel
-                            upgradesUi.visible(true);
-                            counter += 1;
-                        }
-                        else {
-                            upgradesUi.visible(false);  
-                            counter -= 1;
-                        }  
-                    }
-                });
 
         // Add everything
         Value scale = Value.percentWidth(0.04f, table);
-        Value scale2 = Value.percentWidth(0.08f, table);
-        Value padding = Value.percentWidth(0.12f, table);
         Value timerWidth = Value.percentWidth(0.2f, table);
         table.add(chefDisplay).left().width(scale).height(scale);
         table.add(timer).expandX().width(timerWidth).height(scale);
@@ -183,9 +153,6 @@ public class UIOverlay {
         table.add(resultLabel).colspan(3);
         table.row();
         table.add(resultTimer).colspan(3);
-        bottomTable.padLeft(padding);
-        bottomTable.padBottom(scale2);
-        bottomTable.add(upgrades).left().width(scale2).height(scale);
     }
 
     /**
@@ -249,6 +216,49 @@ public class UIOverlay {
         resultTimer.setTime(timer.getTime());
         resultTimer.setVisible(true);
         timer.stop();
+    }
+
+    public void updateButton(Stage uiStage){
+
+
+
+        String upgradeUiButtonText;
+        TextButton upgrades;
+
+        final UpgradesUi upgradesUi = game.getUpgradesUi();
+        upgradesUi.addToStage(uiStage);
+
+        if (checker ==  false) {
+            upgradeUiButtonText = "Upgrades";
+        }
+        else{
+            upgradeUiButtonText = "Return";
+        }
+        upgrades = game.getButtonManager()
+        .createTextButton(upgradeUiButtonText, ButtonManager.ButtonColour.BLUE);
+        upgrades.sizeBy(1f);
+        upgrades.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        if (checker == false){ // counter to check whether to hid or unhide the upgrades panel
+                            upgradesUi.visible(true);
+                            checker  = true;
+                            updateButton(uiStage);
+                        }
+                        else {
+                            upgradesUi.visible(false);
+                            checker = false;
+                            updateButton(uiStage); 
+                        }  
+                    }
+                });
+    
+        Table bottomTable = new Table();
+        uiStage.addActor(bottomTable);
+        bottomTable.padBottom(60).padLeft(120);
+        bottomTable.add(upgrades).width(100).left();
+
     }
 
     /**
