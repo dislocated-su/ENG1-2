@@ -212,11 +212,7 @@ public class Station extends Actor implements Observer<Chef> {
      */
     public LinkedList<StationAction.ActionType> getActionTypes() {
         PlayerState state = PlayerState.getInstance();
-        if (
-            locked &&
-            state.getCash() >
-            state.getUpgradeCost(false)
-        ) {
+        if (locked && state.getCash() > state.getUpgradeCost(false)) {
             LinkedList<StationAction.ActionType> actionTypes =
                 new LinkedList<>();
             actionTypes.add(StationAction.ActionType.BUY_STATION);
