@@ -25,7 +25,8 @@ public class CustomerManager {
     private int totalCustomers;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private Timer timer;
+    private Timer spawnTimer;
+    private Timer endlessTimer = new Timer(60000, false, true);
     private Random random;
     private int reputation = 3;
 
@@ -59,13 +60,12 @@ public class CustomerManager {
     public void init(FoodTextureManager textureManager) {
         customerQueue.clear();
 
-        possibleRecipes =
-            new Recipe[] {
+        possibleRecipes = new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-            };
+        };
 
         generateCustomer();
         float difficultyMod = 1f;
@@ -82,12 +82,23 @@ public class CustomerManager {
                 difficultyMod = 0.75f;
                 break;
         }
-        timer = new Timer((int) (10000 * difficultyMod), true, true);
+        spawnTimer = new Timer((int) (10000 * difficultyMod), true, true);
+        if (totalCustomers == 0) {
+            endlessTimer.start();
+        }
+
     }
 
     public void act(float delta) {
         if (reputation == 0) {
             overlay.finishGameUI();
+        }
+
+        if (endlessTimer.getRunning()) {
+            if (endlessTimer.tick(delta)) {
+                spawnTimer.setDelay(Math.round(spawnTimer.getDelay() * 0.95f));
+                Gdx.app.log("Changing spawnTimer delay", spawnTimer.getDelay() + "");
+            }
         }
         checkSpawn(delta);
 
@@ -97,11 +108,11 @@ public class CustomerManager {
     }
 
     public void checkSpawn(float delta) {
-        if (timer.tick(delta)) {
+        if (spawnTimer.tick(delta)) {
             generateCustomer();
             overlay.updateRecipeUI(getFirstOrder());
 
-            timer.reset();
+            spawnTimer.reset();
         }
     }
 
@@ -144,7 +155,7 @@ public class CustomerManager {
         overlay.updateRecipeUI(getFirstOrder());
         overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
-            timer.stop();
+            spawnTimer.stop();
             overlay.updateRecipeUI(null);
             overlay.finishGameUI();
         }
@@ -167,12 +178,12 @@ public class CustomerManager {
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
         customerQueue.addFirst(
-            new Customer(possibleRecipes[random.nextInt(4)], this)
-        );
+                new Customer(possibleRecipes[random.nextInt(4)], this));
     }
 
     public Recipe getFirstOrder() {
-        if (customerQueue.isEmpty()) return null;
+        if (customerQueue.isEmpty())
+            return null;
         return customerQueue.first().getOrder();
     }
 }

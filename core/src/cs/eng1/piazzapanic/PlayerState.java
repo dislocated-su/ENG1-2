@@ -13,14 +13,16 @@ public class PlayerState {
     private int difficultyLevel;
 
     private Timer[] powerUpTimers = {
-        new Timer(10000, true, false), // doubleChefSpeed
-        new Timer(60000, false, false), // doublePrepSpeed
-        new Timer(60000, false, false), // noFailPrep
-        new Timer(60000, false, false), // noRepLoss
-        new Timer(60000, false, false), // moreMoney
+            new Timer(10000, true, false), // doubleChefSpeed
+            new Timer(60000, false, false), // doublePrepSpeed
+            new Timer(60000, false, false), // noFailPrep
+            new Timer(60000, false, false), // noRepLoss
+            new Timer(60000, false, false), // moreMoney
     };
+    // private boolean[] powerUps = { false, false, false, false, false };
 
-    private PlayerState() {}
+    private PlayerState() {
+    }
 
     /**
      *
