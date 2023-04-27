@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic;
 
+import java.util.HashMap;
+
 import cs.eng1.piazzapanic.utility.Timer;
 
 public class PlayerState {
@@ -10,19 +12,30 @@ public class PlayerState {
 
     private float cash = 0;
 
+    private boolean paused = false;
+
     private int difficultyLevel;
 
-    private Timer[] powerUpTimers = {
-        new Timer(10000, false, false), // doubleChefSpeed
-        new Timer(60000, false, false), // doublePrepSpeed
-        new Timer(60000, false, false), // noFailPrep
-        new Timer(60000, false, false), // noRepLoss
-        new Timer(60000, false, false), // moreMoney
-    };
+    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>();
 
-    // private boolean[] powerUps = { false, false, false, false, false };
+    public enum PowerUp {
+        DOUBLE_CHEF_SPEED,
+        DOUBLE_PREP_SPEED,
+        NO_FAIL_PREP,
+        NO_REP_LOSS,
+        MORE_MONEY,
+    }
 
-    private PlayerState() {}
+    private PlayerState() {
+        // for (PowerUp powerUp : PowerUp.values()) {
+        // powerUpTimers.put(powerUp, new Timer(60000, false, false));
+        // }
+        powerUpTimers.put(PowerUp.DOUBLE_CHEF_SPEED, new Timer(10000, true, false));
+        powerUpTimers.put(PowerUp.DOUBLE_PREP_SPEED, new Timer(60000, false, false));
+        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
+        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+        powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+    }
 
     /**
      *
@@ -60,7 +73,7 @@ public class PlayerState {
         if (customerHappy) {
             totalMultiplier *= happinessMult;
         }
-        if (getBuffActive(4)) {
+        if (getBuffActive(PowerUp.MORE_MONEY)) {
             totalMultiplier *= 2;
         }
         return totalMultiplier;
@@ -95,13 +108,15 @@ public class PlayerState {
      * @param delta
      */
     public void act(float delta) {
-        for (Timer timer : powerUpTimers) {
-            // first check if a timer is running, then check if timer is complete for
-            // efficiency
-            if (timer.getRunning()) {
-                if (timer.tick(delta)) {
-                    timer.stop();
-                    timer.reset();
+        if (!paused) {
+            for (Timer timer : powerUpTimers.values()) {
+                // first check if a timer is running, then check if timer is complete for
+                // efficiency
+                if (timer.getRunning()) {
+                    if (timer.tick(delta)) {
+                        timer.stop();
+                        timer.reset();
+                    }
                 }
             }
         }
@@ -112,23 +127,45 @@ public class PlayerState {
      * @param index
      * @return
      */
-    public boolean getBuffActive(int index) {
-        return powerUpTimers[index].getRunning();
+    public boolean getBuffActive(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp).getRunning();
     }
 
     /**
      *
      * @param index
      */
-    public void activateBuff(int index) {
-        powerUpTimers[index].start();
+    public void activateBuff(PowerUp powerUp) {
+        powerUpTimers.get(powerUp).start();
     }
 
+    /**
+     * 
+     * @return
+     */
     public int getDifficulty() {
         return difficultyLevel;
     }
 
+    /**
+     * 
+     * @param value
+     */
     public void setDifficulty(int value) {
         difficultyLevel = value;
+    }
+
+    /**
+     * sets paused flag to true, which prevents the powerUp timers from ticking
+     */
+    public void pause() {
+        paused = true;
+    }
+
+    /**
+     * sets paused flag to false, which allows the powerUp timers to tick
+     */
+    public void resume() {
+        paused = false;
     }
 }
