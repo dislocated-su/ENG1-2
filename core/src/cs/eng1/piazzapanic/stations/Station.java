@@ -211,10 +211,11 @@ public class Station extends Actor implements Observer<Chef> {
      *         state
      */
     public LinkedList<StationAction.ActionType> getActionTypes() {
+        PlayerState state = PlayerState.getInstance();
         if (
             locked &&
-            PlayerState.getInstance().getCash() >
-            PlayerState.getInstance().getUpgradeCost(false)
+            state.getCash() >
+            state.getUpgradeCost(false)
         ) {
             LinkedList<StationAction.ActionType> actionTypes =
                 new LinkedList<>();
@@ -235,9 +236,8 @@ public class Station extends Actor implements Observer<Chef> {
     public void doStationAction(StationAction.ActionType action) {
         if (action == StationAction.ActionType.BUY_STATION) {
             locked = false;
-            PlayerState
-                .getInstance()
-                .spendCash(PlayerState.getInstance().getUpgradeCost(true));
+            PlayerState state = PlayerState.getInstance();
+            state.spendCash(state.getUpgradeCost(true));
             uiController.showActions(this, getActionTypes());
         }
     }
