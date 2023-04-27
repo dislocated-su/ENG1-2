@@ -287,12 +287,13 @@ public class CustomerManager {
             0.5f
         );
         CollisionAvoidance<Vector2> collisionAvoidance =
-                new CollisionAvoidance<>(customer.steeringBody, proximity);
+            new CollisionAvoidance<>(customer.steeringBody, proximity);
 
-        PrioritySteering<Vector2> prioritySteering =
-                new PrioritySteering<>(customer.steeringBody)
-                .add(collisionAvoidance)
-                .add(arrive);
+        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(
+            customer.steeringBody
+        )
+            .add(collisionAvoidance)
+            .add(arrive);
 
         customer.steeringBody.setSteeringBehavior(prioritySteering);
         customer.currentObjective = locationID;
