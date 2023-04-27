@@ -13,6 +13,10 @@ import org.junit.runner.RunWith;
 public class IngredientTests {
 
     FoodTextureManager textureManager = new FoodTextureManager();
+    Ingredient patty = Ingredient.fromString("patty", textureManager);
+    Ingredient lettuce = Ingredient.fromString("lettuce", textureManager);
+    Ingredient potato = Ingredient.fromString("potato", textureManager);
+    Ingredient cheese = Ingredient.fromString("cheese", textureManager);
 
     /*
      * These test the behaviour of fromString
@@ -58,25 +62,21 @@ public class IngredientTests {
      */
     @Test
     public void testIsChopped() {
-        Ingredient ingredient = Ingredient.fromString(
-            "lettuce",
-            textureManager
-        );
         assertFalse(
             "An ingredient should not be chopped immediately.",
-            ingredient.getChopped()
+            lettuce.getChopped()
         );
 
-        ingredient.setChopped(true);
+        lettuce.setChopped(true);
         assertTrue(
             "getChopped should be true when chopped is true.",
-            ingredient.getChopped()
+            lettuce.getChopped()
         );
 
-        ingredient.setChopped(false);
+        lettuce.setChopped(false);
         assertFalse(
             "getChopped should be false when chopped is false.",
-            ingredient.getChopped()
+            lettuce.getChopped()
         );
     }
 
@@ -85,22 +85,21 @@ public class IngredientTests {
      */
     @Test
     public void testIsGrilled() {
-        Ingredient ingredient = Ingredient.fromString("patty", textureManager);
         assertFalse(
             "An ingredient should not be grilled immediately.",
-            ingredient.getGrilled()
+            patty.getGrilled()
         );
 
-        ingredient.setIsGrilled(true);
+        patty.setIsGrilled(true);
         assertTrue(
             "getGrilled should be true when grilled is true.",
-            ingredient.getGrilled()
+            patty.getGrilled()
         );
 
-        ingredient.setIsGrilled(false);
+        patty.setIsGrilled(false);
         assertFalse(
             "getGrilled should be false when grilled is false.",
-            ingredient.getGrilled()
+            patty.getGrilled()
         );
     }
 
@@ -109,10 +108,6 @@ public class IngredientTests {
      */
     @Test
     public void testToString() {
-        Ingredient patty = Ingredient.fromString("patty", textureManager);
-        Ingredient lettuce = Ingredient.fromString("lettuce", textureManager);
-        Ingredient potato = Ingredient.fromString("potato", textureManager);
-
         assertEquals(
             "Ingredient should be raw without interaction.",
             "patty_raw",
@@ -166,6 +161,12 @@ public class IngredientTests {
             "potato_ruined",
             potato.toString()
         );
+        cheese.setChopped(true);
+        assertEquals(
+            "Ingredient should be _chopped when chopped.", 
+            "cheese_chopped", 
+            cheese.toString()
+        );
     }
 
     /*
@@ -173,23 +174,36 @@ public class IngredientTests {
      */
     @Test
     public void testUseable() {
-        Ingredient ingredient = Ingredient.fromString("patty", textureManager);
-
         assertTrue(
             "Ingredient should be useable by default",
-            ingredient.getUseable()
+            patty.getUseable()
         );
 
-        ingredient.setUseable(false);
+        patty.setUseable(false);
         assertFalse(
             "getUseable should be false when useable is false.",
-            ingredient.getUseable()
+            patty.getUseable()
         );
 
-        ingredient.setUseable(true);
+        patty.setUseable(true);
         assertTrue(
             "getUseable should be true when useable is true.",
-            ingredient.getUseable()
+            patty.getUseable()
+        );
+    }
+
+    @Test
+    public void arrayFromStringTests() {
+        Ingredient[] ingredients = Ingredient.arrayFromString("patty,tomato,lettuce,bun,cheese,potato,dough,uncooked_pizza", textureManager);
+        assertEquals(
+            "arrayFromString should properly split the given string properly.", 
+            8, 
+            ingredients.length
+        );
+        assertEquals(
+            "arrayFromString should get textures from the split string.",
+            lettuce.getTexture(), 
+            ingredients[2].getTexture()
         );
     }
 }
