@@ -218,9 +218,9 @@ public class UIOverlay {
         timer.stop();
     }
 
+
+    // creates a button on the bottom left that updates itself when clicked on and makes visible a table when clicked on
     public void updateButton(Stage uiStage){
-
-
 
         String upgradeUiButtonText;
         TextButton upgrades;
@@ -241,7 +241,7 @@ public class UIOverlay {
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        if (checker == false){ // counter to check whether to hid or unhide the upgrades panel
+                        if (checker == false){ // to check whether to hid or unhide the upgrades panel
                             upgradesUi.visible(true);
                             checker  = true;
                             updateButton(uiStage);
