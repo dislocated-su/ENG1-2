@@ -71,7 +71,6 @@ public class ModeSelectOverlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     game.loadGameScreen(0);
-                    
                 }
             }
         );
