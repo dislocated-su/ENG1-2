@@ -163,8 +163,8 @@ public class IngredientTests {
         );
         cheese.setChopped(true);
         assertEquals(
-            "Ingredient should be _chopped when chopped.", 
-            "cheese_chopped", 
+            "Ingredient should be _chopped when chopped.",
+            "cheese_chopped",
             cheese.toString()
         );
     }
@@ -194,15 +194,18 @@ public class IngredientTests {
 
     @Test
     public void arrayFromStringTests() {
-        Ingredient[] ingredients = Ingredient.arrayFromString("patty,tomato,lettuce,bun,cheese,potato,dough,uncooked_pizza", textureManager);
+        Ingredient[] ingredients = Ingredient.arrayFromString(
+            "patty,tomato,lettuce,bun,cheese,potato,dough,uncooked_pizza",
+            textureManager
+        );
         assertEquals(
-            "arrayFromString should properly split the given string properly.", 
-            8, 
+            "arrayFromString should properly split the given string properly.",
+            8,
             ingredients.length
         );
         assertEquals(
             "arrayFromString should get textures from the split string.",
-            lettuce.getTexture(), 
+            lettuce.getTexture(),
             ingredients[2].getTexture()
         );
     }
