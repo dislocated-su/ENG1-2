@@ -1,5 +1,6 @@
 package cs.eng1.piazzapanic.customer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.Proximity;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.CollisionAvoidance;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Queue;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dRadiusProximity;
 import cs.eng1.piazzapanic.chef.Chef;
@@ -34,8 +36,8 @@ public class CustomerManager {
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
 
-    private Timer spawnTimer = new Timer(60000, false, true);
-    private Timer endlessTimer = new Timer(60000, false, true);
+    private final Timer spawnTimer = new Timer(60000, false, true);
+    private final Timer endlessTimer = new Timer(60000, false, true);
     // Separate random instances are used to not break existing tests relying on a set permutation of orders.
     private final Random randomOrders;
     private final Random randomTextures;
@@ -131,9 +133,6 @@ public class CustomerManager {
         switch (PlayerState.getInstance().getDifficulty()) {
             case 0:
                 difficultyMod = 2f;
-                break;
-            case 1:
-                difficultyMod = 1f;
                 break;
             case 2:
                 difficultyMod = 0.75f;
@@ -276,7 +275,7 @@ public class CustomerManager {
 
         Box2dLocation there = objectives.get(locationID);
 
-        Arrive<Vector2> arrive = new Arrive<Vector2>(customer.steeringBody)
+        Arrive<Vector2> arrive = new Arrive<>(customer.steeringBody)
             .setTimeToTarget(10f)
             .setArrivalTolerance(0.1f)
             .setDecelerationRadius(2)
@@ -285,13 +284,13 @@ public class CustomerManager {
         Proximity<Vector2> proximity = new Box2dRadiusProximity(
             customer.steeringBody,
             world,
-            1f
+            0.5f
         );
         CollisionAvoidance<Vector2> collisionAvoidance =
-            new CollisionAvoidance<Vector2>(customer.steeringBody, proximity);
+                new CollisionAvoidance<>(customer.steeringBody, proximity);
 
         PrioritySteering<Vector2> prioritySteering =
-            new PrioritySteering<Vector2>(customer.steeringBody)
+                new PrioritySteering<>(customer.steeringBody)
                 .add(collisionAvoidance)
                 .add(arrive);
 
