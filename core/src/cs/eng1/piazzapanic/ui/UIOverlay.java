@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic.ui;
 
+import java.util.Collection;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -270,26 +272,38 @@ public class UIOverlay {
      */
     public void updateRecipeUI(Recipe recipe) {
         // recipe will be null when we reach the end of the scenario
-        if (recipe == null) {
-            recipeImages.clearChildren();
-            recipeImagesBG.setVisible(false);
-            return;
-        }
-        recipeImages.clearChildren();
-        recipeImages.addActor(recipeCountLabel);
-        for (String recipeIngredient : recipe.getRecipeIngredients()) {
-            Image image = new Image(
-                    recipe.getTextureManager().getTexture(recipeIngredient));
-            image.getDrawable().setMinHeight(chefDisplay.getHeight());
-            image.getDrawable().setMinWidth(chefDisplay.getWidth());
-            recipeImages.addActor(image);
-        }
-        recipeImages.addActor(pointer);
+        // recipeImages.clearChildren();
+        // recipeImages.addActor(recipeCountLabel);
+        // for (String recipeIngredient : recipe.getRecipeIngredients()) {
+        //     Image image = new Image(
+        //             recipe.getTextureManager().getTexture(recipeIngredient));
+        //     image.getDrawable().setMinHeight(chefDisplay.getHeight());
+        //     image.getDrawable().setMinWidth(chefDisplay.getWidth());
+        //     recipeImages.addActor(image);
+        // }
+        // recipeImages.addActor(pointer);
         Image recipeImage = new Image(recipe.getTexture());
         recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
         recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
         recipeImages.addActor(recipeImage);
         recipeImagesBG.setVisible(true);
+    }
+
+    public void updateOrders(Collection<Recipe> orders) {
+        recipeImages.clearChildren();
+
+        if (orders.isEmpty()) {
+            recipeImagesBG.setVisible(false);
+            return;
+        }
+        
+        for (Recipe order: orders) {
+            Image recipeImage = new Image(order.getTexture());
+            recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
+            recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
+            recipeImages.addActor(recipeImage);
+            recipeImagesBG.setVisible(true);
+        }
     }
 
     /**
@@ -300,4 +314,5 @@ public class UIOverlay {
     public void updateRecipeCounter(int remainingRecipes) {
         recipeCountLabel.setText(remainingRecipes);
     }
+    
 }

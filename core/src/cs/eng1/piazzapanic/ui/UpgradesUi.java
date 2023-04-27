@@ -14,13 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Null;
 
 import cs.eng1.piazzapanic.PiazzaPanicGame;
+import cs.eng1.piazzapanic.PlayerState;
 
 public class UpgradesUi {
 
     private static Table table;
-    Table root;
+    Table root, lowerTable;
     private LabelStyle hudLabelFont;
     private LabelStyle hudTitleFont;
 
@@ -198,7 +201,6 @@ public class UpgradesUi {
                 new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
                         // do things
-                        update();
                     }
                 });
 
@@ -221,11 +223,26 @@ public class UpgradesUi {
         moreChefs.addListener(
                 new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
-                        // do things
-                        update();
+                        // do things maybe?
                     }
                 });
 
+        lowerTable = new Table();
+        lowerTable.setFillParent(true);
+        lowerTable.bottom();
+
+        PlayerState player = PlayerState.getInstance();
+        Array<String> powerupsActive = player.getActivePowerups();
+        if (powerupsActive != null){
+        for (String x : powerupsActive) {
+                lowerTable.add(x);
+                lowerTable.row();
+                }
+        }
+
+
+
+        // setting up the table in the 'Shop'
         Value scale2 = Value.percentWidth(0.3f, table);
         Value scale = Value.percentWidth(0.08f, table);
         Value scale1 = Value.percentWidth(0.15f, table);
@@ -264,6 +281,22 @@ public class UpgradesUi {
 
     }
 
+    public String whichPowerup(int value){
+        String powerupName;
+        if (value == 1) {
+            powerupName = "Double Chef Speed";
+        }else if(value == 2) {
+            powerupName = "Double Prep Speed";
+        }else if(value == 3) {
+            powerupName = "No Fail Prep";
+        }else if (value == 4){
+            powerupName = "No Rep Loss";
+        }else {
+            powerupName = "More Money";
+        }
+        return powerupName;
+    }
+    
     // foo being the boolean that makes the table visible or not
     public void visible(Boolean foo) {
         table.setVisible(foo);
@@ -276,5 +309,4 @@ public class UpgradesUi {
     public void update() {
         table.clear();
     }
-
 }
