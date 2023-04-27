@@ -35,7 +35,14 @@ public class RecipeStationTests {
      * Tests that getActionTypes returns nothing when nearbyChef is null
      */
     public void testGetActionTypesNoChef() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "Nothing is added to action types if no chef is nearby.",
@@ -49,7 +56,14 @@ public class RecipeStationTests {
      * anything
      */
     public void testGetActionTypesWithNoIngredient() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         Chef chef = new Chef(null, null, null);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -65,7 +79,14 @@ public class RecipeStationTests {
      * processed ingredient
      */
     public void testGetActionTypesWithIncorrectIngredient() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         Chef chef = new Chef(null, null, chefManager);
         chef.grabItem(new Potato(null));
         station.nearbyChef = chef;
@@ -82,7 +103,14 @@ public class RecipeStationTests {
      * a processed ingredient (chopped lettuce)
      */
     public void testGetActionTypesWithCorrectIngredient() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         Chef chef = new Chef(null, null, chefManager);
         Lettuce lettuce = new Lettuce(null);
         station.nearbyChef = chef;
@@ -101,7 +129,14 @@ public class RecipeStationTests {
      * ingredient onto the station
      */
     public void testDoPlaceAction() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         Chef chef = new Chef(null, null, chefManager);
         Lettuce lettuce = new Lettuce(null);
         station.nearbyChef = chef;
@@ -120,7 +155,14 @@ public class RecipeStationTests {
      * the chef's foodStack
      */
     public void testDoGrabIngredientAction() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         Chef chef = new Chef(null, null, chefManager);
         station.nearbyChef = chef;
         station.completedRecipe = new Burger(null);
@@ -137,7 +179,14 @@ public class RecipeStationTests {
      * if given a Bun and Patty
      */
     public void testDoMakeBurgerAction() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         station.placeIngredient(new Bun(null));
         station.placeIngredient(new Patty(null));
         station.doStationAction(ActionType.MAKE_BURGER);
@@ -158,6 +207,7 @@ public class RecipeStationTests {
             null,
             mock(StationUIController.class),
             null,
+            null,
             null
         );
         station.placeIngredient(new Lettuce(null));
@@ -175,7 +225,14 @@ public class RecipeStationTests {
      * Potato and Cheese
      */
     public void testDoMakeJacketAction() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         station.placeIngredient(new Potato(null));
         station.placeIngredient(new Cheese(null));
         station.doStationAction(ActionType.MAKE_JACKET);
@@ -191,7 +248,14 @@ public class RecipeStationTests {
      * Dough, Cheese and Tomato
      */
     public void doAssemblePizzaAction() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         station.placeIngredient(new Dough(null));
         station.placeIngredient(new Cheese(null));
         station.placeIngredient(new Tomato(null));
@@ -207,7 +271,14 @@ public class RecipeStationTests {
      * Tests the reset method appropriately resets all values.
      */
     public void testResetMethod() {
-        RecipeStation station = new RecipeStation(1, null, mockUI, null, null);
+        RecipeStation station = new RecipeStation(
+            1,
+            null,
+            mockUI,
+            null,
+            null,
+            null
+        );
         station.completedRecipe = new Salad(null);
         station.placeIngredient(new Potato(null));
         station.reset();

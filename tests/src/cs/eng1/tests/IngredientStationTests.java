@@ -22,6 +22,7 @@ public class IngredientStationTests {
             null,
             null,
             null,
+            null,
             null
         );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -35,6 +36,7 @@ public class IngredientStationTests {
     public void testGetActionTypesWithChef() {
         IngredientStation station = new IngredientStation(
             1,
+            null,
             null,
             null,
             null,
@@ -53,6 +55,7 @@ public class IngredientStationTests {
     public void testGettingIngredients() {
         IngredientStation station = new IngredientStation(
             1,
+            null,
             null,
             null,
             null,

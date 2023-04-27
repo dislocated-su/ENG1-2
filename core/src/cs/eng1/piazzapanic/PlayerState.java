@@ -16,6 +16,8 @@ public class PlayerState {
 
     private int difficultyLevel = 1;
 
+    private float upgradeCost = 100f;
+
     private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>();
 
     public enum PowerUp {
@@ -35,12 +37,16 @@ public class PlayerState {
         powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+    } 
+    
+    public float getUpgradeCost(boolean buying) {
+        float returnCost = upgradeCost;
+        if (buying) {
+            upgradeCost += 100f;
+        }
+        return returnCost;
     }
 
-    /**
-     *
-     * @return
-     */
     public static PlayerState getInstance() {
         if (instance == null) {
             instance = new PlayerState();

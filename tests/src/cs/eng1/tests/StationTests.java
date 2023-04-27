@@ -26,7 +26,7 @@ public class StationTests {
      * station, it also tests addSubject and removeSubject as they are used during this test
      */
     public void testUpdate() {
-        Station station = new Station(0, null, uiController, null);
+        Station station = new Station(0, null, uiController, null, null);
         chefSubject.register(station);
         station.update(chef);
         assertEquals(
@@ -57,7 +57,7 @@ public class StationTests {
      * current subjects
      */
     public void testDeregisterFromAllSubjects() {
-        Station station = new Station(0, null, uiController, null);
+        Station station = new Station(0, null, uiController, null, null);
         chefSubject.register(station);
         StationCollider chefSubject2 = new StationCollider(null);
         chefSubject2.register(station);
@@ -74,7 +74,7 @@ public class StationTests {
      * Tests that getActionTypes returns an empty list if there are no actions
      */
     public void testGetActionTypesNoActions() {
-        Station station = new Station(0, null, uiController, null);
+        Station station = new Station(0, null, uiController, null, null);
         List<String> actionTypes = new LinkedList<>();
         assertEquals(
             "tests that getActionTypes returns an empty list if there are no actions",
@@ -88,7 +88,7 @@ public class StationTests {
      * Tests that doStationAction does nothing if the action is null
      */
     public void testDoStationActionNothing() {
-        Station station = new Station(0, null, uiController, null);
+        Station station = new Station(0, null, uiController, null, null);
         station.doStationAction(null);
         assertEquals(
             "tests that doStationAction does nothing if the action is null",
@@ -102,7 +102,7 @@ public class StationTests {
      * Tests that getId returns the correct id
      */
     public void testGetId() {
-        Station station = new Station(0, null, uiController, null);
+        Station station = new Station(0, null, uiController, null, null);
         assertEquals(
             "tests that getId returns the correct id",
             0,

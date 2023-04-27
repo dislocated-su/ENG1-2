@@ -85,7 +85,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="Obstacles">
+ <objectgroup id="10" name="Obstacles" locked="1">
   <object id="84" x="896" y="1664" width="640" height="128"/>
   <object id="85" x="896" y="640" width="128" height="1024"/>
   <object id="86" x="1024" y="640" width="1792" height="128"/>
@@ -123,7 +123,7 @@
    <polyline points="0,0 384,0"/>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Stations" locked="1">
+ <objectgroup id="7" name="Stations">
   <object id="3" class="Station" gid="483" x="2432" y="1280" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="6"/>
@@ -231,21 +231,23 @@
     <property name="stationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="55" class="Station" gid="3221225769" x="1920" y="768" width="128" height="128">
+  <object id="55" class="Station" gid="3221225769" x="1024" y="1536" width="128" height="128" rotation="-90">
    <properties>
-    <property name="collisionObjectIDs" value="59"/>
+    <property name="collisionObjectIDs" value="70"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
   <object id="56" class="Station" gid="3221225769" x="1536" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="60"/>
+    <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
   <object id="57" class="Station" gid="3221225769" x="1152" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="61"/>
+    <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
@@ -255,9 +257,10 @@
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
-  <object id="63" class="Station" gid="296" x="896" y="1408" width="128" height="128" rotation="90">
+  <object id="63" class="Station" gid="296" x="2048" y="640" width="128" height="128" rotation="180">
    <properties>
-    <property name="collisionObjectIDs" value="70"/>
+    <property name="collisionObjectIDs" value="59"/>
+    <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
@@ -276,6 +279,7 @@
   <object id="66" class="Station" gid="1073742120" x="2304" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="71"/>
+    <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
@@ -304,7 +308,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="9" name="Sensors" visible="0" locked="1">
+ <objectgroup id="9" name="Sensors" locked="1">
   <object id="6" x="2560" y="1088" width="128" height="256"/>
   <object id="7" x="2048" y="1088" width="128" height="256"/>
   <object id="16" x="1181.33" y="1280" width="227.667" height="227.667"/>
