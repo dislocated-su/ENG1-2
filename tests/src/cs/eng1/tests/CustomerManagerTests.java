@@ -36,6 +36,7 @@ public class CustomerManagerTests {
         null,
         null,
         null,
+        null,
         customerManager
     );
     Texture fake = new Texture(
