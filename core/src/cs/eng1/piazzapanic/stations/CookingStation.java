@@ -184,8 +184,7 @@ public class CookingStation extends Station {
                     if (
                         this.isCorrectIngredient(nearbyChef.getStack().peek())
                     ) {
-                        currentIngredient =
-                            (Cookable) nearbyChef.popIngredient();
+                        currentIngredient = (Cookable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());

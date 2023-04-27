@@ -31,8 +31,8 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
     };
-    private final float[] chefX = new float[] { 5f, 10f };
-    private final float[] chefY = new float[] { 3f, 3f };
+    private final float[] chefX = new float[] { 12f, 14f };
+    private final float[] chefY = new float[] { 12f, 12f };
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an

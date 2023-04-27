@@ -186,4 +186,20 @@ public class CustomerManager {
             return null;
         return customerQueue.first().getOrder();
     }
+
+    public List<SubmitStation> getRecipeStations() {
+        return recipeStations;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public Queue<Customer> getCustomerQueue() {
+        return customerQueue;
+    }
+
+    public int getReputation() {
+        return reputation;
+    }
 }

@@ -161,7 +161,7 @@ public class RecipeStation extends Station {
                 if (!(nearbyChef.getStack().peek() instanceof Ingredient)) {
                     return;
                 }
-                this.placeIngredient(nearbyChef.popIngredient());
+                this.placeIngredient((Ingredient) nearbyChef.popFood());
 
                 break;
             case MAKE_BURGER:

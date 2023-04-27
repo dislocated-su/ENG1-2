@@ -46,7 +46,7 @@ public class Recipe implements Holdable {
         switch (getType()) {
             case "burger":
                 ingredientTypes.add("bun");
-                ingredientTypes.add("patty_cooked");
+                ingredientTypes.add("patty_grilled");
                 break;
             case "salad":
                 ingredientTypes.add("tomato_chopped");

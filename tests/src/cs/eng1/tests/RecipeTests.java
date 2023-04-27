@@ -1,14 +1,9 @@
 package cs.eng1.tests;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.food.recipes.Burger;
-import cs.eng1.piazzapanic.food.recipes.JacketPotato;
-import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.food.recipes.Salad;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,19 +25,16 @@ public class RecipeTests {
     @Test
     public void getTextureTests() {
         assertEquals(
-            "food/glitch/misc/pizza_01.png",
+            "food/buff_chef/cooked_pizza.png",
             pizza.getTexture().toString()
         );
         assertEquals(
-            "food/glitch/misc/sandwich_burger_04.png",
+            "food/buff_chef/burger.png",
             burger.getTexture().toString()
         );
+        assertEquals("food/buff_chef/salad.png", salad.getTexture().toString());
         assertEquals(
-            "food/glitch/misc/salad.png",
-            salad.getTexture().toString()
-        );
-        assertEquals(
-            "food/glitch/misc/ice_cube.png",
+            "food/buff_chef/jacket_potato.png",
             potato.getTexture().toString()
         );
     }
@@ -65,7 +57,7 @@ public class RecipeTests {
     public void getRecipeIngredientsTests() {
         assertEquals(
             "getRecipeIngredients should return the list of ingredients for a burger",
-            "[bun, patty_cooked]",
+            "[bun, patty_grilled]",
             burger.getRecipeIngredients().toString()
         );
         assertEquals(

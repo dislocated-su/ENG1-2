@@ -114,8 +114,8 @@ public class Chef extends Actor implements Disposable {
                 0.3f,
                 0.6f,
                 0.6f,
-                1f,
-                1f,
+                1.5f,
+                1.5f,
                 imageRotation,
                 0,
                 0,
@@ -193,14 +193,10 @@ public class Chef extends Actor implements Disposable {
      *
      * @return the ingredient that was popped from the stack.
      */
-    public Ingredient popIngredient() {
-        Holdable item = ingredientStack.peek();
-        if (item instanceof Ingredient) {
-            ingredientStack.pop();
-            notifyAboutUpdatedStack();
-            return (Ingredient) item;
-        }
-        return null;
+    public Holdable popFood() {
+        Holdable item = ingredientStack.pop();
+        notifyAboutUpdatedStack();
+        return item;
     }
 
     public Recipe placeRecipe() {
@@ -235,6 +231,10 @@ public class Chef extends Actor implements Disposable {
 
     public Texture getTexture() {
         return image;
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     /**
