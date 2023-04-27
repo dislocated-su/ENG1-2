@@ -32,7 +32,13 @@ public class Customer extends Actor implements Disposable {
 
     private Body body;
 
-    public Customer(Texture texture, Vector2 bounds, Vector2 position, Recipe order, CustomerManager customerManager) {
+    public Customer(
+        Texture texture,
+        Vector2 bounds,
+        Vector2 position,
+        Recipe order,
+        CustomerManager customerManager
+    ) {
         repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
@@ -59,7 +65,7 @@ public class Customer extends Actor implements Disposable {
         body = customerManager.world.createBody(bDef);
         body.createFixture(fDef);
 
-        this.steeringBody = new Box2dSteeringBody(this.body,true, 0.4f);
+        this.steeringBody = new Box2dSteeringBody(this.body, true, 0.4f);
     }
 
     public Recipe getOrder() {
@@ -79,22 +85,22 @@ public class Customer extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-                texture,
-                getX() + (1 - textureBounds.x) / 2f,
-                getY() + (1 - textureBounds.y) / 2f,
-                textureBounds.x / 2f,
-                textureBounds.y / 2f,
-                textureBounds.x,
-                textureBounds.y,
-                1f,
-                1f,
-                getRotation(),
-                0,
-                0,
-                texture.getWidth(),
-                texture.getHeight(),
-                false,
-                false
+            texture,
+            getX() + (1 - textureBounds.x) / 2f,
+            getY() + (1 - textureBounds.y) / 2f,
+            textureBounds.x / 2f,
+            textureBounds.y / 2f,
+            textureBounds.x,
+            textureBounds.y,
+            1f,
+            1f,
+            getRotation(),
+            0,
+            0,
+            texture.getWidth(),
+            texture.getHeight(),
+            false,
+            false
         );
         if (orderCompleted) {
             Texture texture = order.getTexture();
@@ -115,7 +121,7 @@ public class Customer extends Actor implements Disposable {
                 texture.getHeight(),
                 false,
                 false
-                );
+            );
         }
     }
 
@@ -128,7 +134,7 @@ public class Customer extends Actor implements Disposable {
         setPosition(position.x - 0.5f, position.y - 0.5f);
 
         setRotation((float) Math.toDegrees(body.getAngle()));
-        
+
         if (!orderCompleted && reputation && repTimer.tick(delta)) {
             customerManager.loseReputation();
             reputation = false;

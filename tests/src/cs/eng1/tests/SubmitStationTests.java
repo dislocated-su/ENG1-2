@@ -33,8 +33,14 @@ public class SubmitStationTests {
 
     Stage stage = mock(Stage.class);
 
-    World world = new World(new Vector2(0,0),true);
-    CustomerManager customerManager = new CustomerManager(1, overlay, world,0, 0);
+    World world = new World(new Vector2(0, 0), true);
+    CustomerManager customerManager = new CustomerManager(
+        1,
+        overlay,
+        world,
+        0,
+        0
+    );
 
     // pizza, jacket, burger, pizza
 
@@ -81,7 +87,7 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(1, overlay, world,0, 0);
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
         customerManager.init(textureManager, stage);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
@@ -114,7 +120,7 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(1, overlay, world ,0, 0);
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
         customerManager.init(textureManager, stage);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(

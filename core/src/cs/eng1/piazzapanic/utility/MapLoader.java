@@ -30,7 +30,6 @@ import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,36 +79,74 @@ public class MapLoader {
     }
 
     public void loadWaypoints(
-            String waypointLayerName,
-            String cookSpawnProperty,
-            String aiSpawnProperty,
-            String lightSpawnProperty,
-            String aiObjectiveProperty
-    )
-    {
-        MapObjects objects = map.getLayers().get(waypointLayerName).getObjects();
+        String waypointLayerName,
+        String cookSpawnProperty,
+        String aiSpawnProperty,
+        String lightSpawnProperty,
+        String aiObjectiveProperty
+    ) {
+        MapObjects objects = map
+            .getLayers()
+            .get(waypointLayerName)
+            .getObjects();
 
-        for (MapObject object: objects) {
+        for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
                 MapProperties properties = object.getProperties();
                 RectangleMapObject point = (RectangleMapObject) object;
 
-                Vector2 waypoint = new Vector2(point.getRectangle().x / pixelsPerTile, point.getRectangle().y / pixelsPerTile);
+                Vector2 waypoint = new Vector2(
+                    point.getRectangle().x / pixelsPerTile,
+                    point.getRectangle().y / pixelsPerTile
+                );
                 if (properties.containsKey(cookSpawnProperty)) {
-                    Gdx.app.log("Loading Waypoint",String.format("Cook spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                    Gdx.app.log(
+                        "Loading Waypoint",
+                        String.format(
+                            "Cook spawnpoint at (%.2f,%.2f)",
+                            waypoint.x,
+                            waypoint.y
+                        )
+                    );
                     cookSpawnpoints.add(waypoint);
-                }
-                else if (properties.containsKey(aiSpawnProperty)) {
-                    Gdx.app.log("Loading Waypoint",String.format("AI spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                } else if (properties.containsKey(aiSpawnProperty)) {
+                    Gdx.app.log(
+                        "Loading Waypoint",
+                        String.format(
+                            "AI spawnpoint at (%.2f,%.2f)",
+                            waypoint.x,
+                            waypoint.y
+                        )
+                    );
                     aiSpawnpoints.add(waypoint);
-                }
-                else if (properties.containsKey(aiObjectiveProperty)) {
-                    Gdx.app.log("Loading Waypoint",String.format("AI objective at (%.2f,%.2f)", waypoint.x,waypoint.y));
-                    aiObjectives.put(properties.get(aiObjectiveProperty,int.class),new Box2dLocation(waypoint, 0));
-                }
-                else if (properties.containsKey(lightSpawnProperty)) {
-                    Gdx.app.log("Loading Waypoint",String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
-                    lights.add(new Vector3(waypoint,properties.get(lightSpawnProperty, int.class)));
+                } else if (properties.containsKey(aiObjectiveProperty)) {
+                    Gdx.app.log(
+                        "Loading Waypoint",
+                        String.format(
+                            "AI objective at (%.2f,%.2f)",
+                            waypoint.x,
+                            waypoint.y
+                        )
+                    );
+                    aiObjectives.put(
+                        properties.get(aiObjectiveProperty, int.class),
+                        new Box2dLocation(waypoint, 0)
+                    );
+                } else if (properties.containsKey(lightSpawnProperty)) {
+                    Gdx.app.log(
+                        "Loading Waypoint",
+                        String.format(
+                            "Light spawnpoint at (%.2f,%.2f)",
+                            waypoint.x,
+                            waypoint.y
+                        )
+                    );
+                    lights.add(
+                        new Vector3(
+                            waypoint,
+                            properties.get(lightSpawnProperty, int.class)
+                        )
+                    );
                 }
             }
         }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2014 davebaol https://github.com/davebaol
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,10 +46,14 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
 
     protected SteeringBehavior<Vector2> steeringBehavior;
 
-    private static final SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<Vector2>(
-            new Vector2());
+    private static final SteeringAcceleration<Vector2> steeringOutput =
+        new SteeringAcceleration<Vector2>(new Vector2());
 
-    public Box2dSteeringBody(Body body, boolean independentFacing, float boundingRadius) {
+    public Box2dSteeringBody(
+        Body body,
+        boolean independentFacing,
+        float boundingRadius
+    ) {
         this.body = body;
         this.independentFacing = independentFacing;
         this.boundingRadius = boundingRadius;
@@ -135,7 +139,9 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
         return steeringBehavior;
     }
 
-    public void setSteeringBehavior(SteeringBehavior<Vector2> steeringBehavior) {
+    public void setSteeringBehavior(
+        SteeringBehavior<Vector2> steeringBehavior
+    ) {
         this.steeringBehavior = steeringBehavior;
     }
 
@@ -148,7 +154,10 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
         }
     }
 
-    protected void applySteering(SteeringAcceleration<Vector2> steering, float deltaTime) {
+    protected void applySteering(
+        SteeringAcceleration<Vector2> steering,
+        float deltaTime
+    ) {
         boolean anyAccelerations = false;
 
         // Update position and linear velocity.
@@ -165,9 +174,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
                 body.applyTorque(steeringOutput.angular, true);
                 anyAccelerations = true;
             }
-        } else {
-
-        }
+        } else {}
 
         if (anyAccelerations) {
             // Cap the linear speed
@@ -175,7 +182,11 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
             float currentSpeedSquare = velocity.len2();
             float maxLinearSpeed = getMaxLinearSpeed();
             if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-                body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
+                body.setLinearVelocity(
+                    velocity.scl(
+                        maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)
+                    )
+                );
             }
 
             // Cap the angular speed
@@ -239,5 +250,4 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
     public void setZeroLinearSpeedThreshold(float value) {
         throw new UnsupportedOperationException();
     }
-
 }
