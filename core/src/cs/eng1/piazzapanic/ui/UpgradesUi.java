@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Null;
-
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.PlayerState;
 
@@ -190,11 +189,12 @@ public class UpgradesUi {
         powerup5.sizeBy(1f);
 
         powerup5.addListener(
-                new ClickListener() {
-                    public void clicked(InputEvent event, float x, float y) {
-                        // do things
-                    }
-                });
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    // do things
+                }
+            }
+        );
 
         timerForChefs = "N/A"; // proof of concept
         costOfChef = 50;
@@ -212,11 +212,12 @@ public class UpgradesUi {
         moreChefs.sizeBy(1f);
 
         moreChefs.addListener(
-                new ClickListener() {
-                    public void clicked(InputEvent event, float x, float y) {
-                        // do things maybe?
-                    }
-                });
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    // do things maybe?
+                }
+            }
+        );
 
         lowerTable = new Table();
         lowerTable.setFillParent(true);
@@ -224,14 +225,12 @@ public class UpgradesUi {
 
         PlayerState player = PlayerState.getInstance();
         Array<String> powerupsActive = player.getActivePowerups();
-        if (powerupsActive != null){
-        for (String x : powerupsActive) {
+        if (powerupsActive != null) {
+            for (String x : powerupsActive) {
                 lowerTable.add(x);
                 lowerTable.row();
-                }
+            }
         }
-
-
 
         // setting up the table in the 'Shop'
         Value scale2 = Value.percentWidth(0.3f, table);
@@ -272,9 +271,6 @@ public class UpgradesUi {
         table.add(moreChefs).width(scale2).height(scale).pad(3);
         table.add(timerLabelForChefs).width(scale).height(scale).pad(3);
         table.add(costLabelForChefs).width(scale).height(scale).pad(3);
-
-        
-
     }
 
     // foo being the boolean that makes the table visible or not

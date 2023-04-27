@@ -1,7 +1,5 @@
 package cs.eng1.piazzapanic.ui;
 
-import java.util.Collection;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -25,6 +23,7 @@ import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
+import java.util.Collection;
 
 public class UIOverlay {
 
@@ -321,8 +320,8 @@ public class UIOverlay {
             recipeImagesBG.setVisible(false);
             return;
         }
-        
-        for (Recipe order: orders) {
+
+        for (Recipe order : orders) {
             Image recipeImage = new Image(order.getTexture());
             recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
             recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
@@ -339,5 +338,4 @@ public class UIOverlay {
     public void updateRecipeCounter(int remainingRecipes) {
         recipeCountLabel.setText(remainingRecipes);
     }
-    
 }
