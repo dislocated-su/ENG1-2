@@ -1,5 +1,6 @@
 package cs.eng1.piazzapanic.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,26 +21,29 @@ public class UpgradesUi {
 
     private static Table table;
     Table root;
-    private LabelStyle hudLabelStyle;
+    private LabelStyle hudLabelFont;
+    private LabelStyle hudTitleFont;
 
     private int timerForPowerUp1, timerForPowerUp2, timerForPowerUp3,
-            timerForPowerUp4, timerForPowerUp5;
+            timerForPowerUp4, timerForPowerUp5, currentMoney;
+        
+    private String  timerForChefs;
 
-    private Label titleLabel;
+    private Label titleLabel, labelForAllPowerups, moneyLabel;
 
-    private Label LabelForAllTimers, timerLabelPowerUp1, timerLabelPowerUp2,
+    private Label labelForAllTimers, timerLabelPowerUp1, timerLabelPowerUp2,
             timerLabelPowerUp3, timerLabelPowerUp4,
-            timerLabelPowerUp5;
+            timerLabelPowerUp5, timerLabelForChefs;
 
-    private int costForPowerUp1, costPowerUp2,
+    private int costForPowerUp1, costForPowerUp2,
             costForPowerUp3, costForPowerUp4,
-            costForPowerUp5;
+            costForPowerUp5, costOfChef;
 
     private Label labelForAllCosts, costLabelPowerUp1, costLabelPowerUp2,
             costLabelPowerUp3, costLabelPowerUp4,
-            costLabelPowerUp5;
+            costLabelPowerUp5, costLabelForChefs;
 
-    TextButton powerup1, powerup2, powerup3, powerup4, powerup5;
+    TextButton powerup1, powerup2, powerup3, powerup4, powerup5, moreChefs;
 
     public UpgradesUi(PiazzaPanicGame game) {
 
@@ -48,37 +52,52 @@ public class UpgradesUi {
         root.setFillParent(true);
 
         table = new Table();
-        root.add(table).width(700).height(700).center();
-        root.debug();
-        table.debug();
+        root.add(table).width(450).height(350).center();
+        TextureRegionDrawable textureRegionDrawableBg =
+            new TextureRegionDrawable(new Texture(Gdx.files.internal("backgroundimage.jpg")));
+        table.setBackground(textureRegionDrawableBg);
+        // root.debug();
+        // table.debug();
 
         table.setHeight(1000);
         table.setVisible(false);
 
+        currentMoney = 15; //random value
 
+        //fonts used in the "shop"
         FontManager fontManager = new FontManager();
 
-        hudLabelStyle = new Label.LabelStyle();
-        hudLabelStyle.font = fontManager.getLabelFont();
+        hudLabelFont = new Label.LabelStyle();
+        hudLabelFont.font = fontManager.getLabelFont();
 
-        titleLabel = new Label("Upgrades Shop", hudLabelStyle);
+        hudTitleFont = new Label.LabelStyle();
+        hudTitleFont.font = fontManager.getTitleFont();
 
+
+        titleLabel = new Label("Upgrades Shop", hudTitleFont);
+        moneyLabel = new Label("£" + currentMoney, hudTitleFont);
+
+        labelForAllTimers = new Label("Active For:", hudLabelFont);
+        labelForAllPowerups= new Label("Powerups + Upgrades", hudLabelFont);
+        labelForAllCosts = new Label("Cost:", hudLabelFont);
+
+        
+        
         timerForPowerUp1 = 20; // proof of concept
         costForPowerUp1 = 12;
-
+        
         // sets it font, format and value
-        timerLabelPowerUp1 = new Label(String.format("%03d" + "s", timerForPowerUp1),
-                hudLabelStyle);
-
-        costLabelPowerUp1 = new Label(String.format("£" + "%03d", costForPowerUp1),
-                hudLabelStyle);
-
+        timerLabelPowerUp1 = new Label(String.format(timerForPowerUp1 + " s"),
+               hudLabelFont);
+        
+        costLabelPowerUp1 = new Label(String.format("£" +  costForPowerUp1),
+                hudLabelFont);
+        
         // creating all the different buttons and their relevant values and timers
         TextButton powerup1 = game
                 .getButtonManager()
                 .createTextButton("speedy mover", ButtonManager.ButtonColour.BLUE);
         powerup1.sizeBy(1f);
-
         powerup1.addListener(
                 new ClickListener() {
                     public void clicked(InputEvent event, float x, float y) {
@@ -86,6 +105,19 @@ public class UpgradesUi {
                     }
                 });
 
+        
+
+
+        timerForPowerUp2 = 21; // proof of concept
+        costForPowerUp2 = 13;
+
+        // sets it font, format and value
+        timerLabelPowerUp2 = new Label(String.format(timerForPowerUp2 + " s"),
+                 hudLabelFont);
+        
+        costLabelPowerUp2 = new Label(String.format("£" +  costForPowerUp2),
+                hudLabelFont);
+        
         TextButton powerup2 = game
                 .getButtonManager()
                 .createTextButton("faster cooking", ButtonManager.ButtonColour.BLUE);
@@ -97,6 +129,18 @@ public class UpgradesUi {
                         // do things
                     }
                 });
+
+
+
+        timerForPowerUp3 = 22; // proof of concept
+        costForPowerUp3 = 14;
+                
+        // sets it font, format and value
+        timerLabelPowerUp3 = new Label(String.format(timerForPowerUp3 + " s"),
+                 hudLabelFont);
+                
+        costLabelPowerUp3 = new Label(String.format("£" +  costForPowerUp3),
+                hudLabelFont);
 
         TextButton powerup3 = game
                 .getButtonManager()
@@ -110,6 +154,18 @@ public class UpgradesUi {
                     }
                 });
 
+
+
+        timerForPowerUp4 = 23; // proof of concept
+        costForPowerUp4 = 15;
+                
+        // sets it font, format and value
+        timerLabelPowerUp4 = new Label(String.format(timerForPowerUp4 + " s"),
+                hudLabelFont);
+        
+        costLabelPowerUp4 = new Label(String.format("£" +  costForPowerUp4),
+                hudLabelFont);
+
         TextButton powerup4 = game
                 .getButtonManager()
                 .createTextButton("no rep loss", ButtonManager.ButtonColour.BLUE);
@@ -121,6 +177,17 @@ public class UpgradesUi {
                         // do things
                     }
                 });
+
+        
+        timerForPowerUp5 = 24; // proof of concept
+        costForPowerUp5 = 16;
+                
+        // sets it font, format and value
+        timerLabelPowerUp5 = new Label(String.format(timerForPowerUp5 + " s"),
+                hudLabelFont);
+        
+        costLabelPowerUp5 = new Label(String.format("£" +  costForPowerUp5),
+                hudLabelFont);
 
         TextButton powerup5 = game
                 .getButtonManager()
@@ -135,29 +202,71 @@ public class UpgradesUi {
                     }
                 });
 
-        Value scale2 = Value.percentWidth(0.25f, table);
-        Value scale = Value.percentWidth(0.05f, table);
-        table.add(titleLabel).colspan(3);
-        table.row();
-        table.add(powerup1).width(scale2).height(scale).pad(5);
-        table.add(timerLabelPowerUp1).width(scale).height(scale);
-        table.add(costLabelPowerUp1).width(scale).height(scale);
-        table.row();
-        table.add(powerup2).width(scale2).height(scale).pad(5);
-        table.row();
-        table.add(powerup3).width(scale2).height(scale).pad(5);
-        table.row();
-        table.add(powerup4).width(scale2).height(scale).pad(5);
-        table.row();
-        table.add(powerup5).width(scale2).height(scale).pad(5);
+        timerForChefs = "N/A"; // proof of concept
+        costOfChef = 50;
+        
+        // sets it font, format and value
+        timerLabelForChefs = new Label(String.format(timerForChefs),
+                hudLabelFont);
+                
+        costLabelForChefs = new Label(String.format("£" +  costOfChef),
+                hudLabelFont);
 
-        Pixmap bgPixmap = new Pixmap(100, 100, Pixmap.Format.RGB565);
-        bgPixmap.setColor(1, 1, 0, 0.2f);
-        bgPixmap.setBlending(Blending.SourceOver);
-        bgPixmap.fillRectangle(10, 10, 80, 80);
 
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
-        table.setBackground(textureRegionDrawableBg);
+        TextButton moreChefs = game
+                .getButtonManager()
+                .createTextButton("extra chef", ButtonManager.ButtonColour.BLUE);
+        moreChefs.sizeBy(1f);
+
+        moreChefs.addListener(
+                new ClickListener() {
+                    public void clicked(InputEvent event, float x, float y) {
+                        // do things
+                        update();
+                    }
+                });
+
+        Value scale2 = Value.percentWidth(0.3f, table);
+        Value scale = Value.percentWidth(0.08f, table);
+        Value scale1 = Value.percentWidth(0.15f, table);
+        table.add(titleLabel).colspan(2);
+        table.add(moneyLabel);
+        table.row();
+        table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
+        table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
+        table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
+        table.row();
+        table.add(powerup1).width(scale2).height(scale).pad(3);
+        table.add(timerLabelPowerUp1).width(scale).height(scale).pad(3);
+        table.add(costLabelPowerUp1).width(scale).height(scale).pad(3);
+        table.row();
+        table.add(powerup2).width(scale2).height(scale).pad(3);
+        table.add(timerLabelPowerUp2).width(scale).height(scale).pad(3);
+        table.add(costLabelPowerUp2).width(scale).height(scale).pad(3);
+        table.row();
+        table.add(powerup3).width(scale2).height(scale).pad(3);
+        table.add(timerLabelPowerUp3).width(scale).height(scale).pad(3);
+        table.add(costLabelPowerUp3).width(scale).height(scale).pad(3);
+        table.row();
+        table.add(powerup4).width(scale2).height(scale).pad(3);
+        table.add(timerLabelPowerUp4).width(scale).height(scale).pad(3);
+        table.add(costLabelPowerUp4).width(scale).height(scale).pad(3);
+        table.row();
+        table.add(powerup5).width(scale2).height(scale).pad(3);
+        table.add(timerLabelPowerUp5).width(scale).height(scale).pad(3);
+        table.add(costLabelPowerUp5).width(scale).height(scale).pad(3);
+        table.row();
+        table.add(moreChefs).width(scale2).height(scale).pad(3);
+        table.add(timerLabelForChefs).width(scale).height(scale).pad(3);
+        table.add(costLabelForChefs).width(scale).height(scale).pad(3);
+
+        // Pixmap bgPixmap = new Pixmap(100, 100, Pixmap.Format.RGB565);
+        // bgPixmap.setColor(1, 1, 0, 0.2f);
+        // bgPixmap.setBlending(Blending.SourceOver);
+        // bgPixmap.fillRectangle(10, 10, 80, 80);
+
+        // TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
+        // table.setBackground(textureRegionDrawableBg);
 
     }
 
