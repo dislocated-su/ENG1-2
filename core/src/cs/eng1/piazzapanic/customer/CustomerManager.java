@@ -1,8 +1,10 @@
 package cs.eng1.piazzapanic.customer;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Queue;
-import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
@@ -22,19 +24,36 @@ public class CustomerManager {
     private final Queue<Customer> customerQueue;
     private final List<SubmitStation> recipeStations;
     private final UIOverlay overlay;
-    private int totalCustomers;
+    private final int totalCustomers;
+    private final float customerScale;
+    final World world;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private Timer timer = new Timer(60000, false, true);
-    private Random random;
+    private final Timer timer = new Timer(60000, false, true);
+    // Separate random instances are used to not break existing tests relying on a set permutation of orders.
+    private final Random randomOrders;
+    private final Random randomTextures;
     private int reputation = 3;
 
-    public CustomerManager(UIOverlay overlay, int customers) {
+    private Stage stage;
+
+    private final String[] customerSprites = new String[] {
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 1/hitman1_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 2/hitman2_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Old/manOld_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 2/survivor2_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 1/survivor1_hold.png"
+    };
+
+    public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers) {
         this.overlay = overlay;
         this.recipeStations = new LinkedList<>();
         customerQueue = new Queue<>();
         totalCustomers = customers;
-        random = new Random();
+        randomOrders = new Random();
+        randomTextures = new Random();
+        this.customerScale = customerScale;
+        this.world = world;
     }
 
     /**
@@ -45,9 +64,9 @@ public class CustomerManager {
      * @param customers The total number of customers to spawn - 0 means endless
      * @param seed      seed for the {@link Random} instance to generate set orders
      */
-    public CustomerManager(UIOverlay overlay, int customers, long seed) {
-        this(overlay, customers);
-        random.setSeed(seed);
+    public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers, long seed) {
+        this(customerScale, overlay, world, customers);
+        randomOrders.setSeed(seed);
     }
 
     /**
@@ -56,7 +75,7 @@ public class CustomerManager {
      * @param textureManager The manager of food textures that can be passed to the
      *                       recipes
      */
-    public void init(FoodTextureManager textureManager) {
+    public void init(FoodTextureManager textureManager, Stage stage) {
         customerQueue.clear();
 
         possibleRecipes =
@@ -66,6 +85,8 @@ public class CustomerManager {
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
             };
+
+        this.stage = stage;
 
         generateCustomer();
 
@@ -87,7 +108,6 @@ public class CustomerManager {
         if (timer.tick(delta)) {
             generateCustomer();
             overlay.updateRecipeUI(getFirstOrder());
-
             timer.reset();
         }
     }
@@ -153,9 +173,17 @@ public class CustomerManager {
 
     public void generateCustomer() {
         // implement random generation of two or three customers at once here
-        customerQueue.addFirst(
-            new Customer(possibleRecipes[random.nextInt(4)], this)
+        Texture texture = new Texture(customerSprites[randomTextures.nextInt(customerSprites.length - 1)]);
+        Customer customer = new Customer(
+                texture,
+                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
+                possibleRecipes[randomOrders.nextInt(4)],
+                this
         );
+        customerQueue.addLast(
+                customer
+        );
+        stage.addActor(customer);
     }
 
     public Recipe getFirstOrder() {

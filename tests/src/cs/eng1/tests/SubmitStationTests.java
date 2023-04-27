@@ -3,6 +3,9 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -27,7 +30,11 @@ public class SubmitStationTests {
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(overlay, 0, 0);
+
+    Stage stage = mock(Stage.class);
+
+    World world = new World(new Vector2(0,0),true);
+    CustomerManager customerManager = new CustomerManager(1, overlay, world,0, 0);
 
     // pizza, jacket, burger, pizza
 
@@ -74,8 +81,8 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(overlay, 0, 0);
-        customerManager.init(textureManager);
+        customerManager = new CustomerManager(1, overlay, world,0, 0);
+        customerManager.init(textureManager, stage);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
@@ -107,8 +114,8 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0, 0);
-        customerManager.init(textureManager);
+        customerManager = new CustomerManager(1, overlay, world ,0, 0);
+        customerManager.init(textureManager, stage);
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,

@@ -52,10 +52,9 @@ public class ChefManager implements Disposable {
         this.world = world;
         this.keyboardInput = keyboardInput;
 
-        // Load chef sprites
         chefs = new ArrayList<>(chefSprites.length);
 
-        // Initialize chefs
+        // Initialize chefs 
         for (int i = 0; i < chefSprites.length; i++) {
             String sprite = chefSprites[i];
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));

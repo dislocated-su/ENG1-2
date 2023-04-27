@@ -84,7 +84,13 @@ public class GameScreen implements Screen {
                 kbInput
             );
 
-        customerManager = new CustomerManager(uiOverlay, totalCustomers);
+        customerManager =
+                new CustomerManager(
+                        mapLoader.unitScale * 2.5f,
+                        uiOverlay,
+                        world,
+                        totalCustomers
+                );
 
         mapLoader.createStations(
             "Stations",
@@ -109,7 +115,7 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
         chefManager.init();
-        customerManager.init(foodTextureManager);
+        customerManager.init(foodTextureManager, stage);
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {
