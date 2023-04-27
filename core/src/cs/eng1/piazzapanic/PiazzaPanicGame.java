@@ -75,7 +75,7 @@ public class PiazzaPanicGame extends Game {
         return buttonManager;
     }
 
-    public UpgradesUi getUpgradesUi(){
+    public UpgradesUi getUpgradesUi() {
         return upgrades;
     }
 }
