@@ -53,6 +53,9 @@ public class GameScreen implements Screen {
 
         MapLoader mapLoader = new MapLoader("e.tmx");
 
+        mapLoader.loadWaypoints("Waypoints","cookspawnid","aispawnid","lightid", "aiobjective");
+
+
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
@@ -92,6 +95,8 @@ public class GameScreen implements Screen {
                         totalCustomers
                 );
 
+        customerManager.init(foodTextureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -115,7 +120,6 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
         chefManager.init();
-        customerManager.init(foodTextureManager, stage);
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {

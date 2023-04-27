@@ -1,7 +1,7 @@
 package cs.eng1.piazzapanic.utility;
 
-import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -9,10 +9,12 @@ import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.MapBodyBuilder;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -28,6 +30,8 @@ import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -35,12 +39,20 @@ import java.util.HashMap;
  */
 public class MapLoader {
 
-    private TiledMap map;
+    private final TiledMap map;
 
     public final int pixelsPerTile;
     public final float unitScale;
 
     public final Vector2 mapSize;
+
+    public final HashMap<Integer, Box2dLocation> aiObjectives = new HashMap<>();
+
+    public final ArrayList<Vector2> cookSpawnpoints = new ArrayList<>();
+
+    public final ArrayList<Vector2> aiSpawnpoints = new ArrayList<>();
+
+    public final ArrayList<Vector3> lights = new ArrayList<>();
 
     public MapLoader(String path) {
         map = new TmxMapLoader().load(path);
@@ -65,6 +77,42 @@ public class MapLoader {
     public Array<Body> createBox2DBodies(String mapLayerName, World world) {
         MapLayer b2dBodyLayer = map.getLayers().get(mapLayerName);
         return MapBodyBuilder.buildShapes(b2dBodyLayer, pixelsPerTile, world);
+    }
+
+    public void loadWaypoints(
+            String waypointLayerName,
+            String cookSpawnProperty,
+            String aiSpawnProperty,
+            String lightSpawnProperty,
+            String aiObjectiveProperty
+    )
+    {
+        MapObjects objects = map.getLayers().get(waypointLayerName).getObjects();
+
+        for (MapObject object: objects) {
+            if (object instanceof RectangleMapObject) {
+                MapProperties properties = object.getProperties();
+                RectangleMapObject point = (RectangleMapObject) object;
+
+                Vector2 waypoint = new Vector2(point.getRectangle().x / pixelsPerTile, point.getRectangle().y / pixelsPerTile);
+                if (properties.containsKey(cookSpawnProperty)) {
+                    Gdx.app.log("Loading Waypoint",String.format("Cook spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                    cookSpawnpoints.add(waypoint);
+                }
+                else if (properties.containsKey(aiSpawnProperty)) {
+                    Gdx.app.log("Loading Waypoint",String.format("AI spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                    aiSpawnpoints.add(waypoint);
+                }
+                else if (properties.containsKey(aiObjectiveProperty)) {
+                    Gdx.app.log("Loading Waypoint",String.format("AI objective at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                    aiObjectives.put(properties.get(aiObjectiveProperty,int.class),new Box2dLocation(waypoint, 0));
+                }
+                else if (properties.containsKey(lightSpawnProperty)) {
+                    Gdx.app.log("Loading Waypoint",String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x,waypoint.y));
+                    lights.add(new Vector3(waypoint,properties.get(lightSpawnProperty, int.class)));
+                }
+            }
+        }
     }
 
     public void createStations(

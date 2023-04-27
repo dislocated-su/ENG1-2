@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
@@ -25,17 +26,19 @@ public class Customer extends Actor implements Disposable {
     private final Texture texture;
     private final Vector2 textureBounds;
 
+    public Box2dSteeringBody steeringBody;
+
+    public Integer currentObjective = null;
+
     private Body body;
 
-    private float rotation;
-
-    public Customer(Texture texture, Vector2 bounds, Recipe order, CustomerManager customerManager) {
+    public Customer(Texture texture, Vector2 bounds, Vector2 position, Recipe order, CustomerManager customerManager) {
         repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
         this.texture = texture;
         this.textureBounds = bounds;
-        setPosition(17f,17f);
+        setPosition(position.x, position.y);
         createBody();
     }
 
@@ -55,6 +58,8 @@ public class Customer extends Actor implements Disposable {
 
         body = customerManager.world.createBody(bDef);
         body.createFixture(fDef);
+
+        this.steeringBody = new Box2dSteeringBody(this.body,true, 0.4f);
     }
 
     public Recipe getOrder() {
@@ -83,7 +88,7 @@ public class Customer extends Actor implements Disposable {
                 textureBounds.y,
                 1f,
                 1f,
-                rotation,
+                getRotation(),
                 0,
                 0,
                 texture.getWidth(),
@@ -103,7 +108,7 @@ public class Customer extends Actor implements Disposable {
                 0.6f,
                 1.5f,
                 1.5f,
-                rotation,
+                getRotation(),
                 0,
                 0,
                 texture.getWidth(),
@@ -118,7 +123,11 @@ public class Customer extends Actor implements Disposable {
     public void act(float delta) {
         Vector2 position = body.getPosition();
 
+        steeringBody.update(delta);
+
         setPosition(position.x - 0.5f, position.y - 0.5f);
+
+        setRotation((float) Math.toDegrees(body.getAngle()));
         
         if (!orderCompleted && reputation && repTimer.tick(delta)) {
             customerManager.loseReputation();

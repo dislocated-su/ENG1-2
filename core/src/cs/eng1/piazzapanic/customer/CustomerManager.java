@@ -1,10 +1,16 @@
 package cs.eng1.piazzapanic.customer;
 
+import com.badlogic.gdx.ai.steer.Proximity;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.CollisionAvoidance;
+import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Queue;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
+import cs.eng1.piazzapanic.box2d.Box2dRadiusProximity;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
@@ -15,9 +21,8 @@ import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 public class CustomerManager {
 
@@ -35,6 +40,10 @@ public class CustomerManager {
     private final Random randomTextures;
     private int reputation = 3;
 
+    private Map<Integer, Box2dLocation> objectives;
+    private final List<Integer> objectiveIds = new ArrayList<>();
+    private final Map<Integer, Boolean> objectiveAvailability = new HashMap<>();
+    private List<Vector2> spawnLocations;
     private Stage stage;
 
     private final String[] customerSprites = new String[] {
@@ -75,7 +84,7 @@ public class CustomerManager {
      * @param textureManager The manager of food textures that can be passed to the
      *                       recipes
      */
-    public void init(FoodTextureManager textureManager, Stage stage) {
+    public void init(FoodTextureManager textureManager, Stage stage, Map<Integer, Box2dLocation> objectives, List<Vector2> spawnLocations) {
         customerQueue.clear();
 
         possibleRecipes =
@@ -87,6 +96,15 @@ public class CustomerManager {
             };
 
         this.stage = stage;
+        this.objectives = objectives;
+        this.spawnLocations = spawnLocations;
+
+        for (Integer id : objectives.keySet()) {
+            objectiveAvailability.put(id,true);
+            objectiveIds.add(id);
+        }
+
+        Collections.sort(objectiveIds);
 
         generateCustomer();
 
@@ -172,23 +190,74 @@ public class CustomerManager {
     }
 
     public void generateCustomer() {
-        // implement random generation of two or three customers at once here
-        Texture texture = new Texture(customerSprites[randomTextures.nextInt(customerSprites.length - 1)]);
-        Customer customer = new Customer(
-                texture,
-                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
-                possibleRecipes[randomOrders.nextInt(4)],
-                this
-        );
-        customerQueue.addLast(
-                customer
-        );
-        stage.addActor(customer);
+        Integer customerObjective = findAvailableObjective();
+        if (customerObjective != null) {
+            // implement random generation of two or three customers at once here
+            Texture texture = new Texture(customerSprites[randomTextures.nextInt(customerSprites.length - 1)]);
+            Customer customer = new Customer(
+                    texture,
+                    new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
+                    spawnLocations.get(0),
+                    possibleRecipes[randomOrders.nextInt(4)],
+                    this
+            );
+            customerQueue.addLast(
+                    customer
+            );
+            stage.addActor(customer);
+            makeItGoThere(customer,customerObjective);
+        }
     }
 
     public Recipe getFirstOrder() {
         if (customerQueue.isEmpty()) return null;
         return customerQueue.first().getOrder();
+    }
+
+    /**
+     * Give the customer an objective to go to.
+     * @param locationID and id from objectives
+     */
+    private void makeItGoThere(Customer customer, int locationID) {
+        objectiveAvailability.put(customer.currentObjective, true);
+
+        Box2dLocation there = objectives.get(locationID);
+
+        Arrive<Vector2> arrive = new Arrive<Vector2>(customer.steeringBody)
+                .setTimeToTarget(10f)
+                .setArrivalTolerance(0.1f)
+                .setDecelerationRadius(2)
+                .setTarget(there);
+
+        Proximity<Vector2> proximity = new Box2dRadiusProximity(customer.steeringBody, world, 1f);
+        CollisionAvoidance<Vector2> collisionAvoidance = new CollisionAvoidance<Vector2>(
+                customer.steeringBody, proximity);
+
+        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<Vector2>(customer.steeringBody)
+                .add(collisionAvoidance)
+                .add(arrive);
+
+        customer.steeringBody.setSteeringBehavior(prioritySteering);
+        customer.currentObjective = locationID;
+        objectiveAvailability.put(customer.currentObjective, false);
+
+        if (locationID == -1) {
+            customer.steeringBody.setOrientation((float) (1.5f * Math.PI));
+        } else {
+            customer.steeringBody.setOrientation((float) -(1.5f * Math.PI));
+        }
+    }
+
+    private Integer findAvailableObjective() {
+        for (Integer id : objectiveIds) {
+            if (id == -1) {
+                continue;
+            }
+            if (objectiveAvailability.get(id)) {
+                return id;
+            }
+        }
+        return null;
     }
 
     public List<SubmitStation> getRecipeStations() {
