@@ -12,11 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
-import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.utility.KeyboardInput;
-import java.util.ArrayList;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
