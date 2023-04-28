@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 
@@ -37,7 +38,12 @@ public class Customer extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        if (!orderCompleted && reputation && repTimer.tick(delta)) {
+        if (
+            !orderCompleted &&
+            reputation &&
+            repTimer.tick(delta) &&
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)
+        ) {
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
