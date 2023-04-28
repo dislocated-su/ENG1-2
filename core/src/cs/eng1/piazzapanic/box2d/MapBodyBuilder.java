@@ -146,4 +146,8 @@ public class MapBodyBuilder {
         chain.createChain(worldVertices);
         return chain;
     }
+
+    public Shape getShape(MapObject object) {
+        return decideShape(object);
+    }
 }
