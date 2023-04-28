@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -18,6 +19,9 @@ import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,7 +92,7 @@ public class SubmitStationTests {
      */
     public void testCorrectRecipe() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<Integer, Box2dLocation>(), new ArrayList<>());
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
@@ -121,7 +125,7 @@ public class SubmitStationTests {
      */
     public void testDoStationAction() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<Integer, Box2dLocation>(), new ArrayList<>());
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,

@@ -1,13 +1,11 @@
 package cs.eng1.tests;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.Customer;
@@ -17,9 +15,15 @@ import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
-import java.util.LinkedList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
@@ -67,7 +71,7 @@ public class CustomerManagerTests {
             0,
             customerManager.getCustomerQueue().size
         );
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<>(), new ArrayList<>());
         assertEquals(
             "Reputation should initialise as 0.",
             3,
@@ -108,7 +112,7 @@ public class CustomerManagerTests {
 
     @Test
     public void checkSpawnTests() {
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<>(), new ArrayList<>());
         customerManager.checkSpawn((float) 1 / 60);
         assertEquals(
             "checkSpawn shouldn't change customerQueue until time equal to delay is passed.",
@@ -127,7 +131,7 @@ public class CustomerManagerTests {
 
     @Test
     public void actTests() {
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<>(), new ArrayList<>());
         for (int i = 0; i <= 4000; i++) {
             customerManager.act((float) 1 / 60);
         }
@@ -155,7 +159,7 @@ public class CustomerManagerTests {
             "checkRecipe should return false when there is no recipe.",
             customerManager.checkRecipe(new Pizza(textureManager))
         );
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<>(), new ArrayList<>());
         assertTrue(
             "checkRecipe should return the top recipe of customerQueue (in customerManager).",
             customerManager.checkRecipe(new Pizza(textureManager))
@@ -164,7 +168,7 @@ public class CustomerManagerTests {
 
     @Test
     public void nextRecipeTests() {
-        customerManager.init(textureManager, stage);
+        customerManager.init(textureManager, stage, new HashMap<Integer, Box2dLocation>(), new ArrayList<>());
         Customer first = customerManager.getCustomerQueue().first();
         customerManager.nextRecipe(chef);
         assertTrue(
