@@ -31,14 +31,19 @@ public class Customer extends Actor implements Disposable {
         orderCompleted = true;
         PlayerState.getInstance();
         Gdx.app.log(
-                "Current cash",
-                Float.toString(PlayerState.getInstance().getCash()));
+            "Current cash",
+            Float.toString(PlayerState.getInstance().getCash())
+        );
     }
 
     @Override
     public void act(float delta) {
-        if (!orderCompleted && reputation && repTimer.tick(delta)
-                && !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)) {
+        if (
+            !orderCompleted &&
+            reputation &&
+            repTimer.tick(delta) &&
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)
+        ) {
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
@@ -50,6 +55,5 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 }
