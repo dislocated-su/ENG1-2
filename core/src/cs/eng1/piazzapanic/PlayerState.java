@@ -17,8 +17,7 @@ public class PlayerState {
 
     private float upgradeCost = 100f;
 
-    private HashMap<PowerUp, Timer> powerUpTimers =
-        new HashMap<PowerUp, Timer>();
+    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>();
 
     public enum PowerUp {
         DOUBLE_CHEF_SPEED,
@@ -33,13 +32,11 @@ public class PlayerState {
         // powerUpTimers.put(powerUp, new Timer(60000, false, false));
         // }
         powerUpTimers.put(
-            PowerUp.DOUBLE_CHEF_SPEED,
-            new Timer(60000, false, false)
-        );
+                PowerUp.DOUBLE_CHEF_SPEED,
+                new Timer(60000, false, false));
         powerUpTimers.put(
-            PowerUp.DOUBLE_PREP_SPEED,
-            new Timer(60000, false, false)
-        );
+                PowerUp.DOUBLE_PREP_SPEED,
+                new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
@@ -179,5 +176,9 @@ public class PlayerState {
      */
     public void resume() {
         paused = false;
+    }
+
+    public boolean getPaused() {
+        return paused;
     }
 }
