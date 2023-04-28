@@ -49,9 +49,10 @@ public class GameScreen implements Screen {
     private InputMultiplexer multiplexer = new InputMultiplexer();
 
     public GameScreen(
-            final PiazzaPanicGame game,
-            int totalCustomers,
-            int difficulty) {
+        final PiazzaPanicGame game,
+        int totalCustomers,
+        int difficulty
+    ) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -60,9 +61,10 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-                mapLoader.mapSize.x / 2,
-                mapLoader.mapSize.y / 2,
-                camera); // Number of tiles
+            mapLoader.mapSize.x / 2,
+            mapLoader.mapSize.y / 2,
+            camera
+        ); // Number of tiles
         this.stage = new Stage(viewport);
 
         kbInput = new KeyboardInput();
@@ -80,22 +82,25 @@ public class GameScreen implements Screen {
         PlayerState.reset();
         PlayerState.getInstance().setDifficulty(difficulty);
 
-        chefManager = new ChefManager(
+        chefManager =
+            new ChefManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                kbInput);
+                kbInput
+            );
 
         customerManager = new CustomerManager(uiOverlay, totalCustomers);
 
         mapLoader.createStations(
-                "Stations",
-                "Sensors",
-                chefManager,
-                stage,
-                stationUIController,
-                foodTextureManager,
-                customerManager);
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            foodTextureManager,
+            customerManager
+        );
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
         chefManager.addChefsToStage(stage);
@@ -140,13 +145,17 @@ public class GameScreen implements Screen {
         if (chefManager.getCurrentChef() != null) {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
             camera.position.lerp(
-                    new Vector3(
-                            chefManager.getCurrentChef().getX(),
-                            chefManager.getCurrentChef().getY(),
-                            1),
-                    0.1f);
-            camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
-            camera.position.y = (float) Math.round(camera.position.y * 100f) / 100f;
+                new Vector3(
+                    chefManager.getCurrentChef().getX(),
+                    chefManager.getCurrentChef().getY(),
+                    1
+                ),
+                0.1f
+            );
+            camera.position.x =
+                (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y =
+                (float) Math.round(camera.position.y * 100f) / 100f;
         } else {
             stage.getCamera().position.set(15, 15, 1);
         }
@@ -192,12 +201,10 @@ public class GameScreen implements Screen {
     public void resume() {
         kbInput.clearInputs();
         Gdx.input.setInputProcessor(multiplexer);
-
     }
 
     @Override
-    public void hide() {
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
