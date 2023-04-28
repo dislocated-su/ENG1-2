@@ -19,7 +19,6 @@ import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +91,12 @@ public class SubmitStationTests {
      */
     public void testCorrectRecipe() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        customerManager.init(textureManager, stage, new HashMap<Integer, Box2dLocation>(), new ArrayList<>());
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<Integer, Box2dLocation>(),
+            new ArrayList<>()
+        );
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
@@ -125,7 +129,12 @@ public class SubmitStationTests {
      */
     public void testDoStationAction() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        customerManager.init(textureManager, stage, new HashMap<Integer, Box2dLocation>(), new ArrayList<>());
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<Integer, Box2dLocation>(),
+            new ArrayList<>()
+        );
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
