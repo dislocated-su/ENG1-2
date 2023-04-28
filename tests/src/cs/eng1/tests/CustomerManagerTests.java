@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.Customer;
@@ -18,6 +18,8 @@ import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +28,17 @@ import org.junit.runner.RunWith;
 public class CustomerManagerTests {
 
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(overlay, 5, 0);
+    CustomerManager customerManager = new CustomerManager(
+        1,
+        overlay,
+        new World(new Vector2(0, 0), true),
+        5,
+        0
+    );
     FoodTextureManager textureManager = new FoodTextureManager();
     World world = new World(new Vector2(0, 0), true);
     KeyboardInput kbInput = new KeyboardInput();
+    Stage stage = mock(Stage.class);
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
     SubmitStation submitStation = new SubmitStation(
         0,
@@ -61,7 +70,12 @@ public class CustomerManagerTests {
             0,
             customerManager.getCustomerQueue().size
         );
-        customerManager.init(textureManager);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<>(),
+            new ArrayList<>()
+        );
         assertEquals(
             "Reputation should initialise as 0.",
             3,
@@ -102,7 +116,12 @@ public class CustomerManagerTests {
 
     @Test
     public void checkSpawnTests() {
-        customerManager.init(textureManager);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<>(),
+            new ArrayList<>()
+        );
         customerManager.checkSpawn(1f / 60);
         assertEquals(
             "checkSpawn shouldn't change customerQueue until time equal to delay is passed.",
@@ -121,7 +140,12 @@ public class CustomerManagerTests {
 
     @Test
     public void actTests() {
-        customerManager.init(textureManager);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<>(),
+            new ArrayList<>()
+        );
         for (int i = 0; i <= 4000; i++) {
             customerManager.act(1f / 60);
         }
@@ -149,7 +173,12 @@ public class CustomerManagerTests {
             "checkRecipe should return false when there is no recipe.",
             customerManager.checkRecipe(new Pizza(textureManager))
         );
-        customerManager.init(textureManager);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<>(),
+            new ArrayList<>()
+        );
         assertTrue(
             "checkRecipe should return the top recipe of customerQueue (in customerManager).",
             customerManager.checkRecipe(new Pizza(textureManager))
@@ -158,7 +187,12 @@ public class CustomerManagerTests {
 
     @Test
     public void nextRecipeTests() {
-        customerManager.init(textureManager);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<Integer, Box2dLocation>(),
+            new ArrayList<>()
+        );
         Customer first = customerManager.getCustomerQueue().first();
         customerManager.nextRecipe(chef);
         assertTrue(
