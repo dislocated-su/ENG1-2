@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -20,12 +21,24 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class MapBodyBuilderTests {
+    Vector2 centre = new Vector2(0,0);
     MapLoader mapLoader = new MapLoader("test-map.tmx");
-    World world = new World(new Vector2(0, 0), true);
+    World world = new World(centre, true);
     MapLayer layer = mapLoader.getMap().getLayers().get("Obstacles");
     @Test
     public void buildShapesTest() {
-        Array bodies = MapBodyBuilder.buildShapes(layer, 16, world);
-        assertEquals("", bodies.get(1).getClass().toString());
+        Array<Body> bodies = MapBodyBuilder.buildShapes(layer, 16, world);
+        for (int i = 0; i < bodies.size; i++) {
+            assertTrue(
+                "Each object in buildShapes should be a body.", 
+                bodies.get(i) instanceof Body
+            );
+        }
+        assertEquals(
+            "buildShapes should properly parse the objects in an object layer.", 
+            11, 
+            bodies.size
+        );
+        assertEquals(centre, bodies.get(0).getPosition());
     }
 }
