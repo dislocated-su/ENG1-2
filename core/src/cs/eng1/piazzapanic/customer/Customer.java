@@ -11,9 +11,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
-import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 
@@ -135,7 +135,7 @@ public class Customer extends Actor implements Disposable {
         setPosition(position.x - 0.5f, position.y - 0.5f);
 
         setRotation((float) Math.toDegrees(body.getAngle()));
-        
+
         if (
             !orderCompleted &&
             reputation &&
