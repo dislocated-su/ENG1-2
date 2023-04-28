@@ -50,11 +50,24 @@ public class MapBodyBuilderTests {
         MapObject line = layer.getObjects().get(1);
         MapObject polygon = layer.getObjects().get(0);
         MapObject fake = new MapObject();
-        assertNull(bodyBuilder.getShape(fake));
-        assertTrue(bodyBuilder.getShape(polygon) instanceof PolygonShape);
-        assertTrue(bodyBuilder.getShape(line) instanceof ChainShape);
-        assertTrue(bodyBuilder.getShape(rectangle) instanceof PolygonShape);
+        assertNull(
+            "Decideshape (getShape) should return null if the given MapObject is of indeterminate shape.", 
+            bodyBuilder.getShape(fake)
+        );
+        assertTrue(
+            "Decideshape (getShape) should return a PolygonShape if the given MapObject is a polygon.", 
+            bodyBuilder.getShape(polygon) instanceof PolygonShape
+        );
+        assertTrue(
+            "Decideshape (getShape) should return a ChainShape if the given MapObject is a chain.",
+            bodyBuilder.getShape(line) instanceof ChainShape
+        );
+        assertTrue(
+            "Decideshape (getShape) should return a PolygonShape if the given MapObject is a rectangle (square).", 
+            bodyBuilder.getShape(rectangle) instanceof PolygonShape
+        );
         assertEquals(
+            "The PolygonShape from DecideShape should be a rectangle if the given MapObject is a rectangle (square).",
             new Rectangle(896, 2560, 128, 128),
             ((RectangleMapObject) rectangle).getRectangle()
         );
