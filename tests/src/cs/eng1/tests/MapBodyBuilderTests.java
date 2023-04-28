@@ -27,6 +27,7 @@ public class MapBodyBuilderTests {
     MapLayer layer = mapLoader.getMap().getLayers().get("Obstacles");
     Array<Body> bodies = MapBodyBuilder.buildShapes(layer, 16, world);
     MapBodyBuilder bodyBuilder = new MapBodyBuilder();
+
     @Test
     public void buildShapesTest() {
         for (int i = 0; i < bodies.size; i++) {
@@ -41,6 +42,7 @@ public class MapBodyBuilderTests {
             bodies.size
         );
     }
+
     @Test
     public void decideShapeTest() {
         MapObject circle = layer.getObjects().get(10);
@@ -52,7 +54,10 @@ public class MapBodyBuilderTests {
         assertTrue(bodyBuilder.getShape(polygon) instanceof PolygonShape);
         assertTrue(bodyBuilder.getShape(line) instanceof ChainShape);
         assertTrue(bodyBuilder.getShape(rectangle) instanceof PolygonShape);
-        assertEquals(new Rectangle(896, 2560, 128, 128), ((RectangleMapObject) rectangle).getRectangle());
+        assertEquals(
+            new Rectangle(896, 2560, 128, 128),
+            ((RectangleMapObject) rectangle).getRectangle()
+        );
         // assertEquals(line.getClass(), circle.getClass());
     }
 }
