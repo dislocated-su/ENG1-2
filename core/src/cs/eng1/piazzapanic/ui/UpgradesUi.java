@@ -223,14 +223,14 @@ public class UpgradesUi {
         lowerTable.setFillParent(true);
         lowerTable.bottom();
 
-        PlayerState player = PlayerState.getInstance();
-        Array<String> powerupsActive = player.getActivePowerups();
-        if (powerupsActive != null) {
-            for (String x : powerupsActive) {
-                lowerTable.add(x);
-                lowerTable.row();
-            }
-        }
+        // PlayerState player = PlayerState.getInstance();
+        // Array<String> powerupsActive = player.getActivePowerups();
+        // if (powerupsActive != null) {
+        //     for (String x : powerupsActive) {
+        //         lowerTable.add(x);
+        //         lowerTable.row();
+        //     }
+        // }
 
         // setting up the table in the 'Shop'
         Value scale2 = Value.percentWidth(0.3f, table);

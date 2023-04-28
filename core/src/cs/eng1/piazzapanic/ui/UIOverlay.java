@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -40,7 +41,8 @@ public class UIOverlay {
     private final Label resultLabel;
     private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
-    private boolean checker = false;
+    private final Table displayIngredients;
+    Boolean activated = false;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
@@ -178,6 +180,20 @@ public class UIOverlay {
         table.add(resultLabel).colspan(3);
         table.row();
         table.add(resultTimer).colspan(3);
+
+        displayIngredients = new Table();
+        displayIngredients.setFillParent(true);
+        displayIngredients.padRight(80);
+        displayIngredients.top().right();
+        // TextureRegionDrawable textureRegionDrawableBg =
+        // new TextureRegionDrawable(
+        //     new Texture(Gdx.files.internal("backgroundimage.jpg"))
+        // );
+        // displayIngredients.setBackground(textureRegionDrawableBg);
+        uiStage.addActor(displayIngredients);
+        displayIngredients.debug();
+        
+
     }
 
     /**
@@ -251,7 +267,7 @@ public class UIOverlay {
         final UpgradesUi upgradesUi = game.getUpgradesUi();
         upgradesUi.addToStage(uiStage);
 
-        if (checker == false) {
+        if (activated == false) {
             upgradeUiButtonText = "Upgrades";
         } else {
             upgradeUiButtonText = "Return";
@@ -268,13 +284,13 @@ public class UIOverlay {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (checker == false) { // to check whether to hid or unhide the upgrades panel
+                    if (activated == false) { // to check whether to hid or unhide the upgrades panel
                         upgradesUi.visible(true);
-                        checker = true;
+                        activated = true;
                         updateButton(uiStage);
                     } else {
                         upgradesUi.visible(false);
-                        checker = false;
+                        activated = false;
                         updateButton(uiStage);
                     }
                 }
@@ -296,20 +312,46 @@ public class UIOverlay {
      */
     public void updateRecipeUI(Recipe recipe) {
         // recipe will be null when we reach the end of the scenario
-        // recipeImages.clearChildren();
-        // recipeImages.addActor(recipeCountLabel);
-        // for (String recipeIngredient : recipe.getRecipeIngredients()) {
-        //     Image image = new Image(
-        //             recipe.getTextureManager().getTexture(recipeIngredient));
-        //     image.getDrawable().setMinHeight(chefDisplay.getHeight());
-        //     image.getDrawable().setMinWidth(chefDisplay.getWidth());
-        //     recipeImages.addActor(image);
-        // }
-        // recipeImages.addActor(pointer);
+        if (recipe == null) {
+            recipeImages.clearChildren();
+            recipeImagesBG.setVisible(false);
+            return;
+        }
         Image recipeImage = new Image(recipe.getTexture());
         recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
         recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
-        recipeImages.addActor(recipeImage);
+        ImageButton recipeButton = game
+        .getButtonManager()
+        .createImageButton(recipeImage.getDrawable(), ButtonManager.ButtonColour.GREY, 1f);
+        // recipeButton.sizeBy(0.009f);
+        recipeButton.addListener(
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    recipeImages.clearChildren();
+
+                    if (activated == false){
+                        for (String recipeIngredient : recipe.getRecipeIngredients()) {
+                            Image image = new Image(
+                                recipe.getTextureManager().getTexture(recipeIngredient)
+                            );
+                            image.getDrawable().setMinHeight(chefDisplay.getHeight());
+                            image.getDrawable().setMinWidth(chefDisplay.getWidth());
+                            displayIngredients.add(image);
+                            // recipeImages.row();
+                        }
+                        
+                        recipeImages.addActor(pointer);
+                        activated = true;
+                    }
+                    else {
+                        activated = false;
+                    }
+                    recipeImages.addActor(recipeButton);
+
+                }
+            }
+        );
+        recipeImages.addActor(recipeButton);
         recipeImagesBG.setVisible(true);
     }
 

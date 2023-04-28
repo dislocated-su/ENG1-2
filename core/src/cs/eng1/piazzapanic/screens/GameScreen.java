@@ -75,6 +75,7 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         PlayerState.reset();
+        //PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager =
             new ChefManager(
