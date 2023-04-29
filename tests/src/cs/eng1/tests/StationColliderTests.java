@@ -3,6 +3,8 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.stations.IngredientStation;
@@ -15,7 +17,8 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    World world = new World(new Vector2(0,0),true);
+    ChefManager chefManager = new ChefManager(0, null, world, null);
     Chef chef = new Chef(null, null, chefManager);
     private StationUIController uiController = mock(StationUIController.class);
     IngredientStation station = new IngredientStation(
@@ -23,7 +26,8 @@ public class StationColliderTests {
         null,
         uiController,
         null,
-        null
+        null,
+            null
     );
 
     @Test
