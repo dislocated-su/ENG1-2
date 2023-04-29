@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -41,10 +42,11 @@ public class UIOverlay {
     private final Label resultLabel;
     private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
-    private Table recipeBookSteps, recipeBook;
+    private Table recipeBook, recipeBookRoot;
     Boolean activatedShop = false;
     private Stage uiStage;
     private Value scale;
+    private Table recipeBookSteps;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
@@ -187,9 +189,9 @@ public class UIOverlay {
         root.row();
         root.add(resultTimer).colspan(3);
 
+        recipeBookRoot = new Table();
+        recipeBookRoot.setFillParent(true);
         recipeBook = new Table();
-        recipeBook.setFillParent(true);
-
         recipeBookSteps = new Table();
         createRecipeTable();
 
@@ -324,13 +326,13 @@ public class UIOverlay {
         if (recipe == null || lastShown == recipe) {
             lastShown = null;
             recipeBookSteps.clear();
-            recipeBook.setVisible(false);
+            recipeBookRoot.setVisible(false);
             return;
         }
 
         lastShown = recipe;
 
-        recipeBook.setVisible(true);
+        recipeBookRoot.setVisible(true);
         recipeBookSteps.clear();
         for (String recipeIngredient : recipe.getRecipeIngredients()) {
             Image image = new Image(
@@ -353,7 +355,7 @@ public class UIOverlay {
     }
 
     public void resizeOrders(Collection<Recipe> orders, float width, float height) {
-         generateOrders(orders, 0.04f * width, 0.07111111111f * height);
+         generateOrders(orders, 0.04f * width, 0.075f * height);
     }
 
     private void generateOrders(Collection<Recipe> orders, float width, float height) {
@@ -381,44 +383,50 @@ public class UIOverlay {
 
 
     public void createRecipeTable() {
+        recipeBookRoot.clear();
+        recipeBookRoot.setVisible(false);
         recipeBook.clear();
-        recipeBook.setVisible(false);
-        recipeBookSteps.clear(); 
 
-        recipeBook.right().padRight(chefDisplay.getWidth() );
+        recipeBookSteps.setWidth(80);
+        recipeBookSteps.setHeight(80);
+        recipeBookRoot.right().padRight(chefDisplay.getWidth());
         
-        recipeBook.add(recipeBookSteps).width(chefDisplay.getWidth()).height(chefDisplay.getHeight());
+        LabelStyle recipeNameStyle = new LabelStyle(game.getFontManager().getTitleFont(), null);
+        Label recipeName = new Label("Recipe", recipeNameStyle);
+
+        recipeBook.add(recipeName).expandX();
+
+        ImageButton hideButton = game
+            .getButtonManager()
+            .createImageButton(removeBtnDrawable, ButtonColour.BLUE, -1.5f);
+
+        hideButton.setHeight(0.5f);
+
+
+        hideButton.addListener(
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    recipeBookRoot.setVisible(false);
+                    lastShown = null;
+                }
+            }
+        );
+
+        recipeBook.add(hideButton).top().right().row();
+        
+        recipeBookRoot.add(recipeBook).width(chefDisplay.getWidth() * 2f).height(chefDisplay.getHeight() * 2f);
+        recipeBook.add(recipeBookSteps).colspan(2).expand();
 
         TextureRegionDrawable textureRegionDrawableBg =
         new TextureRegionDrawable(
             new Texture(Gdx.files.internal("backgroundimage.jpg"))
         );
         recipeBook.setBackground(textureRegionDrawableBg);
-        recipeBook.row();
-   
-        TextButton hideButton = game
-            .getButtonManager()
-            .createTextButton(
-                "hide",
-                ButtonManager.ButtonColour.BLUE
-            );
+        recipeBookRoot.row();
 
-        hideButton.sizeBy(1f);
-
-        hideButton.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    recipeBook.setVisible(false);
-                    lastShown = null;
-                }
-            }
-        );
-        
-        recipeBook.add(hideButton);
-
-        uiStage.addActor(recipeBook);
-        recipeBookSteps.debug();
+        uiStage.addActor(recipeBookRoot);
         recipeBook.debug();
+        recipeBookRoot.debug();
     }
 
     public void resize(int width, int height) {
