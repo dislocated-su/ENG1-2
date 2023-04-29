@@ -22,14 +22,16 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.chef.Chef;
+import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import java.util.Collection;
+import java.util.List;
 
 public class UIOverlay {
 
-    private final Image pointer;
+    private final Texture pointer;
     private final Stack chefDisplay;
     private final Image chefImage;
     private final VerticalGroup chefInventory;
@@ -75,15 +77,7 @@ public class UIOverlay {
         upgradesButton(uiStage);
 
         // Initialise pointer image
-        pointer =
-            new Image(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
-                )
-            );
-        pointer.setScaling(Scaling.none);
-
-
+        pointer =new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
 
         // Initialize UI for showing current chef's ingredient stack
         chefInventoryRoot = new Stack();
@@ -332,19 +326,58 @@ public class UIOverlay {
 
         lastShown = recipe;
 
+        String recipeString = recipe.getType();
+        recipeString = "\""+Character.toUpperCase(recipeString.charAt(0)) + recipeString.substring(1) + "\"";
+        recipeName.setText(recipeString);
+
         recipeBookRoot.setVisible(true);
         recipeBookSteps.clear();
+        stepName(recipe);
+        recipeBookSteps.row();
+        recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
         for (String recipeIngredient : recipe.getRecipeIngredients()) {
             Image image = new Image(
                 recipe.getTextureManager().getTexture(recipeIngredient)
             );
-            image.getDrawable().setMinHeight(chefDisplay.getHeight());
-            image.getDrawable().setMinWidth(chefDisplay.getWidth());
+            //image.getDrawable().setMinHeight(chefDisplay.getHeight());
+            //image.getDrawable().setMinWidth(chefDisplay.getWidth());
             recipeBookSteps.add(image);
         }
+        if (recipe.getType() == "pizza") {
+            recipeBookSteps.row();
+            recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
+            recipeBookSteps.add(new Image(recipe.getTextureManager().getTexture("uncooked_pizza"))).colspan(5).center();
+        }
+        recipeBookSteps.row();
+        recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
+        recipeBookSteps.add(new Image(recipe.getTexture())).colspan(5).center();
 
         //recipeBookSteps.row().colspan(i);
 
+    }
+
+    public void stepName (Recipe recipe) {
+        List<String> ingredients = recipe.getRecipeIngredients();
+        for (String ingredientName : ingredients) {
+            String[] temp = ingredientName.split("_",2);
+            String foodName = temp[0];
+            if (temp.length == 2){
+                Gdx.app.log("Split", temp[0] + "___" + temp[1]);
+                switch (foodName) {
+                    case "cheese":
+                    case "potato":  
+                        break;
+                    default:
+                        foodName = foodName + "_raw";
+                        break;
+                }
+
+            }
+            Image image = new Image(recipe.getTextureManager().getTexture(foodName));
+            // image.getDrawable().setMinHeight(chefDisplay.getHeight());
+            // image.getDrawable().setMinWidth(chefDisplay.getWidth());
+            recipeBookSteps.add(image);
+        }
     }
 
     /**
@@ -381,6 +414,7 @@ public class UIOverlay {
     }
     
 
+    Label recipeName;
 
     public void createRecipeTable() {
         recipeBookRoot.clear();
@@ -388,11 +422,11 @@ public class UIOverlay {
         recipeBook.clear();
 
         recipeBookSteps.setWidth(80);
-        recipeBookSteps.setHeight(80);
+        recipeBookSteps.setHeight(160);
         recipeBookRoot.right().padRight(chefDisplay.getWidth());
         
         LabelStyle recipeNameStyle = new LabelStyle(game.getFontManager().getTitleFont(), null);
-        Label recipeName = new Label("Recipe", recipeNameStyle);
+        recipeName = new Label("Recipe", recipeNameStyle);
 
         recipeBook.add(recipeName).expandX();
 

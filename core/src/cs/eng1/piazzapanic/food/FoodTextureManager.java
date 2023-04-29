@@ -57,7 +57,7 @@ public class FoodTextureManager implements Disposable {
                 new Texture(Gdx.files.internal("food/buff_chef/dough.png"))
             );
         this.foodTextures.put(
-                "potato", // Change to potato raw, check first
+                "potato",
                 new Texture(Gdx.files.internal("food/buff_chef/potato.png"))
             );
         this.foodTextures.put(
