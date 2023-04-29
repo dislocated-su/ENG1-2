@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class GrillingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null, null);
     FoodTextureManager textureManager = new FoodTextureManager();
     Patty patty = new Patty(textureManager);
     Chef chef = new Chef(null, null, chefManager);
@@ -27,7 +27,13 @@ public class GrillingStationTests {
 
     @Test
     public void testGetActionTypesNothing() {
-        GrillingStation station = new GrillingStation(1, null, null, null);
+        GrillingStation station = new GrillingStation(
+            1,
+            null,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "nothing is added to action types if no chef is nearby",
@@ -49,7 +55,13 @@ public class GrillingStationTests {
 
     @Test
     public void testGetActionPlaceIngredient() {
-        GrillingStation station = new GrillingStation(1, null, null, null);
+        GrillingStation station = new GrillingStation(
+            1,
+            null,
+            null,
+            null,
+            null
+        );
         chef.grabItem(patty);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -65,6 +77,7 @@ public class GrillingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.nearbyChef = chef;
@@ -104,6 +117,7 @@ public class GrillingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.nearbyChef = chef;
@@ -122,6 +136,7 @@ public class GrillingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.currentIngredient = patty;

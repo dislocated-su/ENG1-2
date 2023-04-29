@@ -2,13 +2,13 @@ package cs.eng1.piazzapanic.stations;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Choppable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The ChoppingStation class is a station representing the place in
@@ -22,6 +22,7 @@ public class ChoppingStation extends Station {
     public Choppable currentIngredient = null;
     protected float timeChopped;
     public boolean progressVisible = false;
+    private Chef tempChef;
 
     /**
      * The constructor method for the class
@@ -32,17 +33,16 @@ public class ChoppingStation extends Station {
      *                     action
      *                     buttons belonging to the station
      * @param alignment    Dictates where the action buttons are shown
-     * @param ingredients  An array of ingredients used to define what ingredients
-     *                     can be
-     *                     chopped
+     * @param locked
      */
     public ChoppingStation(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
     }
 
     /**
@@ -66,7 +66,8 @@ public class ChoppingStation extends Station {
                 uiController.hideProgressBar(this);
                 progressVisible = false;
                 uiController.showActions(this, getActionTypes());
-                nearbyChef.setPaused(false);
+                tempChef.setPaused(false);
+                tempChef = null;
             }
         }
         super.act(delta);
@@ -85,7 +86,10 @@ public class ChoppingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Choppable) {
-                return !((Choppable) itemToCheck).getChopped();
+                return (
+                    !((Choppable) itemToCheck).getChopped() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -98,11 +102,16 @@ public class ChoppingStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
             return actionTypes;
         }
+
         if (currentIngredient == null) {
             if (
                 nearbyChef.hasIngredient() &&
@@ -111,7 +120,10 @@ public class ChoppingStation extends Station {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
-            if (currentIngredient.getChopped()) {
+            if (
+                currentIngredient.getChopped() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
             if (!inUse) {
@@ -130,12 +142,14 @@ public class ChoppingStation extends Station {
      */
     @Override
     public void doStationAction(StationAction.ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case CHOP_ACTION:
                 inUse = true;
+                tempChef = nearbyChef;
                 uiController.hideActions(this);
                 uiController.showProgressBar(this);
-                nearbyChef.setPaused(true);
+                tempChef.setPaused(true);
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
@@ -147,8 +161,7 @@ public class ChoppingStation extends Station {
                     if (
                         (this.isCorrectIngredient(nearbyChef.getStack().peek()))
                     ) {
-                        currentIngredient =
-                            (Choppable) nearbyChef.popIngredient();
+                        currentIngredient = (Choppable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());

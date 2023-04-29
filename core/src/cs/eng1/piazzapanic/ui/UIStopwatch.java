@@ -4,12 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class Timer extends Label {
+public class UIStopwatch extends Label {
 
     private float totalTime = 0;
     private boolean isRunning = false;
 
-    public Timer(Label.LabelStyle labelStyle) {
+    public UIStopwatch(Label.LabelStyle labelStyle) {
         super("0:00", labelStyle);
     }
 
@@ -45,7 +45,8 @@ public class Timer extends Label {
     }
 
     /**
-     * Show the minutes and seconds correctly based on the total number of seconds that have passed.
+     * Show the minutes and seconds correctly based on the total number of seconds
+     * that have passed.
      */
     public void updateTimer() {
         DecimalFormat df = new DecimalFormat("#");

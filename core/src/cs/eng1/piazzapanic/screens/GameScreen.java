@@ -7,20 +7,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import cs.eng1.piazzapanic.MapLoader;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
-import cs.eng1.piazzapanic.food.CustomerManager;
+import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.stations.*;
+import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.utility.KeyboardInput;
+import cs.eng1.piazzapanic.utility.MapLoader;
 
 /**
  * The screen which can be used to load the tilemap and keep track of everything
@@ -42,21 +45,36 @@ public class GameScreen implements Screen {
     private boolean isFirstFrame = true;
     private final Box2DDebugRenderer box2dDebugRenderer;
     private final World world;
+    private KeyboardInput kbInput;
 
-    public GameScreen(final PiazzaPanicGame game, int totalCustomers) {
+    public GameScreen(
+        final PiazzaPanicGame game,
+        int totalCustomers,
+        int difficulty
+    ) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
-        MapLoader mapLoader = new MapLoader("main-game-map.tmx");
+        MapLoader mapLoader = new MapLoader("e.tmx");
+
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
 
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x,
-            mapLoader.mapSize.y,
+            mapLoader.mapSize.x / 2,
+            mapLoader.mapSize.y / 2,
             camera
         ); // Number of tiles
         this.stage = new Stage(viewport);
+
+        kbInput = new KeyboardInput();
 
         ScreenViewport uiViewport = new ScreenViewport();
         this.uiStage = new Stage(uiViewport);
@@ -68,9 +86,31 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
+        PlayerState.reset();
+        PlayerState.getInstance().setDifficulty(difficulty);
+
         chefManager =
-            new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world);
-        customerManager = new CustomerManager(uiOverlay, totalCustomers);
+            new ChefManager(
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                kbInput
+            );
+
+        customerManager =
+            new CustomerManager(
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                totalCustomers
+            );
+
+        customerManager.init(
+            foodTextureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
 
         mapLoader.createStations(
             "Stations",
@@ -89,12 +129,12 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(kbInput);
         multiplexer.addProcessor(uiStage);
         multiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
         chefManager.init();
-        customerManager.init(foodTextureManager);
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {
@@ -108,6 +148,25 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (chefManager.getCurrentChef() != null) {
+            OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
+            camera.position.lerp(
+                new Vector3(
+                    chefManager.getCurrentChef().getX(),
+                    chefManager.getCurrentChef().getY(),
+                    1
+                ),
+                0.1f
+            );
+            camera.position.x =
+                (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y =
+                (float) Math.round(camera.position.y * 100f) / 100f;
+        } else {
+            stage.getCamera().position.set(15, 15, 1);
+        }
+
         stage.getCamera().update();
         uiStage.getCamera().update();
 
@@ -118,6 +177,9 @@ public class GameScreen implements Screen {
         // Render stage
         stage.act(delta);
         uiStage.act(delta);
+        PlayerState.getInstance().act(delta);
+        customerManager.act(delta);
+        chefManager.act(delta);
 
         stage.draw();
         uiStage.draw();

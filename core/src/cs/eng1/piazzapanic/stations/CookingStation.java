@@ -8,7 +8,6 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * The CookingStation class is a station representing the place in the kitchen
@@ -19,6 +18,7 @@ public class CookingStation extends Station {
 
     public Cookable currentIngredient;
     public boolean progressVisible = false;
+    private boolean checkUpdateUI = false;
 
     /**
      * The constructor method for the class
@@ -29,16 +29,16 @@ public class CookingStation extends Station {
      *                     action buttons
      *                     belonging to the station
      * @param alignment    Dictates where the action buttons are shown
-     * @param ingredients  An array of ingredients used to define what ingredients
-     *                     can be cooked
+     * @param locked
      */
     public CookingStation(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
     }
 
     @Override
@@ -60,6 +60,15 @@ public class CookingStation extends Station {
         if (inUse) {
             currentIngredient.cookingTick(delta);
 
+            if (
+                currentIngredient != null &&
+                !((Ingredient) currentIngredient).getUseable() &&
+                !checkUpdateUI
+            ) {
+                uiController.showActions(this, getActionTypes());
+                checkUpdateUI = true;
+            }
+
             uiController.updateProgressValue(
                 this,
                 currentIngredient.getCookingProgress()
@@ -78,7 +87,7 @@ public class CookingStation extends Station {
      * Checks the presented ingredient with the list of valid ingredients to see if
      * it can be cooked
      *
-     * @param ingredientToCheck The ingredient presented by the chef to be checked
+     * @param itemToCheck The item presented by the chef to be checked
      *                          if it can be used
      *                          by the station
      * @return true if the ingredient is in the validIngredients array; false
@@ -87,7 +96,10 @@ public class CookingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
-                return !((Cookable) itemToCheck).getCooked();
+                return (
+                    !((Cookable) itemToCheck).getCooked() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -101,9 +113,13 @@ public class CookingStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
             return actionTypes;
         }
         if (currentIngredient == null) {
@@ -118,12 +134,16 @@ public class CookingStation extends Station {
             // the patty.
             if (
                 currentIngredient.cookingStepComplete() &&
-                !currentIngredient.getCooked()
+                !currentIngredient.getCooked() &&
+                (((Ingredient) currentIngredient).getUseable())
             ) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getCooked()) {
+            if (
+                currentIngredient.getCooked() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -143,6 +163,7 @@ public class CookingStation extends Station {
      */
     @Override
     public void doStationAction(StationAction.ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case COOK_ACTION:
                 // timeCooked is used to track how long the
@@ -167,8 +188,7 @@ public class CookingStation extends Station {
                     if (
                         this.isCorrectIngredient(nearbyChef.getStack().peek())
                     ) {
-                        currentIngredient =
-                            (Cookable) nearbyChef.popIngredient();
+                        currentIngredient = (Cookable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());
@@ -179,6 +199,7 @@ public class CookingStation extends Station {
                     currentIngredient = null;
                     inUse = false;
                 }
+                checkUpdateUI = false;
                 uiController.showActions(this, getActionTypes());
                 break;
             default:

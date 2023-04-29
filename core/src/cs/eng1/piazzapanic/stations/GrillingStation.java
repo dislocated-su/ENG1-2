@@ -8,20 +8,21 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
 
 public class GrillingStation extends Station {
 
     public Grillable currentIngredient;
     public boolean progressVisible = false;
+    private boolean checkUpdateUI = false;
 
     public GrillingStation(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
     }
 
     @Override
@@ -43,6 +44,14 @@ public class GrillingStation extends Station {
         if (inUse) {
             currentIngredient.grillTick(delta);
 
+            if (
+                currentIngredient != null &&
+                !((Ingredient) currentIngredient).getUseable() &&
+                !checkUpdateUI
+            ) {
+                uiController.showActions(this, getActionTypes());
+                checkUpdateUI = true;
+            }
             uiController.updateProgressValue(
                 this,
                 currentIngredient.getGrillProgress()
@@ -61,7 +70,7 @@ public class GrillingStation extends Station {
      * Checks the presented ingredient with the list of valid ingredients to see if
      * it can be cooked
      *
-     * @param ingredientToCheck The ingredient presented by the chef to be checked
+     * @param itemToCheck The item presented by the chef to be checked
      *                          if it can be used
      *                          by the station
      * @return true if the ingredient is in the validIngredients array; false
@@ -70,7 +79,10 @@ public class GrillingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Grillable) {
-                return !((Grillable) itemToCheck).getGrilled();
+                return (
+                    !((Grillable) itemToCheck).getGrilled() &&
+                    ((Ingredient) itemToCheck).getUseable()
+                );
             }
         }
         return false;
@@ -84,9 +96,13 @@ public class GrillingStation extends Station {
      * @return actionTypes - the list of actions the station can currently perform.
      */
     @Override
-    public List<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        LinkedList<StationAction.ActionType> actionTypes =
+            super.getActionTypes();
         if (nearbyChef == null) {
+            return new LinkedList<>();
+        }
+        if (locked) {
             return actionTypes;
         }
         if (currentIngredient == null) {
@@ -101,12 +117,16 @@ public class GrillingStation extends Station {
             // the patty.
             if (
                 currentIngredient.grillStepComplete() &&
-                !currentIngredient.getGrilled()
+                !currentIngredient.getGrilled() &&
+                (((Ingredient) currentIngredient).getUseable())
             ) {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (currentIngredient.getGrilled()) {
+            if (
+                currentIngredient.getGrilled() ||
+                !(((Ingredient) currentIngredient).getUseable())
+            ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -119,6 +139,7 @@ public class GrillingStation extends Station {
 
     @Override
     public void doStationAction(StationAction.ActionType action) {
+        super.doStationAction(action);
         switch (action) {
             case COOK_ACTION:
                 // timeCooked is used to track how long the
@@ -143,8 +164,7 @@ public class GrillingStation extends Station {
                     if (
                         this.isCorrectIngredient(nearbyChef.getStack().peek())
                     ) {
-                        currentIngredient =
-                            (Grillable) nearbyChef.popIngredient();
+                        currentIngredient = (Grillable) nearbyChef.popFood();
                     }
                 }
                 uiController.showActions(this, getActionTypes());
@@ -155,6 +175,7 @@ public class GrillingStation extends Station {
                     currentIngredient = null;
                     inUse = false;
                 }
+                checkUpdateUI = false;
                 uiController.showActions(this, getActionTypes());
                 break;
             default:

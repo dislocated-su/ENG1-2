@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
@@ -25,15 +26,20 @@ public class Station extends Actor implements Observer<Chef> {
     protected boolean inUse = false;
 
     protected final List<Subject<Chef>> chefSubjects = new LinkedList<>();
+
     public Chef nearbyChef = null;
     private float imageRotation = 0.0f;
+
+    protected boolean locked;
 
     public Station(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
+        this.locked = locked == null ? false : locked;
         this.id = id;
         stationImage = image; // Texture of the object
         actionAlignment = alignment;
@@ -76,7 +82,28 @@ public class Station extends Actor implements Observer<Chef> {
      * @param foodTexture the texture to be drawn onto the screen.
      */
     protected void drawFoodTexture(Batch batch, Texture foodTexture) {
-        batch.draw(foodTexture, getX() + .2f, getY() + .2f, .6f, .6f);
+        drawFoodTexture(batch, foodTexture, 1);
+    }
+
+    /**
+     * Take a food texture and render it on top of the station with a custom scaling.
+     *
+     * @param batch       the sprite batch to draw rectangles to the screen.
+     * @param foodTexture the texture to be drawn onto the screen.
+     * @param scale       how big the texture is to be drawn (relative to default size of .6f)
+     */
+    protected void drawFoodTexture(
+        Batch batch,
+        Texture foodTexture,
+        float scale
+    ) {
+        batch.draw(
+            foodTexture,
+            getX() + (float) (.2f / Math.pow(scale, 2)),
+            getY() + (float) (.2f / Math.pow(scale, 2)),
+            .6f * scale,
+            .6f * scale
+        );
     }
 
     /**
@@ -183,8 +210,16 @@ public class Station extends Actor implements Observer<Chef> {
      * @return the list of possible actions that this station based on the current
      *         state
      */
-    public List<StationAction.ActionType> getActionTypes() {
-        return new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        PlayerState state = PlayerState.getInstance();
+        if (locked && state.getCash() > state.getUpgradeCost(false)) {
+            LinkedList<StationAction.ActionType> actionTypes =
+                new LinkedList<>();
+            actionTypes.add(StationAction.ActionType.BUY_STATION);
+            return actionTypes;
+        } else {
+            return new LinkedList<>();
+        }
     }
 
     /**
@@ -194,7 +229,14 @@ public class Station extends Actor implements Observer<Chef> {
      *
      * @param action the action that needs to be done by this station if it can.
      */
-    public void doStationAction(StationAction.ActionType action) {}
+    public void doStationAction(StationAction.ActionType action) {
+        if (action == StationAction.ActionType.BUY_STATION) {
+            locked = false;
+            PlayerState state = PlayerState.getInstance();
+            state.spendCash(state.getUpgradeCost(true));
+            uiController.showActions(this, getActionTypes());
+        }
+    }
 
     /**
      * @return the direction in which the action buttons should be displayed.

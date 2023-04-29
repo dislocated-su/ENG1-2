@@ -1,6 +1,8 @@
 package cs.eng1.piazzapanic.food.ingredients;
 
 import com.badlogic.gdx.graphics.Texture;
+import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
@@ -20,8 +22,23 @@ public class BasicGrillable extends Ingredient implements Grillable {
 
     @Override
     public boolean grillTick(float delta) {
-        accumulator += delta;
-        if (accumulator >= (grillStepTime + failTime)) {
+        accumulator +=
+            (
+                delta *
+                (
+                    (
+                            PlayerState
+                                .getInstance()
+                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                        )
+                        ? 2
+                        : 1
+                )
+            );
+        if (
+            accumulator >= (grillStepTime + failTime) &&
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
+        ) {
             setUseable(false);
         } else if (accumulator >= grillStepTime) {
             if (!getHalfGrilled()) {

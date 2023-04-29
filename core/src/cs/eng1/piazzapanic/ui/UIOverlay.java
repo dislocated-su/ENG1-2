@@ -33,10 +33,10 @@ public class UIOverlay {
     private final TextureRegionDrawable removeBtnDrawable;
     private final Image recipeImagesBG;
     private final VerticalGroup recipeImages;
-    private final Timer timer;
+    private final UIStopwatch timer;
     private final Label recipeCountLabel;
     private final Label resultLabel;
-    private final Timer resultTimer;
+    private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
@@ -95,7 +95,7 @@ public class UIOverlay {
                     "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"
                 )
             );
-        timer = new Timer(timerStyle);
+        timer = new UIStopwatch(timerStyle);
         timer.setAlignment(Align.center);
 
         // Initialize the home button
@@ -155,7 +155,7 @@ public class UIOverlay {
         resultLabel =
             new Label("Congratulations! Your final time was:", labelStyle);
         resultLabel.setVisible(false);
-        resultTimer = new Timer(labelStyle);
+        resultTimer = new UIStopwatch(labelStyle);
         resultTimer.setVisible(false);
 
         // Add everything
@@ -217,7 +217,7 @@ public class UIOverlay {
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        chef.popIngredient();
+                        chef.popFood();
                     }
                 }
             );

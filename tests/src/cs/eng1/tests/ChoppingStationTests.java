@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class ChoppingStationTests {
 
-    ChefManager chefManager = new ChefManager(0, null, null);
+    ChefManager chefManager = new ChefManager(0, null, null, null);
     Chef chef = new Chef(null, null, chefManager);
     FoodTextureManager textureManager = new FoodTextureManager();
     Lettuce lettuce = new Lettuce(textureManager);
@@ -27,7 +27,13 @@ public class ChoppingStationTests {
 
     @Test
     public void testGetActionTypesNothing() {
-        ChoppingStation station = new ChoppingStation(1, null, null, null);
+        ChoppingStation station = new ChoppingStation(
+            1,
+            null,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "nothing is added to action types if no chef is nearby",
@@ -49,7 +55,13 @@ public class ChoppingStationTests {
 
     @Test
     public void testGetActionPlaceIngredient() {
-        ChoppingStation station = new ChoppingStation(1, null, null, null);
+        ChoppingStation station = new ChoppingStation(
+            1,
+            null,
+            null,
+            null,
+            null
+        );
         chef.grabItem(lettuce);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -65,6 +77,7 @@ public class ChoppingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.nearbyChef = chef;
@@ -97,6 +110,7 @@ public class ChoppingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.nearbyChef = chef;
@@ -115,6 +129,7 @@ public class ChoppingStationTests {
             1,
             null,
             uiController,
+            null,
             null
         );
         station.currentIngredient = lettuce;

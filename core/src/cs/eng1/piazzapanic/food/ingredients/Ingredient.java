@@ -72,7 +72,7 @@ public class Ingredient implements Holdable {
      * Initialize an array of ingredients based on the input string.
      *
      * @param csvIngredientNames A string containing a list of ingredient names
-     *                           seperated by commas
+     *                           separated by commas
      *                           with no whitespace as defined in Tiled
      * @return An array of Ingredient based on the input string
      */

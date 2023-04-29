@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic.stations;
 
+import cs.eng1.piazzapanic.PlayerState;
+
 public class StationAction {
 
     public enum ActionType {
@@ -14,6 +16,7 @@ public class StationAction {
         MAKE_PIZZA,
         MAKE_JACKET,
         SUBMIT_ORDER,
+        BUY_STATION,
     }
 
     public static String getActionDescription(ActionType actionType) {
@@ -40,6 +43,12 @@ public class StationAction {
                 return "Submit Order";
             case ASSEMBLE_PIZZA:
                 return "Assemble Pizza";
+            case BUY_STATION:
+                return (
+                    "Unlock station (" +
+                    PlayerState.getInstance().getUpgradeCost(false) +
+                    ")"
+                );
             default:
                 return "Unknown Action";
         }

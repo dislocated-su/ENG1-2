@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This is a collider that checks to see if the chef has entered its bounds. If it has then it
+ * This is a collider that checks to see if the chef has entered its bounds. If
+ * it has then it
  * notifies all the linked stations which chef has overlapped.
  */
 public class StationCollider extends Actor implements Subject<Chef> {
@@ -27,18 +28,20 @@ public class StationCollider extends Actor implements Subject<Chef> {
     public void act(float delta) {
         boolean hasChef = false;
         for (Chef chef : chefManager.getChefs()) {
-            // Check if the chef's centre point overlaps this class's bounds.
-            float chefCentreX = chef.getX() + chef.getWidth() / 2f;
-            float chefCentreY = chef.getY() + chef.getHeight() / 2f;
-            if (
-                chefCentreX >= getX() &&
-                chefCentreX < getX() + getWidth() &&
-                chefCentreY >= getY() &&
-                chefCentreY < getY() + getHeight()
-            ) {
-                notifyObservers(chef);
-                hasChef = true;
-                break;
+            if (chefManager.getCurrentChef() == chef) {
+                // Check if the chef's centre point overlaps this class's bounds.
+                float chefCentreX = chef.getX() + chef.getWidth() / 2f;
+                float chefCentreY = chef.getY() + chef.getHeight() / 2f;
+                if (
+                    chefCentreX >= getX() &&
+                    chefCentreX < getX() + getWidth() &&
+                    chefCentreY >= getY() &&
+                    chefCentreY < getY() + getHeight()
+                ) {
+                    notifyObservers(chef);
+                    hasChef = true;
+                    break;
+                }
             }
         }
         if (!hasChef) {

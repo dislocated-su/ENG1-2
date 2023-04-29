@@ -13,7 +13,7 @@ public class Cheese extends BasicChoppable {
     public Texture getTexture() {
         String name = "cheese";
         if (chopped) {
-            name += "sliced";
+            name += "_sliced";
         }
         return textureManager.getTexture(name);
     }
