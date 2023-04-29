@@ -10,6 +10,8 @@ import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.stations.IngredientStation;
 import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import cs.eng1.piazzapanic.ui.UIOverlay;
+
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +20,8 @@ import org.junit.runner.RunWith;
 public class StationColliderTests {
 
     World world = new World(new Vector2(0, 0), true);
-    ChefManager chefManager = new ChefManager(0, null, world, null);
+    private UIOverlay overlay = mock(UIOverlay.class);
+    ChefManager chefManager = new ChefManager(0, overlay, world, null);
     Chef chef = new Chef(null, null, chefManager);
     private StationUIController uiController = mock(StationUIController.class);
     IngredientStation station = new IngredientStation(
@@ -108,8 +111,9 @@ public class StationColliderTests {
     // */
     public void testAct() {
         StationCollider stationCollider = new StationCollider(chefManager);
-        stationCollider.setX(5);
-        stationCollider.setY(3);
+        chefManager.setCurrentChef(chefManager.getChefs().get(0));
+        chefManager.getChefs().get(0).setX(stationCollider.getX());
+        chefManager.getChefs().get(0).setY(stationCollider.getY());
         stationCollider.register(station);
         stationCollider.setWidth(1);
         stationCollider.setHeight(1);
