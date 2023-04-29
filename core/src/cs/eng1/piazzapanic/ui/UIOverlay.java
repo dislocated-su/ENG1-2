@@ -31,42 +31,33 @@ public class UIOverlay {
     private final Image pointer;
     private final Stack chefDisplay;
     private final Image chefImage;
-    private final Image ingredientImagesBG;
-    private final VerticalGroup ingredientImages;
+    private final VerticalGroup chefInventory;
+    private final Stack chefInventoryRoot;
     private final TextureRegionDrawable removeBtnDrawable;
-    private final Image recipeImagesBG;
-    private final VerticalGroup recipeImages;
+    //private final Image orderGroupBG;
+    private final VerticalGroup orderGroup;
     private final UIStopwatch timer;
     private final Label recipeCountLabel;
     private final Label resultLabel;
     private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
-    private final Table displayIngredients;
-    Boolean activated = false;
+    private Table recipeBookSteps, recipeBook;
+    Boolean activatedShop = false;
+    private Stage uiStage;
+    private Value scale;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
+        this.uiStage = uiStage;
 
         // Initialize table
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center().top().pad(15f);
-        uiStage.addActor(table);
-
-        // Initialize button for Upgrade implementation
-        updateButton(uiStage);
-
-        // Initialise pointer image
-        pointer =
-            new Image(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
-                )
-            );
-        pointer.setScaling(Scaling.none);
-
+        Table root = new Table();
+        root.setFillParent(true);
+        root.center().top().pad(15f);
+        uiStage.addActor(root);
+        
         // Initialize UI for showing current chef
-        chefDisplay = new Stack();
+        this.chefDisplay = new Stack();
         chefDisplay.add(
             new Image(
                 new Texture(
@@ -78,19 +69,32 @@ public class UIOverlay {
         chefImage.setScaling(Scaling.fit);
         chefDisplay.add(chefImage);
 
+        // Initialize button for Upgrade implementation
+        upgradesButton(uiStage);
+
+        // Initialise pointer image
+        pointer =
+            new Image(
+                new Texture(
+                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
+                )
+            );
+        pointer.setScaling(Scaling.none);
+
+
+
         // Initialize UI for showing current chef's ingredient stack
-        Stack ingredientStackDisplay = new Stack();
-        ingredientImagesBG =
+        chefInventoryRoot = new Stack();
+        Image ingredientImagesBG =
             new Image(
                 new Texture(
                     "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
                 )
             );
-        ingredientImagesBG.setVisible(false);
-        ingredientStackDisplay.add(ingredientImagesBG);
-        ingredientImages = new VerticalGroup();
-        ingredientImages.padBottom(10f);
-        ingredientStackDisplay.add(ingredientImages);
+        chefInventoryRoot.add(ingredientImagesBG);
+        chefInventory = new VerticalGroup();
+        chefInventory.padBottom(10f);
+        chefInventoryRoot.add(chefInventory);
 
         // Initialize the timer
         LabelStyle timerStyle = new Label.LabelStyle(
@@ -128,6 +132,8 @@ public class UIOverlay {
                 }
             }
         );
+
+        
         removeBtnDrawable =
             new TextureRegionDrawable(
                 new Texture(
@@ -137,16 +143,16 @@ public class UIOverlay {
 
         // Initialize the UI to display the currently requested recipe
         Stack recipeDisplay = new Stack();
-        recipeImagesBG =
+        Image orderGroupBG =
             new Image(
                 new Texture(
                     "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
                 )
             );
-        recipeImagesBG.setVisible(false);
-        recipeDisplay.add(recipeImagesBG);
-        recipeImages = new VerticalGroup();
-        recipeDisplay.add(recipeImages);
+        orderGroup = new VerticalGroup();
+        orderGroupBG.setVisible(false);
+        recipeDisplay.add(orderGroupBG);
+        recipeDisplay.add(orderGroup);
 
         // Initialize counter for showing remaining recipes
         LabelStyle counterStyle = new LabelStyle(
@@ -167,32 +173,31 @@ public class UIOverlay {
         resultTimer.setVisible(false);
 
         // Add everything
-        Value scale = Value.percentWidth(0.04f, table);
-        Value timerWidth = Value.percentWidth(0.2f, table);
-        table.add(chefDisplay).left().width(scale).height(scale);
-        table.add(timer).expandX().width(timerWidth).height(scale);
-        table.add(homeButton).right().width(scale).height(scale);
-        table.row().padTop(10f);
-        table.add(ingredientStackDisplay).left().top().width(scale);
-        table.add().expandX().width(timerWidth);
-        table.add(recipeDisplay).right().top().width(scale);
-        table.row();
-        table.add(resultLabel).colspan(3);
-        table.row();
-        table.add(resultTimer).colspan(3);
+        scale = Value.percentWidth(0.04f, root);
+        Value timerWidth = Value.percentWidth(0.2f, root);
+        root.add(chefDisplay).left().width(scale).height(scale);
+        root.add(timer).expandX().width(timerWidth).height(scale);
+        root.add(homeButton).right().width(scale).height(scale);
+        root.row().padTop(10f);
+        root.add(chefInventoryRoot).left().top().width(scale);
+        root.add().expandX().width(timerWidth);
+        root.add(recipeDisplay).right().top().width(scale);
+        root.row();
+        root.add(resultLabel).colspan(3);
+        root.row();
+        root.add(resultTimer).colspan(3);
 
-        displayIngredients = new Table();
-        displayIngredients.setFillParent(true);
-        displayIngredients.padRight(80);
-        displayIngredients.top().right();
-        // TextureRegionDrawable textureRegionDrawableBg =
-        // new TextureRegionDrawable(
-        //     new Texture(Gdx.files.internal("backgroundimage.jpg"))
-        // );
-        // displayIngredients.setBackground(textureRegionDrawableBg);
-        uiStage.addActor(displayIngredients);
-        displayIngredients.debug();
+        recipeBook = new Table();
+        recipeBook.setFillParent(true);
+
+        recipeBookSteps = new Table();
+        createRecipeTable();
+
+        root.debug();
         
+    }
+
+    private void createLayout(Table root) {
 
     }
 
@@ -204,6 +209,7 @@ public class UIOverlay {
         timer.start();
         resultLabel.setVisible(false);
         resultTimer.setVisible(false);
+        // displayIngredients.setVisible(false);
         updateChefUI(null);
     }
 
@@ -217,19 +223,20 @@ public class UIOverlay {
     public void updateChefUI(final Chef chef) {
         if (chef == null) {
             chefImage.setDrawable(null);
-            ingredientImages.clearChildren();
-            ingredientImagesBG.setVisible(false);
+            chefInventory.clearChildren();
+            chefInventoryRoot.setVisible(false);
             return;
         }
+        chefInventoryRoot.setVisible(!chef.getStack().isEmpty());
         Texture texture = chef.getTexture();
         chefImage.setDrawable(new TextureRegionDrawable(texture));
 
-        ingredientImages.clearChildren();
+        chefInventory.clearChildren();
         for (Holdable ingredient : chef.getStack()) {
             Image image = new Image(ingredient.getTexture());
             image.getDrawable().setMinHeight(chefDisplay.getHeight());
             image.getDrawable().setMinWidth(chefDisplay.getWidth());
-            ingredientImages.addActor(image);
+            chefInventory.addActor(image);
         }
         if (!chef.getStack().isEmpty()) {
             ImageButton btn = game
@@ -243,9 +250,8 @@ public class UIOverlay {
                     }
                 }
             );
-            ingredientImages.addActor(btn);
+            chefInventory.addActor(btn);
         }
-        ingredientImagesBG.setVisible(!chef.getStack().isEmpty());
     }
 
     /**
@@ -259,15 +265,17 @@ public class UIOverlay {
         timer.stop();
     }
 
-    // creates a button on the bottom left that updates itself when clicked on and makes visible a table when clicked on
-    public void updateButton(Stage uiStage) {
+    /**
+     * Update method for the ugprade button.
+     */
+    public void upgradesButton(Stage uiStage) {
         String upgradeUiButtonText;
         TextButton upgrades;
 
         final UpgradesUi upgradesUi = game.getUpgradesUi();
         upgradesUi.addToStage(uiStage);
 
-        if (activated == false) {
+        if (activatedShop == false) {
             upgradeUiButtonText = "Upgrades";
         } else {
             upgradeUiButtonText = "Return";
@@ -284,14 +292,14 @@ public class UIOverlay {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (activated == false) { // to check whether to hid or unhide the upgrades panel
+                    if (activatedShop == false) { // to check whether to hid or unhide the upgrades panel
                         upgradesUi.visible(true);
-                        activated = true;
-                        updateButton(uiStage);
+                        activatedShop = true;
+                        upgradesButton(uiStage);
                     } else {
                         upgradesUi.visible(false);
-                        activated = false;
-                        updateButton(uiStage);
+                        activatedShop = false;
+                        upgradesButton(uiStage);
                     }
                 }
             }
@@ -303,81 +311,116 @@ public class UIOverlay {
         bottomTable.add(upgrades).width(100).left();
     }
 
+
+    Recipe lastShown = null;
+
     /**
-     * Show the current requested recipe that the player needs to make, the
-     * ingredients for that, and
-     * the number of remaining recipes.
+     * Describe the cooking process of a recipe to the user.
      *
      * @param recipe The recipe to display the ingredients for.
      */
     public void updateRecipeUI(Recipe recipe) {
         // recipe will be null when we reach the end of the scenario
-        if (recipe == null) {
-            recipeImages.clearChildren();
-            recipeImagesBG.setVisible(false);
-            return;
-        }
-        Image recipeImage = new Image(recipe.getTexture());
-        recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
-        recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
-        ImageButton recipeButton = game
-        .getButtonManager()
-        .createImageButton(recipeImage.getDrawable(), ButtonManager.ButtonColour.GREY, 1f);
-        // recipeButton.sizeBy(0.009f);
-        recipeButton.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    recipeImages.clearChildren();
-
-                    if (activated == false){
-                        for (String recipeIngredient : recipe.getRecipeIngredients()) {
-                            Image image = new Image(
-                                recipe.getTextureManager().getTexture(recipeIngredient)
-                            );
-                            image.getDrawable().setMinHeight(chefDisplay.getHeight());
-                            image.getDrawable().setMinWidth(chefDisplay.getWidth());
-                            displayIngredients.add(image);
-                            // recipeImages.row();
-                        }
-                        
-                        recipeImages.addActor(pointer);
-                        activated = true;
-                    }
-                    else {
-                        activated = false;
-                    }
-                    recipeImages.addActor(recipeButton);
-
-                }
-            }
-        );
-        recipeImages.addActor(recipeButton);
-        recipeImagesBG.setVisible(true);
-    }
-
-    public void updateOrders(Collection<Recipe> orders) {
-        recipeImages.clearChildren();
-
-        if (orders.isEmpty()) {
-            recipeImagesBG.setVisible(false);
+        if (recipe == null || lastShown == recipe) {
+            lastShown = null;
+            recipeBookSteps.clear();
+            recipeBook.setVisible(false);
             return;
         }
 
-        for (Recipe order : orders) {
-            Image recipeImage = new Image(order.getTexture());
-            recipeImage.getDrawable().setMinHeight(chefDisplay.getHeight());
-            recipeImage.getDrawable().setMinWidth(chefDisplay.getWidth());
-            recipeImages.addActor(recipeImage);
-            recipeImagesBG.setVisible(true);
+        lastShown = recipe;
+
+        recipeBook.setVisible(true);
+        recipeBookSteps.clear();
+        for (String recipeIngredient : recipe.getRecipeIngredients()) {
+            Image image = new Image(
+                recipe.getTextureManager().getTexture(recipeIngredient)
+            );
+            image.getDrawable().setMinHeight(chefDisplay.getHeight());
+            image.getDrawable().setMinWidth(chefDisplay.getWidth());
+            recipeBookSteps.add(image);
         }
+
+        //recipeBookSteps.row().colspan(i);
+
     }
 
     /**
-     * Update the number of remaining recipes to be displayed.
-     *
-     * @param remainingRecipes The number of remaining recipes.
+     * Update the vertical list of orders.
      */
-    public void updateRecipeCounter(int remainingRecipes) {
-        recipeCountLabel.setText(remainingRecipes);
+    public void updateOrders(Collection<Recipe> orders) {
+        generateOrders(orders, scale.get(), scale.get());
+    }
+
+    public void resizeOrders(Collection<Recipe> orders, float width, float height) {
+         generateOrders(orders, 0.04f * width, 0.07111111111f * height);
+    }
+
+    private void generateOrders(Collection<Recipe> orders, float width, float height) {
+        orderGroup.clearChildren();
+    
+        for (Recipe order : orders) {
+            Image recipeImage = new Image(order.getTexture());
+            recipeImage.getDrawable().setMinHeight(height);
+            recipeImage.getDrawable().setMinWidth(width);
+            ImageButton recipeButton = game
+            .getButtonManager()
+            .createImageButton(recipeImage.getDrawable(), ButtonManager.ButtonColour.GREY, 0.5f);
+
+            recipeButton
+            .addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    updateRecipeUI(order);   
+                }
+            });
+            orderGroup.addActor(recipeButton);
+        }
+    }
+    
+
+
+    public void createRecipeTable() {
+        recipeBook.clear();
+        recipeBook.setVisible(false);
+        recipeBookSteps.clear(); 
+
+        recipeBook.right().padRight(chefDisplay.getWidth() );
+        
+        recipeBook.add(recipeBookSteps).width(chefDisplay.getWidth()).height(chefDisplay.getHeight());
+
+        TextureRegionDrawable textureRegionDrawableBg =
+        new TextureRegionDrawable(
+            new Texture(Gdx.files.internal("backgroundimage.jpg"))
+        );
+        recipeBook.setBackground(textureRegionDrawableBg);
+        recipeBook.row();
+   
+        TextButton hideButton = game
+            .getButtonManager()
+            .createTextButton(
+                "hide",
+                ButtonManager.ButtonColour.BLUE
+            );
+
+        hideButton.sizeBy(1f);
+
+        hideButton.addListener(
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    recipeBook.setVisible(false);
+                    lastShown = null;
+                }
+            }
+        );
+        
+        recipeBook.add(hideButton);
+
+        uiStage.addActor(recipeBook);
+        recipeBookSteps.debug();
+        recipeBook.debug();
+    }
+
+    public void resize(int width, int height) {
     }
 }

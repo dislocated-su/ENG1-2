@@ -29,6 +29,7 @@ public class PiazzaPanicGame extends Game {
         settingsOverlay = new SettingsOverlay(this);
         modeSelect = new ModeSelectOverlay(this);
         upgrades = new UpgradesUi(this);
+        // recipes = new RecipesUi(this);
         loadHomeScreen();
     }
 

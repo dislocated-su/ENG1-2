@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
             mapLoader.mapSize.x / 2,
             mapLoader.mapSize.y / 2,
             camera
-        ); // Number of tiles
+        );
         this.stage = new Stage(viewport);
 
         kbInput = new KeyboardInput();
@@ -163,7 +163,7 @@ public class GameScreen implements Screen {
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {
-            uiOverlay.updateRecipeUI(customerManager.getFirstOrder());
+            uiOverlay.updateOrders(customerManager.getOrders());
             isFirstFrame = false;
         }
     }
@@ -172,6 +172,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         this.stage.getViewport().update(width, height, true);
         this.uiStage.getViewport().update(width, height, true);
+        this.uiOverlay.resizeOrders(customerManager.getOrders(), width, height);
     }
 
     @Override

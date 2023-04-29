@@ -25,7 +25,7 @@ public class CustomerManager {
     private int totalCustomers;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
-    private Timer timer = new Timer(60000, false, true);
+    private Timer timer = new Timer(8000, false, true);
     private Random random;
     private int reputation = 3;
 
@@ -72,6 +72,14 @@ public class CustomerManager {
         timer.start();
     }
 
+    public List<Recipe> getOrders() {
+        LinkedList<Recipe> output = new LinkedList<>();
+        for (Customer c : customerQueue) {
+            output.add(c.getOrder());
+        }
+        return output;
+    }
+
     public void act(float delta) {
         if (reputation == 0) {
             overlay.finishGameUI();
@@ -86,7 +94,10 @@ public class CustomerManager {
     public void checkSpawn(float delta) {
         if (timer.tick(delta)) {
             generateCustomer();
-            overlay.updateRecipeUI(getFirstOrder());
+            // for (int i = 1; i < 8000; i + 1) {
+            //     overlay.updateOrders(getOrders());
+            // }
+            overlay.updateOrders(getOrders());
 
             timer.reset();
         }
@@ -121,14 +132,13 @@ public class CustomerManager {
      */
     public void nextRecipe(Chef chef) {
         completedOrders++;
-        overlay.updateRecipeCounter(completedOrders);
         customerQueue.first().fulfillOrder();
         customerQueue.removeFirst();
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
-        overlay.updateRecipeUI(getFirstOrder());
+        overlay.updateOrders(getOrders());
         overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
             timer.stop();

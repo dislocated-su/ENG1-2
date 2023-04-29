@@ -52,9 +52,7 @@ public class UpgradesUi {
             );
         table.setBackground(textureRegionDrawableBg);
         // root.debug();
-        // table.debug();
-
-        table.setHeight(1000);
+        table.debug();
         table.setVisible(false);
 
         currentMoney = 15; //random value
