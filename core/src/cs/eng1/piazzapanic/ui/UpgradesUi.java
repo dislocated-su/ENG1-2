@@ -1,5 +1,6 @@
 package cs.eng1.piazzapanic.ui;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,21 +27,26 @@ public class UpgradesUi {
     private LabelStyle hudLabelFont;
     private LabelStyle hudTitleFont;
 
-    private int timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5, currentMoney;
+    private String timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5, timerForChefs;
 
-    private String timerForChefs;
+    private String  powerup1Name, powerup2Name, powerup3Name, powerup4Name, powerup5Name, moreChefsName;
 
     private Label titleLabel, labelForAllPowerups, moneyLabel;
 
-    private Label labelForAllTimers, timerLabelPowerUp1, timerLabelPowerUp2, timerLabelPowerUp3, timerLabelPowerUp4, timerLabelPowerUp5, timerLabelForChefs;
+    private Label labelForAllTimers, timerLabel;
 
-    private int costForPowerUp1, costForPowerUp2, costForPowerUp3, costForPowerUp4, costForPowerUp5, costOfChef;
+    private int costForPowerUp1, costForPowerUp2, costForPowerUp3, costForPowerUp4, costForPowerUp5, costOfChef, currentMoney;
 
-    private Label labelForAllCosts, costLabelPowerUp1, costLabelPowerUp2, costLabelPowerUp3, costLabelPowerUp4, costLabelPowerUp5, costLabelForChefs;
+    private Label labelForAllCosts, costLabel;
 
-    TextButton powerup1, powerup2, powerup3, powerup4, powerup5, moreChefs;
+    private PiazzaPanicGame game;
+
+    TextButton moreChefs;
+
+    private Value scale, scale1, scale2;
 
     public UpgradesUi(PiazzaPanicGame game) {
+        this.game = game;
         root = new Table();
         root.setFillParent(true);
 
@@ -73,150 +79,32 @@ public class UpgradesUi {
         labelForAllPowerups = new Label("Powerups + Upgrades", hudLabelFont);
         labelForAllCosts = new Label("Cost:", hudLabelFont);
 
-        timerForPowerUp1 = 20; // proof of concept
+
+        powerup1Name = "Speedy mover";
+        timerForPowerUp1 = "20"; // proof of concept
         costForPowerUp1 = 12;
 
-        // sets it font, format and value
-        timerLabelPowerUp1 =
-            new Label(String.format(timerForPowerUp1 + " s"), hudLabelFont);
 
-        costLabelPowerUp1 =
-            new Label(String.format("£" + costForPowerUp1), hudLabelFont);
-
-        // creating all the different buttons and their relevant values and timers
-        TextButton powerup1 = game
-            .getButtonManager()
-            .createTextButton("speedy mover", ButtonManager.ButtonColour.BLUE);
-        powerup1.sizeBy(1f);
-        powerup1.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things
-                }
-            }
-        );
-
-        timerForPowerUp2 = 21; // proof of concept
+        powerup2Name = "Faster cooking";
+        timerForPowerUp2 = "21"; // proof of concept
         costForPowerUp2 = 13;
 
-        // sets it font, format and value
-        timerLabelPowerUp2 =
-            new Label(String.format(timerForPowerUp2 + " s"), hudLabelFont);
-
-        costLabelPowerUp2 =
-            new Label(String.format("£" + costForPowerUp2), hudLabelFont);
-
-        TextButton powerup2 = game
-            .getButtonManager()
-            .createTextButton(
-                "faster cooking",
-                ButtonManager.ButtonColour.BLUE
-            );
-        powerup2.sizeBy(1f);
-
-        powerup2.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things
-                }
-            }
-        );
-
-        timerForPowerUp3 = 22; // proof of concept
+        powerup3Name = "Unfailable Cooking";
+        timerForPowerUp3 = "22"; // proof of concept
         costForPowerUp3 = 14;
 
-        // sets it font, format and value
-        timerLabelPowerUp3 =
-            new Label(String.format(timerForPowerUp3 + " s"), hudLabelFont);
-
-        costLabelPowerUp3 =
-            new Label(String.format("£" + costForPowerUp3), hudLabelFont);
-
-        TextButton powerup3 = game
-            .getButtonManager()
-            .createTextButton(
-                "cooking unfailable",
-                ButtonManager.ButtonColour.BLUE
-            );
-        powerup3.sizeBy(1f);
-
-        powerup3.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things
-                }
-            }
-        );
-
-        timerForPowerUp4 = 23; // proof of concept
+        powerup4Name = "No rep loss";
+        timerForPowerUp4 = "23"; // proof of concept
         costForPowerUp4 = 15;
+        
+        powerup5Name = "More money";
+        costForPowerUp5 = 23;
+        timerForPowerUp5 = "40";
 
-        // sets it font, format and value
-        timerLabelPowerUp4 =
-            new Label(String.format(timerForPowerUp4 + " s"), hudLabelFont);
-
-        costLabelPowerUp4 =
-            new Label(String.format("£" + costForPowerUp4), hudLabelFont);
-
-        TextButton powerup4 = game
-            .getButtonManager()
-            .createTextButton("no rep loss", ButtonManager.ButtonColour.BLUE);
-        powerup4.sizeBy(1f);
-
-        powerup4.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things
-                }
-            }
-        );
-
-        timerForPowerUp5 = 24; // proof of concept
-        costForPowerUp5 = 16;
-
-        // sets it font, format and value
-        timerLabelPowerUp5 =
-            new Label(String.format(timerForPowerUp5 + " s"), hudLabelFont);
-
-        costLabelPowerUp5 =
-            new Label(String.format("£" + costForPowerUp5), hudLabelFont);
-
-        TextButton powerup5 = game
-            .getButtonManager()
-            .createTextButton("more money", ButtonManager.ButtonColour.BLUE);
-        powerup5.sizeBy(1f);
-
-        powerup5.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things
-                }
-            }
-        );
-
+        moreChefsName = "Extra chef";
         timerForChefs = "N/A"; // proof of concept
         costOfChef = 50;
-
-        // sets it font, format and value
-        timerLabelForChefs =
-            new Label(String.format(timerForChefs), hudLabelFont);
-
-        costLabelForChefs =
-            new Label(String.format("£" + costOfChef), hudLabelFont);
-
-        TextButton moreChefs = game
-            .getButtonManager()
-            .createTextButton("extra chef", ButtonManager.ButtonColour.BLUE);
-        moreChefs.sizeBy(1f);
-
-        moreChefs.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    // do things maybe?
-                }
-            }
-        );
-
+        
         lowerTable = new Table();
         lowerTable.setFillParent(true);
         lowerTable.bottom();
@@ -231,47 +119,79 @@ public class UpgradesUi {
         // }
 
         // setting up the table in the 'Shop'
-        Value scale2 = Value.percentWidth(0.3f, table);
-        Value scale = Value.percentWidth(0.08f, table);
-        Value scale1 = Value.percentWidth(0.15f, table);
+        this.scale2 = Value.percentWidth(0.3f, table);
+        this.scale = Value.percentWidth(0.08f, table);
+        this.scale1 = Value.percentWidth(0.15f, table);
+
+
+        createShopTable();
+
+
+    }
+
+    public void createShopTable(){
+
+        table.clear();
+
         table.add(titleLabel).colspan(2);
         table.add(moneyLabel);
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
-        table
-            .add(labelForAllTimers)
-            .width(scale1)
-            .height(scale)
-            .pad(5)
-            .center();
+        table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
-        table.add(powerup1).width(scale2).height(scale).pad(3);
-        table.add(timerLabelPowerUp1).width(scale).height(scale).pad(3);
-        table.add(costLabelPowerUp1).width(scale).height(scale).pad(3);
+        // table.add(powerup5).width(scale2).height(scale).pad(3);
+        // table.add(timerLabelPowerUp5).width(scale).height(scale).pad(3);
+        // table.add(costLabelPowerUp5).width(scale).height(scale).pad(3);
+        createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
+        createRow(powerup2Name, costForPowerUp2, timerForPowerUp2);
+        createRow(powerup3Name, costForPowerUp3, timerForPowerUp3);
+        createRow(powerup4Name, costForPowerUp4, timerForPowerUp4);
+        createRow(powerup5Name, costForPowerUp5, timerForPowerUp5);
+        createRow(moreChefsName, costOfChef, timerForChefs);
+
+    }
+
+
+    
+
+    public void createRow(String name, Integer cost, String time) {
+
+        // sets it font, format and value
+        timerLabel =
+            new Label(String.format(time + " s"), hudLabelFont);
+
+        costLabel =
+            new Label(String.format("£" + cost), hudLabelFont);
+
+        TextButton button = game
+            .getButtonManager()
+            .createTextButton(name, ButtonManager.ButtonColour.BLUE);
+        
+        button.addListener(
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    if (cost <= currentMoney) {
+                        currentMoney -= cost;
+                        currentActivePowerup(name);
+                        createShopTable();
+                    }
+                }
+            }
+        );
+
+        table.add(button).width(scale2).height(scale).pad(3);
+        table.add(timerLabel).width(scale).height(scale).pad(3);
+        table.add(costLabel).width(scale).height(scale).pad(3);
         table.row();
-        table.add(powerup2).width(scale2).height(scale).pad(3);
-        table.add(timerLabelPowerUp2).width(scale).height(scale).pad(3);
-        table.add(costLabelPowerUp2).width(scale).height(scale).pad(3);
-        table.row();
-        table.add(powerup3).width(scale2).height(scale).pad(3);
-        table.add(timerLabelPowerUp3).width(scale).height(scale).pad(3);
-        table.add(costLabelPowerUp3).width(scale).height(scale).pad(3);
-        table.row();
-        table.add(powerup4).width(scale2).height(scale).pad(3);
-        table.add(timerLabelPowerUp4).width(scale).height(scale).pad(3);
-        table.add(costLabelPowerUp4).width(scale).height(scale).pad(3);
-        table.row();
-        table.add(powerup5).width(scale2).height(scale).pad(3);
-        table.add(timerLabelPowerUp5).width(scale).height(scale).pad(3);
-        table.add(costLabelPowerUp5).width(scale).height(scale).pad(3);
-        table.row();
-        table.add(moreChefs).width(scale2).height(scale).pad(3);
-        table.add(timerLabelForChefs).width(scale).height(scale).pad(3);
-        table.add(costLabelForChefs).width(scale).height(scale).pad(3);
+
     }
 
     // foo being the boolean that makes the table visible or not
+    public void currentActivePowerup(String name){
+
+    }
+
     public void visible(Boolean foo) {
         table.setVisible(foo);
     }
