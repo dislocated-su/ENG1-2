@@ -3,6 +3,10 @@ package cs.eng1.tests;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -15,6 +19,8 @@ import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +33,17 @@ public class SubmitStationTests {
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController uiController = mock(StationUIController.class);
     UIOverlay overlay = mock(UIOverlay.class);
-    CustomerManager customerManager = new CustomerManager(overlay, 0, 0);
+
+    Stage stage = mock(Stage.class);
+
+    World world = new World(new Vector2(0, 0), true);
+    CustomerManager customerManager = new CustomerManager(
+        1,
+        overlay,
+        world,
+        0,
+        0
+    );
 
     // pizza, jacket, burger, pizza
 
@@ -40,7 +56,14 @@ public class SubmitStationTests {
      * holding a recipe
      */
     public void testGetActionTypesNothing() {
-        SubmitStation station = new SubmitStation(1, null, null, null, null);
+        SubmitStation station = new SubmitStation(
+            1,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
             "nothing is added to action types if no chef is nearby",
@@ -67,11 +90,17 @@ public class SubmitStationTests {
      * that needs to be submited
      */
     public void testCorrectRecipe() {
-        customerManager = new CustomerManager(overlay, 0, 0);
-        customerManager.init(textureManager);
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<Integer, Box2dLocation>(),
+            new ArrayList<>()
+        );
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
+            null,
             null,
             null,
             null,
@@ -99,13 +128,19 @@ public class SubmitStationTests {
      * submitted
      */
     public void testDoStationAction() {
-        customerManager = new CustomerManager(overlay, 0, 0);
-        customerManager.init(textureManager);
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
+        customerManager.init(
+            textureManager,
+            stage,
+            new HashMap<Integer, Box2dLocation>(),
+            new ArrayList<>()
+        );
         // pizza, jacket, burger, pizza
         SubmitStation station = new SubmitStation(
             1,
             null,
             uiController,
+            null,
             null,
             customerManager
         );

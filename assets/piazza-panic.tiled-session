@@ -51,7 +51,7 @@
         "big-map.tmx"
     ],
     "project": "piazza-panic.tiled-project",
-    "property.type": "Ingredient",
+    "property.type": "int",
     "recentFiles": [
         "e.tmx",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/Tilesheet/Topdown Shooter Full 2.xml",

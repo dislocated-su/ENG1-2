@@ -8,31 +8,32 @@ import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Objects;
 
 /**
  * AssembleStation
  */
 public class SubmitStation extends Station {
 
-    private CustomerManager customerManager;
+    private final CustomerManager customerManager;
 
     public SubmitStation(
         int id,
         TextureRegion image,
         StationUIController uiController,
         ActionAlignment alignment,
+        Boolean locked,
         CustomerManager customerManager
     ) {
-        super(id, image, uiController, alignment);
+        super(id, image, uiController, alignment, locked);
         this.customerManager = customerManager;
     }
 
     @Override
-    public List<ActionType> getActionTypes() {
+    public LinkedList<ActionType> getActionTypes() {
         LinkedList<ActionType> actionTypes = new LinkedList<>();
         if (nearbyChef == null || nearbyChef.getStack().isEmpty()) {
-            return actionTypes;
+            return new LinkedList<>();
         }
         Holdable topItem = nearbyChef.getStack().peek();
         if (checkCorrectRecipe(topItem)) {
@@ -43,25 +44,20 @@ public class SubmitStation extends Station {
 
     private boolean checkCorrectRecipe(Holdable item) {
         if (item instanceof Recipe) {
-            if (customerManager.checkRecipe((Recipe) item)) {
-                return true;
-            }
+            return customerManager.checkRecipe((Recipe) item);
         }
         return false;
     }
 
     @Override
     public void doStationAction(ActionType action) {
-        switch (action) {
-            case SUBMIT_ORDER:
-                Holdable topItem = nearbyChef.getStack().pop();
-                if (!checkCorrectRecipe(topItem)) {
-                    return;
-                }
-                customerManager.nextRecipe(nearbyChef);
-                break;
-            default:
-                break;
+        super.doStationAction(action);
+        if (Objects.requireNonNull(action) == ActionType.SUBMIT_ORDER) {
+            Holdable topItem = nearbyChef.getStack().pop();
+            if (!checkCorrectRecipe(topItem)) {
+                return;
+            }
+            customerManager.nextRecipe(nearbyChef);
         }
 
         uiController.showActions(this, getActionTypes());

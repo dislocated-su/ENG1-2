@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
@@ -29,12 +30,16 @@ public class Station extends Actor implements Observer<Chef> {
     public Chef nearbyChef = null;
     private float imageRotation = 0.0f;
 
+    protected boolean locked;
+
     public Station(
         int id,
         TextureRegion image,
         StationUIController uiController,
-        StationActionUI.ActionAlignment alignment
+        StationActionUI.ActionAlignment alignment,
+        Boolean locked
     ) {
+        this.locked = locked == null ? false : locked;
         this.id = id;
         stationImage = image; // Texture of the object
         actionAlignment = alignment;
@@ -205,8 +210,16 @@ public class Station extends Actor implements Observer<Chef> {
      * @return the list of possible actions that this station based on the current
      *         state
      */
-    public List<StationAction.ActionType> getActionTypes() {
-        return new LinkedList<>();
+    public LinkedList<StationAction.ActionType> getActionTypes() {
+        PlayerState state = PlayerState.getInstance();
+        if (locked && state.getCash() > state.getUpgradeCost(false)) {
+            LinkedList<StationAction.ActionType> actionTypes =
+                new LinkedList<>();
+            actionTypes.add(StationAction.ActionType.BUY_STATION);
+            return actionTypes;
+        } else {
+            return new LinkedList<>();
+        }
     }
 
     /**
@@ -216,7 +229,14 @@ public class Station extends Actor implements Observer<Chef> {
      *
      * @param action the action that needs to be done by this station if it can.
      */
-    public void doStationAction(StationAction.ActionType action) {}
+    public void doStationAction(StationAction.ActionType action) {
+        if (action == StationAction.ActionType.BUY_STATION) {
+            locked = false;
+            PlayerState state = PlayerState.getInstance();
+            state.spendCash(state.getUpgradeCost(true));
+            uiController.showActions(this, getActionTypes());
+        }
+    }
 
     /**
      * @return the direction in which the action buttons should be displayed.

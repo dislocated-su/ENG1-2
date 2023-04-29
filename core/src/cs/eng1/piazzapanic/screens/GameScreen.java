@@ -47,11 +47,23 @@ public class GameScreen implements Screen {
     private final World world;
     private KeyboardInput kbInput;
 
-    public GameScreen(final PiazzaPanicGame game, int totalCustomers) {
+    public GameScreen(
+        final PiazzaPanicGame game,
+        int totalCustomers,
+        int difficulty
+    ) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
         MapLoader mapLoader = new MapLoader("e.tmx");
+
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
 
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
@@ -75,7 +87,8 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         PlayerState.reset();
-        //PlayerState.getInstance().setDifficulty(difficulty);
+
+        PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager =
             new ChefManager(
@@ -85,7 +98,20 @@ public class GameScreen implements Screen {
                 kbInput
             );
 
-        customerManager = new CustomerManager(uiOverlay, totalCustomers);
+        customerManager =
+            new CustomerManager(
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                totalCustomers
+            );
+
+        customerManager.init(
+            foodTextureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
 
         mapLoader.createStations(
             "Stations",
@@ -110,7 +136,6 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
         chefManager.init();
-        customerManager.init(foodTextureManager);
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {

@@ -52,7 +52,6 @@ public class ChefManager implements Disposable {
         this.world = world;
         this.keyboardInput = keyboardInput;
 
-        // Load chef sprites
         chefs = new ArrayList<>(chefSprites.length);
 
         // Initialize chefs
