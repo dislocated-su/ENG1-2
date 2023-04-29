@@ -45,7 +45,6 @@ public class MapBodyBuilderTests {
 
     @Test
     public void decideShapeTest() {
-        MapObject circle = layer.getObjects().get(10);
         MapObject rectangle = layer.getObjects().get(2);
         MapObject line = layer.getObjects().get(1);
         MapObject polygon = layer.getObjects().get(0);
@@ -71,6 +70,5 @@ public class MapBodyBuilderTests {
             new Rectangle(896, 2560, 128, 128),
             ((RectangleMapObject) rectangle).getRectangle()
         );
-        // assertEquals(line.getClass(), circle.getClass());
     }
 }
