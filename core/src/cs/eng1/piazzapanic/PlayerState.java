@@ -53,14 +53,6 @@ public class PlayerState {
         return returnCost;
     }
 
-    public float getUpgradeCost(boolean buying) {
-        float returnCost = upgradeCost;
-        if (buying) {
-            upgradeCost += 100f;
-        }
-        return returnCost;
-    }
-
     public static PlayerState getInstance() {
         if (instance == null) {
             instance = new PlayerState();
