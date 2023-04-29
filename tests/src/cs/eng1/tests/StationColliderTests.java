@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
-    World world = new World(new Vector2(0,0),true);
+    World world = new World(new Vector2(0, 0), true);
     ChefManager chefManager = new ChefManager(0, null, world, null);
     Chef chef = new Chef(null, null, chefManager);
     private StationUIController uiController = mock(StationUIController.class);
@@ -27,7 +27,7 @@ public class StationColliderTests {
         uiController,
         null,
         null,
-            null
+        null
     );
 
     @Test
