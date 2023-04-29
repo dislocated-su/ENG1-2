@@ -26,14 +26,13 @@ public class UpgradesUi {
     Table root, lowerTable;
     private LabelStyle hudLabelFont;
     private LabelStyle hudTitleFont;
+    private LabelStyle hudHeaderFont;
 
     private String timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5, timerForChefs;
 
     private String  powerup1Name, powerup2Name, powerup3Name, powerup4Name, powerup5Name, moreChefsName;
 
-    private Label titleLabel, labelForAllPowerups, moneyLabel;
-
-    private Label labelForAllTimers, timerLabel;
+    private Label titleLabel, labelForAllPowerups, moneyLabel, labelForAllTimers, timerLabel, activePowerupLabel;
 
     private int costForPowerUp1, costForPowerUp2, costForPowerUp3, costForPowerUp4, costForPowerUp5, costOfChef, currentMoney;
 
@@ -61,7 +60,7 @@ public class UpgradesUi {
         table.debug();
         table.setVisible(false);
 
-        currentMoney = 15; //random value
+        currentMoney = 1500; //random value
 
         //fonts used in the "shop"
         FontManager fontManager = new FontManager();
@@ -71,9 +70,11 @@ public class UpgradesUi {
 
         hudTitleFont = new Label.LabelStyle();
         hudTitleFont.font = fontManager.getTitleFont();
-
+        
+        hudHeaderFont = new Label.LabelStyle();
+        hudHeaderFont.font = fontManager.getHeaderFont();
+        
         titleLabel = new Label("Upgrades Shop", hudTitleFont);
-        moneyLabel = new Label("£" + currentMoney, hudTitleFont);
 
         labelForAllTimers = new Label("Active For:", hudLabelFont);
         labelForAllPowerups = new Label("Powerups + Upgrades", hudLabelFont);
@@ -108,6 +109,7 @@ public class UpgradesUi {
         lowerTable = new Table();
         lowerTable.setFillParent(true);
         lowerTable.bottom();
+        lowerTable.debug();
 
         // PlayerState player = PlayerState.getInstance();
         // Array<String> powerupsActive = player.getActivePowerups();
@@ -133,16 +135,15 @@ public class UpgradesUi {
 
         table.clear();
 
-        table.add(titleLabel).colspan(2);
+        moneyLabel = new Label("£" + currentMoney, hudTitleFont);
+
+        table.add(titleLabel).colspan(2).padRight(15);
         table.add(moneyLabel);
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
         table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
-        // table.add(powerup5).width(scale2).height(scale).pad(3);
-        // table.add(timerLabelPowerUp5).width(scale).height(scale).pad(3);
-        // table.add(costLabelPowerUp5).width(scale).height(scale).pad(3);
         createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
         createRow(powerup2Name, costForPowerUp2, timerForPowerUp2);
         createRow(powerup3Name, costForPowerUp3, timerForPowerUp3);
@@ -173,8 +174,8 @@ public class UpgradesUi {
                 public void clicked(InputEvent event, float x, float y) {
                     if (cost <= currentMoney) {
                         currentMoney -= cost;
-                        currentActivePowerup(name);
                         createShopTable();
+                        currentActivePowerup(name);
                     }
                 }
             }
@@ -189,15 +190,18 @@ public class UpgradesUi {
 
     // foo being the boolean that makes the table visible or not
     public void currentActivePowerup(String name){
-
+        activePowerupLabel = new Label(String.format(""), hudHeaderFont);
+        activePowerupLabel.setText("bruh");
+        lowerTable.add(activePowerupLabel);
     }
 
-    public void visible(Boolean foo) {
-        table.setVisible(foo);
+    public void visible(Boolean val) {
+        table.setVisible(val);
     }
 
     public void addToStage(Stage uiStage) {
         uiStage.addActor(root);
+        uiStage.addActor(lowerTable);
     }
 
     public void update() {
