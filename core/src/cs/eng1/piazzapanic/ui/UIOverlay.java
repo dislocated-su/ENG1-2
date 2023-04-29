@@ -59,7 +59,7 @@ public class UIOverlay {
         root.setFillParent(true);
         root.center().top().pad(15f);
         uiStage.addActor(root);
-        
+
         // Initialize UI for showing current chef
         this.chefDisplay = new Stack();
         chefDisplay.add(
@@ -77,16 +77,18 @@ public class UIOverlay {
         upgradesButton(uiStage);
 
         // Initialise pointer image
-        pointer =new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
+        pointer =
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
+            );
 
         // Initialize UI for showing current chef's ingredient stack
         chefInventoryRoot = new Stack();
-        Image ingredientImagesBG =
-            new Image(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
-                )
-            );
+        Image ingredientImagesBG = new Image(
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
+            )
+        );
         chefInventoryRoot.add(ingredientImagesBG);
         chefInventory = new VerticalGroup();
         chefInventory.padBottom(10f);
@@ -129,7 +131,6 @@ public class UIOverlay {
             }
         );
 
-        
         removeBtnDrawable =
             new TextureRegionDrawable(
                 new Texture(
@@ -139,12 +140,11 @@ public class UIOverlay {
 
         // Initialize the UI to display the currently requested recipe
         Stack recipeDisplay = new Stack();
-        Image orderGroupBG =
-            new Image(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
-                )
-            );
+        Image orderGroupBG = new Image(
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
+            )
+        );
         orderGroup = new VerticalGroup();
         orderGroupBG.setVisible(false);
         recipeDisplay.add(orderGroupBG);
@@ -190,12 +190,9 @@ public class UIOverlay {
         createRecipeTable();
 
         root.debug();
-        
     }
 
-    private void createLayout(Table root) {
-
-    }
+    private void createLayout(Table root) {}
 
     /**
      * Reset values and UI to be in their default state.
@@ -307,7 +304,6 @@ public class UIOverlay {
         bottomTable.add(upgrades).width(100).left();
     }
 
-
     Recipe lastShown = null;
 
     /**
@@ -327,7 +323,11 @@ public class UIOverlay {
         lastShown = recipe;
 
         String recipeString = recipe.getType();
-        recipeString = "\""+Character.toUpperCase(recipeString.charAt(0)) + recipeString.substring(1) + "\"";
+        recipeString =
+            "\"" +
+            Character.toUpperCase(recipeString.charAt(0)) +
+            recipeString.substring(1) +
+            "\"";
         recipeName.setText(recipeString);
 
         recipeBookRoot.setVisible(true);
@@ -346,34 +346,41 @@ public class UIOverlay {
         if (recipe.getType() == "pizza") {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
-            recipeBookSteps.add(new Image(recipe.getTextureManager().getTexture("uncooked_pizza"))).colspan(5).center();
+            recipeBookSteps
+                .add(
+                    new Image(
+                        recipe.getTextureManager().getTexture("uncooked_pizza")
+                    )
+                )
+                .colspan(5)
+                .center();
         }
         recipeBookSteps.row();
         recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
         recipeBookSteps.add(new Image(recipe.getTexture())).colspan(5).center();
-
         //recipeBookSteps.row().colspan(i);
 
     }
 
-    public void stepName (Recipe recipe) {
+    public void stepName(Recipe recipe) {
         List<String> ingredients = recipe.getRecipeIngredients();
         for (String ingredientName : ingredients) {
-            String[] temp = ingredientName.split("_",2);
+            String[] temp = ingredientName.split("_", 2);
             String foodName = temp[0];
-            if (temp.length == 2){
+            if (temp.length == 2) {
                 Gdx.app.log("Split", temp[0] + "___" + temp[1]);
                 switch (foodName) {
                     case "cheese":
-                    case "potato":  
+                    case "potato":
                         break;
                     default:
                         foodName = foodName + "_raw";
                         break;
                 }
-
             }
-            Image image = new Image(recipe.getTextureManager().getTexture(foodName));
+            Image image = new Image(
+                recipe.getTextureManager().getTexture(foodName)
+            );
             // image.getDrawable().setMinHeight(chefDisplay.getHeight());
             // image.getDrawable().setMinWidth(chefDisplay.getWidth());
             recipeBookSteps.add(image);
@@ -387,32 +394,44 @@ public class UIOverlay {
         generateOrders(orders, scale.get(), scale.get());
     }
 
-    public void resizeOrders(Collection<Recipe> orders, float width, float height) {
-         generateOrders(orders, 0.04f * width, 0.075f * height);
+    public void resizeOrders(
+        Collection<Recipe> orders,
+        float width,
+        float height
+    ) {
+        generateOrders(orders, 0.04f * width, 0.075f * height);
     }
 
-    private void generateOrders(Collection<Recipe> orders, float width, float height) {
+    private void generateOrders(
+        Collection<Recipe> orders,
+        float width,
+        float height
+    ) {
         orderGroup.clearChildren();
-    
+
         for (Recipe order : orders) {
             Image recipeImage = new Image(order.getTexture());
             recipeImage.getDrawable().setMinHeight(height);
             recipeImage.getDrawable().setMinWidth(width);
             ImageButton recipeButton = game
-            .getButtonManager()
-            .createImageButton(recipeImage.getDrawable(), ButtonManager.ButtonColour.GREY, 0.5f);
+                .getButtonManager()
+                .createImageButton(
+                    recipeImage.getDrawable(),
+                    ButtonManager.ButtonColour.GREY,
+                    0.5f
+                );
 
-            recipeButton
-            .addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    updateRecipeUI(order);   
+            recipeButton.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        updateRecipeUI(order);
+                    }
                 }
-            });
+            );
             orderGroup.addActor(recipeButton);
         }
     }
-    
 
     Label recipeName;
 
@@ -424,8 +443,11 @@ public class UIOverlay {
         recipeBookSteps.setWidth(80);
         recipeBookSteps.setHeight(160);
         recipeBookRoot.right().padRight(chefDisplay.getWidth());
-        
-        LabelStyle recipeNameStyle = new LabelStyle(game.getFontManager().getTitleFont(), null);
+
+        LabelStyle recipeNameStyle = new LabelStyle(
+            game.getFontManager().getTitleFont(),
+            null
+        );
         recipeName = new Label("Recipe", recipeNameStyle);
 
         recipeBook.add(recipeName).expandX();
@@ -435,7 +457,6 @@ public class UIOverlay {
             .createImageButton(removeBtnDrawable, ButtonColour.BLUE, -1.5f);
 
         hideButton.setHeight(0.5f);
-
 
         hideButton.addListener(
             new ClickListener() {
@@ -447,14 +468,17 @@ public class UIOverlay {
         );
 
         recipeBook.add(hideButton).top().right().row();
-        
-        recipeBookRoot.add(recipeBook).width(chefDisplay.getWidth() * 2f).height(chefDisplay.getHeight() * 2f);
+
+        recipeBookRoot
+            .add(recipeBook)
+            .width(chefDisplay.getWidth() * 2f)
+            .height(chefDisplay.getHeight() * 2f);
         recipeBook.add(recipeBookSteps).colspan(2).expand();
 
         TextureRegionDrawable textureRegionDrawableBg =
-        new TextureRegionDrawable(
-            new Texture(Gdx.files.internal("backgroundimage.jpg"))
-        );
+            new TextureRegionDrawable(
+                new Texture(Gdx.files.internal("backgroundimage.jpg"))
+            );
         recipeBook.setBackground(textureRegionDrawableBg);
         recipeBookRoot.row();
 
@@ -463,6 +487,5 @@ public class UIOverlay {
         recipeBookRoot.debug();
     }
 
-    public void resize(int width, int height) {
-    }
+    public void resize(int width, int height) {}
 }

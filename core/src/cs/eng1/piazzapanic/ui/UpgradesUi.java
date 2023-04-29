@@ -30,7 +30,7 @@ public class UpgradesUi {
 
     private String timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5, timerForChefs;
 
-    private String  powerup1Name, powerup2Name, powerup3Name, powerup4Name, powerup5Name, moreChefsName;
+    private String powerup1Name, powerup2Name, powerup3Name, powerup4Name, powerup5Name, moreChefsName;
 
     private Label titleLabel, labelForAllPowerups, moneyLabel, labelForAllTimers, timerLabel, activePowerupLabel;
 
@@ -70,21 +70,19 @@ public class UpgradesUi {
 
         hudTitleFont = new Label.LabelStyle();
         hudTitleFont.font = fontManager.getTitleFont();
-        
+
         hudHeaderFont = new Label.LabelStyle();
         hudHeaderFont.font = fontManager.getHeaderFont();
-        
+
         titleLabel = new Label("Upgrades Shop", hudTitleFont);
 
         labelForAllTimers = new Label("Active For:", hudLabelFont);
         labelForAllPowerups = new Label("Powerups + Upgrades", hudLabelFont);
         labelForAllCosts = new Label("Cost:", hudLabelFont);
 
-
         powerup1Name = "Speedy mover";
         timerForPowerUp1 = "20"; // proof of concept
         costForPowerUp1 = 12;
-
 
         powerup2Name = "Faster cooking";
         timerForPowerUp2 = "21"; // proof of concept
@@ -97,7 +95,7 @@ public class UpgradesUi {
         powerup4Name = "No rep loss";
         timerForPowerUp4 = "23"; // proof of concept
         costForPowerUp4 = 15;
-        
+
         powerup5Name = "More money";
         costForPowerUp5 = 23;
         timerForPowerUp5 = "40";
@@ -105,7 +103,7 @@ public class UpgradesUi {
         moreChefsName = "Extra chef";
         timerForChefs = "N/A"; // proof of concept
         costOfChef = 50;
-        
+
         lowerTable = new Table();
         lowerTable.setFillParent(true);
         lowerTable.bottom();
@@ -125,14 +123,10 @@ public class UpgradesUi {
         this.scale = Value.percentWidth(0.08f, table);
         this.scale1 = Value.percentWidth(0.15f, table);
 
-
         createShopTable();
-
-
     }
 
-    public void createShopTable(){
-
+    public void createShopTable() {
         table.clear();
 
         moneyLabel = new Label("£" + currentMoney, hudTitleFont);
@@ -141,7 +135,12 @@ public class UpgradesUi {
         table.add(moneyLabel);
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
-        table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
+        table
+            .add(labelForAllTimers)
+            .width(scale1)
+            .height(scale)
+            .pad(5)
+            .center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
         createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
@@ -150,25 +149,18 @@ public class UpgradesUi {
         createRow(powerup4Name, costForPowerUp4, timerForPowerUp4);
         createRow(powerup5Name, costForPowerUp5, timerForPowerUp5);
         createRow(moreChefsName, costOfChef, timerForChefs);
-
     }
 
-
-    
-
     public void createRow(String name, Integer cost, String time) {
-
         // sets it font, format and value
-        timerLabel =
-            new Label(String.format(time + " s"), hudLabelFont);
+        timerLabel = new Label(String.format(time + " s"), hudLabelFont);
 
-        costLabel =
-            new Label(String.format("£" + cost), hudLabelFont);
+        costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
         TextButton button = game
             .getButtonManager()
             .createTextButton(name, ButtonManager.ButtonColour.BLUE);
-        
+
         button.addListener(
             new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
@@ -185,11 +177,10 @@ public class UpgradesUi {
         table.add(timerLabel).width(scale).height(scale).pad(3);
         table.add(costLabel).width(scale).height(scale).pad(3);
         table.row();
-
     }
 
     // foo being the boolean that makes the table visible or not
-    public void currentActivePowerup(String name){
+    public void currentActivePowerup(String name) {
         activePowerupLabel = new Label(String.format(""), hudHeaderFont);
         activePowerupLabel.setText("bruh");
         lowerTable.add(activePowerupLabel);
