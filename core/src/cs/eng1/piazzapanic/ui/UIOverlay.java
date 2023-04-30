@@ -43,12 +43,12 @@ public class UIOverlay {
     private Table recipeBook, recipeBookRoot, recipeBookSteps;
 
     private Table activePowerups;
-    
+
     private final VerticalGroup orderGroup;
 
     private Stack chefInventoryRoot;
     private VerticalGroup chefInventory;
-    
+
     private Stack chefDisplay;
     private Image chefImage;
 
@@ -65,9 +65,7 @@ public class UIOverlay {
 
     private Value scale;
 
-
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
-        
         this.game = game;
         this.uiStage = uiStage;
 
@@ -92,12 +90,9 @@ public class UIOverlay {
                 "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
             );
 
-
         createChefInventory();
-        
+
         createGameTimer();
-
-
 
         // Initialize the UI to display the currently requested recipe
         Stack recipeDisplay = new Stack();
@@ -106,7 +101,7 @@ public class UIOverlay {
                 "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
             )
         );
-        
+
         orderGroup = new VerticalGroup();
         orderGroupBG.setVisible(false);
         recipeDisplay.add(orderGroupBG);
@@ -124,7 +119,7 @@ public class UIOverlay {
             game.getFontManager().getTitleFont(),
             null
         );
-        
+
         resultLabel =
             new Label("Congratulations! Your final time was:", labelStyle);
         resultLabel.setVisible(false);
@@ -135,7 +130,7 @@ public class UIOverlay {
         scale = Value.percentWidth(0.04f, root);
         Value timerWidth = Value.percentWidth(0.2f, root);
         Value upgradeButtonScale = Value.percentWidth(0.1f, root);
-        
+
         root.add(chefDisplay).left().width(scale).height(scale);
         root.add(timer).expandX().width(timerWidth).height(scale);
         root.add(homeButton()).right().width(scale).height(scale);
@@ -150,9 +145,13 @@ public class UIOverlay {
         root.row();
         root.add().expandY();
         root.row();
-        root.add(upgradesButton()).width(upgradeButtonScale).height(scale).left();
+        root
+            .add(upgradesButton())
+            .width(upgradeButtonScale)
+            .height(scale)
+            .left();
         root.add(activePowerups).colspan(2).bottom().right();
-        
+
         // Initialize button for Upgrade implementation
         recipeBookRoot = new Table();
         recipeBookRoot.setFillParent(true);
@@ -164,11 +163,9 @@ public class UIOverlay {
             .width(recipeBookWidth)
             .height(recipeBookHeight);
         recipeBookSteps = new Table();
-        
-        
+
         createRecipeTable();
         root.debug();
-
     }
 
     private void createChefInventory() {
@@ -205,14 +202,14 @@ public class UIOverlay {
             game.getFontManager().getTitleFont(),
             null
         );
-        
+
         timerStyle.background =
             new TextureRegionDrawable(
                 new Texture(
                     "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"
                 )
             );
-            
+
         timer = new UIStopwatch(timerStyle);
         timer.setAlignment(Align.center);
     }
@@ -293,10 +290,7 @@ public class UIOverlay {
         upgrades =
             game
                 .getButtonManager()
-                .createTextButton(
-                    "Upgrades",
-                    ButtonManager.ButtonColour.BLUE
-                );
+                .createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
         upgrades.addListener(
             new ClickListener() {
                 @Override
@@ -305,7 +299,6 @@ public class UIOverlay {
                         upgradesUi.visible(true);
                         activatedShop = true;
                         upgrades.setText("Return");
-
                     } else {
                         upgradesUi.visible(false);
                         activatedShop = false;
@@ -524,7 +517,6 @@ public class UIOverlay {
     }
 
     public void currentActivePowerup() {
-
         activePowerups.clearChildren();
 
         PlayerState state = PlayerState.getInstance();
@@ -532,17 +524,30 @@ public class UIOverlay {
         for (PowerUp powerup : PowerUp.values()) {
             // Check if powerup is active
             if (state.getBuffActive(powerup)) {
-                Label activePowerupLabel = new Label(String.format(""), new LabelStyle(game.getFontManager().getHeaderFont(), Color.GREEN));
-                
-                String labelText = powerup.name().replaceAll("_", " ").toLowerCase();
-                labelText = Character.toUpperCase(labelText.charAt(0)) + labelText.substring(1);
-                labelText += ": " + String.format("%d" , state.getBuffRemaining(powerup) / 1000);
+                Label activePowerupLabel = new Label(
+                    String.format(""),
+                    new LabelStyle(
+                        game.getFontManager().getHeaderFont(),
+                        Color.GREEN
+                    )
+                );
+
+                String labelText = powerup
+                    .name()
+                    .replaceAll("_", " ")
+                    .toLowerCase();
+                labelText =
+                    Character.toUpperCase(labelText.charAt(0)) +
+                    labelText.substring(1);
+                labelText +=
+                    ": " +
+                    String.format("%d", state.getBuffRemaining(powerup) / 1000);
                 activePowerupLabel.setText(labelText);
                 activePowerups.add(activePowerupLabel).padRight(15);
             }
         }
     }
-    
+
     public void update() {
         currentActivePowerup();
     }

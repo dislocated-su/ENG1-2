@@ -105,7 +105,6 @@ public class UpgradesUi {
         timerForChefs = "N/A"; // proof of concept
         costOfChef = 50;
 
-
         // PlayerState player = PlayerState.getInstance();
         // Array<String> powerupsActive = player.getActivePowerups();
         // if (powerupsActive != null) {
@@ -132,7 +131,12 @@ public class UpgradesUi {
         table.add(moneyLabel);
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
-        table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
+        table
+            .add(labelForAllTimers)
+            .width(scale1)
+            .height(scale)
+            .pad(5)
+            .center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
         createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
@@ -172,7 +176,6 @@ public class UpgradesUi {
 
     // foo being the boolean that makes the table visible or not
 
-
     public void visible(Boolean val) {
         table.setVisible(val);
     }
@@ -180,5 +183,4 @@ public class UpgradesUi {
     public void addToStage(Stage uiStage) {
         uiStage.addActor(root);
     }
-
 }

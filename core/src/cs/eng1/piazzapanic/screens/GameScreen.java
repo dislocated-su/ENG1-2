@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
             uiOverlay.updateOrders(customerManager.getOrders());
             isFirstFrame = false;
         }
-        
+
         uiOverlay.update();
     }
 
