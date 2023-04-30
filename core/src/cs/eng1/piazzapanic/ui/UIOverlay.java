@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
+import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
@@ -29,28 +31,43 @@ import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import java.util.Collection;
 import java.util.List;
 
+// if you can just avoid
+// please dont mark us on this
+
 public class UIOverlay {
 
-    private final Texture pointer;
-    private final Stack chefDisplay;
-    private final Image chefImage;
-    private final VerticalGroup chefInventory;
-    private final Stack chefInventoryRoot;
-    private final TextureRegionDrawable removeBtnDrawable;
-    //private final Image orderGroupBG;
-    private final VerticalGroup orderGroup;
-    private final UIStopwatch timer;
-    private final Label recipeCountLabel;
-    private final Label resultLabel;
-    private final UIStopwatch resultTimer;
     private final PiazzaPanicGame game;
-    private Table recipeBook, recipeBookRoot;
-    Boolean activatedShop = false;
+
     private Stage uiStage;
+
+    private Table recipeBook, recipeBookRoot, recipeBookSteps;
+
+    private Table activePowerups;
+    
+    private final VerticalGroup orderGroup;
+
+    private Stack chefInventoryRoot;
+    private VerticalGroup chefInventory;
+    
+    private Stack chefDisplay;
+    private Image chefImage;
+
+    private final Texture pointer;
+    private final TextureRegionDrawable removeBtnDrawable;
+
+    //private final Label recipeCountLabel;
+    private final Label resultLabel;
+
+    private UIStopwatch timer;
+    private final UIStopwatch resultTimer;
+
+    private Boolean activatedShop = false;
+
     private Value scale;
-    private Table recipeBookSteps;
+
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
+        
         this.game = game;
         this.uiStage = uiStage;
 
@@ -60,6 +77,101 @@ public class UIOverlay {
         root.center().top().pad(15f);
         uiStage.addActor(root);
 
+        activePowerups = new Table();
+
+        removeBtnDrawable =
+            new TextureRegionDrawable(
+                new Texture(
+                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png"
+                )
+            );
+
+        // Initialise pointer image
+        pointer =
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
+            );
+
+
+        createChefInventory();
+        
+        createGameTimer();
+
+
+
+        // Initialize the UI to display the currently requested recipe
+        Stack recipeDisplay = new Stack();
+        Image orderGroupBG = new Image(
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
+            )
+        );
+        
+        orderGroup = new VerticalGroup();
+        orderGroupBG.setVisible(false);
+        recipeDisplay.add(orderGroupBG);
+        recipeDisplay.add(orderGroup);
+
+        // Initialize counter for showing remaining recipes
+        // LabelStyle counterStyle = new LabelStyle(
+        //     game.getFontManager().getHeaderFont(),
+        //     Color.BLACK
+        // );
+        //recipeCountLabel = new Label("0", counterStyle);
+
+        // Initialize winning label
+        LabelStyle labelStyle = new Label.LabelStyle(
+            game.getFontManager().getTitleFont(),
+            null
+        );
+        
+        resultLabel =
+            new Label("Congratulations! Your final time was:", labelStyle);
+        resultLabel.setVisible(false);
+        resultTimer = new UIStopwatch(labelStyle);
+        resultTimer.setVisible(false);
+
+        // Add everything
+        scale = Value.percentWidth(0.04f, root);
+        Value timerWidth = Value.percentWidth(0.2f, root);
+        Value upgradeButtonScale = Value.percentWidth(0.1f, root);
+        
+        root.add(chefDisplay).left().width(scale).height(scale);
+        root.add(timer).expandX().width(timerWidth).height(scale);
+        root.add(homeButton()).right().width(scale).height(scale);
+        root.row().padTop(10f);
+        root.add(chefInventoryRoot).left().top().width(scale);
+        root.add().expandX().width(timerWidth);
+        root.add(recipeDisplay).right().top().width(scale);
+        root.row();
+        root.add(resultLabel).colspan(3);
+        root.row();
+        root.add(resultTimer).colspan(3);
+        root.row();
+        root.add().expandY();
+        root.row();
+        root.add(upgradesButton()).width(upgradeButtonScale).height(scale).left();
+        root.add(activePowerups).colspan(2).bottom().right();
+        
+        // Initialize button for Upgrade implementation
+        recipeBookRoot = new Table();
+        recipeBookRoot.setFillParent(true);
+        recipeBook = new Table();
+        Value recipeBookHeight = Value.percentHeight(0.5f, root);
+        Value recipeBookWidth = Value.percentHeight(0.3f, root);
+        recipeBookRoot
+            .add(recipeBook)
+            .width(recipeBookWidth)
+            .height(recipeBookHeight);
+        recipeBookSteps = new Table();
+        
+        
+        createRecipeTable();
+        root.debug();
+
+    }
+
+    private void createChefInventory() {
         // Initialize UI for showing current chef
         this.chefDisplay = new Stack();
         chefDisplay.add(
@@ -73,126 +185,37 @@ public class UIOverlay {
         chefImage.setScaling(Scaling.fit);
         chefDisplay.add(chefImage);
 
-        // Initialize button for Upgrade implementation
-        upgradesButton(uiStage);
-
-        // Initialise pointer image
-        pointer =
-            new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
-            );
-
         // Initialize UI for showing current chef's ingredient stack
         chefInventoryRoot = new Stack();
-        Image ingredientImagesBG = new Image(
+        Image chefInventoryBG = new Image(
             new Texture(
                 "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
             )
         );
-        chefInventoryRoot.add(ingredientImagesBG);
+
+        chefInventoryRoot.add(chefInventoryBG);
         chefInventory = new VerticalGroup();
         chefInventory.padBottom(10f);
         chefInventoryRoot.add(chefInventory);
+    }
 
+    public void createGameTimer() {
         // Initialize the timer
         LabelStyle timerStyle = new Label.LabelStyle(
             game.getFontManager().getTitleFont(),
             null
         );
+        
         timerStyle.background =
             new TextureRegionDrawable(
                 new Texture(
                     "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"
                 )
             );
+            
         timer = new UIStopwatch(timerStyle);
         timer.setAlignment(Align.center);
-
-        // Initialize the home button
-        ImageButton homeButton = game
-            .getButtonManager()
-            .createImageButton(
-                new TextureRegionDrawable(
-                    new Texture(
-                        Gdx.files.internal(
-                            "Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"
-                        )
-                    )
-                ),
-                ButtonManager.ButtonColour.BLUE,
-                -1.5f
-            );
-        homeButton.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    game.loadHomeScreen();
-                }
-            }
-        );
-
-        removeBtnDrawable =
-            new TextureRegionDrawable(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png"
-                )
-            );
-
-        // Initialize the UI to display the currently requested recipe
-        Stack recipeDisplay = new Stack();
-        Image orderGroupBG = new Image(
-            new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
-            )
-        );
-        orderGroup = new VerticalGroup();
-        orderGroupBG.setVisible(false);
-        recipeDisplay.add(orderGroupBG);
-        recipeDisplay.add(orderGroup);
-
-        // Initialize counter for showing remaining recipes
-        LabelStyle counterStyle = new LabelStyle(
-            game.getFontManager().getHeaderFont(),
-            Color.BLACK
-        );
-        recipeCountLabel = new Label("0", counterStyle);
-
-        // Initialize winning label
-        LabelStyle labelStyle = new Label.LabelStyle(
-            game.getFontManager().getTitleFont(),
-            null
-        );
-        resultLabel =
-            new Label("Congratulations! Your final time was:", labelStyle);
-        resultLabel.setVisible(false);
-        resultTimer = new UIStopwatch(labelStyle);
-        resultTimer.setVisible(false);
-
-        // Add everything
-        scale = Value.percentWidth(0.04f, root);
-        Value timerWidth = Value.percentWidth(0.2f, root);
-        root.add(chefDisplay).left().width(scale).height(scale);
-        root.add(timer).expandX().width(timerWidth).height(scale);
-        root.add(homeButton).right().width(scale).height(scale);
-        root.row().padTop(10f);
-        root.add(chefInventoryRoot).left().top().width(scale);
-        root.add().expandX().width(timerWidth);
-        root.add(recipeDisplay).right().top().width(scale);
-        root.row();
-        root.add(resultLabel).colspan(3);
-        root.row();
-        root.add(resultTimer).colspan(3);
-
-        recipeBookRoot = new Table();
-        recipeBookRoot.setFillParent(true);
-        recipeBook = new Table();
-        recipeBookSteps = new Table();
-        createRecipeTable();
-
-        root.debug();
     }
-
-    private void createLayout(Table root) {}
 
     /**
      * Reset values and UI to be in their default state.
@@ -202,7 +225,6 @@ public class UIOverlay {
         timer.start();
         resultLabel.setVisible(false);
         resultTimer.setVisible(false);
-        // displayIngredients.setVisible(false);
         updateChefUI(null);
     }
 
@@ -261,26 +283,20 @@ public class UIOverlay {
     /**
      * Update method for the ugprade button.
      */
-    public void upgradesButton(Stage uiStage) {
+    public TextButton upgradesButton() {
         String upgradeUiButtonText;
         TextButton upgrades;
 
         final UpgradesUi upgradesUi = game.getUpgradesUi();
         upgradesUi.addToStage(uiStage);
 
-        if (activatedShop == false) {
-            upgradeUiButtonText = "Upgrades";
-        } else {
-            upgradeUiButtonText = "Return";
-        }
         upgrades =
             game
                 .getButtonManager()
                 .createTextButton(
-                    upgradeUiButtonText,
+                    "Upgrades",
                     ButtonManager.ButtonColour.BLUE
                 );
-        upgrades.sizeBy(1f);
         upgrades.addListener(
             new ClickListener() {
                 @Override
@@ -288,20 +304,43 @@ public class UIOverlay {
                     if (activatedShop == false) { // to check whether to hid or unhide the upgrades panel
                         upgradesUi.visible(true);
                         activatedShop = true;
-                        upgradesButton(uiStage);
+                        upgrades.setText("Return");
+
                     } else {
                         upgradesUi.visible(false);
                         activatedShop = false;
-                        upgradesButton(uiStage);
+                        upgrades.setText("Upgrades");
                     }
                 }
             }
         );
+        return upgrades;
+    }
 
-        Table bottomTable = new Table();
-        uiStage.addActor(bottomTable);
-        bottomTable.padBottom(60).padLeft(120);
-        bottomTable.add(upgrades).width(100).left();
+    private ImageButton homeButton() {
+        // Initialize the home button
+        ImageButton homeButton = game
+            .getButtonManager()
+            .createImageButton(
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(
+                            "Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"
+                        )
+                    )
+                ),
+                ButtonManager.ButtonColour.BLUE,
+                -1.5f
+            );
+        homeButton.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.loadHomeScreen();
+                }
+            }
+        );
+        return homeButton;
     }
 
     Recipe lastShown = null;
@@ -335,12 +374,14 @@ public class UIOverlay {
         stepName(recipe);
         recipeBookSteps.row();
         recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
+
         for (String recipeIngredient : recipe.getRecipeIngredients()) {
             Image image = new Image(
                 recipe.getTextureManager().getTexture(recipeIngredient)
             );
-            //image.getDrawable().setMinHeight(chefDisplay.getHeight());
-            //image.getDrawable().setMinWidth(chefDisplay.getWidth());
+            Value imageWidth = Value.percentWidth(0.15f, recipeBook);
+            image.getDrawable().setMinWidth(imageWidth.get());
+            image.getDrawable().setMinHeight(imageWidth.get());
             recipeBookSteps.add(image);
         }
         if (recipe.getType() == "pizza") {
@@ -381,8 +422,10 @@ public class UIOverlay {
             Image image = new Image(
                 recipe.getTextureManager().getTexture(foodName)
             );
-            // image.getDrawable().setMinHeight(chefDisplay.getHeight());
-            // image.getDrawable().setMinWidth(chefDisplay.getWidth());
+
+            Value imageWidth = Value.percentWidth(0.15f, recipeBook);
+            image.getDrawable().setMinWidth(imageWidth.get());
+            image.getDrawable().setMinHeight(imageWidth.get());
             recipeBookSteps.add(image);
         }
     }
@@ -436,16 +479,13 @@ public class UIOverlay {
     Label recipeName;
 
     public void createRecipeTable() {
-        recipeBookRoot.clear();
         recipeBookRoot.setVisible(false);
         recipeBook.clear();
 
-        recipeBookSteps.setWidth(80);
-        recipeBookSteps.setHeight(160);
         recipeBookRoot.right().padRight(chefDisplay.getWidth());
 
         LabelStyle recipeNameStyle = new LabelStyle(
-            game.getFontManager().getTitleFont(),
+            game.getFontManager().getHeaderFont(),
             null
         );
         recipeName = new Label("Recipe", recipeNameStyle);
@@ -469,10 +509,6 @@ public class UIOverlay {
 
         recipeBook.add(hideButton).top().right().row();
 
-        recipeBookRoot
-            .add(recipeBook)
-            .width(chefDisplay.getWidth() * 2f)
-            .height(chefDisplay.getHeight() * 2f);
         recipeBook.add(recipeBookSteps).colspan(2).expand();
 
         TextureRegionDrawable textureRegionDrawableBg =
@@ -485,6 +521,30 @@ public class UIOverlay {
         uiStage.addActor(recipeBookRoot);
         recipeBook.debug();
         recipeBookRoot.debug();
+    }
+
+    public void currentActivePowerup() {
+
+        activePowerups.clearChildren();
+
+        PlayerState state = PlayerState.getInstance();
+
+        for (PowerUp powerup : PowerUp.values()) {
+            // Check if powerup is active
+            if (state.getBuffActive(powerup)) {
+                Label activePowerupLabel = new Label(String.format(""), new LabelStyle(game.getFontManager().getHeaderFont(), Color.GREEN));
+                
+                String labelText = powerup.name().replaceAll("_", " ").toLowerCase();
+                labelText = Character.toUpperCase(labelText.charAt(0)) + labelText.substring(1);
+                labelText += ": " + String.format("%d" , state.getBuffRemaining(powerup) / 1000);
+                activePowerupLabel.setText(labelText);
+                activePowerups.add(activePowerupLabel).padRight(15);
+            }
+        }
+    }
+    
+    public void update() {
+        currentActivePowerup();
     }
 
     public void resize(int width, int height) {}

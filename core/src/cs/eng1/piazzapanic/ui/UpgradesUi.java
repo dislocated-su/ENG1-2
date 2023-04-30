@@ -19,11 +19,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Null;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.PlayerState.PowerUp;
 
 public class UpgradesUi {
 
     private static Table table;
-    Table root, lowerTable;
+    Table root;
     private LabelStyle hudLabelFont;
     private LabelStyle hudTitleFont;
     private LabelStyle hudHeaderFont;
@@ -104,10 +105,6 @@ public class UpgradesUi {
         timerForChefs = "N/A"; // proof of concept
         costOfChef = 50;
 
-        lowerTable = new Table();
-        lowerTable.setFillParent(true);
-        lowerTable.bottom();
-        lowerTable.debug();
 
         // PlayerState player = PlayerState.getInstance();
         // Array<String> powerupsActive = player.getActivePowerups();
@@ -135,12 +132,7 @@ public class UpgradesUi {
         table.add(moneyLabel);
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
-        table
-            .add(labelForAllTimers)
-            .width(scale1)
-            .height(scale)
-            .pad(5)
-            .center();
+        table.add(labelForAllTimers).width(scale1).height(scale).pad(5).center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
         createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
@@ -167,7 +159,6 @@ public class UpgradesUi {
                     if (cost <= currentMoney) {
                         currentMoney -= cost;
                         createShopTable();
-                        currentActivePowerup(name);
                     }
                 }
             }
@@ -180,11 +171,7 @@ public class UpgradesUi {
     }
 
     // foo being the boolean that makes the table visible or not
-    public void currentActivePowerup(String name) {
-        activePowerupLabel = new Label(String.format(""), hudHeaderFont);
-        activePowerupLabel.setText("bruh");
-        lowerTable.add(activePowerupLabel);
-    }
+
 
     public void visible(Boolean val) {
         table.setVisible(val);
@@ -192,10 +179,6 @@ public class UpgradesUi {
 
     public void addToStage(Stage uiStage) {
         uiStage.addActor(root);
-        uiStage.addActor(lowerTable);
     }
 
-    public void update() {
-        table.clear();
-    }
 }

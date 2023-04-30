@@ -22,6 +22,7 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.ui.UpgradesUi;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 
@@ -191,6 +192,8 @@ public class GameScreen implements Screen {
             uiOverlay.updateOrders(customerManager.getOrders());
             isFirstFrame = false;
         }
+        
+        uiOverlay.update();
     }
 
     @Override

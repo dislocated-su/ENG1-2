@@ -40,8 +40,8 @@ public class PlayerState {
             PowerUp.DOUBLE_PREP_SPEED,
             new Timer(60000, false, false)
         );
-        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, true, false));
+        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, true, false));
         powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
     }
 
@@ -149,6 +149,14 @@ public class PlayerState {
      */
     public void activateBuff(PowerUp powerUp) {
         powerUpTimers.get(powerUp).start();
+    }
+
+    public int getBuffDuration(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp).getDelay();
+    }
+
+    public int getBuffRemaining(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp).getRemainingTime();
     }
 
     /**
