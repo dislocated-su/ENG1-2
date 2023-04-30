@@ -57,7 +57,7 @@ public class StationActionTests {
             StationAction.getActionDescription(ActionType.ASSEMBLE_PIZZA)
         );
         assertEquals(
-            "Unlock station (100.0)",
+            "Unlock station (" + PlayerState.getInstance().getUpgradeCost(false) +")",
             StationAction.getActionDescription(ActionType.BUY_STATION)
         );
     }
