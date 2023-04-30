@@ -40,8 +40,8 @@ public class PlayerState {
             PowerUp.DOUBLE_PREP_SPEED,
             new Timer(60000, false, false)
         );
-        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, true, false));
-        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, true, false));
+        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
+        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
         powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
     }
 
@@ -136,7 +136,7 @@ public class PlayerState {
 
     /**
      *
-     * @param index
+     * @param powerUp
      * @return
      */
     public boolean getBuffActive(PowerUp powerUp) {
@@ -145,7 +145,7 @@ public class PlayerState {
 
     /**
      *
-     * @param index
+     * @param powerUp
      */
     public void activateBuff(PowerUp powerUp) {
         powerUpTimers.get(powerUp).start();
