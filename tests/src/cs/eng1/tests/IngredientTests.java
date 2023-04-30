@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -169,13 +168,13 @@ public class IngredientTests {
         //I would like to inform you that I hate how we read uncooked pizza with .toString(), but it is what it is.
         assertEquals(
             "Ingredient should be _raw when raw",
-            "uncooked_pizza_raw", 
+            "uncooked_pizza_raw",
             pizza.toString()
         );
         pizza.setIsCooked(true);
         assertEquals(
             "Ingredient should be _raw when raw",
-            "uncooked_pizza_cooked", 
+            "uncooked_pizza_cooked",
             pizza.toString()
         );
     }
