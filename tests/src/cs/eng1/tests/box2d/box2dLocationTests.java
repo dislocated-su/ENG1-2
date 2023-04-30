@@ -29,7 +29,7 @@ public class box2dLocationTests {
             0.1
         );
     }
-  
+
     @Test
     public void vectorToAngleTests() {
         Box2dLocation location = new Box2dLocation(new Vector2(), 0);
