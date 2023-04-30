@@ -129,7 +129,7 @@ public class UIOverlay {
         // Add everything
         scale = Value.percentWidth(0.04f, root);
         Value timerWidth = Value.percentWidth(0.2f, root);
-        Value upgradeButtonScale = Value.percentWidth(0.1f, root);
+        Value upgradeButtonScale = Value.percentWidth(0.08f, root);
 
         root.add(chefDisplay).left().width(scale).height(scale);
         root.add(timer).expandX().width(timerWidth).height(scale);
@@ -160,8 +160,8 @@ public class UIOverlay {
         Value recipeBookWidth = Value.percentHeight(0.3f, root);
         recipeBookRoot
             .add(recipeBook)
-            .width(recipeBookWidth)
-            .height(recipeBookHeight);
+            .width(300)
+            .height(450);
         recipeBookSteps = new Table();
 
         createRecipeTable();
@@ -373,25 +373,30 @@ public class UIOverlay {
                 recipe.getTextureManager().getTexture(recipeIngredient)
             );
             Value imageWidth = Value.percentWidth(0.15f, recipeBook);
-            image.getDrawable().setMinWidth(imageWidth.get());
-            image.getDrawable().setMinHeight(imageWidth.get());
+            image.getDrawable().setMinWidth(64);
+            image.getDrawable().setMinHeight(64);
             recipeBookSteps.add(image);
         }
         if (recipe.getType() == "pizza") {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
+            Image uncooked = new Image(
+                    recipe.getTextureManager().getTexture("uncooked_pizza")
+            );
+            uncooked.getDrawable().setMinWidth(64);
+            uncooked.getDrawable().setMinHeight(64);
             recipeBookSteps
-                .add(
-                    new Image(
-                        recipe.getTextureManager().getTexture("uncooked_pizza")
-                    )
-                )
+                .add(uncooked)
                 .colspan(5)
                 .center();
         }
         recipeBookSteps.row();
         recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
-        recipeBookSteps.add(new Image(recipe.getTexture())).colspan(5).center();
+        Image image = new Image(recipe.getTexture());
+        image.getDrawable().setMinWidth(64);
+        image.getDrawable().setMinHeight(64);
+        recipeBookSteps.add(image).colspan(5).center();
+
         //recipeBookSteps.row().colspan(i);
 
     }
@@ -417,8 +422,8 @@ public class UIOverlay {
             );
 
             Value imageWidth = Value.percentWidth(0.15f, recipeBook);
-            image.getDrawable().setMinWidth(imageWidth.get());
-            image.getDrawable().setMinHeight(imageWidth.get());
+            image.getDrawable().setMinWidth(64);
+            image.getDrawable().setMinHeight(64);
             recipeBookSteps.add(image);
         }
     }
