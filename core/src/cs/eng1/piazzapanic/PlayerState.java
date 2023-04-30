@@ -188,4 +188,8 @@ public class PlayerState {
     public void resume() {
         paused = false;
     }
+
+    public boolean getPaused() {
+        return paused;
+    }
 }

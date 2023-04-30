@@ -47,6 +47,7 @@ public class GameScreen implements Screen {
     private final Box2DDebugRenderer box2dDebugRenderer;
     private final World world;
     private KeyboardInput kbInput;
+    private InputMultiplexer multiplexer = new InputMultiplexer();
 
     public GameScreen(
         final PiazzaPanicGame game,
@@ -73,6 +74,7 @@ public class GameScreen implements Screen {
             mapLoader.mapSize.y / 2,
             camera
         );
+
         this.stage = new Stage(viewport);
 
         kbInput = new KeyboardInput();
@@ -130,10 +132,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(kbInput);
         multiplexer.addProcessor(uiStage);
         multiplexer.addProcessor(stage);
+
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
         chefManager.init();
@@ -148,6 +150,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        if (PlayerState.getInstance().getPaused()) {
+            delta = 0;
+        }
+
+        if (uiOverlay.pauseToggle) {
+            uiOverlay.pauseToggle = false;
+            if (PlayerState.getInstance().getPaused()) {
+                pause();
+            } else {
+                resume();
+            }
+        }
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -204,10 +218,18 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+        kbInput.clearInputs();
+        Gdx.input.setInputProcessor(uiStage);
+        stationUIController.hideStationActions();
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+        kbInput.clearInputs();
+        Gdx.input.setInputProcessor(multiplexer);
+        stationUIController.showStationActions();
+    }
 
     @Override
     public void hide() {}
@@ -219,5 +241,6 @@ public class GameScreen implements Screen {
         tileMapRenderer.dispose();
         foodTextureManager.dispose();
         chefManager.dispose();
+        world.dispose();
     }
 }

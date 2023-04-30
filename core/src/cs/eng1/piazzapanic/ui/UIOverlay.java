@@ -1,9 +1,11 @@
 package cs.eng1.piazzapanic.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -60,6 +62,7 @@ public class UIOverlay {
 
     private UIStopwatch timer;
     private final UIStopwatch resultTimer;
+    public boolean pauseToggle = false;
 
     private Boolean activatedShop = false;
 
@@ -208,6 +211,22 @@ public class UIOverlay {
 
         timer = new UIStopwatch(timerStyle);
         timer.setAlignment(Align.center);
+
+        uiStage.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Keys.ESCAPE) {
+                        if (PlayerState.getInstance().getPaused()) {
+                            resume();
+                        } else {
+                            pause();
+                        }
+                    }
+                    return true;
+                }
+            }
+        );
     }
 
     /**
@@ -541,6 +560,16 @@ public class UIOverlay {
                 activePowerups.add(activePowerupLabel).padRight(15);
             }
         }
+    }
+
+    private void pause() {
+        PlayerState.getInstance().pause();
+        pauseToggle = true;
+    }
+
+    private void resume() {
+        PlayerState.getInstance().resume();
+        pauseToggle = true;
     }
 
     public void update() {
