@@ -7,6 +7,9 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Cheese;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
+import cs.eng1.piazzapanic.food.ingredients.UncookedPizza;
+import cs.eng1.piazzapanic.food.recipes.Pizza;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -270,5 +273,15 @@ public class IngredientTests {
             textureManager.getTexture("tomato"),
             tomato.getTexture()
         );
+    }
+    @Test
+    public void testUncookedPizza() {
+        UncookedPizza unPizza = new UncookedPizza(textureManager);
+        assertNull(unPizza.getCookingResult());
+        unPizza.setIsCooked(true);
+        assertEquals(Pizza.class, unPizza.getCookingResult().getClass());
+        unPizza.setUseable(false);
+        pizza.setUseable(false);
+        assertEquals(pizza.toString(), unPizza.getCookingResult().toString());
     }
 }
