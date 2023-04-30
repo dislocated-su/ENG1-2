@@ -158,10 +158,7 @@ public class UIOverlay {
         recipeBook = new Table();
         Value recipeBookHeight = Value.percentHeight(0.5f, root);
         Value recipeBookWidth = Value.percentHeight(0.3f, root);
-        recipeBookRoot
-            .add(recipeBook)
-            .width(300)
-            .height(450);
+        recipeBookRoot.add(recipeBook).width(300).height(450);
         recipeBookSteps = new Table();
 
         createRecipeTable();
@@ -381,14 +378,11 @@ public class UIOverlay {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
             Image uncooked = new Image(
-                    recipe.getTextureManager().getTexture("uncooked_pizza")
+                recipe.getTextureManager().getTexture("uncooked_pizza")
             );
             uncooked.getDrawable().setMinWidth(64);
             uncooked.getDrawable().setMinHeight(64);
-            recipeBookSteps
-                .add(uncooked)
-                .colspan(5)
-                .center();
+            recipeBookSteps.add(uncooked).colspan(5).center();
         }
         recipeBookSteps.row();
         recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
@@ -396,7 +390,6 @@ public class UIOverlay {
         image.getDrawable().setMinWidth(64);
         image.getDrawable().setMinHeight(64);
         recipeBookSteps.add(image).colspan(5).center();
-
         //recipeBookSteps.row().colspan(i);
 
     }
