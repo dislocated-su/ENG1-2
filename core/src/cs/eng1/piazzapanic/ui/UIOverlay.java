@@ -571,6 +571,7 @@ public class UIOverlay {
         PlayerState.getInstance().resume();
         pauseToggle = true;
     }
+
     public void update() {
         currentActivePowerup();
     }

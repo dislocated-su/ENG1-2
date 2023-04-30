@@ -45,8 +45,9 @@ public class StationUIController {
      * @param actions The list of actions to show.
      */
     public void showActions(
-            Station station,
-            List<StationAction.ActionType> actions) {
+        Station station,
+        List<StationAction.ActionType> actions
+    ) {
         StationActionUI buttons = stationActionUI.get(station.getId());
         if (buttons == null) {
             addStation(station);
