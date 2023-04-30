@@ -84,6 +84,7 @@ public class IngredientTests {
             lettuce.getChopped()
         );
     }
+
     @Test
     public void testCheese() {
         Cheese cheese2 = new Cheese(textureManager);

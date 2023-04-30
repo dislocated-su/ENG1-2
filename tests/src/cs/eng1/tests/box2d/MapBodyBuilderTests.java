@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Array;
 import cs.eng1.piazzapanic.box2d.MapBodyBuilder;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
