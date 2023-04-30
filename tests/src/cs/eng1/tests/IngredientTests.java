@@ -9,7 +9,6 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.ingredients.UncookedPizza;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -274,6 +273,7 @@ public class IngredientTests {
             tomato.getTexture()
         );
     }
+
     @Test
     public void testUncookedPizza() {
         UncookedPizza unPizza = new UncookedPizza(textureManager);
