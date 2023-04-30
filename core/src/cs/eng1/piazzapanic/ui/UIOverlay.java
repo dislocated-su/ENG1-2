@@ -162,7 +162,6 @@ public class UIOverlay {
         recipeBookSteps = new Table();
 
         createRecipeTable();
-        root.debug();
     }
 
     private void createChefInventory() {
@@ -510,8 +509,6 @@ public class UIOverlay {
         recipeBookRoot.row();
 
         uiStage.addActor(recipeBookRoot);
-        recipeBook.debug();
-        recipeBookRoot.debug();
     }
 
     public void currentActivePowerup() {

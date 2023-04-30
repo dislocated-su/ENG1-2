@@ -57,8 +57,6 @@ public class UpgradesUi {
                 new Texture(Gdx.files.internal("backgroundimage.jpg"))
             );
         table.setBackground(textureRegionDrawableBg);
-        // root.debug();
-        table.debug();
         table.setVisible(false);
 
         currentMoney = 1500; //random value
