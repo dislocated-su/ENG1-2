@@ -2,11 +2,11 @@ package cs.eng1.tests;
 
 import static org.junit.Assert.*;
 
+import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import cs.eng1.piazzapanic.PlayerState;
 
 @RunWith(GdxTestRunner.class)
 public class StationActionTests {
