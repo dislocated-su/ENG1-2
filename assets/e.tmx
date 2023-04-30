@@ -29,7 +29,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,98,98,96,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="4" name="Foreground" width="32" height="24">
+ <layer id="4" name="Foreground" width="32" height="24" locked="1">
   <data encoding="csv">
 178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,
 178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,178,
@@ -57,7 +57,7 @@
 178,178,178,178,178,178,178,178,178,178,178,178,178,177,0,131,0,176,178,178,178,178,178,178,178,178,178,178,178,178,178,178
 </data>
  </layer>
- <layer id="11" name="Decorations" width="32" height="24">
+ <layer id="11" name="Decorations" width="32" height="24" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -85,7 +85,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="Obstacles">
+ <objectgroup id="10" name="Obstacles" locked="1">
   <object id="84" x="896" y="1664" width="640" height="128"/>
   <object id="85" x="896" y="640" width="128" height="1024"/>
   <object id="86" x="1024" y="640" width="1792" height="128"/>
@@ -123,7 +123,7 @@
    <polyline points="0,0 384,0"/>
   </object>
  </objectgroup>
- <objectgroup id="7" name="Stations">
+ <objectgroup id="7" name="Stations" locked="1">
   <object id="3" class="Station" gid="483" x="2432" y="1280" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="6"/>
@@ -336,7 +336,7 @@
   <object id="82" x="1984" y="1792" width="256" height="256"/>
   <object id="83" x="2240" y="1792" width="192" height="256"/>
  </objectgroup>
- <objectgroup id="12" name="Waypoints">
+ <objectgroup id="12" name="Waypoints" locked="1">
   <object id="118" x="1978" y="3022">
    <properties>
     <property name="aispawnid" type="int" value="0"/>

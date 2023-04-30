@@ -50,30 +50,20 @@ public class GameScreen implements Screen {
     private InputMultiplexer multiplexer = new InputMultiplexer();
 
     public GameScreen(
-        final PiazzaPanicGame game,
-        int totalCustomers,
-        int difficulty
-    ) {
+            final PiazzaPanicGame game,
+            int totalCustomers,
+            int difficulty) {
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
         MapLoader mapLoader = new MapLoader("e.tmx");
 
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
-
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x / 2,
-            mapLoader.mapSize.y / 2,
-            camera
-        );
+                mapLoader.mapSize.x / 2,
+                mapLoader.mapSize.y / 2,
+                camera);
 
         this.stage = new Stage(viewport);
 
@@ -93,38 +83,39 @@ public class GameScreen implements Screen {
 
         PlayerState.getInstance().setDifficulty(difficulty);
 
-        chefManager =
-            new ChefManager(
+        chefManager = new ChefManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                kbInput
-            );
+                kbInput);
 
-        customerManager =
-            new CustomerManager(
+        customerManager = new CustomerManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                totalCustomers
-            );
-
-        customerManager.init(
-            foodTextureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+                totalCustomers);
 
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            foodTextureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                foodTextureManager,
+                customerManager);
+
+        mapLoader.loadWaypoints(
+                "Waypoints",
+                "cookspawnid",
+                "aispawnid",
+                "lightid",
+                "aiobjective");
+
+        customerManager.init(
+                foodTextureManager,
+                stage,
+                mapLoader.aiObjectives,
+                mapLoader.aiSpawnpoints);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
         chefManager.addChefsToStage(stage);
@@ -168,17 +159,13 @@ public class GameScreen implements Screen {
         if (chefManager.getCurrentChef() != null) {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
             camera.position.lerp(
-                new Vector3(
-                    chefManager.getCurrentChef().getX(),
-                    chefManager.getCurrentChef().getY(),
-                    1
-                ),
-                0.1f
-            );
-            camera.position.x =
-                (float) Math.round(camera.position.x * 100f) / 100f;
-            camera.position.y =
-                (float) Math.round(camera.position.y * 100f) / 100f;
+                    new Vector3(
+                            chefManager.getCurrentChef().getX(),
+                            chefManager.getCurrentChef().getY(),
+                            1),
+                    0.1f);
+            camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y = (float) Math.round(camera.position.y * 100f) / 100f;
         } else {
             stage.getCamera().position.set(15, 15, 1);
         }
@@ -199,7 +186,7 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        //box2dDebugRenderer.render(world, stage.getCamera().combined);
+        // box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {
@@ -232,7 +219,8 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

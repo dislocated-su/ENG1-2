@@ -29,15 +29,19 @@ public class UpgradesUi {
     private LabelStyle hudTitleFont;
     private LabelStyle hudHeaderFont;
 
-    private String timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5, timerForChefs;
+    private String timerForPowerUp1, timerForPowerUp2, timerForPowerUp3, timerForPowerUp4, timerForPowerUp5,
+            timerForChefs;
 
     private String powerup1Name, powerup2Name, powerup3Name, powerup4Name, powerup5Name, moreChefsName;
 
     private Label titleLabel, labelForAllPowerups, moneyLabel, labelForAllTimers, timerLabel, activePowerupLabel;
 
-    private int costForPowerUp1, costForPowerUp2, costForPowerUp3, costForPowerUp4, costForPowerUp5, costOfChef, currentMoney;
+    private int costForPowerUp1, costForPowerUp2, costForPowerUp3, costForPowerUp4, costForPowerUp5, costOfChef;
+    private float currentMoney;
 
     private Label labelForAllCosts, costLabel;
+
+    private PlayerState playerstate;
 
     private PiazzaPanicGame game;
 
@@ -52,16 +56,14 @@ public class UpgradesUi {
 
         table = new Table();
         root.add(table).width(450).height(350).center();
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(
-                new Texture(Gdx.files.internal("backgroundimage.jpg"))
-            );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+                new Texture(Gdx.files.internal("backgroundimage.jpg")));
         table.setBackground(textureRegionDrawableBg);
         table.setVisible(false);
 
-        currentMoney = 1500; //random value
+        playerstate = PlayerState.getInstance();
 
-        //fonts used in the "shop"
+        // fonts used in the "shop"
         FontManager fontManager = new FontManager();
 
         hudLabelFont = new Label.LabelStyle();
@@ -106,10 +108,10 @@ public class UpgradesUi {
         // PlayerState player = PlayerState.getInstance();
         // Array<String> powerupsActive = player.getActivePowerups();
         // if (powerupsActive != null) {
-        //     for (String x : powerupsActive) {
-        //         lowerTable.add(x);
-        //         lowerTable.row();
-        //     }
+        // for (String x : powerupsActive) {
+        // lowerTable.add(x);
+        // lowerTable.row();
+        // }
         // }
 
         // setting up the table in the 'Shop'
@@ -123,6 +125,8 @@ public class UpgradesUi {
     public void createShopTable() {
         table.clear();
 
+        currentMoney = playerstate.getCash();
+
         moneyLabel = new Label("£" + currentMoney, hudTitleFont);
 
         table.add(titleLabel).colspan(2).padRight(15);
@@ -130,11 +134,11 @@ public class UpgradesUi {
         table.row();
         table.add(labelForAllPowerups).width(scale2).height(scale).pad(5);
         table
-            .add(labelForAllTimers)
-            .width(scale1)
-            .height(scale)
-            .pad(5)
-            .center();
+                .add(labelForAllTimers)
+                .width(scale1)
+                .height(scale)
+                .pad(5)
+                .center();
         table.add(labelForAllCosts).width(scale1).height(scale).pad(5);
         table.row();
         createRow(powerup1Name, costForPowerUp1, timerForPowerUp1);
@@ -152,19 +156,18 @@ public class UpgradesUi {
         costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
         TextButton button = game
-            .getButtonManager()
-            .createTextButton(name, ButtonManager.ButtonColour.BLUE);
+                .getButtonManager()
+                .createTextButton(name, ButtonManager.ButtonColour.BLUE);
 
         button.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    if (cost <= currentMoney) {
-                        currentMoney -= cost;
-                        createShopTable();
+                new ClickListener() {
+                    public void clicked(InputEvent event, float x, float y) {
+                        if (cost <= currentMoney) {
+                            currentMoney -= cost;
+                            createShopTable();
+                        }
                     }
-                }
-            }
-        );
+                });
 
         table.add(button).width(scale2).height(scale).pad(3);
         table.add(timerLabel).width(scale).height(scale).pad(3);
