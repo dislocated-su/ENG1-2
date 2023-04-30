@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
         int totalCustomers,
         int difficulty
     ) {
-        world = new World(new Vector2(0, 0), true);
+        world = new World(Vector2.Zero, true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
         MapLoader mapLoader = new MapLoader("e.tmx");

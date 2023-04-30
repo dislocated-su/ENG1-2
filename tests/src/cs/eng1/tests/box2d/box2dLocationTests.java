@@ -14,17 +14,24 @@ public class box2dLocationTests {
 
     @Test
     public void newLocationTests() {
-        Box2dLocation location = new Box2dLocation(new Vector2(1, 0), 1f);
-        Location<Vector2> location2 = location.newLocation();
+        Box2dLocation fake = new Box2dLocation(new Vector2(1, 0), 1f);
+        Location<Vector2> location = fake.newLocation();
         assertEquals(
-            "A new location should have co-ordinates (0, 0).",
-            new Vector2(0, 0),
-            location2.getPosition()
+            "A new location should have co-ordinates (0, 0).", 
+            new Vector2(),
+            location.getPosition()
         );
         assertEquals(
-            "A new location should have an orientation of 0.",
-            0,
-            location2.getOrientation(),
+            "A new location should have an orientation of 0.", 
+            0, 
+            location.getOrientation(),
+            0.1
+        );
+        location.setOrientation(1f);
+        assertEquals(
+            "setOrientation should properly set the orientation of a new location.", 
+            1f, 
+            location.getOrientation(), 
             0.1
         );
     }
@@ -66,16 +73,16 @@ public class box2dLocationTests {
 
     @Test
     public void angleToVectorTests() {
-        Box2dLocation location = new Box2dLocation(new Vector2(), 0);
+        Box2dLocation location = new Box2dLocation(Vector2.Zero, 0);
         assertEquals(
             "Expect calculated vector to be correct.",
             new Vector2(-0.84147096f, 0.5403023f),
-            location.angleToVector(new Vector2(), 1f)
+            location.angleToVector(Vector2.Zero, 1f)
         );
         assertEquals(
             "Expect calculated vector to be correct with negative angle.",
             new Vector2(0.84147096f, 0.5403023f),
-            location.angleToVector(new Vector2(), -1f)
+            location.angleToVector(Vector2.Zero, -1f)
         );
     }
 }

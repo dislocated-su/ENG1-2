@@ -38,7 +38,7 @@ public class SubmitStationTests {
 
     Stage stage = mock(Stage.class);
 
-    World world = new World(new Vector2(0, 0), true);
+    World world = new World(Vector2.Zero, true);
     CustomerManager customerManager = new CustomerManager(
         1,
         overlay,

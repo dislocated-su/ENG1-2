@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
-    World world = new World(new Vector2(0, 0), true);
+    World world = new World(Vector2.Zero, true);
     private UIOverlay overlay = mock(UIOverlay.class);
     ChefManager chefManager = new ChefManager(0, overlay, world, null);
     Chef chef = new Chef(null, null, chefManager);

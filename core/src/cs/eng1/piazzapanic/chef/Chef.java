@@ -156,7 +156,7 @@ public class Chef extends Actor implements Disposable {
      */
     private Vector2 getInput() {
         if (!isInputEnabled() || isPaused()) {
-            return new Vector2(0, 0);
+            return Vector2.Zero;
         }
         Vector2 direction = new Vector2();
         if (chefManager.keyboardInput.up) {
