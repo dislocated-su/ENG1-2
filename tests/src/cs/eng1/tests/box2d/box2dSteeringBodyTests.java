@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class box2dSteeringBodyTests {
+
     // SteeringBehavior<Vector2> behaviour;
     // Limiter limiter;
     // Location<Vector2> location;
@@ -107,16 +108,16 @@ public class box2dSteeringBodyTests {
             "SteeringBehaviour should be null by default.",
             steeringBody.getSteeringBehavior()
         );
-    // Tried testing this then realised it was protected, I'll leave this for if we change it.
-    //     behaviour.setEnabled(true);
-    //     behaviour.setOwner(steeringBody);
-    //     behaviour.setLimiter(limiter);
-    //     location = steeringBody.newLocation();
-    //     behaviour.newVector(location);
-    //     steeringBody.setSteeringBehavior(behaviour);
-    //     assertEquals(
-    //         location,
-    //         steeringBody.getSteeringBehavior().get(0)
-    //     );
+        // Tried testing this then realised it was protected, I'll leave this for if we change it.
+        //     behaviour.setEnabled(true);
+        //     behaviour.setOwner(steeringBody);
+        //     behaviour.setLimiter(limiter);
+        //     location = steeringBody.newLocation();
+        //     behaviour.newVector(location);
+        //     steeringBody.setSteeringBehavior(behaviour);
+        //     assertEquals(
+        //         location,
+        //         steeringBody.getSteeringBehavior().get(0)
+        //     );
     }
 }
