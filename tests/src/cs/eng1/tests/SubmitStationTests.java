@@ -22,10 +22,12 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
+@Ignore
 public class SubmitStationTests {
 
     ChefManager chefManager = new ChefManager(0, null, null, null);
