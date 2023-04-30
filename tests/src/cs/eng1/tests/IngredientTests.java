@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,6 +18,7 @@ public class IngredientTests {
     Ingredient lettuce = Ingredient.fromString("lettuce", textureManager);
     Ingredient potato = Ingredient.fromString("potato", textureManager);
     Ingredient cheese = Ingredient.fromString("cheese", textureManager);
+    Ingredient pizza = Ingredient.fromString("uncooked_pizza", textureManager);
 
     /*
      * These test the behaviour of fromString
@@ -24,12 +26,11 @@ public class IngredientTests {
 
     @Test
     public void testFromString() {
-        Ingredient ingredient = Ingredient.fromString("patty", textureManager);
-        assertNotNull("fromString should find an ingredient.", ingredient);
+        assertNotNull("fromString should find an ingredient.", patty);
         assertEquals(
             "The class of the ingredient found should be the correct class.",
             Patty.class,
-            ingredient.getClass()
+            patty.getClass()
         );
     }
 
@@ -38,22 +39,21 @@ public class IngredientTests {
      */
     @Test
     public void testIsCooked() {
-        Ingredient ingredient = Ingredient.fromString("patty", textureManager);
         assertFalse(
             "The ingredient shouldn't be immediately cooked.",
-            ingredient.getCooked()
+            patty.getCooked()
         );
 
-        ingredient.setIsCooked(true);
+        patty.setIsCooked(true);
         assertTrue(
             "getCooked should be true when cooked is true.",
-            ingredient.getCooked()
+            patty.getCooked()
         );
 
-        ingredient.setIsCooked(false);
+        patty.setIsCooked(false);
         assertFalse(
             "getCooked should be false when cooked is false.",
-            ingredient.getCooked()
+            patty.getCooked()
         );
     }
 
@@ -143,7 +143,6 @@ public class IngredientTests {
             "lettuce_ruined",
             lettuce.toString()
         );
-
         assertEquals(
             "Ingredient should be raw without interaction.",
             "potato_raw",
@@ -166,6 +165,18 @@ public class IngredientTests {
             "Ingredient should be _chopped when chopped.",
             "cheese_chopped",
             cheese.toString()
+        );
+        //I would like to inform you that I hate how we read uncooked pizza with .toString(), but it is what it is.
+        assertEquals(
+            "Ingredient should be _raw when raw",
+            "uncooked_pizza_raw", 
+            pizza.toString()
+        );
+        pizza.setIsCooked(true);
+        assertEquals(
+            "Ingredient should be _raw when raw",
+            "uncooked_pizza_cooked", 
+            pizza.toString()
         );
     }
 
@@ -208,5 +219,10 @@ public class IngredientTests {
             lettuce.getTexture(),
             ingredients[2].getTexture()
         );
+    }
+
+    @Test
+    public void getTextureTests() {
+        assertEquals(pizza, textureManager.getTexture("pizza"));
     }
 }
