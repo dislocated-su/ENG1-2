@@ -34,7 +34,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
             );
 
         if (
-            accumulator >= (chopTime + failTime) &&
+            accumulator >= (chopTime + (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.DOUBLE_PREP_SPEED) ? 2 : 1))) &&
             !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
         ) {
             setUseable(false);
