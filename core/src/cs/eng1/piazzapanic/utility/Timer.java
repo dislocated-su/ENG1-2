@@ -73,4 +73,8 @@ public class Timer {
     public int getDelay() {
         return delay;
     }
+
+    public int getRemainingTime() {
+        return delay - elapsed;
+    }
 }

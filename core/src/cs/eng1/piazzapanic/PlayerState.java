@@ -136,7 +136,7 @@ public class PlayerState {
 
     /**
      *
-     * @param index
+     * @param powerUp
      * @return
      */
     public boolean getBuffActive(PowerUp powerUp) {
@@ -145,10 +145,18 @@ public class PlayerState {
 
     /**
      *
-     * @param index
+     * @param powerUp
      */
     public void activateBuff(PowerUp powerUp) {
         powerUpTimers.get(powerUp).start();
+    }
+
+    public int getBuffDuration(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp).getDelay();
+    }
+
+    public int getBuffRemaining(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp).getRemainingTime();
     }
 
     /**

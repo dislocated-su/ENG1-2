@@ -35,7 +35,22 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
                 )
             );
         if (
-            accumulator >= (cookingStepTime + failTime) &&
+            // fail time is doubled when double prep speed is active (since delta is doubled)
+
+            accumulator >=
+            (
+                cookingStepTime +
+                (
+                    failTime *
+                    (
+                        PlayerState
+                                .getInstance()
+                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                            ? 2
+                            : 1
+                    )
+                )
+            ) &&
             !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
         ) {
             setUseable(false);

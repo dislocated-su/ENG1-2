@@ -36,7 +36,20 @@ public class BasicGrillable extends Ingredient implements Grillable {
                 )
             );
         if (
-            accumulator >= (grillStepTime + failTime) &&
+            accumulator >=
+            (
+                grillStepTime +
+                (
+                    failTime *
+                    (
+                        PlayerState
+                                .getInstance()
+                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                            ? 2
+                            : 1
+                    )
+                )
+            ) &&
             !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
         ) {
             setUseable(false);
