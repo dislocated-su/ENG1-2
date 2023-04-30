@@ -124,14 +124,14 @@ public class CustomerManagerTests {
             new HashMap<>(),
             new ArrayList<>()
         );
-        customerManager.checkSpawn((float) 1 / 60);
+        customerManager.checkSpawn(1f / 60);
         assertEquals(
             "checkSpawn shouldn't change customerQueue until time equal to delay is passed.",
             1,
             customerManager.getCustomerQueue().size
         );
         for (int i = 0; i <= 4000; i++) {
-            customerManager.checkSpawn((float) 1 / 60);
+            customerManager.checkSpawn(1f / 60);
         }
         assertEquals(
             "checkSpawn should add a customer when enough time has passed.",
@@ -149,7 +149,7 @@ public class CustomerManagerTests {
             new ArrayList<>()
         );
         for (int i = 0; i <= 4000; i++) {
-            customerManager.act((float) 1 / 60);
+            customerManager.act(1f / 60);
         }
         assertEquals(
             "act should add a customer when enough time has passed.",

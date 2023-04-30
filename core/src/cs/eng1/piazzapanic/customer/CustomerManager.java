@@ -37,7 +37,7 @@ public class CustomerManager {
     private Recipe[] possibleRecipes;
 
     private final Timer spawnTimer = new Timer(60000, false, true);
-    private final Timer endlessTimer = new Timer(60000, false, true);
+    private final Timer endlessTimer = new Timer(8000, false, true);
     // Separate random instances are used to not break existing tests relying on a set permutation of orders.
     private final Random randomOrders;
     private final Random randomTextures;
@@ -138,13 +138,20 @@ public class CustomerManager {
                 difficultyMod = 0.75f;
                 break;
         }
-        // spawnTimer = new Timer((int) (60000 * difficultyMod), true, true);
         spawnTimer.setDelay((int) (spawnTimer.getDelay() * difficultyMod));
         spawnTimer.start();
 
         if (totalCustomers == 0) {
             endlessTimer.start();
         }
+    }
+
+    public List<Recipe> getOrders() {
+        LinkedList<Recipe> output = new LinkedList<>();
+        for (Customer c : customerQueue) {
+            output.add(c.getOrder());
+        }
+        return output;
     }
 
     public void act(float delta) {
@@ -171,7 +178,7 @@ public class CustomerManager {
     public void checkSpawn(float delta) {
         if (spawnTimer.tick(delta)) {
             generateCustomer();
-            overlay.updateRecipeUI(getFirstOrder());
+            overlay.updateOrders(getOrders());
 
             spawnTimer.reset();
         }
@@ -206,14 +213,13 @@ public class CustomerManager {
      */
     public void nextRecipe(Chef chef) {
         completedOrders++;
-        overlay.updateRecipeCounter(completedOrders);
         customerQueue.first().fulfillOrder();
         customerQueue.removeFirst();
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
-        overlay.updateRecipeUI(getFirstOrder());
+        overlay.updateOrders(getOrders());
         overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
             spawnTimer.stop();

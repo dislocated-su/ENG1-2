@@ -56,7 +56,6 @@ public class ChefTests {
     @Test
     public void chefStackTests() {
         chef.init(0, 0);
-        int stackSize = chef.getStack().size();
         Ingredient cheese = new Cheese(foodManager);
         Patty patty = new Patty(foodManager);
         Pizza pizza = new Pizza(foodManager);

@@ -22,6 +22,7 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.ui.UpgradesUi;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 
@@ -67,9 +68,11 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-                mapLoader.mapSize.x / 2,
-                mapLoader.mapSize.y / 2,
-                camera); // Number of tiles
+            mapLoader.mapSize.x / 2,
+            mapLoader.mapSize.y / 2,
+            camera
+        );
+
         this.stage = new Stage(viewport);
 
         kbInput = new KeyboardInput();
@@ -85,6 +88,7 @@ public class GameScreen implements Screen {
         foodTextureManager = new FoodTextureManager();
 
         PlayerState.reset();
+
         PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager = new ChefManager(
@@ -183,19 +187,22 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        box2dDebugRenderer.render(world, stage.getCamera().combined);
+        //box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {
-            uiOverlay.updateRecipeUI(customerManager.getFirstOrder());
+            uiOverlay.updateOrders(customerManager.getOrders());
             isFirstFrame = false;
         }
+
+        uiOverlay.update();
     }
 
     @Override
     public void resize(int width, int height) {
         this.stage.getViewport().update(width, height, true);
         this.uiStage.getViewport().update(width, height, true);
+        this.uiOverlay.resizeOrders(customerManager.getOrders(), width, height);
     }
 
     @Override

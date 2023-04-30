@@ -23,6 +23,7 @@ public class ModeSelectOverlay {
         table.setFillParent(true);
         table.setVisible(false);
         table.center();
+
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
