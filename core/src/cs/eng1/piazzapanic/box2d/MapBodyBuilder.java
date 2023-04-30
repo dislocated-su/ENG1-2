@@ -3,19 +3,16 @@ package cs.eng1.piazzapanic.box2d;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -80,8 +77,6 @@ public class MapBodyBuilder {
             shape = getPolygon((PolygonMapObject) object);
         } else if (object instanceof PolylineMapObject) {
             shape = getPolyline((PolylineMapObject) object);
-        } else if (object instanceof CircleMapObject) {
-            shape = getCircle((CircleMapObject) object);
         } else {
             return null;
         }
@@ -105,14 +100,6 @@ public class MapBodyBuilder {
             0.0f
         );
         return polygon;
-    }
-
-    private static CircleShape getCircle(CircleMapObject circleObject) {
-        Circle circle = circleObject.getCircle();
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(circle.radius / ppt);
-        circleShape.setPosition(new Vector2(circle.x / ppt, circle.y / ppt));
-        return circleShape;
     }
 
     private static PolygonShape getPolygon(PolygonMapObject polygonObject) {
@@ -145,5 +132,9 @@ public class MapBodyBuilder {
         ChainShape chain = new ChainShape();
         chain.createChain(worldVertices);
         return chain;
+    }
+
+    public Shape getShape(MapObject object) {
+        return decideShape(object);
     }
 }
