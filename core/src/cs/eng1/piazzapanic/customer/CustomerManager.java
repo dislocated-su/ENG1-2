@@ -138,7 +138,6 @@ public class CustomerManager {
                 difficultyMod = 0.75f;
                 break;
         }
-        // spawnTimer = new Timer((int) (60000 * difficultyMod), true, true);
         spawnTimer.setDelay((int) (spawnTimer.getDelay() * difficultyMod));
         spawnTimer.start();
 
@@ -179,9 +178,6 @@ public class CustomerManager {
     public void checkSpawn(float delta) {
         if (spawnTimer.tick(delta)) {
             generateCustomer();
-            // for (int i = 1; i < 8000; i + 1) {
-            //     overlay.updateOrders(getOrders());
-            // }
             overlay.updateOrders(getOrders());
 
             spawnTimer.reset();
