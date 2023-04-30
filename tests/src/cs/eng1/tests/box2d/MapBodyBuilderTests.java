@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.box2d;
 
 import static org.junit.Assert.*;
 
@@ -9,12 +9,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import cs.eng1.piazzapanic.box2d.MapBodyBuilder;
 import cs.eng1.piazzapanic.utility.MapLoader;
+import cs.eng1.tests.GdxTestRunner;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

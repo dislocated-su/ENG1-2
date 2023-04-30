@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.Cheese;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class IngredientTests {
     Ingredient tomato = new Ingredient("tomato", textureManager);
     Ingredient potato = new Ingredient("potato", textureManager);
     Ingredient cheese = new Ingredient("cheese", textureManager);
-    Ingredient pizza = new Ingredient("pizza", textureManager);
+    Ingredient pizza = new Ingredient("uncooked_pizza", textureManager);
 
     /*
      * These test the behaviour of fromString
@@ -81,6 +82,21 @@ public class IngredientTests {
         assertFalse(
             "getChopped should be false when chopped is false.",
             lettuce.getChopped()
+        );
+    }
+    @Test
+    public void testCheese() {
+        Cheese cheese2 = new Cheese(textureManager);
+        assertEquals(
+            "An ingredient of type Cheese should have the same texture as the BasicChoppable of type Cheese.",
+            cheese.getTexture(),
+            cheese2.getTexture()
+        );
+        cheese2.setChopped(true);
+        assertNotEquals(
+            "Cheese should return a different texture when chopped.",
+            cheese.getTexture(),
+            cheese2.getTexture()
         );
     }
 
@@ -173,13 +189,13 @@ public class IngredientTests {
         //I would like to inform you that I hate how we read uncooked pizza with .toString(), but it is what it is.
         assertEquals(
             "Ingredient should be _raw when raw",
-            "pizza_raw",
+            "uncooked_pizza_raw",
             pizza.toString()
         );
         pizza.setIsCooked(true);
         assertEquals(
             "Ingredient should be _raw when raw",
-            "pizza_cooked",
+            "uncooked_pizza_cooked",
             pizza.toString()
         );
     }
@@ -230,7 +246,7 @@ public class IngredientTests {
     public void getTextureTests() {
         assertEquals(
             "getTexture() should return the correct texture for a pizza.",
-            textureManager.getTexture("pizza"),
+            textureManager.getTexture("uncooked_pizza"),
             pizza.getTexture()
         );
         assertEquals(
