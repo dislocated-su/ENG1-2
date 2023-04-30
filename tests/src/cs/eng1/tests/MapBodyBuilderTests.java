@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class MapBodyBuilderTests {
+
     MapLoader mapLoader = new MapLoader("test-map.tmx");
     World world = new World(Vector2.Zero, true);
     MapLayer layer = mapLoader.getMap().getLayers().get("Obstacles");
