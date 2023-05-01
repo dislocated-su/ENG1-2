@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
-import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 
@@ -74,7 +73,8 @@ public class Customer extends Actor implements Disposable {
     }
 
     public void fulfillOrder() {
-        PlayerState.getInstance().earnCash(100, reputation);
+        boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
+        PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
         Gdx.app.log(
                 "Current cash",
@@ -134,9 +134,10 @@ public class Customer extends Actor implements Disposable {
 
         setRotation((float) Math.toDegrees(body.getAngle()));
 
-        if (despawnFlag && body.getLinearVelocity().isZero(0.05f)) {
-            this.remove();
-            this.dispose();
+        if (despawnFlag) {
+            // this.remove();
+            // this.dispose();
+            Gdx.app.log("Customer walking back", body.getPosition().toString());
         }
 
         if (!orderCompleted &&

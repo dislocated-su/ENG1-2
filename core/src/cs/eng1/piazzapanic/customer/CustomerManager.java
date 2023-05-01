@@ -5,14 +5,17 @@ import com.badlogic.gdx.ai.steer.Proximity;
 import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.ai.steer.behaviors.CollisionAvoidance;
 import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
+import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
+import com.badlogic.gdx.ai.steer.behaviors.RaycastObstacleAvoidance;
+import com.badlogic.gdx.ai.steer.utils.rays.CentralRayWithWhiskersConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Queue;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dRadiusProximity;
+import cs.eng1.piazzapanic.box2d.Box2dRaycastCollisionDetector;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Burger;
@@ -31,12 +34,13 @@ public class CustomerManager {
     private final Map<Integer, SubmitStation> recipeStations;
     private final UIOverlay overlay;
     private final int totalCustomers;
+    private final int maxSpawnRate = 10000;
     private final float customerScale;
     final World world;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
 
-    private final Timer spawnTimer = new Timer(60000, false, true);
+    private final Timer spawnTimer = new Timer(1000, false, true);
     private final Timer endlessTimer = new Timer(8000, false, true);
     // Separate random instances are used to not break existing tests relying on a
     // set permutation of orders.
@@ -159,7 +163,7 @@ public class CustomerManager {
 
         if (endlessTimer.getRunning()) {
             if (endlessTimer.tick(delta)) {
-                spawnTimer.setDelay(Math.round(spawnTimer.getDelay() * 0.95f));
+                spawnTimer.setDelay(Math.max(Math.round(spawnTimer.getDelay() * 0.95f), maxSpawnRate));
                 Gdx.app.log(
                         "Changing spawnTimer delay",
                         spawnTimer.getDelay() + "");
@@ -182,7 +186,10 @@ public class CustomerManager {
     }
 
     public void loseReputation() {
-        reputation--;
+        if (reputation > 0) {
+            reputation--;
+            overlay.updateReputationCounter(reputation);
+        }
     }
 
     // /**
@@ -287,7 +294,7 @@ public class CustomerManager {
         Box2dLocation there = objectives.get(locationID);
 
         Arrive<Vector2> arrive = new Arrive<>(customer.steeringBody)
-                .setTimeToTarget(10f)
+                .setTimeToTarget(3f)
                 .setArrivalTolerance(0.1f)
                 .setDecelerationRadius(2)
                 .setTarget(there);
@@ -298,9 +305,20 @@ public class CustomerManager {
                 0.5f);
         CollisionAvoidance<Vector2> collisionAvoidance = new CollisionAvoidance<>(customer.steeringBody, proximity);
 
+        RaycastObstacleAvoidance<Vector2> wallAvoidance = new RaycastObstacleAvoidance<>(customer.steeringBody);
+        wallAvoidance
+                .setRayConfiguration(
+                        new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f))
+                .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
+                .setDistanceFromBoundary(locationID);
+
+        BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(customer.steeringBody)
+                .add(collisionAvoidance, 0.5f)
+                .add(wallAvoidance, 0.5f);
+
         PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(
                 customer.steeringBody)
-                .add(collisionAvoidance)
+                .add(blendedAvoidance)
                 .add(arrive);
 
         customer.steeringBody.setSteeringBehavior(prioritySteering);
@@ -320,7 +338,7 @@ public class CustomerManager {
 
     private Integer findAvailableObjective() {
         for (Integer id : objectiveIds) {
-            if (id == -1) {
+            if (id < 0) {
                 continue;
             }
             if (objectiveAvailability.get(id)) {
