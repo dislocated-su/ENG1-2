@@ -181,10 +181,14 @@ public class UpgradesUi {
         table.row();
     }
 
-    // val being the boolean that makes the table visible or not
 
-    public void visible(Boolean val) {
-        table.setVisible(val);
+
+    public void hide() {
+        table.setVisible(false);
+    }
+
+    public void show() {
+        table.setVisible(true);
     }
 
     public void addToStage(Stage uiStage) {
