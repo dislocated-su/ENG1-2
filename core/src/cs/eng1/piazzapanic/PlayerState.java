@@ -1,5 +1,6 @@
 package cs.eng1.piazzapanic;
 
+import com.badlogic.gdx.Gdx;
 import cs.eng1.piazzapanic.utility.Timer;
 import java.util.HashMap;
 
@@ -9,7 +10,7 @@ public class PlayerState {
 
     private static PlayerState instance = null;
 
-    private float cash = 0;
+    private float cash = 1000000;
 
     private boolean paused = false;
 
@@ -17,34 +18,48 @@ public class PlayerState {
 
     private float upgradeCost = 100f;
 
+    private int hireCost = 1000;
+
     private HashMap<PowerUp, Timer> powerUpTimers =
-        new HashMap<PowerUp, Timer>();
+        new HashMap<PowerUp, Timer>() {
+            {
+                put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+                put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+                put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+                put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+                put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+            }
+        };
+
+    private final HashMap<PowerUp, Integer> powerUpCosts =
+        new HashMap<PowerUp, Integer>() {
+            {
+                put(PowerUp.WALK_FAST, 100);
+                put(PowerUp.COOK_FAST, 100);
+                put(PowerUp.NO_SPOILING, 100);
+                put(PowerUp.NO_REP_LOSS, 100);
+                put(PowerUp.MORE_MONEY, 100);
+            }
+        };
 
     public enum PowerUp {
-        DOUBLE_CHEF_SPEED,
-        DOUBLE_PREP_SPEED,
-        NO_FAIL_PREP,
+        WALK_FAST,
+        COOK_FAST,
+        NO_SPOILING,
         NO_REP_LOSS,
         MORE_MONEY,
     }
 
-    private PlayerState() {
-        // for (PowerUp powerUp : PowerUp.values()) {
-        // powerUpTimers.put(powerUp, new Timer(60000, false, false));
-        // }
-        powerUpTimers.put(
-            PowerUp.DOUBLE_CHEF_SPEED,
-            new Timer(60000, false, false)
-        );
-        powerUpTimers.put(
-            PowerUp.DOUBLE_PREP_SPEED,
-            new Timer(60000, false, false)
-        );
-        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-    }
+    private PlayerState() {}
 
+    /**
+     * Gets the value of unlocking a new station, also increments this price each
+     * time when called with buying = true
+     *
+     * @param buying whether the call is at time of buying, meaning when it will
+     *               increase price as well
+     * @returns returnCost, the cost of purchasing the station
+     */
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
         if (buying) {
@@ -53,6 +68,37 @@ public class PlayerState {
         return returnCost;
     }
 
+    /**
+     * Returns cost of buying a new chef, increasing the price for the second cook
+     * bought (as there is a max of two cooks for purchase)
+     *
+     * @param buying whether the call is at time of buying, meaning it will increase
+     *               the price as well
+     * @returns output, the cost of hiring a cook
+     */
+    public int getChefHireCost(boolean buying) {
+        int output = hireCost;
+        if (buying) {
+            hireCost = 10000;
+        }
+        return output;
+    }
+
+    /**
+     * @param powerUp to be checked
+     * @returns cost of the PowerUp
+     */
+    public int getPowerupCost(PowerUp powerup) {
+        return powerUpCosts.get(powerup);
+    }
+
+    /**
+     * Returns an instance of PlayerState, making this class function as a Singleton
+     * class and can be called to access the same object across the program
+     *
+     * @returns instance, the instance of PlayerState, newly created if no one
+     *          exists prior
+     */
     public static PlayerState getInstance() {
         if (instance == null) {
             instance = new PlayerState();
@@ -61,24 +107,26 @@ public class PlayerState {
     }
 
     /**
-     *
+     * Resets the instance of PlayerState
      */
     public static void reset() {
         instance = null;
     }
 
     /**
-     *
-     * @return
+     * @return cash, the player's current amount of money
      */
     public float getCash() {
         return cash;
     }
 
     /**
+     * Calculates the total multiplier to earned cash, calculating based on active
+     * PowerUps and happiness
      *
-     * @param customerHappy
-     * @return
+     * @param customerHappy, whether or not the customer is happy (served in half
+     *                       their alloted time)
+     * @return totalMultiplier, the total multiplier on earned cash
      */
     private double totalMultiplier(boolean customerHappy) {
         double totalMultiplier = 1;
@@ -92,100 +140,128 @@ public class PlayerState {
     }
 
     /**
+     * Increases the player's cash
      *
-     * @param baseAmount
-     * @param customerHappy
+     * @param baseAmount     the base amount of cash a player will earn
+     * @param customerHappy, the customer's happiness, given to totalMultiplier
+     *                       function
      */
     public void earnCash(float baseAmount, boolean customerHappy) {
+        Gdx.app.log("Current cash", cash + "");
         getInstance().cash += baseAmount * totalMultiplier(customerHappy);
     }
 
     /**
+     * Reduces the player's cash if they have enough
      *
-     * @param amount
-     * @return
+     * @param amount, the amount of cash to be spent
      */
-    public boolean spendCash(double amount) {
+    public void spendCash(double amount) {
         if (cash < amount) {
-            return false;
+            return;
         }
 
         cash -= amount;
-
-        return true;
+        Gdx.app.log("Current cash", cash + "");
     }
 
     /**
+     * Iterates over the active PowerUp timers and calls the timer tick function on
+     * them to decrease duration
      *
-     * @param delta
+     * @param delta time since last function call
      */
     public void act(float delta) {
-        if (!paused) {
-            for (Timer timer : powerUpTimers.values()) {
-                // first check if a timer is running, then check if timer is complete for
-                // efficiency
-                if (timer.getRunning()) {
-                    if (timer.tick(delta)) {
-                        timer.stop();
-                        timer.reset();
-                    }
+        for (Timer timer : powerUpTimers.values()) {
+            // first check if a timer is running, then check if timer is complete for
+            // efficiency
+            if (timer.getRunning()) {
+                if (timer.tick(delta)) {
+                    timer.stop();
+                    timer.reset();
                 }
             }
         }
     }
 
     /**
+     * Returns whether a PowerUp is active
      *
-     * @param powerUp
-     * @return
+     * @param powerUp to check if it is currently active
+     * @return true if the PowerUp is active, false if not
      */
     public boolean getBuffActive(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getRunning();
     }
 
     /**
+     * Activates a PowerUp
      *
-     * @param powerUp
+     * @param powerUp to be activated
      */
     public void activateBuff(PowerUp powerUp) {
         powerUpTimers.get(powerUp).start();
     }
 
+    /**
+     * @param powerUp to be checked
+     * @returns the time the powerUp will last for at max
+     */
     public int getBuffDuration(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getDelay();
     }
 
+    /**
+     * @param powerUp to be checked
+     * @returns remaining time of the PowerUp
+     */
     public int getBuffRemaining(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getRemainingTime();
     }
 
     /**
-     *
-     * @return
+     * @param powerUp to return name of
+     * @returns the formatted name of the PowerUp (capitalized first letter, removed
+     *          underscore)
+     */
+    public String getPowerupName(PowerUp powerUp) {
+        String output = powerUp.name().replaceAll("_", " ").toLowerCase();
+        output = Character.toUpperCase(output.charAt(0)) + output.substring(1);
+        return output;
+    }
+
+    /**
+     * @return current difficulty level
      */
     public int getDifficulty() {
         return difficultyLevel;
     }
 
     /**
-     *
-     * @param value
+     * @param value to set as difficulty
      */
     public void setDifficulty(int value) {
         difficultyLevel = value;
     }
 
     /**
-     * sets paused flag to true, which prevents the powerUp timers from ticking
+     * Sets paused flag to true
      */
     public void pause() {
         paused = true;
     }
 
     /**
-     * sets paused flag to false, which allows the powerUp timers to tick
+     * Sets paused flag to false
      */
     public void resume() {
         paused = false;
+    }
+
+    /**
+     * @returns value of paused
+     */
+    public boolean getPaused() {
+        return paused;
     }
 }

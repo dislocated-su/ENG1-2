@@ -77,6 +77,7 @@ public class Chef extends Actor implements Disposable {
     public void init(float x, float y) {
         setX(x);
         setY(y);
+        this.setBounds(x, y, imageBounds.y, imageBounds.x);
         createBody();
         getStack().clear();
         imageRotation = 0;
@@ -131,9 +132,7 @@ public class Chef extends Actor implements Disposable {
             .scl(
                 speed *
                 (
-                    PlayerState
-                            .getInstance()
-                            .getBuffActive(PowerUp.DOUBLE_CHEF_SPEED)
+                    PlayerState.getInstance().getBuffActive(PowerUp.WALK_FAST)
                         ? 2
                         : 1
                 )

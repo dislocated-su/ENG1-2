@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
-import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 
@@ -32,6 +31,7 @@ public class Customer extends Actor implements Disposable {
     public Integer currentObjective = null;
 
     private Body body;
+    private boolean despawnFlag = false;
 
     public Customer(
         Texture texture,
@@ -74,13 +74,15 @@ public class Customer extends Actor implements Disposable {
     }
 
     public void fulfillOrder() {
-        PlayerState.getInstance().earnCash(100, reputation);
+        boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
+        PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
-        PlayerState.getInstance();
         Gdx.app.log(
             "Current cash",
             Float.toString(PlayerState.getInstance().getCash())
         );
+        customerManager.walkBack(this);
+        despawnFlag = true;
     }
 
     @Override
@@ -136,6 +138,12 @@ public class Customer extends Actor implements Disposable {
 
         setRotation((float) Math.toDegrees(body.getAngle()));
 
+        if (despawnFlag) {
+            // this.remove();
+            // this.dispose();
+            Gdx.app.log("Customer walking back", body.getPosition().toString());
+        }
+
         if (
             !orderCompleted &&
             reputation &&
@@ -155,5 +163,8 @@ public class Customer extends Actor implements Disposable {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+        texture.dispose();
+        customerManager.world.destroyBody(this.body);
+    }
 }

@@ -30,9 +30,10 @@ public class ChefManager implements Disposable {
     final String[] chefSprites = new String[] {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
     };
-    private final float[] chefX = new float[] { 12f, 14f };
-    private final float[] chefY = new float[] { 12f, 12f };
+    private float chefScale;
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an
@@ -51,11 +52,12 @@ public class ChefManager implements Disposable {
         this.overlay = overlay;
         this.world = world;
         this.keyboardInput = keyboardInput;
+        this.chefScale = chefScale;
 
         chefs = new ArrayList<>(chefSprites.length);
 
         // Initialize chefs
-        for (int i = 0; i < chefSprites.length; i++) {
+        for (int i = 0; i < 2; i++) {
             String sprite = chefSprites[i];
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));
             Chef chef = new Chef(
@@ -66,32 +68,57 @@ public class ChefManager implements Disposable {
                 ),
                 this
             );
-            chef.setBounds(
-                chefX[i],
-                chefY[i],
-                chefTexture.getWidth() * chefScale,
-                chefTexture.getHeight() * chefScale
-            );
             chef.setInputEnabled(false);
             chefs.add(chef);
         }
     }
 
-    public float[] getChefX() {
-        return chefX;
-    }
-
-    public float[] getChefY() {
-        return chefY;
-    }
-
     /**
      * Reset each chef to their original position when you load
      */
-    public void init() {
-        for (int i = 0; i < chefs.size(); i++) {
-            chefs.get(i).init(chefX[i], chefY[i]);
+    public void init(List<Vector2> spawnPoints) {
+        int index = 0;
+        for (Chef chef : chefs) {
+            Vector2 pos = spawnPoints.get(index);
+            chef.init(pos.x, pos.y);
+            index++;
         }
+    }
+
+    public void hireChef(Vector2 position, Stage stage) {
+        if (chefs.size() >= 4) {
+            return;
+        }
+
+        Texture chefTexture = new Texture(
+            Gdx.files.internal(chefSprites[chefs.size()])
+        );
+        Chef chef = new Chef(
+            chefTexture,
+            new Vector2(
+                chefTexture.getWidth() * chefScale,
+                chefTexture.getHeight() * chefScale
+            ),
+            this
+        );
+
+        chef.init(position.x, position.y);
+        chef.setInputEnabled(false);
+
+        chefs.add(chef);
+        stage.addActor(chef);
+        final ChefManager manager = this;
+        stage.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Actor actorHit = stage.hit(x, y, false);
+                    if (actorHit instanceof Chef) {
+                        manager.setCurrentChef((Chef) actorHit);
+                    }
+                }
+            }
+        );
     }
 
     public List<Chef> getChefs() {
@@ -131,6 +158,8 @@ public class ChefManager implements Disposable {
             }
         );
     }
+
+    public void addChefToStage() {}
 
     /**
      * Given a chef, update the state of the chefs to make sure that only one has
