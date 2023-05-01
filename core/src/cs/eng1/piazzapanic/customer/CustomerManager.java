@@ -49,6 +49,7 @@ public class CustomerManager {
     private final Random randomTextures;
 
     private int reputation = 3;
+    private int spawnedCustomers = 0;
 
     private Map<Integer, Box2dLocation> objectives;
     private final List<Integer> objectiveIds = new ArrayList<>();
@@ -188,7 +189,7 @@ public class CustomerManager {
     }
 
     public void checkSpawn(float delta) {
-        if (spawnTimer.tick(delta)) {
+        if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
             generateCustomer();
             overlay.updateOrders(getOrders());
 
@@ -266,6 +267,7 @@ public class CustomerManager {
     public void generateCustomer() {
         Integer customerObjective = findAvailableObjective();
         if (customerObjective != null) {
+            spawnedCustomers++;
             // implement random generation of two or three customers at once here
             Texture texture = new Texture(
                 customerSprites[randomTextures.nextInt(

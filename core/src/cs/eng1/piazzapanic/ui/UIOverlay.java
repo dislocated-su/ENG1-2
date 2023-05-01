@@ -27,6 +27,7 @@ import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
+import cs.eng1.piazzapanic.screens.EndScreen;
 import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +49,7 @@ public class UIOverlay {
     private Stack chefDisplay;
     private Image chefImage;
 
-    private final VerticalGroup orderGroup;
+    private VerticalGroup orderGroup;
 
     private final TextureRegionDrawable crossButtonDrawable;
 
@@ -187,7 +188,8 @@ public class UIOverlay {
         background.setMinWidth(300);
         timerStyle.background = background;
 
-        reputationLabel = new Label(" Reputation : 3 ", timerStyle);
+        reputationLabel = new Label("", timerStyle);
+        updateReputationCounter(3);
         reputationLabel.setAlignment(Align.center);
         moneyLabel =
             new Label(
@@ -284,7 +286,7 @@ public class UIOverlay {
     }
 
     public void updateReputationCounter(int reputation) {
-        reputationLabel.setText(" Reputation : " + reputation + " ");
+        reputationLabel.setText("Reputation: " + reputation + " ");
     }
 
     /**
@@ -294,6 +296,10 @@ public class UIOverlay {
         timer.reset();
         timer.start();
         updateChefUI(null);
+    }
+
+    public UIStopwatch getTimer() {
+        return timer;
     }
 
     /**
@@ -346,7 +352,15 @@ public class UIOverlay {
      * took to complete.
      */
     public void finishGameUI() {
-        timer.stop();
+        pause();
+        hide();
+        game.setScreen(
+            new EndScreen(
+                game,
+                timer.getTimeString(),
+                reputationLabel.getText().toString()
+            )
+        );
     }
 
     /**
@@ -367,13 +381,13 @@ public class UIOverlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (activatedShop == false) { // to check whether to hid or unhide the upgrades panel
-                        upgradesUi.visible(true);
                         activatedShop = true;
+                        upgradesUi.show();
                         upgrades.setText("Return");
                         pause();
                     } else {
-                        upgradesUi.visible(false);
                         activatedShop = false;
+                        upgradesUi.hide();
                         upgrades.setText("Upgrades");
                         resume();
                     }
@@ -626,5 +640,21 @@ public class UIOverlay {
      */
     public void update() {
         updateActivePowerups();
+    }
+
+    public void show() {
+        recipeBook.setVisible(true);
+        recipeBookRoot.setVisible(true);
+        recipeBookSteps.setVisible(true);
+        chefInventory.setVisible(true);
+        orderGroup.setVisible(true);
+    }
+
+    public void hide() {
+        recipeBook.setVisible(false);
+        recipeBookRoot.setVisible(false);
+        recipeBookSteps.setVisible(false);
+        chefInventory.setVisible(false);
+        orderGroup.setVisible(false);
     }
 }

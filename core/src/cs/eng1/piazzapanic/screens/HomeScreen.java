@@ -19,12 +19,13 @@ import cs.eng1.piazzapanic.ui.TutorialOverlay;
 public class HomeScreen implements Screen {
 
     private final Stage uiStage;
+    private Table table;
 
     public HomeScreen(final PiazzaPanicGame game) {
         // Initialize the root UI stage and table
         ScreenViewport uiViewport = new ScreenViewport();
         uiStage = new Stage(uiViewport);
-        Table table = new Table();
+        table = new Table();
         table.setFillParent(true);
         uiStage.addActor(table);
 
@@ -63,6 +64,7 @@ public class HomeScreen implements Screen {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    hide();
                     tutorialOverlay.show();
                 }
             }
@@ -75,6 +77,7 @@ public class HomeScreen implements Screen {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
+                    hide();
                     settingsOverlay.show();
                 }
             }
@@ -110,6 +113,7 @@ public class HomeScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(uiStage);
+        table.setVisible(true);
     }
 
     @Override
@@ -135,7 +139,9 @@ public class HomeScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        table.setVisible(false);
+    }
 
     @Override
     public void dispose() {
