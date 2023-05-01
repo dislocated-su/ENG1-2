@@ -189,7 +189,7 @@ public class CustomerManager {
     }
 
     public void checkSpawn(float delta) {
-        if (spawnTimer.tick(delta) && spawnedCustomers != totalCustomers) {
+        if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
             generateCustomer();
             overlay.updateOrders(getOrders());
 
