@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="128" tileheight="128" infinite="0" nextlayerid="3" nextobjectid="25">
- <layer id="1" name="Tile Layer 1" width="32" height="24">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="24" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="60">
+ <tileset firstgid="1" source="Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/Tilesheet/Topdown Shooter Full 2.xml"/>
+ <layer id="1" name="Background" width="32" height="24" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -28,7 +29,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="Obstacles">
+ <objectgroup id="2" name="Obstacles" locked="1">
   <object id="3" x="396" y="384">
    <polygon points="0,0 0,384 256,0"/>
   </object>
@@ -66,5 +67,123 @@
   <object id="24" x="640" y="1280">
    <polyline points="0,0 -256,256"/>
   </object>
+ </objectgroup>
+ <objectgroup id="3" name="Waypoints">
+  <object id="28" x="896" y="1792">
+   <properties>
+    <property name="aiobjective" type="int" value="-1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="29" x="1280" y="1793">
+   <properties>
+    <property name="cookspawnid" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="30" x="768" y="2304">
+   <properties>
+    <property name="cookspawnid" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="31" x="1152" y="2432">
+   <properties>
+    <property name="lightid" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="32" x="1280" y="2048">
+   <properties>
+    <property name="lightid" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="33" x="1664" y="2176">
+   <properties>
+    <property name="aispawnid" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="34" x="1792" y="2560">
+   <properties>
+    <property name="aispawnid" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="35" x="1408" y="2560">
+   <properties>
+    <property name="aiobjective" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="36" x="128" y="128">
+   <properties>
+    <property name="aiobjective" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="Invisible" locked="1">
+  <object id="54" x="1536" y="1408" width="128" height="128"/>
+  <object id="55" x="1736" y="1452">
+   <point/>
+  </object>
+  <object id="56" x="1610" y="1472">
+   <point/>
+  </object>
+  <object id="57" x="1792" y="1408" width="128" height="128">
+   <ellipse/>
+  </object>
+  <object id="58" x="1994" y="1422">
+   <polygon points="0,0 182,114 182,-142"/>
+  </object>
+  <object id="59" x="2054" y="1636">
+   <polyline points="0,0 18,-38"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Stations" locked="1">
+  <object id="38" type="Station" gid="511" x="3072" y="1664" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="0"/>
+    <property name="stationType" propertytype="StationType" value="submitStation"/>
+   </properties>
+  </object>
+  <object id="39" type="Station" gid="129" x="3200" y="1664" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="1"/>
+    <property name="ingredients" propertytype="Ingredient" value="lettuce,patty,bun,tomato,cheese,uncooked_pizza"/>
+    <property name="stationType" propertytype="StationType" value="ingredientStation"/>
+   </properties>
+  </object>
+  <object id="40" type="Station" gid="129" x="3328" y="1664" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="2"/>
+    <property name="ingredients" propertytype="Ingredient" value=""/>
+    <property name="stationType" propertytype="StationType" value="ingredientStation"/>
+   </properties>
+  </object>
+  <object id="47" type="Station" gid="296" x="3072" y="1792" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="3"/>
+    <property name="stationType" propertytype="StationType" value="cookingStation"/>
+   </properties>
+  </object>
+  <object id="48" type="Station" gid="297" x="3200" y="1792" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="4"/>
+    <property name="stationType" propertytype="StationType" value="grillingStation"/>
+   </properties>
+  </object>
+  <object id="49" type="Station" gid="267" x="3328" y="1792" width="128" height="128">
+   <properties>
+    <property name="collisionObjectIDs" value="5"/>
+    <property name="stationType" propertytype="StationType" value="choppingStation"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="Sensors" locked="1">
+  <object id="50" x="2944" y="1408" width="128" height="128"/>
+  <object id="52" x="2944" y="1280" width="256" height="128"/>
  </objectgroup>
 </map>
