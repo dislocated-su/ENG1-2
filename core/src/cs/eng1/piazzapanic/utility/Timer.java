@@ -30,6 +30,9 @@ public class Timer {
         this.looping = looping;
     }
 
+    public Timer() {
+    }
+
     /**
      * Progress the timer
      *

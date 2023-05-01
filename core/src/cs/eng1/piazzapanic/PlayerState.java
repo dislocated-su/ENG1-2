@@ -2,6 +2,8 @@ package cs.eng1.piazzapanic;
 
 import com.badlogic.gdx.Gdx;
 import cs.eng1.piazzapanic.utility.Timer;
+import cs.eng1.piazzapanic.utility.saving.SavedPlayerState;
+
 import java.util.HashMap;
 
 public class PlayerState {
@@ -46,7 +48,25 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    private PlayerState() {
+    public PlayerState() {
+
+    }
+
+    public PlayerState(SavedPlayerState state) {
+        setDifficulty(state.difficulty);
+        cash = state.cash;
+        hireCost = state.hireCost;
+        upgradeCost = state.upgradeCost;
+        powerUpTimers = new HashMap<PowerUp, Timer>() {
+            {
+                put(PowerUp.WALK_FAST, state.walkTimer);
+                put(PowerUp.COOK_FAST, state.cookTimer);
+                put(PowerUp.NO_SPOILING, state.spoilTimer);
+                put(PowerUp.NO_REP_LOSS, state.repLossTimer);
+                put(PowerUp.MORE_MONEY, state.moneyTimer);
+
+            }
+        };
     }
 
     /**
@@ -101,6 +121,10 @@ public class PlayerState {
             instance = new PlayerState();
         }
         return instance;
+    }
+
+    public static void loadInstance(PlayerState state) {
+        instance = state;
     }
 
     /**
@@ -239,5 +263,9 @@ public class PlayerState {
      */
     public void setDifficulty(int value) {
         difficultyLevel = value;
+    }
+
+    public Timer getTimer(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp);
     }
 }
