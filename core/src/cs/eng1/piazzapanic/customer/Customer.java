@@ -169,4 +169,8 @@ public class Customer extends Actor implements Disposable {
         texture.dispose();
         customerManager.world.destroyBody(this.body);
     }
+
+    public Vector2 getPosition() {
+        return new Vector2(getX(), getY());
+    }
 }
