@@ -33,7 +33,8 @@ public class FontManager implements Disposable {
         headerFontParameters.size = 24;
         headerFont = fontGenerator.generateFont(headerFontParameters);
 
-        FreeTypeFontParameter mediumFontParameters = new FreeTypeFontParameter();
+        FreeTypeFontParameter mediumFontParameters =
+            new FreeTypeFontParameter();
         mediumFontParameters.size = 18;
         mediumFont = fontGenerator.generateFont(mediumFontParameters);
 

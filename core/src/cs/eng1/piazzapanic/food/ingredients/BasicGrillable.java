@@ -26,11 +26,7 @@ public class BasicGrillable extends Ingredient implements Grillable {
             (
                 delta *
                 (
-                    (
-                            PlayerState
-                                .getInstance()
-                                .getBuffActive(PowerUp.COOK_FAST)
-                        )
+                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
                         : 1
                 )

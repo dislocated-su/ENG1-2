@@ -23,11 +23,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
             (
                 delta *
                 (
-                    (
-                            PlayerState
-                                .getInstance()
-                                .getBuffActive(PowerUp.COOK_FAST)
-                        )
+                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
                         : 1
                 )

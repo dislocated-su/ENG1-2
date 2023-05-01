@@ -1,9 +1,8 @@
 package cs.eng1.piazzapanic;
 
+import com.badlogic.gdx.Gdx;
 import cs.eng1.piazzapanic.utility.Timer;
 import java.util.HashMap;
-
-import com.badlogic.gdx.Gdx;
 
 public class PlayerState {
 
@@ -19,25 +18,27 @@ public class PlayerState {
 
     private float upgradeCost = 100f;
 
-    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
-        {
-            put(PowerUp.WALK_FAST, new Timer(60000, false, false));
-            put(PowerUp.COOK_FAST, new Timer(60000, false, false));
-            put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
-            put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-            put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-        }
-    };
+    private HashMap<PowerUp, Timer> powerUpTimers =
+        new HashMap<PowerUp, Timer>() {
+            {
+                put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+                put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+                put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+                put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+                put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+            }
+        };
 
-    private static final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
-        {
-            put(PowerUp.WALK_FAST, 100);
-            put(PowerUp.COOK_FAST, 100);
-            put(PowerUp.NO_SPOILING, 100);
-            put(PowerUp.NO_REP_LOSS, 100);
-            put(PowerUp.MORE_MONEY, 100);
-        }
-    };
+    private static final HashMap<PowerUp, Integer> powerUpCosts =
+        new HashMap<PowerUp, Integer>() {
+            {
+                put(PowerUp.WALK_FAST, 100);
+                put(PowerUp.COOK_FAST, 100);
+                put(PowerUp.NO_SPOILING, 100);
+                put(PowerUp.NO_REP_LOSS, 100);
+                put(PowerUp.MORE_MONEY, 100);
+            }
+        };
 
     public int getPowerupCost(PowerUp powerup) {
         return powerUpCosts.get(powerup);
@@ -51,8 +52,7 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
@@ -126,7 +126,6 @@ public class PlayerState {
      * @return
      */
     public boolean spendCash(double amount) {
-
         if (cash < amount) {
             return false;
         }
@@ -181,12 +180,8 @@ public class PlayerState {
     }
 
     public String getPowerupName(PowerUp powerUp) {
-        String output = powerUp
-                .name()
-                .replaceAll("_", " ")
-                .toLowerCase();
-        output = Character.toUpperCase(output.charAt(0)) +
-                output.substring(1);
+        String output = powerUp.name().replaceAll("_", " ").toLowerCase();
+        output = Character.toUpperCase(output.charAt(0)) + output.substring(1);
         return output;
     }
 

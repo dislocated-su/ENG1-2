@@ -25,11 +25,7 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
             (
                 delta *
                 (
-                    (
-                            PlayerState
-                                .getInstance()
-                                .getBuffActive(PowerUp.COOK_FAST)
-                        )
+                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
                         : 1
                 )

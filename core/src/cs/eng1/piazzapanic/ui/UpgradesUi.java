@@ -40,8 +40,14 @@ public class UpgradesUi {
 
         table = new Table();
         root.add(table).width(450).height(350).center();
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-                new Texture(Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")));
+        TextureRegionDrawable textureRegionDrawableBg =
+            new TextureRegionDrawable(
+                new Texture(
+                    Gdx.files.internal(
+                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"
+                    )
+                )
+            );
         table.setBackground(textureRegionDrawableBg.tint(Color.DARK_GRAY));
         table.setVisible(false);
 
@@ -66,7 +72,6 @@ public class UpgradesUi {
     }
 
     public void createShopTable() {
-
         Label timeHeader = new Label("Active For:", hudLabelFont);
         Label powerupHeader = new Label("Powerups + Upgrades", hudLabelFont);
         Label costHeader = new Label("Cost:", hudLabelFont);
@@ -76,12 +81,7 @@ public class UpgradesUi {
         table.add(titleLabel).colspan(3).padRight(15);
         table.row();
         table.add(powerupHeader).width(scale2).height(scale).pad(5);
-        table
-                .add(timeHeader)
-                .width(scale1)
-                .height(scale)
-                .pad(5)
-                .center();
+        table.add(timeHeader).width(scale1).height(scale).pad(5).center();
         table.add(costHeader).width(scale1).height(scale).pad(5);
         table.row();
 
@@ -89,25 +89,34 @@ public class UpgradesUi {
             createRow(powerUp);
         }
 
-        TextButton button = game.getButtonManager().createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                PlayerState playerState = PlayerState.getInstance();
-                if (playerState.getCash() >= playerState.getChefHireCost(false)) {
-                    if (purchasedChefs <= 1) {
-                        playerState.spendCash(playerState.getChefHireCost(true));
-                        updateChefHireCost();
-                        chefHireFlag = true;
-                        purchasedChefs++;
-                        if (purchasedChefs == 2) {
-                            button.setVisible(false);
-                            chefHireCostLabel.setVisible(false);
+        TextButton button = game
+            .getButtonManager()
+            .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
+        button.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    PlayerState playerState = PlayerState.getInstance();
+                    if (
+                        playerState.getCash() >=
+                        playerState.getChefHireCost(false)
+                    ) {
+                        if (purchasedChefs <= 1) {
+                            playerState.spendCash(
+                                playerState.getChefHireCost(true)
+                            );
+                            updateChefHireCost();
+                            chefHireFlag = true;
+                            purchasedChefs++;
+                            if (purchasedChefs == 2) {
+                                button.setVisible(false);
+                                chefHireCostLabel.setVisible(false);
+                            }
                         }
                     }
                 }
             }
-        });
+        );
 
         chefHireCostLabel = new Label("", hudLabelFont);
         updateChefHireCost();
@@ -117,14 +126,18 @@ public class UpgradesUi {
     }
 
     private void updateChefHireCost() {
-        chefHireCostLabel.setText("£" + PlayerState.getInstance().getChefHireCost(false));
+        chefHireCostLabel.setText(
+            "£" + PlayerState.getInstance().getChefHireCost(false)
+        );
     }
 
     public void createRow(PowerUp powerUp) {
         PlayerState playerState = PlayerState.getInstance();
         String powerUpName = playerState.getPowerupName(powerUp);
         int cost = playerState.getPowerupCost(powerUp);
-        String time = String.valueOf(playerState.getBuffDuration(powerUp) / 1000);
+        String time = String.valueOf(
+            playerState.getBuffDuration(powerUp) / 1000
+        );
 
         // sets it font, format and value
         Label timerLabel = new Label(String.format(time + " s"), hudLabelFont);
@@ -132,19 +145,23 @@ public class UpgradesUi {
         Label costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
         TextButton button = game
-                .getButtonManager()
-                .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
+            .getButtonManager()
+            .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
 
         button.addListener(
-                new ClickListener() {
-                    public void clicked(InputEvent event, float x, float y) {
-                        PlayerState playerState = PlayerState.getInstance();
-                        if (cost <= playerState.getCash() && !playerState.getBuffActive(powerUp)) {
-                            playerState.spendCash(cost);
-                            playerState.activateBuff(powerUp);
-                        }
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    PlayerState playerState = PlayerState.getInstance();
+                    if (
+                        cost <= playerState.getCash() &&
+                        !playerState.getBuffActive(powerUp)
+                    ) {
+                        playerState.spendCash(cost);
+                        playerState.activateBuff(powerUp);
                     }
-                });
+                }
+            }
+        );
 
         table.add(button).width(scale2).height(scale).pad(3);
         table.add(timerLabel).width(scale).height(scale).pad(3);
