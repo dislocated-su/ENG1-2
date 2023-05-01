@@ -10,7 +10,6 @@ import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

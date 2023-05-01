@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

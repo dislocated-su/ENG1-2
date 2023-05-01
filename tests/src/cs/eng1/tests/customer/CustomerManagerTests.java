@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
@@ -19,25 +18,27 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Vector;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
+
     UIOverlay overlay = mock(UIOverlay.class);
     Stage stage = mock(Stage.class);
     World world = new World(Vector2.Zero, true);
     KeyboardInput kbInput = new KeyboardInput();
     FoodTextureManager textureManager = new FoodTextureManager();
-    StationUIController stationUIController = new StationUIController(stage, null);
+    StationUIController stationUIController = new StationUIController(
+        stage,
+        null
+    );
     CustomerManager customerManager = new CustomerManager(
         1,
         overlay,
@@ -46,25 +47,17 @@ public class CustomerManagerTests {
         0
     );
 
-    ChefManager chefManager = new ChefManager(
-        1, 
-        overlay, 
-        world, 
-        kbInput
-    );
-    
+    ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
+
     Texture fake = new Texture(
         Gdx.files.internal(
             "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
         )
     );
-    Chef chef = new Chef(
-        fake,
-        Vector2.Zero,
-        chefManager
-    );
+    Chef chef = new Chef(fake, Vector2.Zero, chefManager);
 
     MapLoader mapLoader = new MapLoader("test-map.tmx");
+
     @Test
     public void initTests() {
         mapLoader.loadWaypoints(
@@ -86,101 +79,110 @@ public class CustomerManagerTests {
         int defaultTime = customerManager.getTimer().getRemainingTime();
         PlayerState.getInstance().setDifficulty(0);
         assertNull(
-            "customerManager should have no objectives by default.", 
+            "customerManager should have no objectives by default.",
             customerManager.getObjectives()
         );
         assertNull(
-            "customerManager should have no spawns by default.", 
+            "customerManager should have no spawns by default.",
             customerManager.getSpawnLocations()
         );
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
         int objectives = customerManager.getObjectives().size();
         assertEquals(
-            "Init should create 1 customer.", 
-            1, 
+            "Init should create 1 customer.",
+            1,
             customerManager.getCustomerQueue().size()
         );
         assertEquals(
-            "Init should identify the correct number of objectives.", 
-            3, 
+            "Init should identify the correct number of objectives.",
+            3,
             objectives
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(1, 23), 
+            "Init should identify objectives correctly.",
+            new Vector2(1, 23),
             customerManager.getObjective(0).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(11, 4), 
+            "Init should identify objectives correctly.",
+            new Vector2(11, 4),
             customerManager.getObjective(1).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(7, 10), 
+            "Init should identify objectives correctly.",
+            new Vector2(7, 10),
             customerManager.getObjective(-1).getPosition()
         );
         assertEquals(
-            "Init should have the correct number of spawns.", 
-            2, 
+            "Init should have the correct number of spawns.",
+            2,
             customerManager.getSpawnLocations().size()
         );
         assertEquals(
-            "Init should identify spawns correctly.", 
-            new Vector2(13, 7), 
+            "Init should identify spawns correctly.",
+            new Vector2(13, 7),
             customerManager.getCustomerQueue().get(0).getPosition()
         );
         assertEquals(
             "A PlayerState difficulty of 0 should multiply the difficulty by 2",
-            2f * defaultTime, 
-            customerManager.getTimer().getRemainingTime(), 
+            2f * defaultTime,
+            customerManager.getTimer().getRemainingTime(),
             0.1
         );
         assertFalse(
-            "The endless timer should not run if in scenario mode.", 
+            "The endless timer should not run if in scenario mode.",
             customerManager.getEndlessTimer().getRunning()
         );
 
         PlayerState.getInstance().setDifficulty(2);
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
 
         assertEquals(
-            "Calling init multiple times should not duplicate objectives.", 
-            objectives, 
+            "Calling init multiple times should not duplicate objectives.",
+            objectives,
             customerManager.getObjectives().size()
         );
         assertEquals(
-            "Init should reset customers.", 
-            1, 
+            "Init should reset customers.",
+            1,
             customerManager.getCustomerQueue().size()
         );
         assertEquals(
             "A PlayerState difficulty of 2 should multiply the difficulty by 0.75",
-            1.5f * defaultTime, 
-            customerManager.getTimer().getRemainingTime(), 
+            1.5f * defaultTime,
+            customerManager.getTimer().getRemainingTime(),
             0.1
         );
 
         PlayerState.getInstance().setDifficulty(17);
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
 
         assertEquals(
-            "A non-recognised playerstate difficulty should not multiply difficulty.", 
-            1.5f * defaultTime, 
-            customerManager.getTimer().getRemainingTime(), 
+            "A non-recognised playerstate difficulty should not multiply difficulty.",
+            1.5f * defaultTime,
+            customerManager.getTimer().getRemainingTime(),
             0.1
         );
     }
-    
+
     @Test
     public void endlessTests() {
-        customerManager = new CustomerManager(
-            1,
-            overlay,
-            world,
-            0,
-            0
-        );
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
         mapLoader.loadWaypoints(
             "Waypoints",
             "cookspawnid",
@@ -197,21 +199,20 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
         assertTrue(customerManager.getEndlessTimer().getRunning());
         // customerManager.checkSpawn(999f);
         // assertNull(customerManager.getCustomerQueue().size());
     }
 
     @Test
-    public void checkSpawnTests () {
-        customerManager = new CustomerManager(
-            1,
-            overlay,
-            world,
-            0,
-            0
-        );
+    public void checkSpawnTests() {
+        customerManager = new CustomerManager(1, overlay, world, 0, 0);
         mapLoader.loadWaypoints(
             "Waypoints",
             "cookspawnid",
@@ -228,8 +229,13 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
-        float spawnTime = (customerManager.getTimer().getRemainingTime()/500);
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
+        float spawnTime = (customerManager.getTimer().getRemainingTime() / 500);
         for (int i = 2; i < 500; i++) {
             customerManager.checkSpawn(spawnTime);
             assertEquals(i, customerManager.getCustomerQueue().size());

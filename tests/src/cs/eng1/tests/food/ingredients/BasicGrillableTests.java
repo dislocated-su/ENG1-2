@@ -9,7 +9,6 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

@@ -368,7 +368,6 @@ public class CustomerManager {
         return objectives.get(id);
     }
 
-
     public Map<Integer, SubmitStation> getRecipeStations() {
         return recipeStations;
     }
@@ -393,8 +392,7 @@ public class CustomerManager {
         return endlessTimer;
     }
 
-    public List<Vector2> getSpawnLocations () {
+    public List<Vector2> getSpawnLocations() {
         return spawnLocations;
     }
-
 }

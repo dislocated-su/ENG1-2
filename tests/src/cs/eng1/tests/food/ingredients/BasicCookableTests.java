@@ -7,7 +7,6 @@ import cs.eng1.piazzapanic.food.ingredients.BasicCookable;
 import cs.eng1.piazzapanic.food.ingredients.Potato;
 import cs.eng1.piazzapanic.food.interfaces.Cookable;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

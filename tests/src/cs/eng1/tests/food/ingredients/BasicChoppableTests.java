@@ -7,7 +7,6 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.BasicChoppable;
 import cs.eng1.piazzapanic.food.ingredients.Tomato;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

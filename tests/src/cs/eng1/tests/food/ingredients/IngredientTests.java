@@ -10,7 +10,6 @@ import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.ingredients.UncookedPizza;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.tests.GdxTestRunner;
-
 import javax.swing.plaf.TextUI;
 import org.junit.Test;
 import org.junit.runner.RunWith;

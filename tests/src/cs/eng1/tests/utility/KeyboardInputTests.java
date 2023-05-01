@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import com.badlogic.gdx.Input.Keys;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

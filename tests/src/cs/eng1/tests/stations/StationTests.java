@@ -8,7 +8,6 @@ import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.tests.GdxTestRunner;
-
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;

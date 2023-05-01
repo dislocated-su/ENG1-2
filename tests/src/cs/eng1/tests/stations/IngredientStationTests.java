@@ -9,7 +9,6 @@ import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.stations.IngredientStation;
 import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.tests.GdxTestRunner;
-
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;

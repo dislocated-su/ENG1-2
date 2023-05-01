@@ -13,7 +13,6 @@ import cs.eng1.piazzapanic.stations.StationAction;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.tests.GdxTestRunner;
-
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
