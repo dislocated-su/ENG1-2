@@ -50,12 +50,13 @@ public class GameScreen implements Screen {
     private InputMultiplexer multiplexer = new InputMultiplexer();
     private ArrayList<Vector2> extraCook;
     private int currentChefSpawn = 0;
+    private PiazzaPanicGame game;
 
     public GameScreen(
-        final PiazzaPanicGame game,
-        int totalCustomers,
-        int difficulty
-    ) {
+            final PiazzaPanicGame game,
+            int totalCustomers,
+            int difficulty) {
+        this.game = game;
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -64,10 +65,9 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x / 3,
-            mapLoader.mapSize.y / 3,
-            camera
-        );
+                mapLoader.mapSize.x / 3,
+                mapLoader.mapSize.y / 3,
+                camera);
 
         this.stage = new Stage(viewport);
 
@@ -87,46 +87,39 @@ public class GameScreen implements Screen {
 
         PlayerState.getInstance().setDifficulty(difficulty);
 
-        chefManager =
-            new ChefManager(
+        chefManager = new ChefManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                kbInput
-            );
+                kbInput);
 
-        customerManager =
-            new CustomerManager(
+        customerManager = new CustomerManager(
                 mapLoader.unitScale * 2.5f,
                 uiOverlay,
                 world,
-                totalCustomers
-            );
+                totalCustomers);
 
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            foodTextureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                foodTextureManager,
+                customerManager);
 
         mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+                "Waypoints",
+                "cookspawnid",
+                "aispawnid",
+                "lightid",
+                "aiobjective");
 
         customerManager.init(
-            foodTextureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+                foodTextureManager,
+                stage,
+                mapLoader.aiObjectives,
+                mapLoader.aiSpawnpoints);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
 
@@ -166,11 +159,11 @@ public class GameScreen implements Screen {
                 resume();
             }
         }
-        if (uiOverlay.upgradesUi.chefHireFlag) {
+        if (game.getUpgradesUi().chefHireFlag) {
             if (currentChefSpawn >= 2) {
                 currentChefSpawn = 0;
             }
-            uiOverlay.upgradesUi.chefHireFlag = false;
+            game.getUpgradesUi().chefHireFlag = false;
             chefManager.hireChef(extraCook.get(currentChefSpawn), stage);
             currentChefSpawn++;
         }
@@ -181,17 +174,13 @@ public class GameScreen implements Screen {
         if (chefManager.getCurrentChef() != null) {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
             camera.position.lerp(
-                new Vector3(
-                    chefManager.getCurrentChef().getX(),
-                    chefManager.getCurrentChef().getY(),
-                    1
-                ),
-                0.1f
-            );
-            camera.position.x =
-                (float) Math.round(camera.position.x * 100f) / 100f;
-            camera.position.y =
-                (float) Math.round(camera.position.y * 100f) / 100f;
+                    new Vector3(
+                            chefManager.getCurrentChef().getX(),
+                            chefManager.getCurrentChef().getY(),
+                            1),
+                    0.1f);
+            camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y = (float) Math.round(camera.position.y * 100f) / 100f;
         } else {
             stage.getCamera().position.set(15, 15, 1);
         }
@@ -245,7 +234,8 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
     public void dispose() {
