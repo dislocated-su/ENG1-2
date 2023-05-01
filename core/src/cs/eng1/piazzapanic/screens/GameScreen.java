@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -22,7 +24,6 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
-import cs.eng1.piazzapanic.ui.UpgradesUi;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 
@@ -48,6 +49,8 @@ public class GameScreen implements Screen {
     private final World world;
     private KeyboardInput kbInput;
     private InputMultiplexer multiplexer = new InputMultiplexer();
+    private ArrayList<Vector2> extraCook;
+    private int currentChefSpawn = 0;
 
     public GameScreen(
             final PiazzaPanicGame game,
@@ -61,8 +64,8 @@ public class GameScreen implements Screen {
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-                mapLoader.mapSize.x / 2,
-                mapLoader.mapSize.y / 2,
+                mapLoader.mapSize.x / 3,
+                mapLoader.mapSize.y / 3,
                 camera);
 
         this.stage = new Stage(viewport);
@@ -118,7 +121,11 @@ public class GameScreen implements Screen {
                 mapLoader.aiSpawnpoints);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
+
         chefManager.addChefsToStage(stage);
+        chefManager.init(mapLoader.cookSpawnpoints);
+
+        this.extraCook = mapLoader.cookSpawnpoints;
     }
 
     @Override
@@ -129,7 +136,6 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
-        chefManager.init();
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {
@@ -144,7 +150,6 @@ public class GameScreen implements Screen {
         if (PlayerState.getInstance().getPaused()) {
             delta = 0;
         }
-
         if (uiOverlay.pauseToggle) {
             uiOverlay.pauseToggle = false;
             if (PlayerState.getInstance().getPaused()) {
@@ -153,6 +158,15 @@ public class GameScreen implements Screen {
                 resume();
             }
         }
+        if (uiOverlay.upgradesUi.chefHireFlag) {
+            if (currentChefSpawn >= 2) {
+                currentChefSpawn = 0;
+            }
+            uiOverlay.upgradesUi.chefHireFlag = false;
+            chefManager.hireChef(extraCook.get(currentChefSpawn), stage);
+            currentChefSpawn++;
+        }
+
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -186,7 +200,7 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        // box2dDebugRenderer.render(world, stage.getCamera().combined);
+        box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {
