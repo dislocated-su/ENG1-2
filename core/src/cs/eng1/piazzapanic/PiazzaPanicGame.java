@@ -63,7 +63,7 @@ public class PiazzaPanicGame extends Game {
 
     /**
      * Sets the current screen as the GameScreen
-     * 
+     *
      * @param customers,  the user selected number of customers (1+ for scenario
      *                    mode, 0 for endless)
      * @param difficulty, the user selected difficulty

@@ -20,25 +20,27 @@ public class PlayerState {
 
     private int hireCost = 1000;
 
-    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
-        {
-            put(PowerUp.WALK_FAST, new Timer(60000, false, false));
-            put(PowerUp.COOK_FAST, new Timer(60000, false, false));
-            put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
-            put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-            put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-        }
-    };
+    private HashMap<PowerUp, Timer> powerUpTimers =
+        new HashMap<PowerUp, Timer>() {
+            {
+                put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+                put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+                put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+                put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+                put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+            }
+        };
 
-    private final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
-        {
-            put(PowerUp.WALK_FAST, 100);
-            put(PowerUp.COOK_FAST, 100);
-            put(PowerUp.NO_SPOILING, 100);
-            put(PowerUp.NO_REP_LOSS, 100);
-            put(PowerUp.MORE_MONEY, 100);
-        }
-    };
+    private final HashMap<PowerUp, Integer> powerUpCosts =
+        new HashMap<PowerUp, Integer>() {
+            {
+                put(PowerUp.WALK_FAST, 100);
+                put(PowerUp.COOK_FAST, 100);
+                put(PowerUp.NO_SPOILING, 100);
+                put(PowerUp.NO_REP_LOSS, 100);
+                put(PowerUp.MORE_MONEY, 100);
+            }
+        };
 
     public enum PowerUp {
         WALK_FAST,
@@ -48,13 +50,12 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    private PlayerState() {
-    }
+    private PlayerState() {}
 
     /**
      * Gets the value of unlocking a new station, also increments this price each
      * time when called with buying = true
-     * 
+     *
      * @param buying whether the call is at time of buying, meaning when it will
      *               increase price as well
      * @returns returnCost, the cost of purchasing the station
@@ -70,7 +71,7 @@ public class PlayerState {
     /**
      * Returns cost of buying a new chef, increasing the price for the second cook
      * bought (as there is a max of two cooks for purchase)
-     * 
+     *
      * @param buying whether the call is at time of buying, meaning it will increase
      *               the price as well
      * @returns output, the cost of hiring a cook
@@ -94,7 +95,7 @@ public class PlayerState {
     /**
      * Returns an instance of PlayerState, making this class function as a Singleton
      * class and can be called to access the same object across the program
-     * 
+     *
      * @returns instance, the instance of PlayerState, newly created if no one
      *          exists prior
      */
@@ -122,7 +123,7 @@ public class PlayerState {
     /**
      * Calculates the total multiplier to earned cash, calculating based on active
      * PowerUps and happiness
-     * 
+     *
      * @param customerHappy, whether or not the customer is happy (served in half
      *                       their alloted time)
      * @return totalMultiplier, the total multiplier on earned cash
@@ -140,7 +141,7 @@ public class PlayerState {
 
     /**
      * Increases the player's cash
-     * 
+     *
      * @param baseAmount     the base amount of cash a player will earn
      * @param customerHappy, the customer's happiness, given to totalMultiplier
      *                       function
@@ -152,7 +153,7 @@ public class PlayerState {
 
     /**
      * Reduces the player's cash if they have enough
-     * 
+     *
      * @param amount, the amount of cash to be spent
      */
     public void spendCash(double amount) {
@@ -167,7 +168,7 @@ public class PlayerState {
     /**
      * Iterates over the active PowerUp timers and calls the timer tick function on
      * them to decrease duration
-     * 
+     *
      * @param delta time since last function call
      */
     public void act(float delta) {
@@ -185,7 +186,7 @@ public class PlayerState {
 
     /**
      * Returns whether a PowerUp is active
-     * 
+     *
      * @param powerUp to check if it is currently active
      * @return true if the PowerUp is active, false if not
      */
@@ -195,7 +196,7 @@ public class PlayerState {
 
     /**
      * Activates a PowerUp
-     * 
+     *
      * @param powerUp to be activated
      */
     public void activateBuff(PowerUp powerUp) {
