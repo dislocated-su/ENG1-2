@@ -12,35 +12,31 @@ public class PlayerState {
 
     private float cash = 1000000;
 
-    private boolean paused = false;
-
     private int difficultyLevel = 1;
 
     private float upgradeCost = 100f;
 
     private int hireCost = 1000;
 
-    private HashMap<PowerUp, Timer> powerUpTimers =
-        new HashMap<PowerUp, Timer>() {
-            {
-                put(PowerUp.WALK_FAST, new Timer(60000, false, false));
-                put(PowerUp.COOK_FAST, new Timer(60000, false, false));
-                put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
-                put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-                put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-            }
-        };
+    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
+        {
+            put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+            put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+            put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+            put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+            put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+        }
+    };
 
-    private final HashMap<PowerUp, Integer> powerUpCosts =
-        new HashMap<PowerUp, Integer>() {
-            {
-                put(PowerUp.WALK_FAST, 100);
-                put(PowerUp.COOK_FAST, 100);
-                put(PowerUp.NO_SPOILING, 100);
-                put(PowerUp.NO_REP_LOSS, 100);
-                put(PowerUp.MORE_MONEY, 100);
-            }
-        };
+    private final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
+        {
+            put(PowerUp.WALK_FAST, 100);
+            put(PowerUp.COOK_FAST, 100);
+            put(PowerUp.NO_SPOILING, 100);
+            put(PowerUp.NO_REP_LOSS, 100);
+            put(PowerUp.MORE_MONEY, 100);
+        }
+    };
 
     public enum PowerUp {
         WALK_FAST,
@@ -50,7 +46,8 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    private PlayerState() {}
+    private PlayerState() {
+    }
 
     /**
      * Gets the value of unlocking a new station, also increments this price each
@@ -242,26 +239,5 @@ public class PlayerState {
      */
     public void setDifficulty(int value) {
         difficultyLevel = value;
-    }
-
-    /**
-     * Sets paused flag to true
-     */
-    public void pause() {
-        paused = true;
-    }
-
-    /**
-     * Sets paused flag to false
-     */
-    public void resume() {
-        paused = false;
-    }
-
-    /**
-     * @returns value of paused
-     */
-    public boolean getPaused() {
-        return paused;
     }
 }
