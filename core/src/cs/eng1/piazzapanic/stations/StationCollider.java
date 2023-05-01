@@ -26,26 +26,19 @@ public class StationCollider extends Actor implements Subject<Chef> {
 
     @Override
     public void act(float delta) {
-        boolean hasChef = false;
-        for (Chef chef : chefManager.getChefs()) {
-            if (chefManager.getCurrentChef() == chef) {
-                // Check if the chef's centre point overlaps this class's bounds.
-                float chefCentreX = chef.getX() + chef.getWidth() / 2f;
-                float chefCentreY = chef.getY() + chef.getHeight() / 2f;
-                if (
-                    chefCentreX >= getX() &&
+        if (chefManager.getCurrentChef() != null) {
+            Chef chef = chefManager.getCurrentChef();
+            // Check if the chef's centre point overlaps this class's bounds.
+            float chefCentreX = chef.getX() + chef.getWidth() / 2f;
+            float chefCentreY = chef.getY() + chef.getHeight() / 2f;
+            if (chefCentreX >= getX() &&
                     chefCentreX < getX() + getWidth() &&
                     chefCentreY >= getY() &&
-                    chefCentreY < getY() + getHeight()
-                ) {
-                    notifyObservers(chef);
-                    hasChef = true;
-                    break;
-                }
+                    chefCentreY < getY() + getHeight()) {
+                notifyObservers(chef);
+            } else {
+                notifyObservers(null);
             }
-        }
-        if (!hasChef) {
-            notifyObservers(null);
         }
     }
 
