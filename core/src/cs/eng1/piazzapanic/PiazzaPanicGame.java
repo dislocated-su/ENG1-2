@@ -21,6 +21,9 @@ public class PiazzaPanicGame extends Game {
     private ModeSelectOverlay modeSelect;
     private UpgradesUi upgrades;
 
+    /**
+     * Creates new instances of all fields, and loads HomeScreen
+     */
     @Override
     public void create() {
         fontManager = new FontManager();
@@ -32,6 +35,9 @@ public class PiazzaPanicGame extends Game {
         loadHomeScreen();
     }
 
+    /**
+     * Disposes of GameScreen, HomeScreen, FontManager and ButtonManager
+     */
     @Override
     public void dispose() {
         if (gameScreen != null) {
@@ -44,6 +50,10 @@ public class PiazzaPanicGame extends Game {
         buttonManager.dispose();
     }
 
+    /**
+     * Sets the current screen as HomeScreen, creating a new instance of it if one
+     * did not already exist
+     */
     public void loadHomeScreen() {
         if (homeScreen == null) {
             homeScreen = new HomeScreen(this);
@@ -51,30 +61,55 @@ public class PiazzaPanicGame extends Game {
         setScreen(homeScreen);
     }
 
+    /**
+     * Sets the current screen as the GameScreen
+     * 
+     * @param customers,  the user selected number of customers (1+ for scenario
+     *                    mode, 0 for endless)
+     * @param difficulty, the user selected difficulty
+     */
     public void loadGameScreen(int customers, int difficulty) {
         setScreen(new GameScreen(this, customers, difficulty));
     }
 
+    /**
+     * @returns single instance of TutorialOverlay
+     */
     public TutorialOverlay getTutorialOverlay() {
         return tutorialOverlay;
     }
 
+    /**
+     * @returns single instance of SettingsOverlay
+     */
     public SettingsOverlay getSettingsOverlay() {
         return settingsOverlay;
     }
 
+    /**
+     * @returns single isntance of ModeSelectOverlay
+     */
     public ModeSelectOverlay getModeSelectOverlay() {
         return modeSelect;
     }
 
+    /**
+     * @returns single instance of FontManager
+     */
     public FontManager getFontManager() {
         return fontManager;
     }
 
+    /**
+     * @returns single instance of ButtonManager
+     */
     public ButtonManager getButtonManager() {
         return buttonManager;
     }
 
+    /**
+     * @returns single instance of UpgradesUi
+     */
     public UpgradesUi getUpgradesUi() {
         return upgrades;
     }

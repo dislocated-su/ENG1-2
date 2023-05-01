@@ -47,10 +47,16 @@ public class Timer {
         return false;
     }
 
+    /**
+     * Starts the timer
+     */
     public void start() {
         this.running = true;
     }
 
+    /**
+     * Stops the timer
+     */
     public void stop() {
         this.running = false;
     }
@@ -62,22 +68,37 @@ public class Timer {
         this.elapsed = 0;
     }
 
+    /**
+     * @returns the value of running (whether the timer is currently active or not)
+     */
     public boolean getRunning() {
         return this.running;
     }
 
+    /**
+     * @param value of delay to be set
+     */
     public void setDelay(int value) {
         delay = value;
     }
 
+    /**
+     * @returns the delay of the timer
+     */
     public int getDelay() {
         return delay;
     }
 
+    /**
+     * @returns the elapsed time since starting
+     */
     public int getElapsed() {
         return elapsed;
     }
 
+    /**
+     * @returns the remaining time on the timer
+     */
     public int getRemainingTime() {
         return delay - elapsed;
     }
