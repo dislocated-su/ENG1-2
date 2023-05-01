@@ -181,8 +181,6 @@ public class UpgradesUi {
         table.row();
     }
 
-
-
     public void hide() {
         table.setVisible(false);
     }

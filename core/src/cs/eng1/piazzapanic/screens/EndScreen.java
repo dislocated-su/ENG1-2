@@ -8,24 +8,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.ui.ButtonManager;
 import cs.eng1.piazzapanic.ui.FontManager;
 
 public class EndScreen implements Screen {
+
     private final Table table;
     PiazzaPanicGame game;
     private Stage stage;
 
     public EndScreen(PiazzaPanicGame game, String text, String reputation) {
-
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
@@ -40,7 +39,8 @@ public class EndScreen implements Screen {
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
 
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
+        TextureRegionDrawable textureRegionDrawableBg =
+            new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
         LabelStyle hudTitleFont = new Label.LabelStyle();
@@ -52,29 +52,24 @@ public class EndScreen implements Screen {
             title = "Congratulations!";
         }
 
-        Label endText = new Label(
-                title,
-                hudTitleFont);
+        Label endText = new Label(title, hudTitleFont);
 
-        Label time = new Label(
-                "You took " + text,
-                hudTitleFont);
+        Label time = new Label("You took " + text, hudTitleFont);
 
-        Label repLabel = new Label(
-                reputation,
-                hudTitleFont);
+        Label repLabel = new Label(reputation, hudTitleFont);
 
         TextButton backButton = game
-                .getButtonManager()
-                .createTextButton("Again?", ButtonManager.ButtonColour.GREY);
+            .getButtonManager()
+            .createTextButton("Again?", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        game.getModeSelectOverlay().hide();
-                        game.loadHomeScreen();
-                    }
-                });
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.getModeSelectOverlay().hide();
+                    game.loadHomeScreen();
+                }
+            }
+        );
 
         table.add(endText).row();
         table.add(time).row();
@@ -105,14 +100,11 @@ public class EndScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 }
