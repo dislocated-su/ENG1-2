@@ -28,7 +28,7 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
                     (
                             PlayerState
                                 .getInstance()
-                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                                .getBuffActive(PowerUp.COOK_FAST)
                         )
                         ? 2
                         : 1
@@ -45,13 +45,13 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
                     (
                         PlayerState
                                 .getInstance()
-                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                                .getBuffActive(PowerUp.COOK_FAST)
                             ? 2
                             : 1
                     )
                 )
             ) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
         ) {
             setUseable(false);
         } else if (accumulator >= cookingStepTime) {

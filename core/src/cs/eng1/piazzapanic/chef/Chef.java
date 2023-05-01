@@ -77,6 +77,7 @@ public class Chef extends Actor implements Disposable {
     public void init(float x, float y) {
         setX(x);
         setY(y);
+        this.setBounds(x, y, imageBounds.y, imageBounds.x);
         createBody();
         getStack().clear();
         imageRotation = 0;
@@ -85,59 +86,54 @@ public class Chef extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-            image,
-            getX() + (1 - imageBounds.x) / 2f,
-            getY() + (1 - imageBounds.y) / 2f,
-            imageBounds.x / 2f,
-            imageBounds.y / 2f,
-            imageBounds.x,
-            imageBounds.y,
-            1f,
-            1f,
-            imageRotation,
-            0,
-            0,
-            image.getWidth(),
-            image.getHeight(),
-            false,
-            false
-        );
-        for (Holdable item : ingredientStack) {
-            Texture texture = item.getTexture();
-            batch.draw(
-                texture,
-                getX() + 0.5f,
-                getY() + 0.2f,
-                0f,
-                0.3f,
-                0.6f,
-                0.6f,
-                1.5f,
-                1.5f,
+                image,
+                getX() + (1 - imageBounds.x) / 2f,
+                getY() + (1 - imageBounds.y) / 2f,
+                imageBounds.x / 2f,
+                imageBounds.y / 2f,
+                imageBounds.x,
+                imageBounds.y,
+                1f,
+                1f,
                 imageRotation,
                 0,
                 0,
-                texture.getWidth(),
-                texture.getHeight(),
+                image.getWidth(),
+                image.getHeight(),
                 false,
-                false
-            );
+                false);
+        for (Holdable item : ingredientStack) {
+            Texture texture = item.getTexture();
+            batch.draw(
+                    texture,
+                    getX() + 0.5f,
+                    getY() + 0.2f,
+                    0f,
+                    0.3f,
+                    0.6f,
+                    0.6f,
+                    1.5f,
+                    1.5f,
+                    imageRotation,
+                    0,
+                    0,
+                    texture.getWidth(),
+                    texture.getHeight(),
+                    false,
+                    false);
         }
     }
 
     @Override
     public void act(float delta) {
         Vector2 movement = getInput()
-            .scl(
-                speed *
-                (
-                    PlayerState
-                            .getInstance()
-                            .getBuffActive(PowerUp.DOUBLE_CHEF_SPEED)
-                        ? 2
-                        : 1
-                )
-            );
+                .scl(
+                        speed *
+                                (PlayerState
+                                        .getInstance()
+                                        .getBuffActive(PowerUp.WALK_FAST)
+                                                ? 2
+                                                : 1));
         Vector2 bodyVector2 = body.getPosition();
 
         if (!movement.isZero(0.1f)) {

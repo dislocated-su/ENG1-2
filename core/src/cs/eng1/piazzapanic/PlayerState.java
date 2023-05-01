@@ -3,13 +3,15 @@ package cs.eng1.piazzapanic;
 import cs.eng1.piazzapanic.utility.Timer;
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
+
 public class PlayerState {
 
     private final float happinessMult = 1.3f;
 
     private static PlayerState instance = null;
 
-    private float cash = 0;
+    private float cash = 1000000;
 
     private boolean paused = false;
 
@@ -17,32 +19,39 @@ public class PlayerState {
 
     private float upgradeCost = 100f;
 
-    private HashMap<PowerUp, Timer> powerUpTimers =
-        new HashMap<PowerUp, Timer>();
+    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
+        {
+            put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+            put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+            put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+            put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+            put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+        }
+    };
+
+    private static final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
+        {
+            put(PowerUp.WALK_FAST, 100);
+            put(PowerUp.COOK_FAST, 100);
+            put(PowerUp.NO_SPOILING, 100);
+            put(PowerUp.NO_REP_LOSS, 100);
+            put(PowerUp.MORE_MONEY, 100);
+        }
+    };
+
+    public int getPowerupCost(PowerUp powerup) {
+        return powerUpCosts.get(powerup);
+    }
 
     public enum PowerUp {
-        DOUBLE_CHEF_SPEED,
-        DOUBLE_PREP_SPEED,
-        NO_FAIL_PREP,
+        WALK_FAST,
+        COOK_FAST,
+        NO_SPOILING,
         NO_REP_LOSS,
         MORE_MONEY,
     }
 
     private PlayerState() {
-        // for (PowerUp powerUp : PowerUp.values()) {
-        // powerUpTimers.put(powerUp, new Timer(60000, false, false));
-        // }
-        powerUpTimers.put(
-            PowerUp.DOUBLE_CHEF_SPEED,
-            new Timer(60000, false, false)
-        );
-        powerUpTimers.put(
-            PowerUp.DOUBLE_PREP_SPEED,
-            new Timer(60000, false, false)
-        );
-        powerUpTimers.put(PowerUp.NO_FAIL_PREP, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-        powerUpTimers.put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
     }
 
     public float getUpgradeCost(boolean buying) {
@@ -51,6 +60,16 @@ public class PlayerState {
             upgradeCost += 100f;
         }
         return returnCost;
+    }
+
+    int hireCost = 1000;
+
+    public int getChefHireCost(boolean buying) {
+        int output = hireCost;
+        if (buying) {
+            hireCost = 10000;
+        }
+        return output;
     }
 
     public static PlayerState getInstance() {
@@ -97,6 +116,7 @@ public class PlayerState {
      * @param customerHappy
      */
     public void earnCash(float baseAmount, boolean customerHappy) {
+        Gdx.app.log("Current cash", cash + "");
         getInstance().cash += baseAmount * totalMultiplier(customerHappy);
     }
 
@@ -106,12 +126,13 @@ public class PlayerState {
      * @return
      */
     public boolean spendCash(double amount) {
+
         if (cash < amount) {
             return false;
         }
 
         cash -= amount;
-
+        Gdx.app.log("Current cash", cash + "");
         return true;
     }
 
@@ -157,6 +178,16 @@ public class PlayerState {
 
     public int getBuffRemaining(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getRemainingTime();
+    }
+
+    public String getPowerupName(PowerUp powerUp) {
+        String output = powerUp
+                .name()
+                .replaceAll("_", " ")
+                .toLowerCase();
+        output = Character.toUpperCase(output.charAt(0)) +
+                output.substring(1);
+        return output;
     }
 
     /**

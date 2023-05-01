@@ -29,7 +29,7 @@ public class BasicGrillable extends Ingredient implements Grillable {
                     (
                             PlayerState
                                 .getInstance()
-                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                                .getBuffActive(PowerUp.COOK_FAST)
                         )
                         ? 2
                         : 1
@@ -44,13 +44,13 @@ public class BasicGrillable extends Ingredient implements Grillable {
                     (
                         PlayerState
                                 .getInstance()
-                                .getBuffActive(PowerUp.DOUBLE_PREP_SPEED)
+                                .getBuffActive(PowerUp.COOK_FAST)
                             ? 2
                             : 1
                     )
                 )
             ) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_FAIL_PREP)
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
         ) {
             setUseable(false);
         } else if (accumulator >= grillStepTime) {
