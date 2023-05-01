@@ -1,6 +1,7 @@
 package cs.eng1.piazzapanic.stations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
@@ -16,6 +17,8 @@ import java.util.Objects;
 public class SubmitStation extends Station {
 
     private final CustomerManager customerManager;
+
+    public Customer customer;
 
     public SubmitStation(
         int id,
@@ -43,8 +46,9 @@ public class SubmitStation extends Station {
     }
 
     private boolean checkCorrectRecipe(Holdable item) {
-        if (item instanceof Recipe) {
-            return customerManager.checkRecipe((Recipe) item);
+        if (customer != null && item instanceof Recipe) {
+            return ((Recipe) item).getType()
+                .equals(customer.getOrder().getType());
         }
         return false;
     }
@@ -57,7 +61,8 @@ public class SubmitStation extends Station {
             if (!checkCorrectRecipe(topItem)) {
                 return;
             }
-            customerManager.nextRecipe(nearbyChef);
+            customerManager.nextRecipe(nearbyChef, customer);
+            customer = null;
         }
 
         uiController.showActions(this, getActionTypes());

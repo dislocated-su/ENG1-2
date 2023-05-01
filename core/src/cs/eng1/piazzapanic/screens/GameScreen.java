@@ -22,9 +22,9 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
-import cs.eng1.piazzapanic.ui.UpgradesUi;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
+import java.util.ArrayList;
 
 /**
  * The screen which can be used to load the tilemap and keep track of everything
@@ -48,30 +48,26 @@ public class GameScreen implements Screen {
     private final World world;
     private KeyboardInput kbInput;
     private InputMultiplexer multiplexer = new InputMultiplexer();
+    private ArrayList<Vector2> extraCook;
+    private int currentChefSpawn = 0;
+    private PiazzaPanicGame game;
 
     public GameScreen(
         final PiazzaPanicGame game,
         int totalCustomers,
         int difficulty
     ) {
+        this.game = game;
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
         MapLoader mapLoader = new MapLoader("e.tmx");
 
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
-
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
         ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x / 2,
-            mapLoader.mapSize.y / 2,
+            mapLoader.mapSize.x / 3,
+            mapLoader.mapSize.y / 3,
             camera
         );
 
@@ -109,13 +105,6 @@ public class GameScreen implements Screen {
                 totalCustomers
             );
 
-        customerManager.init(
-            foodTextureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
-
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -125,9 +114,28 @@ public class GameScreen implements Screen {
             foodTextureManager,
             customerManager
         );
+
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+
+        customerManager.init(
+            foodTextureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
+
         chefManager.addChefsToStage(stage);
+        chefManager.init(mapLoader.cookSpawnpoints);
+
+        this.extraCook = mapLoader.cookSpawnpoints;
     }
 
     @Override
@@ -138,7 +146,6 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
-        chefManager.init();
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {
@@ -153,7 +160,6 @@ public class GameScreen implements Screen {
         if (PlayerState.getInstance().getPaused()) {
             delta = 0;
         }
-
         if (uiOverlay.pauseToggle) {
             uiOverlay.pauseToggle = false;
             if (PlayerState.getInstance().getPaused()) {
@@ -162,6 +168,15 @@ public class GameScreen implements Screen {
                 resume();
             }
         }
+        if (game.getUpgradesUi().chefHireFlag) {
+            if (currentChefSpawn >= 2) {
+                currentChefSpawn = 0;
+            }
+            game.getUpgradesUi().chefHireFlag = false;
+            chefManager.hireChef(extraCook.get(currentChefSpawn), stage);
+            currentChefSpawn++;
+        }
+
         // Initialize screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -199,7 +214,7 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        //box2dDebugRenderer.render(world, stage.getCamera().combined);
+        box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {
