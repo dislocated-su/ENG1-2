@@ -44,27 +44,33 @@ public class UIStopwatch extends Label {
         }
     }
 
+    public void updateTimer() {
+        this.setText(getTimeString());
+    }
+
     /**
-     * Show the minutes and seconds correctly based on the total number of seconds
+     * Construct a string with the minutes and seconds correctly based on the total
+     * number of seconds
      * that have passed.
      */
-    public void updateTimer() {
+    public String getTimeString() {
         DecimalFormat df = new DecimalFormat("#");
         df.setRoundingMode((RoundingMode.FLOOR));
         if (totalTime >= 60) {
             int seconds = (int) (totalTime % 60);
             int minutes = (int) (totalTime / 60);
             if (seconds < 10) {
-                this.setText(minutes + ":0" + df.format(seconds));
+                return minutes + ":0" + df.format(seconds);
             } else {
-                this.setText(minutes + ":" + df.format(seconds));
+                return minutes + ":" + df.format(seconds);
             }
         } else {
             if (totalTime < 10) {
-                this.setText("0:0" + df.format(totalTime));
+                return "0:0" + df.format(totalTime);
             } else {
-                this.setText("0:" + df.format(totalTime));
+                return "0:" + df.format(totalTime);
             }
         }
     }
+
 }
