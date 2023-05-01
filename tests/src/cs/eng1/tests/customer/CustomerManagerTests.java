@@ -100,33 +100,33 @@ public class CustomerManagerTests {
             customerManager.getCustomerQueue().size()
         );
         assertEquals(
-            "Init should identify the correct number of objectives.", 
-            5, 
+            "Init should identify the correct number of objectives.",
+            5,
             objectives
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(21, 11), 
+            "Init should identify objectives correctly.",
+            new Vector2(21, 11),
             customerManager.getObjective(0).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(21, 8), 
+            "Init should identify objectives correctly.",
+            new Vector2(21, 8),
             customerManager.getObjective(1).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(26, 8), 
+            "Init should identify objectives correctly.",
+            new Vector2(26, 8),
             customerManager.getObjective(2).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(26, 13), 
+            "Init should identify objectives correctly.",
+            new Vector2(26, 13),
             customerManager.getObjective(3).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.", 
-            new Vector2(7, 10), 
+            "Init should identify objectives correctly.",
+            new Vector2(7, 10),
             customerManager.getObjective(-1).getPosition()
         );
         assertEquals(
@@ -220,14 +220,8 @@ public class CustomerManagerTests {
     }
 
     @Test
-    public void actTests () {
-        customerManager = new CustomerManager(
-            1,
-            overlay,
-            world,
-            5,
-            0
-        );
+    public void actTests() {
+        customerManager = new CustomerManager(1, overlay, world, 5, 0);
         mapLoader.loadWaypoints(
             "Waypoints",
             "cookspawnid",
@@ -244,8 +238,13 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
-        float spawnTime = (customerManager.getTimer().getRemainingTime())/500;
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
+        float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
         for (int i = 2; i != x; i++) {
             act(spawnTime);
@@ -253,7 +252,10 @@ public class CustomerManagerTests {
         }
         for (int i = 1; i != x; i++) {
             act(spawnTime);
-            customerManager.nextRecipe(chef, customerManager.getCustomerQueue().get(0));
+            customerManager.nextRecipe(
+                chef,
+                customerManager.getCustomerQueue().get(0)
+            );
             assertEquals(i, customerManager.getCompletedOrders());
         }
     }

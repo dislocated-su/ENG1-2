@@ -394,6 +394,7 @@ public class CustomerManager {
     public List<Vector2> getSpawnLocations() {
         return spawnLocations;
     }
+
     public int getCompletedOrders() {
         return completedOrders;
     }
