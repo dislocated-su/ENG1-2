@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.chef;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -19,6 +19,8 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import cs.eng1.tests.GdxTestRunner;
+
 import java.lang.Math;
 import java.util.*;
 import org.junit.Test;
