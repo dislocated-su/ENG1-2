@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class ChefManagerTests {
 
-    World world = new World(new Vector2(0, 0), true);
+    World world = new World(Vector2.Zero, true);
     UIOverlay overlay = mock(UIOverlay.class);
     KeyboardInput kbInput = new KeyboardInput();
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);

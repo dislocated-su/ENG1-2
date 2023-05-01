@@ -33,12 +33,12 @@ public class CustomerManagerTests {
     CustomerManager customerManager = new CustomerManager(
         1,
         overlay,
-        new World(new Vector2(0, 0), true),
+        new World(Vector2.Zero, true),
         5,
         0
     );
     FoodTextureManager textureManager = new FoodTextureManager();
-    World world = new World(new Vector2(0, 0), true);
+    World world = new World(Vector2.Zero, true);
     KeyboardInput kbInput = new KeyboardInput();
     Stage stage = mock(Stage.class);
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);

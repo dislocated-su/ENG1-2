@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.box2d;
 
 import static org.junit.Assert.*;
 
@@ -9,21 +9,20 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import cs.eng1.piazzapanic.box2d.MapBodyBuilder;
 import cs.eng1.piazzapanic.utility.MapLoader;
+import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class MapBodyBuilderTests {
 
-    Vector2 centre = new Vector2(0, 0);
     MapLoader mapLoader = new MapLoader("test-map.tmx");
-    World world = new World(centre, true);
+    World world = new World(Vector2.Zero, true);
     MapLayer layer = mapLoader.getMap().getLayers().get("Obstacles");
     Array<Body> bodies = MapBodyBuilder.buildShapes(layer, 16, world);
     MapBodyBuilder bodyBuilder = new MapBodyBuilder();
