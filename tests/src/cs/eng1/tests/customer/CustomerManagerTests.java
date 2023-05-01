@@ -52,7 +52,7 @@ public class CustomerManagerTests {
         world, 
         kbInput
     );
-
+    
     Texture fake = new Texture(
         Gdx.files.internal(
             "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
@@ -173,7 +173,68 @@ public class CustomerManagerTests {
     }
     
     @Test
-    public void endlessTests
+    public void endlessTests() {
+        customerManager = new CustomerManager(
+            1,
+            overlay,
+            world,
+            0,
+            0
+        );
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+        mapLoader.createStations(
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            textureManager,
+            customerManager
+        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        assertTrue(customerManager.getEndlessTimer().getRunning());
+        // customerManager.checkSpawn(999f);
+        // assertNull(customerManager.getCustomerQueue().size());
+    }
+
+    @Test
+    public void checkSpawnTests () {
+        customerManager = new CustomerManager(
+            1,
+            overlay,
+            world,
+            0,
+            0
+        );
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+        mapLoader.createStations(
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            textureManager,
+            customerManager
+        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        float spawnTime = (customerManager.getTimer().getRemainingTime()/500);
+        for (int i = 2; i < 500; i++) {
+            customerManager.checkSpawn(spawnTime);
+            assertEquals(i, customerManager.getCustomerQueue().size());
+        }
+    }
     // @Test
     // public void addStationTests() {
     //     LinkedList<SubmitStation> list = new LinkedList<>();
