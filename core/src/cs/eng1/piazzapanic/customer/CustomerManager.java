@@ -211,16 +211,15 @@ public class CustomerManager {
         completedOrders++;
         customerQueue.remove(customer);
         customer.fulfillOrder();
-
-        for (Customer c : customerQueue.subList(3, customerQueue.size())) {
-            Integer objective = findAvailableObjective();
-            if (objective == null) {
-                continue;
+        if (customerQueue.size() >= 3) {
+            for (Customer c : customerQueue.subList(3, customerQueue.size())) {
+                Integer objective = findAvailableObjective();
+                if (objective == null) {
+                    continue;
+                }
+                updateCustomerLocation(c, objective);
             }
-
-            updateCustomerLocation(c, objective);
         }
-
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
@@ -394,5 +393,8 @@ public class CustomerManager {
 
     public List<Vector2> getSpawnLocations() {
         return spawnLocations;
+    }
+    public int getCompletedOrders() {
+        return completedOrders;
     }
 }
