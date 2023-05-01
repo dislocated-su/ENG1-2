@@ -182,10 +182,6 @@ public class CustomerManager {
             }
         }
         checkSpawn(delta);
-
-        for (Customer customer : customerQueue) {
-            customer.act(delta);
-        }
     }
 
     public void checkSpawn(float delta) {
@@ -204,23 +200,6 @@ public class CustomerManager {
         }
     }
 
-    // /**
-    // * Check to see if the recipe matches the currently requested order.
-    // *
-    // * @param recipe The recipe to check against the current order.
-    // * @return a boolean signifying if the recipe is correct.
-    // */
-    // public boolean checkRecipe(Recipe recipe, int stationID) {
-    // if (customerQueue.isEmpty()) {
-    // return false;
-    // }
-
-    // // could be changed to allow entering in any order, allowing you to do later
-    // // recipes by checking with .contains and then getting first index.
-    // return
-    // recipe.getType().equals(recipeStations.get(stationID).customer.getOrder().getType());
-    // }
-
     /**
      * Complete the current order nad move on to the next one. Then update the UI.
      * If all the recipes are completed, then show the winning UI.
@@ -232,6 +211,15 @@ public class CustomerManager {
         completedOrders++;
         customerQueue.remove(customer);
         customer.fulfillOrder();
+
+        for (Customer c : customerQueue.subList(3, customerQueue.size())) {
+            Integer objective = findAvailableObjective();
+            if (objective == null) {
+                continue;
+            }
+
+            updateCustomerLocation(c, objective);
+        }
 
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
@@ -296,12 +284,6 @@ public class CustomerManager {
             recipeStations.get(stationsRanked[objective]).customer = customer;
         }
     }
-
-    // public Recipe getFirstOrder() {
-    // if (customerQueue.isEmpty())
-    // return null;
-    // return customerQueue.first().getOrder();
-    // }
 
     /**
      * Give the customer an objective to go to.
@@ -380,6 +362,10 @@ public class CustomerManager {
             }
         }
         return null;
+    }
+
+    public Box2dLocation getObjective(int id) {
+        return objectives.get(id);
     }
 
     public Map<Integer, SubmitStation> getRecipeStations() {

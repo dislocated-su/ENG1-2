@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
@@ -32,6 +33,7 @@ public class Customer extends Actor implements Disposable {
 
     private Body body;
     private boolean despawnFlag = false;
+    private Box2dLocation endObjective;
 
     public Customer(
         Texture texture,
@@ -82,6 +84,7 @@ public class Customer extends Actor implements Disposable {
             Float.toString(PlayerState.getInstance().getCash())
         );
         customerManager.walkBack(this);
+        endObjective = customerManager.getObjective(currentObjective);
         despawnFlag = true;
     }
 
@@ -139,9 +142,10 @@ public class Customer extends Actor implements Disposable {
         setRotation((float) Math.toDegrees(body.getAngle()));
 
         if (despawnFlag) {
-            // this.remove();
-            // this.dispose();
-            Gdx.app.log("Customer walking back", body.getPosition().toString());
+            if (endObjective.getPosition().epsilonEquals(position, 0.5f)) {
+                this.remove();
+                this.dispose();
+            }
         }
 
         if (
@@ -154,8 +158,6 @@ public class Customer extends Actor implements Disposable {
             reputation = false;
             Gdx.app.log("rep loss", "");
         }
-
-        super.act(delta);
     }
 
     public boolean isOrderCompleted() {
