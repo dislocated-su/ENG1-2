@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
+import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.ui.StationUIController;
@@ -99,23 +100,33 @@ public class CustomerManagerTests {
             customerManager.getCustomerQueue().size()
         );
         assertEquals(
-            "Init should identify the correct number of objectives.",
-            3,
+            "Init should identify the correct number of objectives.", 
+            5, 
             objectives
         );
         assertEquals(
-            "Init should identify objectives correctly.",
-            new Vector2(1, 23),
+            "Init should identify objectives correctly.", 
+            new Vector2(21, 11), 
             customerManager.getObjective(0).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.",
-            new Vector2(11, 4),
+            "Init should identify objectives correctly.", 
+            new Vector2(21, 8), 
             customerManager.getObjective(1).getPosition()
         );
         assertEquals(
-            "Init should identify objectives correctly.",
-            new Vector2(7, 10),
+            "Init should identify objectives correctly.", 
+            new Vector2(26, 8), 
+            customerManager.getObjective(2).getPosition()
+        );
+        assertEquals(
+            "Init should identify objectives correctly.", 
+            new Vector2(26, 13), 
+            customerManager.getObjective(3).getPosition()
+        );
+        assertEquals(
+            "Init should identify objectives correctly.", 
+            new Vector2(7, 10), 
             customerManager.getObjective(-1).getPosition()
         );
         assertEquals(
@@ -206,13 +217,17 @@ public class CustomerManagerTests {
             mapLoader.aiSpawnpoints
         );
         assertTrue(customerManager.getEndlessTimer().getRunning());
-        // customerManager.checkSpawn(999f);
-        // assertNull(customerManager.getCustomerQueue().size());
     }
 
     @Test
-    public void checkSpawnTests() {
-        customerManager = new CustomerManager(1, overlay, world, 0, 0);
+    public void actTests () {
+        customerManager = new CustomerManager(
+            1,
+            overlay,
+            world,
+            5,
+            0
+        );
         mapLoader.loadWaypoints(
             "Waypoints",
             "cookspawnid",
@@ -229,16 +244,24 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
-        float spawnTime = (customerManager.getTimer().getRemainingTime() / 500);
-        for (int i = 2; i < 500; i++) {
-            customerManager.checkSpawn(spawnTime);
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        float spawnTime = (customerManager.getTimer().getRemainingTime())/500;
+        int x = customerManager.getObjectives().size();
+        for (int i = 2; i != x; i++) {
+            act(spawnTime);
             assertEquals(i, customerManager.getCustomerQueue().size());
+        }
+        for (int i = 1; i != x; i++) {
+            act(spawnTime);
+            customerManager.nextRecipe(chef, customerManager.getCustomerQueue().get(0));
+            assertEquals(i, customerManager.getCompletedOrders());
+        }
+    }
+
+    public void act(float delta) {
+        customerManager.act(delta);
+        for (int i = 0; i < customerManager.getCustomerQueue().size(); i++) {
+            customerManager.getCustomerQueue().get(0).act(delta);
         }
     }
     // @Test
