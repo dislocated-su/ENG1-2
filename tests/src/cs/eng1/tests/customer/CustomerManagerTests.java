@@ -261,6 +261,7 @@ public class CustomerManagerTests {
         }
     }
 
+    
     @Test
     public void actTests() {
         customerManager = new CustomerManager(1, overlay, world, 5, 0);
