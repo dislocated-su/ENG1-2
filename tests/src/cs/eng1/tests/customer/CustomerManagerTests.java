@@ -320,17 +320,22 @@ public class CustomerManagerTests {
                     currentCustomer.act(f);
                     world.step(f, 6, 2);
                 }
-                if (!(currentCustomer.getX() > 9.5f && currentCustomer.getX() < 10.5f)) {
-                assertEquals(
-                    objective.getPosition().x,
-                    currentCustomer.getX(),
-                    1f
-                );
-                assertEquals(
-                    objective.getPosition().y,
-                    currentCustomer.getY(),
-                    1f
-                );
+                if (
+                    !(
+                        currentCustomer.getX() > 9.5f &&
+                        currentCustomer.getX() < 10.5f
+                    )
+                ) {
+                    assertEquals(
+                        objective.getPosition().x,
+                        currentCustomer.getX(),
+                        1f
+                    );
+                    assertEquals(
+                        objective.getPosition().y,
+                        currentCustomer.getY(),
+                        1f
+                    );
                 }
             }
         }
