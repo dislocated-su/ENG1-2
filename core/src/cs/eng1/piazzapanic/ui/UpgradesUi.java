@@ -31,7 +31,6 @@ public class UpgradesUi {
     private Value scale, scale1, scale2;
     private Label chefHireCostLabel;
     public boolean chefHireFlag;
-    private int purchasedChefs = 0;
 
     public UpgradesUi(PiazzaPanicGame game) {
         this.game = game;
@@ -112,6 +111,10 @@ public class UpgradesUi {
                         }
                     }
                 });
+
+        if (PlayerState.getInstance().getPurchasedChefs() != 2) {
+            button.setVisible(true);
+        }
 
         chefHireCostLabel = new Label("", hudLabelFont);
         updateChefHireCost();

@@ -20,7 +20,6 @@ public class PiazzaPanicGame extends Game {
     private TutorialOverlay tutorialOverlay;
     private SettingsOverlay settingsOverlay;
     private ModeSelectOverlay modeSelect;
-    private UpgradesUi upgrades;
 
     /**
      * Creates new instances of all fields, and loads HomeScreen
@@ -32,7 +31,6 @@ public class PiazzaPanicGame extends Game {
         tutorialOverlay = new TutorialOverlay(this);
         settingsOverlay = new SettingsOverlay(this);
         modeSelect = new ModeSelectOverlay(this);
-        upgrades = new UpgradesUi(this);
         loadHomeScreen();
     }
 
@@ -110,12 +108,5 @@ public class PiazzaPanicGame extends Game {
      */
     public ButtonManager getButtonManager() {
         return buttonManager;
-    }
-
-    /**
-     * @returns single instance of UpgradesUi
-     */
-    public UpgradesUi getUpgradesUi() {
-        return upgrades;
     }
 }

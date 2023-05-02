@@ -90,7 +90,7 @@ public class PlayerState {
     public int getChefHireCost(boolean buying) {
         int output = hireCost;
         if (buying) {
-            hireCost = 10000;
+            hireCost *= 10;
         }
         return output;
     }

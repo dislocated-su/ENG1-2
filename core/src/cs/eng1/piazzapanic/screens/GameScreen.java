@@ -73,6 +73,9 @@ public class GameScreen implements Screen {
             int totalCustomers,
             int difficulty) {
         this.game = game;
+
+        PlayerState.reset();
+
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -99,8 +102,7 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
-        PlayerState.reset();
-
+        Gdx.app.log("Chef hire cost", String.valueOf(PlayerState.getInstance().getChefHireCost(false)));
         PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager = new ChefManager(
@@ -266,7 +268,7 @@ public class GameScreen implements Screen {
 
         for (Actor actor : stage.getActors().items) {
             if (actor instanceof Station) {
-                ((Station) actor).reset();
+                // ((Station) actor).reset();
             }
         }
         isFirstFrame = true;
@@ -291,11 +293,11 @@ public class GameScreen implements Screen {
                 resume();
             }
         }
-        if (game.getUpgradesUi().chefHireFlag) {
+        if (uiOverlay.upgradesUi.chefHireFlag) {
             if (currentChefSpawn >= 2) {
                 currentChefSpawn = 0;
             }
-            game.getUpgradesUi().chefHireFlag = false;
+            uiOverlay.upgradesUi.chefHireFlag = false;
             chefManager.hireChef(extraCook.get(currentChefSpawn), stage);
             currentChefSpawn++;
         }

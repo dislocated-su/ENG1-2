@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -22,13 +25,13 @@ import cs.eng1.piazzapanic.stations.IngredientStack;
 public class SavedIngredientStack {
 
     // Figure out a way to not use SavedFood[] as it does not get stored correctly
-    SerializeableMap<String, SavedFood[]> stack;
+    SerializeableMap<String, String> stack;
     int maxStackSize;
 
     SavedIngredientStack(IngredientStack stack) {
         this.maxStackSize = stack.maxStackSize;
 
-        Map<String, SavedFood[]> map = new HashMap<String, SavedFood[]>();
+        Map<String, String> map = new HashMap<String, String>();
 
         for (String type : stack.keySet()) {
             FixedStack<Ingredient> fixedStack = stack.get(type);
@@ -38,7 +41,12 @@ public class SavedIngredientStack {
                 ingredients[i] = new SavedFood(fixedStack.get(i));
             }
 
-            map.put(type, ingredients);
+            Json json = new Json();
+            String jsonString = json.toJson(ingredients, SavedFood.class);
+
+            Gdx.app.log(ingredients.getClass().getTypeName(), jsonString);
+
+            map.put(type, jsonString);
         }
 
         this.stack = new SerializeableMap<>(map);
@@ -49,10 +57,19 @@ public class SavedIngredientStack {
     }
 
     public IngredientStack get(FoodTextureManager manager) {
-        Map<String, SavedFood[]> savedFoodMap = stack.get();
+        Map<String, String> savedFoodMap = stack.get();
 
         IngredientStack ingredientStack = new IngredientStack(maxStackSize);
 
+        Json json = new Json();
+
+        for (String key : savedFoodMap.keySet()) {
+            SavedFood[] arr = json.fromJson(SavedFood[].class, savedFoodMap.get(key));
+
+            for (SavedFood savedFood : arr) {
+                ingredientStack.addIngredient(key, (Ingredient) savedFood.get(manager));
+            }
+        }
         // for (String key : savedFoodMap.keySet()) {
         // Object o = savedFoodMap.get(key);
         // if (o instanceof JsonValue) {

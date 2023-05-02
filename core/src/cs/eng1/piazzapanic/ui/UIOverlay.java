@@ -224,7 +224,7 @@ public class UIOverlay {
     }
 
     private Label recipeName;
-    private UpgradesUi upgradesUi;
+    public UpgradesUi upgradesUi;
 
     public void createRecipeTable() {
         recipeBookRoot.setVisible(false);
@@ -357,7 +357,7 @@ public class UIOverlay {
     public TextButton upgradesButton() {
         TextButton upgrades;
 
-        upgradesUi = game.getUpgradesUi();
+        upgradesUi = new UpgradesUi(game);
         upgradesUi.addToStage(uiStage);
 
         upgrades = game
