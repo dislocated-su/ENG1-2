@@ -17,8 +17,8 @@ public class FixedStackTests {
     FixedStack<Integer> fixedStack = new FixedStack<Integer>(5);
 
     /**
-     *Tests if the stack's max size is properly assigned  
-     */ 
+     *Tests if the stack's max size is properly assigned
+     */
     @Test
     public void fixedStackLengthTest() {
         assertEquals(
@@ -30,7 +30,7 @@ public class FixedStackTests {
 
     /**
      *Tests for hasSpace function being able to see space
-     */ 
+     */
     @Test
     public void hasSpaceTest() {
         FixedStack<Integer> fixedStack = new FixedStack<Integer>(1);
@@ -39,6 +39,7 @@ public class FixedStackTests {
             fixedStack.hasSpace()
         );
     }
+
     /**
      * Tests the stack asserts hasSpace correctly.
      */

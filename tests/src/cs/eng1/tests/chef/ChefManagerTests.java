@@ -3,15 +3,12 @@ package cs.eng1.tests.chef;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -21,7 +18,7 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
-
+import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,7 +31,7 @@ public class ChefManagerTests {
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
     Stage stage = mock(Stage.class);
     FoodTextureManager textureManager = new FoodTextureManager();
-    
+
     StationUIController stationUIController = new StationUIController(
         stage,
         null
@@ -47,11 +44,7 @@ public class ChefManagerTests {
         0
     );
 
-    Texture fake = new Texture(
-        Gdx.files.internal(
-            "badlogic.jpg"
-        )
-    );
+    Texture fake = new Texture(Gdx.files.internal("badlogic.jpg"));
     Chef fakeChef = new Chef(fake, Vector2.Zero, chefManager);
 
     MapLoader mapLoader = new MapLoader("test-map.tmx");
@@ -59,18 +52,18 @@ public class ChefManagerTests {
     @Test
     public void startTests() {
         assertEquals(
-            "The game should start with 2 chefs.", 
-            2, 
+            "The game should start with 2 chefs.",
+            2,
             chefManager.getChefs().size()
         );
         for (Chef chef : chefManager.getChefs()) {
             assertNotEquals(
-                "The chef textures should not be badlogic.", 
-                "badlogic.jpg", 
+                "The chef textures should not be badlogic.",
+                "badlogic.jpg",
                 chef.getTexture().toString()
             );
             assertFalse(
-                "Chefs should not take inputs by default.", 
+                "Chefs should not take inputs by default.",
                 chef.isInputEnabled()
             );
         }
@@ -97,12 +90,11 @@ public class ChefManagerTests {
         chefManager.init(mapLoader.cookSpawnpoints);
         int i = 0;
         for (Chef chef : chefManager.getChefs()) {
-            assertTrue (
-                mapLoader.cookSpawnpoints.get(i)
-                    .epsilonEquals(chef.getBody().getPosition(),
-                    1f
-                    )
-                );
+            assertTrue(
+                mapLoader.cookSpawnpoints
+                    .get(i)
+                    .epsilonEquals(chef.getBody().getPosition(), 1f)
+            );
             i++;
         }
     }
@@ -127,41 +119,34 @@ public class ChefManagerTests {
         );
         ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
         for (int i = 2; i < 4; i++) {
-            chefManager.hireChef(
-                spawnPoints.get(i - 2), 
-                stage
-            );
+            chefManager.hireChef(spawnPoints.get(i - 2), stage);
             assertEquals(
                 new Vector2(
                     Math.round(spawnPoints.get(i - 2).x),
                     Math.round(spawnPoints.get(i - 2).y)
-                ), 
+                ),
                 new Vector2(
-                    Math.round(chefManager.getChefs().get(i).getX()), 
+                    Math.round(chefManager.getChefs().get(i).getX()),
                     Math.round(chefManager.getChefs().get(i).getY())
                 )
             );
             assertEquals(
-                "Hire Chef should add a chef to the chefManagers chefs.", 
-                i + 1, 
+                "Hire Chef should add a chef to the chefManagers chefs.",
+                i + 1,
                 chefManager.getChefs().size()
             );
 
             assertFalse(
-                "Chefs should not take inputs by default after being hired.", 
+                "Chefs should not take inputs by default after being hired.",
                 chefManager.getChefs().get(i).isInputEnabled()
             );
         }
-        chefManager.hireChef(
-                spawnPoints.get(0), 
-                stage
-        );
+        chefManager.hireChef(spawnPoints.get(0), stage);
         assertEquals(
-                "Hire Chef shouldn't add chefs over 4.", 
-                4, 
-                chefManager.getChefs().size()
+            "Hire Chef shouldn't add chefs over 4.",
+            4,
+            chefManager.getChefs().size()
         );
-         
     }
 
     @Test
@@ -188,10 +173,7 @@ public class ChefManagerTests {
                 chefManager.getChefs().get(chefIndex)
             );
             if (chefIndex < 2) {
-                chefManager.hireChef(
-                    spawnPoints.get(chefIndex), 
-                    stage
-            );
+                chefManager.hireChef(spawnPoints.get(chefIndex), stage);
             }
         }
     }
