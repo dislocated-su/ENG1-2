@@ -82,7 +82,7 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        int defaultTime = customerManager.getTimer().getRemainingTime();
+        int defaultTime = customerManager.getSpawnTimer().getRemainingTime();
         PlayerState.getInstance().setDifficulty(0);
         assertNull(
             "customerManager should have no objectives by default.",
@@ -162,7 +162,7 @@ public class CustomerManagerTests {
         assertEquals(
             "A PlayerState difficulty of 0 should multiply the difficulty by 2",
             2f * defaultTime,
-            customerManager.getTimer().getRemainingTime(),
+            customerManager.getSpawnTimer().getRemainingTime(),
             0.1
         );
         assertFalse(
@@ -191,7 +191,7 @@ public class CustomerManagerTests {
         assertEquals(
             "A PlayerState difficulty of 2 should multiply the difficulty by 0.75",
             1.5f * defaultTime,
-            customerManager.getTimer().getRemainingTime(),
+            customerManager.getSpawnTimer().getRemainingTime(),
             0.1
         );
 
@@ -206,7 +206,7 @@ public class CustomerManagerTests {
         assertEquals(
             "A non-recognised playerstate difficulty should not multiply difficulty.",
             1.5f * defaultTime,
-            customerManager.getTimer().getRemainingTime(),
+            customerManager.getSpawnTimer().getRemainingTime(),
             0.1
         );
     }
@@ -243,23 +243,23 @@ public class CustomerManagerTests {
         //Makes variable spawn timers work
         double log1 = Math.log(0.95);
         double log2 = Math.log(
-            10000 / customerManager.getTimer().getRemainingTime()
+            10000 / customerManager.getSpawnTimer().getRemainingTime()
         );
         double iterations = log1 / log2;
         for (int i = 0; i < iterations; i++) {
-            int spawnTimer = customerManager.getTimer().getRemainingTime();
+            int spawnTimer = customerManager.getSpawnTimer().getRemainingTime();
             act(customerManager.getEndlessTimer().getRemainingTime() + 1);
             customerManager.getEndlessTimer().reset();
             assertEquals(
                 "spawnTimer should decrease by 5% when endlessTimer.tick(delta) is true",
                 Math.round(spawnTimer * 0.95f),
-                customerManager.getTimer().getRemainingTime(),
+                customerManager.getSpawnTimer().getRemainingTime(),
                 0.1
             );
             if (i == iterations - 1) {
                 assertEquals(
                     10000,
-                    customerManager.getTimer().getRemainingTime()
+                    customerManager.getSpawnTimer().getRemainingTime()
                 );
             }
         }
@@ -290,7 +290,7 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
+        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime());
         int x = customerManager.getObjectives().size();
         assertEquals(
             "Reputation should be 3 by default.",
@@ -373,8 +373,7 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
-        Vector2 end = new Vector2(7, 10);
+        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime());
         for (int i = 0; i < 6; i++) {
             act(spawnTime);
             Customer currentCustomer = customerManager.getCustomer(i);
@@ -383,24 +382,14 @@ public class CustomerManagerTests {
                 currentCustomer.act(1f / 60);
                 world.step(1f / 60, 6, 2);
             }
-            assertEquals(objective.getPosition().x, currentCustomer.getX(), 1f);
-            assertTrue(
-                objective
-                    .getPosition()
-                    .epsilonEquals(currentCustomer.getPosition(), 1f)
+            assertEquals(
+                objective.getPosition().x,
+                currentCustomer.getPosition().x,
+                1f
             );
-            // if (i == 5) {
-            //     currentCustomer = customerManager.getCustomer(0);
-            //     currentCustomer.fulfillOrder();
-            //     while (
-            //         !(currentCustomer.getPosition().epsilonEquals(end, 0.6f))
-            //     ) {
-            //         currentCustomer.act(1f / 60);
-            //         world.step(1f / 60, 6, 2);
-            //     }
-            //     assertEquals(currentCustomer.getPosition().x, 7, 0.6f);
-            //     assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
-            // }
+            assertTrue(
+                objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f)
+            );
         }
         world = clearBodies(world);
     }

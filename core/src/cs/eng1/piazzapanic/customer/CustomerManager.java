@@ -465,10 +465,6 @@ public class CustomerManager {
         return spawnTimer;
     }
 
-    public Timer getEndlessTimer() {
-        return endlessTimer;
-    }
-
     public int getSpawnedCustomers() {
         return spawnedCustomers;
     }
