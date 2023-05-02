@@ -11,12 +11,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
 public class CustomerTests {
+
     // CustomerManager customerManager = new CustomerManager(0, null, null, 0);
     Customer customer;
 
     @Test
-    public void fulfillOrderTests() {
-
-    }
-
+    public void fulfillOrderTests() {}
 }
