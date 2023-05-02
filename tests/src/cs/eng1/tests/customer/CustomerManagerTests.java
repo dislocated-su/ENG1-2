@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.Customer;
@@ -102,7 +103,7 @@ public class CustomerManagerTests {
         );
         assertEquals(
             "Init should identify the correct number of objectives.",
-            5,
+            10,
             objectives
         );
         assertEquals(
@@ -124,6 +125,21 @@ public class CustomerManagerTests {
             "Init should identify objectives correctly.",
             new Vector2(26, 13),
             customerManager.getObjective(3).getPosition()
+        );
+        assertEquals(
+            "Init should identify objectives correctly.",
+            new Vector2(21, 10),
+            customerManager.getObjective(4).getPosition()
+        );
+        assertEquals(
+            "Init should identify objectives correctly.",
+            new Vector2(21, 9),
+            customerManager.getObjective(5).getPosition()
+        );
+        assertEquals(
+            "Init should identify objectives correctly.",
+            new Vector2(21, 7),
+            customerManager.getObjective(6).getPosition()
         );
         assertEquals(
             "Init should identify objectives correctly.",
@@ -160,7 +176,7 @@ public class CustomerManagerTests {
         );
 
         assertEquals(
-            "Calling init multiple times should not duplicate objectives.",
+            "Calling init multiple times should reset / not duplicate objectives.",
             objectives,
             customerManager.getObjectives().size()
         );
@@ -272,6 +288,7 @@ public class CustomerManagerTests {
         );
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
+        Vector2 firstPos = customerManager.getObjective(0).getPosition();
         assertEquals(
             "Reputation should be 3 by default.",
             3,
@@ -289,11 +306,33 @@ public class CustomerManagerTests {
             2,
             customerManager.getReputation()
         );
-        for (int i = 2; i != x; i++) {
+        for (int i = 2; i <= x; i++) {
             act(spawnTime);
-            assertEquals(i, customerManager.getCustomerQueue().size());
+            assertEquals(
+                "Act should spawn customers if the correct amount of time has passed.", 
+                Math.min(i, 5), 
+                customerManager.getCustomerQueue().size()
+            );
+            if (i < 5) {
+                Customer customer = customerManager.getCustomer(i-1);
+                Box2dLocation objective = customerManager.getObjective(i-1);
+                for (float f = 0; f <= spawnTime; f += 1f/60) {
+                    customer.act(f);
+                    world.step(f, 6, 2);
+                }
+                assertEquals(objective.getPosition().x, customer.getX(), 1f);
+                assertEquals(objective.getPosition().y, customer.getY(), 1f);
+            }
         }
-        for (int i = 1; i != x; i++) {
+        for (float i = 0; i < 2 * spawnTime; i += 1f/60) {
+            customerManager.act(i);
+            assertEquals(
+                "customerManager act should not spawn customers above the given amount of customers.", 
+                5, 
+                customerManager.getCustomerQueue().size()
+            );
+        }
+        for (int i = 1; i < 5; i++) {
             act(spawnTime);
             customerManager.nextRecipe(chef, customerManager.getCustomer(0));
             assertEquals(
