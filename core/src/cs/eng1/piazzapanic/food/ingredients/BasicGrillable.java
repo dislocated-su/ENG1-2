@@ -75,6 +75,10 @@ public class BasicGrillable extends Ingredient implements Grillable {
         return grilled;
     }
 
+    public void setHalfGrilled(boolean value) {
+        halfGrilled = value;
+    }
+
     /**
      * Get the texture based on whether the lettuce has been chopped.
      *
@@ -85,7 +89,7 @@ public class BasicGrillable extends Ingredient implements Grillable {
         String name = getType() + "_";
 
         if (!useable) {
-            name += "ruined";
+            name = "burnt";
         } else if (!grilled) {
             name += "raw";
         } else {

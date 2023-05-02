@@ -26,23 +26,32 @@ import cs.eng1.piazzapanic.food.recipes.Salad;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
-import java.util.*;
+import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
+import cs.eng1.piazzapanic.utility.saving.SavedCustomerManager;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class CustomerManager {
 
     private final LinkedList<Customer> customerQueue =
         new LinkedList<Customer>();
-    private final Map<Integer, SubmitStation> recipeStations;
+    private final HashMap<Integer, SubmitStation> recipeStations;
     private final UIOverlay overlay;
-    private final int totalCustomers;
+    public final int totalCustomers;
     private final int maxSpawnRate = 10000;
     private final float customerScale;
     final World world;
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
 
-    private final Timer spawnTimer = new Timer(1000, false, true);
-    private final Timer endlessTimer = new Timer(8000, false, true);
+    private final Timer spawnTimer;
+    private final Timer endlessTimer;
     // Separate random instances are used to not break existing tests relying on a
     // set permutation of orders.
     private final Random randomOrders;
@@ -53,7 +62,7 @@ public class CustomerManager {
 
     private Map<Integer, Box2dLocation> objectives;
     private final List<Integer> objectiveIds = new ArrayList<>();
-    private final Map<Integer, Boolean> objectiveAvailability = new HashMap<>();
+    private final Map<Integer, Boolean> objectiveAvailability;
     private List<Vector2> spawnLocations;
     private Stage stage;
     private Integer[] stationsRanked;
@@ -80,6 +89,68 @@ public class CustomerManager {
         randomTextures = new Random();
         this.customerScale = customerScale;
         this.world = world;
+
+        spawnTimer = new Timer(1000, false, true);
+        endlessTimer = new Timer(8000, false, true);
+
+        objectiveAvailability = new HashMap<>();
+    }
+
+    public CustomerManager(
+        SavedCustomerManager save,
+        float customerScale,
+        UIOverlay overlay,
+        World world,
+        FoodTextureManager textureManager
+    ) {
+        this.overlay = overlay;
+        this.recipeStations = new HashMap<>();
+
+        totalCustomers = save.totalCustomers;
+        spawnedCustomers = save.spawnedCustomers;
+        randomOrders = new Random();
+        randomTextures = new Random();
+        this.customerScale = customerScale;
+        this.world = world;
+
+        spawnTimer = save.spawnTimer;
+        endlessTimer = save.endlessTimer;
+
+        reputation = save.reputation;
+
+        objectiveAvailability = save.objectiveAvailabilities.get();
+
+        possibleRecipes =
+            new Recipe[] {
+                new Burger(textureManager),
+                new Salad(textureManager),
+                new Pizza(textureManager),
+                new JacketPotato(textureManager),
+            };
+
+        for (SavedCustomer savedCustomer : save.customerQueue) {
+            Texture texture = new Texture(
+                Gdx.files.internal(savedCustomer.imagePath)
+            );
+            Customer customer = new Customer(
+                texture,
+                new Vector2(
+                    texture.getWidth() * customerScale,
+                    texture.getHeight() * customerScale
+                ),
+                savedCustomer.position,
+                Recipe.fromString(savedCustomer.order, textureManager),
+                this
+            );
+            customer.currentObjective = savedCustomer.currentObjective;
+            this.customerQueue.addLast(customer);
+        }
+
+        for (Integer id : objectiveAvailability.keySet()) {
+            objectiveIds.add(id);
+        }
+
+        Collections.sort(objectiveIds);
     }
 
     /**
@@ -99,6 +170,21 @@ public class CustomerManager {
     ) {
         this(customerScale, overlay, world, customers);
         randomOrders.setSeed(seed);
+    }
+
+    public void load(
+        Stage stage,
+        Map<Integer, Box2dLocation> objectives,
+        List<Vector2> spawnLocations
+    ) {
+        this.stage = stage;
+        this.objectives = objectives;
+        this.spawnLocations = spawnLocations;
+
+        for (Customer c : customerQueue) {
+            stage.addActor(c);
+            updateCustomerLocation(c, c.currentObjective);
+        }
     }
 
     /**
@@ -225,7 +311,6 @@ public class CustomerManager {
         // requires updating overlay to allow for multiple orders being displayed at
         // once
         overlay.updateOrders(getOrders());
-        overlay.updateChefUI(chef);
         if (completedOrders == totalCustomers) {
             spawnTimer.stop();
             overlay.updateRecipeUI(null);
@@ -281,6 +366,9 @@ public class CustomerManager {
     private void updateCustomerLocation(Customer customer, Integer objective) {
         makeItGoThere(customer, objective);
         if (objective < 4) {
+            if (customer == null) {
+                throw new AssertionError("Customer is null???");
+            }
             recipeStations.get(stationsRanked[objective]).customer = customer;
         }
     }
@@ -291,7 +379,9 @@ public class CustomerManager {
      * @param locationID and id from objectives
      */
     private void makeItGoThere(Customer customer, int locationID) {
-        objectiveAvailability.put(customer.currentObjective, true);
+        if (customer.currentObjective != null) {
+            objectiveAvailability.put(customer.currentObjective, true);
+        }
 
         Box2dLocation there = objectives.get(locationID);
 
@@ -372,8 +462,16 @@ public class CustomerManager {
         return recipeStations;
     }
 
-    public Timer getTimer() {
+    public Timer getSpawnTimer() {
         return spawnTimer;
+    }
+
+    public Timer getEndlessTimer() {
+        return endlessTimer;
+    }
+
+    public int getSpawnedCustomers() {
+        return spawnedCustomers;
     }
 
     public LinkedList<Customer> getCustomerQueue() {
@@ -382,5 +480,9 @@ public class CustomerManager {
 
     public int getReputation() {
         return reputation;
+    }
+
+    public Map<Integer, Boolean> getAvailabilities() {
+        return objectiveAvailability;
     }
 }

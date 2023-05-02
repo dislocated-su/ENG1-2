@@ -26,7 +26,7 @@ public class UncookedPizza extends BasicCookable {
     public Texture getTexture() {
         String name = "";
         if (!useable) {
-            name += "ruined_pizza";
+            name += "burnt";
         } else if (!cooked) {
             name = "uncooked_pizza";
         } else {

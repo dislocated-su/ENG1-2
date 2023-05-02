@@ -19,12 +19,27 @@ import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.BasicChoppable;
+import cs.eng1.piazzapanic.food.ingredients.BasicCookable;
+import cs.eng1.piazzapanic.food.ingredients.BasicGrillable;
+import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import cs.eng1.piazzapanic.stations.ChoppingStation;
+import cs.eng1.piazzapanic.stations.CookingStation;
+import cs.eng1.piazzapanic.stations.GrillingStation;
+import cs.eng1.piazzapanic.stations.IngredientStation;
+import cs.eng1.piazzapanic.stations.RecipeStation;
 import cs.eng1.piazzapanic.stations.Station;
+import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
+import cs.eng1.piazzapanic.utility.saving.SaveManager;
+import cs.eng1.piazzapanic.utility.saving.SaveState;
+import cs.eng1.piazzapanic.utility.saving.SavedFood;
+import cs.eng1.piazzapanic.utility.saving.SavedStation;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The screen which can be used to load the tilemap and keep track of everything
@@ -58,6 +73,9 @@ public class GameScreen implements Screen {
         int difficulty
     ) {
         this.game = game;
+
+        PlayerState.reset();
+
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -85,8 +103,10 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
-        PlayerState.reset();
-
+        Gdx.app.log(
+            "Chef hire cost",
+            String.valueOf(PlayerState.getInstance().getChefHireCost(false))
+        );
         PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager =
@@ -138,6 +158,144 @@ public class GameScreen implements Screen {
         this.extraCook = mapLoader.cookSpawnpoints;
     }
 
+    public GameScreen(PiazzaPanicGame game, SaveState save) {
+        this.game = game;
+        world = new World(new Vector2(0, 0), true);
+        box2dDebugRenderer = new Box2DDebugRenderer();
+
+        MapLoader mapLoader = new MapLoader("e.tmx");
+
+        // Initialize stage and camera
+        OrthographicCamera camera = new OrthographicCamera();
+        ExtendViewport viewport = new ExtendViewport(
+            mapLoader.mapSize.x / 3,
+            mapLoader.mapSize.y / 3,
+            camera
+        );
+
+        this.stage = new Stage(viewport);
+
+        kbInput = new KeyboardInput();
+
+        ScreenViewport uiViewport = new ScreenViewport();
+        this.uiStage = new Stage(uiViewport);
+        this.stationUIController = new StationUIController(uiStage, game);
+        uiOverlay = new UIOverlay(uiStage, game);
+
+        // Initialize tilemap
+        this.tileMapRenderer = mapLoader.createMapRenderer();
+
+        foodTextureManager = new FoodTextureManager();
+
+        PlayerState.reset();
+        PlayerState.loadInstance(new PlayerState(save.playerState));
+
+        chefManager =
+            new ChefManager(
+                save.chefManager,
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                kbInput,
+                foodTextureManager
+            );
+
+        customerManager =
+            new CustomerManager(
+                save.customerManager,
+                mapLoader.unitScale * 2.5f,
+                uiOverlay,
+                world,
+                foodTextureManager
+            );
+
+        mapLoader.createStations(
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            foodTextureManager,
+            customerManager
+        );
+
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+
+        customerManager.load(
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
+
+        // Add box2d colliders
+        mapLoader.createBox2DBodies("Obstacles", world);
+
+        chefManager.addChefsToStage(stage);
+
+        this.extraCook = mapLoader.cookSpawnpoints;
+        HashMap<Integer, Station> stationMap = new HashMap<>();
+        for (Actor actor : stage.getActors().items) {
+            if (
+                actor instanceof Station &&
+                !(actor instanceof IngredientStation) &&
+                !(actor instanceof SubmitStation)
+            ) {
+                Station currentStation = (Station) actor;
+                stationMap.put(currentStation.getId(), currentStation);
+            }
+        }
+
+        for (SavedStation savedStation : save.stations) {
+            Station tempStation = stationMap.get(savedStation.id);
+            if (tempStation instanceof RecipeStation) {
+                RecipeStation recipeStation = (RecipeStation) tempStation;
+                recipeStation.ingredientStack =
+                    savedStation.ingredientStack.get(foodTextureManager);
+
+                for (SavedFood savedFood : savedStation.items) {
+                    recipeStation.displayIngredient.add(
+                        (Ingredient) savedFood.get(foodTextureManager)
+                    );
+                }
+            } else if (tempStation instanceof ChoppingStation) {
+                ChoppingStation chopTemp = (ChoppingStation) tempStation;
+
+                chopTemp.currentIngredient =
+                    savedStation.items[0] != null
+                        ? (BasicChoppable) (
+                            savedStation.items[0].get(foodTextureManager)
+                        )
+                        : null;
+            } else if (tempStation instanceof CookingStation) {
+                CookingStation cookTemp = (CookingStation) tempStation;
+                cookTemp.currentIngredient =
+                    savedStation.items[0] != null
+                        ? (BasicCookable) (
+                            savedStation.items[0].get(foodTextureManager)
+                        )
+                        : null;
+            } else if (tempStation instanceof GrillingStation) {
+                GrillingStation grillTemp = (GrillingStation) tempStation;
+                grillTemp.currentIngredient =
+                    savedStation.items[0] != null
+                        ? (BasicGrillable) (
+                            savedStation.items[0].get(foodTextureManager)
+                        )
+                        : null;
+            } else {
+                throw new AssertionError(
+                    "Attempting to load a station of invalid type"
+                );
+            }
+        }
+    }
+
     @Override
     public void show() {
         multiplexer.addProcessor(kbInput);
@@ -147,32 +305,33 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
 
-        for (Actor actor : stage.getActors().items) {
-            if (actor instanceof Station) {
-                ((Station) actor).reset();
-            }
-        }
         isFirstFrame = true;
     }
 
     @Override
     public void render(float delta) {
-        if (PlayerState.getInstance().getPaused()) {
+        if (uiOverlay.paused) {
             delta = 0;
         }
+
+        if (uiOverlay.pauseOverlay.saving) {
+            uiOverlay.pauseOverlay.saving = false;
+            SaveManager.getInstance().save(chefManager, customerManager, stage);
+        }
+
         if (uiOverlay.pauseToggle) {
             uiOverlay.pauseToggle = false;
-            if (PlayerState.getInstance().getPaused()) {
+            if (uiOverlay.paused) {
                 pause();
             } else {
                 resume();
             }
         }
-        if (game.getUpgradesUi().chefHireFlag) {
+        if (uiOverlay.upgradesUi.chefHireFlag) {
             if (currentChefSpawn >= 2) {
                 currentChefSpawn = 0;
             }
-            game.getUpgradesUi().chefHireFlag = false;
+            uiOverlay.upgradesUi.chefHireFlag = false;
             chefManager.hireChef(extraCook.get(currentChefSpawn), stage);
             currentChefSpawn++;
         }
@@ -219,6 +378,7 @@ public class GameScreen implements Screen {
 
         if (isFirstFrame) {
             uiOverlay.updateOrders(customerManager.getOrders());
+            uiOverlay.updateChefUI(chefManager.getCurrentChef());
             isFirstFrame = false;
         }
 

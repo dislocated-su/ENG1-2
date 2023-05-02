@@ -116,3 +116,6 @@ Thumbs.db
 # testing
 tests/bin
 tests/build
+
+## Saving
+savefile.json

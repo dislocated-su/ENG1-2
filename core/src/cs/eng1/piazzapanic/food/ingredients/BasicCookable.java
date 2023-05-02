@@ -1,5 +1,6 @@
 package cs.eng1.piazzapanic.food.ingredients;
 
+import com.badlogic.gdx.graphics.Texture;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
@@ -31,7 +32,8 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
                 )
             );
         if (
-            // fail time is doubled when double prep speed is active (since delta is doubled)
+            // fail time is doubled when double prep speed is active (since delta is
+            // doubled)
 
             accumulator >=
             (
@@ -71,6 +73,10 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
         return this;
     }
 
+    public void setHalfCooked(boolean value) {
+        halfCooked = value;
+    }
+
     @Override
     public boolean cookingStepComplete() {
         return (accumulator >= cookingStepTime);
@@ -85,5 +91,16 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
     public void flip() {
         accumulator = 0;
         flipped = true;
+    }
+
+    @Override
+    public Texture getTexture() {
+        String name = getType();
+        if (!useable) {
+            name = "burnt";
+        } else if (cooked) {
+            name += "_cooked";
+        }
+        return textureManager.getTexture(name);
     }
 }

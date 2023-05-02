@@ -1,5 +1,9 @@
 package cs.eng1.piazzapanic.stations;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -57,12 +61,13 @@ public class SubmitStation extends Station {
     public void doStationAction(ActionType action) {
         super.doStationAction(action);
         if (Objects.requireNonNull(action) == ActionType.SUBMIT_ORDER) {
-            Holdable topItem = nearbyChef.getStack().pop();
+            Holdable topItem = nearbyChef.popFood();
             if (!checkCorrectRecipe(topItem)) {
                 return;
             }
-            customerManager.nextRecipe(nearbyChef, customer);
+            Customer c = this.customer;
             customer = null;
+            customerManager.nextRecipe(nearbyChef, c);
         }
 
         uiController.showActions(this, getActionTypes());
@@ -73,5 +78,19 @@ public class SubmitStation extends Station {
      */
     public void updateOrderActions() {
         uiController.showActions(this, getActionTypes());
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        if (this.customer != null) {
+            Texture desiredOrder = this.customer.getOrder().getTexture();
+            Color color = batch.getColor();
+            color.a = 0.6f;
+            batch.setColor(color);
+            drawFoodTexture(batch, desiredOrder, 1.2f);
+            color.a = 1f;
+            batch.setColor(color);
+        }
     }
 }

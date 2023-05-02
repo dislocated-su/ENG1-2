@@ -13,6 +13,7 @@ import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import cs.eng1.piazzapanic.utility.saving.SavedStation;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -86,11 +87,13 @@ public class Station extends Actor implements Observer<Chef> {
     }
 
     /**
-     * Take a food texture and render it on top of the station with a custom scaling.
+     * Take a food texture and render it on top of the station with a custom
+     * scaling.
      *
      * @param batch       the sprite batch to draw rectangles to the screen.
      * @param foodTexture the texture to be drawn onto the screen.
-     * @param scale       how big the texture is to be drawn (relative to default size of .6f)
+     * @param scale       how big the texture is to be drawn (relative to default
+     *                    size of .6f)
      */
     protected void drawFoodTexture(
         Batch batch,
@@ -247,5 +250,13 @@ public class Station extends Actor implements Observer<Chef> {
 
     public int getId() {
         return id;
+    }
+
+    public boolean getInUse() {
+        return inUse;
+    }
+
+    public boolean getLocked() {
+        return locked;
     }
 }

@@ -175,8 +175,7 @@ public class RecipeStation extends Station {
                 for (String foodType : makeActions.get(action)) {
                     this.removeIngredient(foodType);
                 }
-                completedRecipe =
-                    Recipe.fromString(action.toString(), textureManager);
+                completedRecipe = Recipe.fromAction(action, textureManager);
                 break;
             case ASSEMBLE_PIZZA:
                 for (String foodType : makeActions.get(action)) {
