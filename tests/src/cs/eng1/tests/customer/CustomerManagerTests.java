@@ -6,8 +6,10 @@ import static org.mockito.Mockito.mock;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
@@ -207,6 +209,8 @@ public class CustomerManagerTests {
             customerManager.getTimer().getRemainingTime(),
             0.1
         );
+
+        world = clearBodies(world);
     }
 
     @Test
@@ -260,6 +264,7 @@ public class CustomerManagerTests {
                 );
             }
         }
+        world = clearBodies(world);
     }
 
     @Test
@@ -341,6 +346,7 @@ public class CustomerManagerTests {
             0,
             customerManager.getReputation()
         );
+        world = clearBodies(world);
     }
 
     @Test
@@ -398,6 +404,7 @@ public class CustomerManagerTests {
                 assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
             }
         }
+        world = clearBodies(world);
     }
 
     public void act(float delta) {
@@ -405,6 +412,15 @@ public class CustomerManagerTests {
         for (Customer customer : customerManager.getCustomerQueue()) {
             customer.act(delta);
         }
+    }
+
+    public World clearBodies(World world) {
+        Array<Body> bodies = new Array<>(100);
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            world.destroyBody(body);
+        }
+        return world;
     }
     // @Test
     // public void addStationTests() {
