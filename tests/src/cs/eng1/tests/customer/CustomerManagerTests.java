@@ -388,7 +388,9 @@ public class CustomerManagerTests {
                 1f
             );
             assertTrue(
-                objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f)
+                objective
+                    .getPosition()
+                    .epsilonEquals(currentCustomer.getPosition(), 1f)
             );
         }
         world = clearBodies(world);
