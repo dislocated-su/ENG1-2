@@ -273,20 +273,20 @@ public class CustomerManagerTests {
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
         assertEquals(
-            "Reputation should be 3 by default.", 
-            3, 
+            "Reputation should be 3 by default.",
+            3,
             customerManager.getReputation()
         );
         customerManager.getCustomer(0).act(spawnTime);
         assertEquals(
-            "Customers should cause a loss of reputation when they have not been served in a timely manner.", 
-            2, 
+            "Customers should cause a loss of reputation when they have not been served in a timely manner.",
+            2,
             customerManager.getReputation()
         );
         customerManager.getCustomer(0).act(spawnTime);
         assertEquals(
-            "A single customer should not reduce reputation multiple times.", 
-            2, 
+            "A single customer should not reduce reputation multiple times.",
+            2,
             customerManager.getReputation()
         );
         for (int i = 2; i != x; i++) {
@@ -295,10 +295,7 @@ public class CustomerManagerTests {
         }
         for (int i = 1; i != x; i++) {
             act(spawnTime);
-            customerManager.nextRecipe(
-                chef,
-                customerManager.getCustomer(0)
-            );
+            customerManager.nextRecipe(chef, customerManager.getCustomer(0));
             assertEquals(
                 "Act combined with getRecipe should spawn the correct number of total customers and complete orders.",
                 i,
@@ -311,8 +308,8 @@ public class CustomerManagerTests {
             customerManager.getCustomerQueue().size()
         );
         assertEquals(
-            "Reputation should not go below 0.", 
-            0, 
+            "Reputation should not go below 0.",
+            0,
             customerManager.getReputation()
         );
     }
