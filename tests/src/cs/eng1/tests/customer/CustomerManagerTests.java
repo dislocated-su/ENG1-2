@@ -320,7 +320,12 @@ public class CustomerManagerTests {
                     currentCustomer.act(f);
                     world.step(f, 6, 2);
                 }
-                if (!(currentCustomer.getX() > 9f && currentCustomer.getX() < 11f)) {
+                if (
+                    !(
+                        currentCustomer.getX() > 9f &&
+                        currentCustomer.getX() < 11f
+                    )
+                ) {
                     assertEquals(
                         objective.getPosition().x,
                         currentCustomer.getX(),
