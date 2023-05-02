@@ -367,6 +367,70 @@ public class CustomerManagerTests {
             customerManager.getReputation()
         );
     }
+    
+    @Test
+    public void movementTests() {
+        int customers = 30;
+        customerManager = new CustomerManager(
+            1, 
+            overlay, 
+            world, 
+            customers, 
+            0
+        );
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+        mapLoader.createStations(
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            stationUIController,
+            textureManager,
+            customerManager
+        );
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
+        float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
+        Box2dLocation spawn = new Box2dLocation();
+        for (int i = 0, f = 0; f < customers ; i++, f++) {
+            if (i < 5){
+                act(spawnTime);
+                Customer currentCustomer = customerManager.getCustomer(i);
+                Box2dLocation objective = customerManager.getObjective(i);
+                for (float n = 0; n <= spawnTime; n += 1f / 60) {
+                    currentCustomer.act(n);
+                    world.step(n, 6, 2);
+                }
+                assertEquals(
+                    objective.getPosition().x,
+                    currentCustomer.getX(),
+                    1f
+                );
+                assertEquals(
+                    objective.getPosition().y,
+                    currentCustomer.getY(),
+                    1f
+                );
+            } else {
+                Customer currentCustomer = customerManager.getCustomer(f);
+                currentCustomer.fulfillOrder();
+                for (float n = 0; n <= spawnTime; n += 1f / 60) {
+                    currentCustomer.act(n);
+                    world.step(n, 6, 2);
+                }
+            }
+        }
+    }
 
     public void act(float delta) {
         customerManager.act(delta);
