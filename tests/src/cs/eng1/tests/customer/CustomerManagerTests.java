@@ -315,7 +315,7 @@ public class CustomerManagerTests {
             );
         }
         for (float i = 0; i < 2 * spawnTime; i += 1f / 60) {
-            customerManager.act(1f/60);
+            customerManager.act(1f / 60);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",
                 5,
@@ -376,23 +376,23 @@ public class CustomerManagerTests {
             Customer currentCustomer = customerManager.getCustomer(i);
             Box2dLocation objective = customerManager.getObjective(i);
             for (float n = 0; n <= spawnTime; n += 1f / 60) {
-                currentCustomer.act(1f/60);
-                world.step(1f/60, 6, 2);
+                currentCustomer.act(1f / 60);
+                world.step(1f / 60, 6, 2);
             }
-            assertEquals(
-                objective.getPosition().x,
-                currentCustomer.getX(),
-                1f
-            );
+            assertEquals(objective.getPosition().x, currentCustomer.getX(), 1f);
             assertTrue(
-                objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f)
+                objective
+                    .getPosition()
+                    .epsilonEquals(currentCustomer.getPosition(), 1f)
             );
             if (i == 5) {
                 currentCustomer = customerManager.getCustomer(0);
                 currentCustomer.fulfillOrder();
-                while (!(currentCustomer.getPosition().epsilonEquals(end, 0.6f))) {
+                while (
+                    !(currentCustomer.getPosition().epsilonEquals(end, 0.6f))
+                ) {
                     currentCustomer.act(1f / 60);
-                    world.step(1f/60, 6, 2);
+                    world.step(1f / 60, 6, 2);
                 }
                 assertEquals(currentCustomer.getPosition().x, 7, 0.6f);
                 assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
