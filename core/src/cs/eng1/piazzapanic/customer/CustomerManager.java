@@ -344,6 +344,9 @@ public class CustomerManager {
     private void updateCustomerLocation(Customer customer, Integer objective) {
         makeItGoThere(customer, objective);
         if (objective < 4) {
+            if (customer == null) {
+                throw new AssertionError("Customer is null???");
+            }
             recipeStations.get(stationsRanked[objective]).customer = customer;
         }
     }

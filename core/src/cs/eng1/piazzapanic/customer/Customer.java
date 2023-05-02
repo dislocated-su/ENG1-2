@@ -41,7 +41,7 @@ public class Customer extends Actor implements Disposable {
             Vector2 position,
             Recipe order,
             CustomerManager customerManager) {
-        repTimer = new Timer(60000, true, false);
+        repTimer = new Timer(6000000, true, false);
         this.order = order;
         this.customerManager = customerManager;
         this.texture = texture;
