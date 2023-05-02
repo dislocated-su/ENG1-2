@@ -290,7 +290,8 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime()) / 500;
+        float spawnTime =
+            (customerManager.getSpawnTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
         assertEquals(
             "Reputation should be 3 by default.",
