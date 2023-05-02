@@ -8,7 +8,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ai.utils.random.IntegerDistribution;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
@@ -195,6 +198,7 @@ public class ChefTests {
             start,
             (Vector2) chef.getBody().getPosition()
         );
+        world = clearBodies(world);
     }
 
     /**
@@ -218,5 +222,14 @@ public class ChefTests {
             world.step((float) 1 / 60, 6, 2);
         }
         chef.init(0, 0);
+    }
+
+    public World clearBodies(World world) {
+        Array<Body> bodies = new Array<>(100);
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            world.destroyBody(body);
+        }
+        return world;
     }
 }
