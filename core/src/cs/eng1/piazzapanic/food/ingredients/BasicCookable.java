@@ -1,5 +1,7 @@
 package cs.eng1.piazzapanic.food.ingredients;
 
+import com.badlogic.gdx.graphics.Texture;
+
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
@@ -21,35 +23,23 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
 
     @Override
     public boolean cookingTick(float delta) {
-        accumulator +=
-            (
-                delta *
-                (
-                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
+        accumulator += (delta *
+                ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
-                        : 1
-                )
-            );
+                        : 1));
         if (
-            // fail time is doubled when double prep speed is active (since delta is
-            // doubled)
+        // fail time is doubled when double prep speed is active (since delta is
+        // doubled)
 
-            accumulator >=
-            (
-                cookingStepTime +
-                (
-                    failTime *
-                    (
-                        PlayerState
+        accumulator >= (cookingStepTime +
+                (failTime *
+                        (PlayerState
                                 .getInstance()
                                 .getBuffActive(PowerUp.COOK_FAST)
-                            ? 2
-                            : 1
-                    )
-                )
-            ) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
-        ) {
+                                        ? 2
+                                        : 1)))
+                &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)) {
             setUseable(false);
         } else if (accumulator >= cookingStepTime) {
             if (!getHalfCooked()) {
@@ -90,5 +80,16 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
     public void flip() {
         accumulator = 0;
         flipped = true;
+    }
+
+    @Override
+    public Texture getTexture() {
+        String name = getType();
+        if (!useable) {
+            name = "burnt";
+        } else if (cooked) {
+            name += "_cooked";
+        }
+        return textureManager.getTexture(name);
     }
 }

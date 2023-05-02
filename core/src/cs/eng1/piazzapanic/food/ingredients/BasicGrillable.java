@@ -22,32 +22,19 @@ public class BasicGrillable extends Ingredient implements Grillable {
 
     @Override
     public boolean grillTick(float delta) {
-        accumulator +=
-            (
-                delta *
-                (
-                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
+        accumulator += (delta *
+                ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
-                        : 1
-                )
-            );
-        if (
-            accumulator >=
-            (
-                grillStepTime +
-                (
-                    failTime *
-                    (
-                        PlayerState
+                        : 1));
+        if (accumulator >= (grillStepTime +
+                (failTime *
+                        (PlayerState
                                 .getInstance()
                                 .getBuffActive(PowerUp.COOK_FAST)
-                            ? 2
-                            : 1
-                    )
-                )
-            ) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
-        ) {
+                                        ? 2
+                                        : 1)))
+                &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)) {
             setUseable(false);
         } else if (accumulator >= grillStepTime) {
             if (!getHalfGrilled()) {
@@ -89,7 +76,7 @@ public class BasicGrillable extends Ingredient implements Grillable {
         String name = getType() + "_";
 
         if (!useable) {
-            name += "ruined";
+            name = "burnt";
         } else if (!grilled) {
             name += "raw";
         } else {

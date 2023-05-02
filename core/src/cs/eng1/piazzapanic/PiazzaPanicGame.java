@@ -8,7 +8,6 @@ import cs.eng1.piazzapanic.ui.FontManager;
 import cs.eng1.piazzapanic.ui.ModeSelectOverlay;
 import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
-import cs.eng1.piazzapanic.ui.UpgradesUi;
 import cs.eng1.piazzapanic.utility.saving.SaveState;
 
 public class PiazzaPanicGame extends Game {

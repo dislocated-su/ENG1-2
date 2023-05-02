@@ -19,33 +19,20 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     @Override
     public boolean choppingTick(float delta) {
-        accumulator +=
-            (
-                delta *
-                (
-                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
+        accumulator += (delta *
+                ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
                         ? 2
-                        : 1
-                )
-            );
+                        : 1));
 
-        if (
-            accumulator >=
-            (
-                chopTime +
-                (
-                    failTime *
-                    (
-                        PlayerState
+        if (accumulator >= (chopTime +
+                (failTime *
+                        (PlayerState
                                 .getInstance()
                                 .getBuffActive(PowerUp.COOK_FAST)
-                            ? 2
-                            : 1
-                    )
-                )
-            ) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
-        ) {
+                                        ? 2
+                                        : 1)))
+                &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)) {
             setUseable(false);
             return false;
         } else if (accumulator >= chopTime) {
@@ -73,7 +60,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
     public Texture getTexture() {
         String name = getType() + "_";
         if (!useable) {
-            name += "ruined";
+            name = "rotten";
         } else if (chopped) {
             name += "chopped";
         } else {
