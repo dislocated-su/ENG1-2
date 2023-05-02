@@ -264,13 +264,7 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(multiplexer);
         uiOverlay.init();
-        chefManager.currentChefStackUpdated();
 
-        for (Actor actor : stage.getActors().items) {
-            if (actor instanceof Station) {
-                // ((Station) actor).reset();
-            }
-        }
         isFirstFrame = true;
     }
 
@@ -340,6 +334,7 @@ public class GameScreen implements Screen {
 
         if (isFirstFrame) {
             uiOverlay.updateOrders(customerManager.getOrders());
+            uiOverlay.updateChefUI(chefManager.getCurrentChef());
             isFirstFrame = false;
         }
 
