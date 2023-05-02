@@ -379,6 +379,10 @@ public class CustomerManager {
         return customerQueue;
     }
 
+    public Customer getCustomer(int pos) {
+        return customerQueue.get(pos);
+    }
+
     public int getReputation() {
         return reputation;
     }

@@ -138,7 +138,7 @@ public class CustomerManagerTests {
         assertEquals(
             "Init should identify spawns correctly.",
             new Vector2(13, 7),
-            customerManager.getCustomerQueue().get(0).getPosition()
+            customerManager.getCustomer(0).getPosition()
         );
         assertEquals(
             "A PlayerState difficulty of 0 should multiply the difficulty by 2",
@@ -272,6 +272,23 @@ public class CustomerManagerTests {
         );
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
+        assertEquals(
+            "Reputation should be 3 by default.", 
+            3, 
+            customerManager.getReputation()
+        );
+        customerManager.getCustomer(0).act(spawnTime);
+        assertEquals(
+            "Customers should cause a loss of reputation when they have not been served in a timely manner.", 
+            2, 
+            customerManager.getReputation()
+        );
+        customerManager.getCustomer(0).act(spawnTime);
+        assertEquals(
+            "A single customer should not reduce reputation multiple times.", 
+            2, 
+            customerManager.getReputation()
+        );
         for (int i = 2; i != x; i++) {
             act(spawnTime);
             assertEquals(i, customerManager.getCustomerQueue().size());
@@ -280,16 +297,30 @@ public class CustomerManagerTests {
             act(spawnTime);
             customerManager.nextRecipe(
                 chef,
-                customerManager.getCustomerQueue().get(0)
+                customerManager.getCustomer(0)
             );
-            assertEquals(i, customerManager.getCompletedOrders());
+            assertEquals(
+                "Act combined with getRecipe should spawn the correct number of total customers and complete orders.",
+                i,
+                customerManager.getCompletedOrders()
+            );
         }
+        assertEquals(
+            "Act and nextRecipe should despawn customers.",
+            1,
+            customerManager.getCustomerQueue().size()
+        );
+        assertEquals(
+            "Reputation should not go below 0.", 
+            0, 
+            customerManager.getReputation()
+        );
     }
 
     public void act(float delta) {
         customerManager.act(delta);
-        for (int i = 0; i < customerManager.getCustomerQueue().size(); i++) {
-            customerManager.getCustomerQueue().get(0).act(delta);
+        for (Customer customer : customerManager.getCustomerQueue()) {
+            customer.act(delta);
         }
     }
     // @Test
