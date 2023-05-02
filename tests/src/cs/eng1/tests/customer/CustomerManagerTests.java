@@ -367,17 +367,11 @@ public class CustomerManagerTests {
             customerManager.getReputation()
         );
     }
-    
+
     @Test
     public void movementTests() {
         int customers = 30;
-        customerManager = new CustomerManager(
-            1, 
-            overlay, 
-            world, 
-            customers, 
-            0
-        );
+        customerManager = new CustomerManager(1, overlay, world, customers, 0);
         mapLoader.loadWaypoints(
             "Waypoints",
             "cookspawnid",
@@ -402,8 +396,8 @@ public class CustomerManagerTests {
         );
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         Box2dLocation spawn = new Box2dLocation();
-        for (int i = 0, f = 0; f < customers ; i++, f++) {
-            if (i < 5){
+        for (int i = 0, f = 0; f < customers; i++, f++) {
+            if (i < 5) {
                 act(spawnTime);
                 Customer currentCustomer = customerManager.getCustomer(i);
                 Box2dLocation objective = customerManager.getObjective(i);
