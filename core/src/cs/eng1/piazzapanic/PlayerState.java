@@ -5,6 +5,7 @@ import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.piazzapanic.utility.saving.SavedPlayerState;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerState {
 
@@ -20,7 +21,9 @@ public class PlayerState {
 
     private int hireCost = 1000;
 
-    private HashMap<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
+    private int purchasedChefs = 0;
+
+    private Map<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
         {
             put(PowerUp.WALK_FAST, new Timer(60000, false, false));
             put(PowerUp.COOK_FAST, new Timer(60000, false, false));
@@ -57,16 +60,7 @@ public class PlayerState {
         cash = state.cash;
         hireCost = state.hireCost;
         upgradeCost = state.upgradeCost;
-        powerUpTimers = new HashMap<PowerUp, Timer>() {
-            {
-                put(PowerUp.WALK_FAST, state.walkTimer);
-                put(PowerUp.COOK_FAST, state.cookTimer);
-                put(PowerUp.NO_SPOILING, state.spoilTimer);
-                put(PowerUp.NO_REP_LOSS, state.repLossTimer);
-                put(PowerUp.MORE_MONEY, state.moneyTimer);
-
-            }
-        };
+        this.powerUpTimers = state.powerUpTimers.get();
     }
 
     /**
@@ -265,7 +259,19 @@ public class PlayerState {
         difficultyLevel = value;
     }
 
+    public int getPurchasedChefs() {
+        return purchasedChefs;
+    }
+
+    public void setPurchasedChefs(int value) {
+        purchasedChefs = value;
+    }
+
     public Timer getTimer(PowerUp powerUp) {
         return powerUpTimers.get(powerUp);
+    }
+
+    public Map<PowerUp, Timer> getPowerUpTimers() {
+        return powerUpTimers;
     }
 }

@@ -61,7 +61,7 @@ public class UIOverlay {
 
     private Value scale;
 
-    private PauseOverlay pauseOverlay;
+    public PauseOverlay pauseOverlay;
 
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;

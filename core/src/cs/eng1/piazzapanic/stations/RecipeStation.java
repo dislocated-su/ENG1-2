@@ -30,27 +30,22 @@ public class RecipeStation extends Station {
     public Stack<Ingredient> displayIngredient = new Stack<>();
 
     public IngredientStack ingredientStack = new IngredientStack(
-        MAX_ITEMS_PER_GROUP
-    );
+            MAX_ITEMS_PER_GROUP);
 
-    HashMap<ActionType, String[]> makeActions =
-        new HashMap<ActionType, String[]>() {
-            {
-                put(ActionType.MAKE_BURGER, new String[] { "bun", "patty" });
-                put(
+    HashMap<ActionType, String[]> makeActions = new HashMap<ActionType, String[]>() {
+        {
+            put(ActionType.MAKE_BURGER, new String[] { "bun", "patty" });
+            put(
                     ActionType.MAKE_SALAD,
-                    new String[] { "tomato", "lettuce" }
-                );
-                put(
+                    new String[] { "tomato", "lettuce" });
+            put(
                     ActionType.ASSEMBLE_PIZZA,
-                    new String[] { "dough", "cheese", "tomato" }
-                );
-                put(
+                    new String[] { "dough", "cheese", "tomato" });
+            put(
                     ActionType.MAKE_JACKET,
-                    new String[] { "potato", "cheese" }
-                );
-            }
-        };
+                    new String[] { "potato", "cheese" });
+        }
+    };
 
     public void placeIngredient(Ingredient input) {
         ingredientStack.addIngredient(input.getType(), input);
@@ -77,13 +72,12 @@ public class RecipeStation extends Station {
      *                            each ingredient should have
      */
     public RecipeStation(
-        int id,
-        TextureRegion textureRegion,
-        StationUIController stationUIController,
-        ActionAlignment alignment,
-        Boolean locked,
-        FoodTextureManager textureManager
-    ) {
+            int id,
+            TextureRegion textureRegion,
+            StationUIController stationUIController,
+            ActionAlignment alignment,
+            Boolean locked,
+            FoodTextureManager textureManager) {
         super(id, textureRegion, stationUIController, alignment, locked);
         this.textureManager = textureManager;
     }
@@ -106,8 +100,7 @@ public class RecipeStation extends Station {
      */
     @Override
     public LinkedList<ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -118,16 +111,12 @@ public class RecipeStation extends Station {
             Holdable item = nearbyChef.getStack().peek();
             if (item instanceof Ingredient) {
                 Ingredient checkItem = (Ingredient) item;
-                if (
-                    checkItem.getUseable() &&
-                    (
-                        checkItem.getChopped() ||
-                        checkItem.getCooked() ||
-                        checkItem.getGrilled() ||
-                        checkItem.getType() == "bun" ||
-                        checkItem.getType() == "dough"
-                    )
-                ) {
+                if (checkItem.getUseable() &&
+                        (checkItem.getChopped() ||
+                                checkItem.getCooked() ||
+                                checkItem.getGrilled() ||
+                                checkItem.getType() == "bun" ||
+                                checkItem.getType() == "dough")) {
                     // If a chef is nearby and is carrying at least one ingredient
                     // and the top ingredient is cooked, chopped or a bun then display the action
                     actionTypes.add(ActionType.PLACE_INGREDIENT);
@@ -138,8 +127,7 @@ public class RecipeStation extends Station {
             for (ActionType makeAction : makeActions.keySet()) {
                 boolean canMake = true;
                 for (String ingredientType : makeActions.get(makeAction)) {
-                    canMake =
-                        canMake && ingredientStack.contains(ingredientType);
+                    canMake = canMake && ingredientStack.contains(ingredientType);
                 }
                 if (canMake) {
                     actionTypes.add(makeAction);
@@ -175,8 +163,7 @@ public class RecipeStation extends Station {
                 for (String foodType : makeActions.get(action)) {
                     this.removeIngredient(foodType);
                 }
-                completedRecipe =
-                    Recipe.fromString(action.toString(), textureManager);
+                completedRecipe = Recipe.fromAction(action, textureManager);
                 break;
             case ASSEMBLE_PIZZA:
                 for (String foodType : makeActions.get(action)) {

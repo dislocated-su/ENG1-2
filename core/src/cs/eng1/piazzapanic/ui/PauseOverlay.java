@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Json;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState;
+import cs.eng1.piazzapanic.utility.saving.SaveManager;
 import cs.eng1.piazzapanic.utility.saving.SaveState;
 import cs.eng1.piazzapanic.utility.saving.SavedPlayerState;
 
@@ -26,6 +27,8 @@ public class PauseOverlay {
 
     private Stage stage;
     private Table root;
+
+    public boolean saving = false;
 
     public PauseOverlay(Stage stage, PiazzaPanicGame game, UIOverlay hud) {
         this.stage = stage;
@@ -55,15 +58,9 @@ public class PauseOverlay {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("hehe", "he");
-                SaveState state = new SaveState();
-                state.from(PlayerState.getInstance());
-                Json json = new Json();
-                json.toJson(state, SaveState.class, null, new FileHandle("GameSave.json"));
-
-                state = json.fromJson(SaveState.class, new FileHandle("GameSave.json"));
-
-                PlayerState.loadInstance(new PlayerState(state.playerState));
+                Gdx.app.log("Save Triggered", "");
+                // SaveManager.getInstance().save();
+                saving = true;
             }
         });
 

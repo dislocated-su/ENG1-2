@@ -9,6 +9,7 @@ import cs.eng1.piazzapanic.ui.ModeSelectOverlay;
 import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
 import cs.eng1.piazzapanic.ui.UpgradesUi;
+import cs.eng1.piazzapanic.utility.saving.SaveState;
 
 public class PiazzaPanicGame extends Game {
 
@@ -70,6 +71,10 @@ public class PiazzaPanicGame extends Game {
      */
     public void loadGameScreen(int customers, int difficulty) {
         setScreen(new GameScreen(this, customers, difficulty));
+    }
+
+    public void loadGameScreen(SaveState save) {
+        setScreen(new GameScreen(this, save));
     }
 
     /**

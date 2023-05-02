@@ -16,6 +16,7 @@ import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
+import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 
 public class Customer extends Actor implements Disposable {
 
@@ -32,16 +33,14 @@ public class Customer extends Actor implements Disposable {
     public Integer currentObjective = null;
 
     private Body body;
-    private boolean despawnFlag = false;
     private Box2dLocation endObjective;
 
     public Customer(
-        Texture texture,
-        Vector2 bounds,
-        Vector2 position,
-        Recipe order,
-        CustomerManager customerManager
-    ) {
+            Texture texture,
+            Vector2 bounds,
+            Vector2 position,
+            Recipe order,
+            CustomerManager customerManager) {
         repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
@@ -75,59 +74,71 @@ public class Customer extends Actor implements Disposable {
         return order;
     }
 
+    public Timer getRepTimer() {
+        return repTimer;
+    }
+
+    public boolean getReputation() {
+        return reputation;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public boolean getOrderCompleted() {
+        return orderCompleted;
+    }
+
     public void fulfillOrder() {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
         PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
         Gdx.app.log(
-            "Current cash",
-            Float.toString(PlayerState.getInstance().getCash())
-        );
+                "Current cash",
+                Float.toString(PlayerState.getInstance().getCash()));
         customerManager.walkBack(this);
         endObjective = customerManager.getObjective(currentObjective);
-        despawnFlag = true;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-            texture,
-            getX() + (1 - textureBounds.x) / 2f,
-            getY() + (1 - textureBounds.y) / 2f,
-            textureBounds.x / 2f,
-            textureBounds.y / 2f,
-            textureBounds.x,
-            textureBounds.y,
-            1f,
-            1f,
-            getRotation(),
-            0,
-            0,
-            texture.getWidth(),
-            texture.getHeight(),
-            false,
-            false
-        );
-        if (orderCompleted) {
-            Texture texture = order.getTexture();
-            batch.draw(
                 texture,
-                getX() + 0.5f,
-                getY() + 0.2f,
-                0f,
-                0.3f,
-                0.6f,
-                0.6f,
-                1.5f,
-                1.5f,
+                getX() + (1 - textureBounds.x) / 2f,
+                getY() + (1 - textureBounds.y) / 2f,
+                textureBounds.x / 2f,
+                textureBounds.y / 2f,
+                textureBounds.x,
+                textureBounds.y,
+                1f,
+                1f,
                 getRotation(),
                 0,
                 0,
                 texture.getWidth(),
                 texture.getHeight(),
                 false,
-                false
-            );
+                false);
+        if (orderCompleted) {
+            Texture texture = order.getTexture();
+            batch.draw(
+                    texture,
+                    getX() + 0.5f,
+                    getY() + 0.2f,
+                    0f,
+                    0.3f,
+                    0.6f,
+                    0.6f,
+                    1.5f,
+                    1.5f,
+                    getRotation(),
+                    0,
+                    0,
+                    texture.getWidth(),
+                    texture.getHeight(),
+                    false,
+                    false);
         }
     }
 
@@ -141,19 +152,17 @@ public class Customer extends Actor implements Disposable {
 
         setRotation((float) Math.toDegrees(body.getAngle()));
 
-        if (despawnFlag) {
+        if (orderCompleted) {
             if (endObjective.getPosition().epsilonEquals(position, 0.5f)) {
                 this.remove();
                 this.dispose();
             }
         }
 
-        if (
-            !orderCompleted &&
-            reputation &&
-            repTimer.tick(delta) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)
-        ) {
+        if (!orderCompleted &&
+                reputation &&
+                repTimer.tick(delta) &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)) {
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
@@ -162,6 +171,18 @@ public class Customer extends Actor implements Disposable {
 
     public boolean isOrderCompleted() {
         return orderCompleted;
+    }
+
+    public SavedCustomer getSavedCustomer() {
+        SavedCustomer save = new SavedCustomer();
+        save.currentObjective = currentObjective;
+        save.imagePath = texture.getTextureData().toString();
+        save.order = order.getType();
+        save.orderCompleted = orderCompleted;
+        save.position = body.getPosition();
+        save.repTimer = repTimer;
+        save.reputation = reputation;
+        return save;
     }
 
     @Override

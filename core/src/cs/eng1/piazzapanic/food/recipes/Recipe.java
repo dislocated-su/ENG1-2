@@ -3,6 +3,8 @@ package cs.eng1.piazzapanic.food.recipes;
 import com.badlogic.gdx.graphics.Texture;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
+import cs.eng1.piazzapanic.stations.StationAction.ActionType;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -65,24 +67,39 @@ public class Recipe implements Holdable {
         return ingredientTypes;
     }
 
-    public static Recipe fromString(
-        String recipe,
-        FoodTextureManager textureManager
-    ) {
-        switch (recipe) {
-            case "MAKE_BURGER":
+    public static Recipe fromAction(
+            ActionType action,
+            FoodTextureManager textureManager) {
+        switch (action) {
+            case MAKE_BURGER:
                 return new Burger(textureManager);
-            case "MAKE_SALAD":
+            case MAKE_SALAD:
                 return new Salad(textureManager);
-            case "MAKE_JACKET":
+            case MAKE_JACKET:
                 return new JacketPotato(textureManager);
-            case "MAKE_PIZZA":
+            case MAKE_PIZZA:
                 return new Pizza(textureManager);
             default:
                 throw new IllegalArgumentException(
-                    recipe + "is not a valid recipe type"
-                );
+                        action.name() + "is not a valid recipe type");
         }
+    }
+
+    public static Recipe fromString(String type, FoodTextureManager textureManager) {
+        switch (type) {
+            case "burger":
+                return new Burger(textureManager);
+            case "salad":
+                return new Salad(textureManager);
+            case "jacket_potato":
+                return new JacketPotato(textureManager);
+            case "pizza":
+                return new Pizza(textureManager);
+            default:
+                throw new IllegalArgumentException(
+                        type + "is not a valid recipe type");
+        }
+
     }
 
     public FoodTextureManager getTextureManager() {

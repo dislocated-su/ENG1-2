@@ -13,6 +13,8 @@ import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
+import cs.eng1.piazzapanic.utility.saving.SavedStation;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,12 +35,11 @@ public class Station extends Actor implements Observer<Chef> {
     protected boolean locked;
 
     public Station(
-        int id,
-        TextureRegion image,
-        StationUIController uiController,
-        StationActionUI.ActionAlignment alignment,
-        Boolean locked
-    ) {
+            int id,
+            TextureRegion image,
+            StationUIController uiController,
+            StationActionUI.ActionAlignment alignment,
+            Boolean locked) {
         this.locked = locked == null ? false : locked;
         this.id = id;
         stationImage = image; // Texture of the object
@@ -61,17 +62,16 @@ public class Station extends Actor implements Observer<Chef> {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-            stationImage,
-            getX(),
-            getY(),
-            0.5f,
-            0.5f,
-            getWidth(),
-            getHeight(),
-            1f,
-            1f,
-            imageRotation
-        );
+                stationImage,
+                getX(),
+                getY(),
+                0.5f,
+                0.5f,
+                getWidth(),
+                getHeight(),
+                1f,
+                1f,
+                imageRotation);
     }
 
     /**
@@ -86,24 +86,24 @@ public class Station extends Actor implements Observer<Chef> {
     }
 
     /**
-     * Take a food texture and render it on top of the station with a custom scaling.
+     * Take a food texture and render it on top of the station with a custom
+     * scaling.
      *
      * @param batch       the sprite batch to draw rectangles to the screen.
      * @param foodTexture the texture to be drawn onto the screen.
-     * @param scale       how big the texture is to be drawn (relative to default size of .6f)
+     * @param scale       how big the texture is to be drawn (relative to default
+     *                    size of .6f)
      */
     protected void drawFoodTexture(
-        Batch batch,
-        Texture foodTexture,
-        float scale
-    ) {
+            Batch batch,
+            Texture foodTexture,
+            float scale) {
         batch.draw(
-            foodTexture,
-            getX() + (float) (.2f / Math.pow(scale, 2)),
-            getY() + (float) (.2f / Math.pow(scale, 2)),
-            .6f * scale,
-            .6f * scale
-        );
+                foodTexture,
+                getX() + (float) (.2f / Math.pow(scale, 2)),
+                getY() + (float) (.2f / Math.pow(scale, 2)),
+                .6f * scale,
+                .6f * scale);
     }
 
     /**
@@ -135,13 +135,11 @@ public class Station extends Actor implements Observer<Chef> {
             if (chefSubject instanceof Actor) {
                 Actor collider = (Actor) chefSubject;
                 Vector2 start = new Vector2(
-                    getX() + getWidth() / 2f,
-                    getY() + getHeight() / 2f
-                );
+                        getX() + getWidth() / 2f,
+                        getY() + getHeight() / 2f);
                 Vector2 end = new Vector2(
-                    collider.getX() + collider.getWidth() / 2f,
-                    collider.getY() + collider.getHeight() / 2f
-                );
+                        collider.getX() + collider.getWidth() / 2f,
+                        collider.getY() + collider.getHeight() / 2f);
                 shapes.line(start, end);
             }
         }
@@ -213,8 +211,7 @@ public class Station extends Actor implements Observer<Chef> {
     public LinkedList<StationAction.ActionType> getActionTypes() {
         PlayerState state = PlayerState.getInstance();
         if (locked && state.getCash() > state.getUpgradeCost(false)) {
-            LinkedList<StationAction.ActionType> actionTypes =
-                new LinkedList<>();
+            LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
             actionTypes.add(StationAction.ActionType.BUY_STATION);
             return actionTypes;
         } else {
@@ -248,4 +245,13 @@ public class Station extends Actor implements Observer<Chef> {
     public int getId() {
         return id;
     }
+
+    public boolean getInUse() {
+        return inUse;
+    }
+
+    public boolean getLocked() {
+        return locked;
+    }
+
 }
