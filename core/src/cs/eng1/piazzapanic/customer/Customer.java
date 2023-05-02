@@ -36,13 +36,12 @@ public class Customer extends Actor implements Disposable {
     private Box2dLocation endObjective;
 
     public Customer(
-        Texture texture,
-        Vector2 bounds,
-        Vector2 position,
-        Recipe order,
-        CustomerManager customerManager
-    ) {
-        repTimer = new Timer(6000000, true, false);
+            Texture texture,
+            Vector2 bounds,
+            Vector2 position,
+            Recipe order,
+            CustomerManager customerManager) {
+        repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
         this.texture = texture;
@@ -96,9 +95,8 @@ public class Customer extends Actor implements Disposable {
         PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
         Gdx.app.log(
-            "Current cash",
-            Float.toString(PlayerState.getInstance().getCash())
-        );
+                "Current cash",
+                Float.toString(PlayerState.getInstance().getCash()));
         customerManager.walkBack(this);
         endObjective = customerManager.getObjective(currentObjective);
     }
@@ -106,43 +104,41 @@ public class Customer extends Actor implements Disposable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.draw(
-            texture,
-            getX() + (1 - textureBounds.x) / 2f,
-            getY() + (1 - textureBounds.y) / 2f,
-            textureBounds.x / 2f,
-            textureBounds.y / 2f,
-            textureBounds.x,
-            textureBounds.y,
-            1f,
-            1f,
-            getRotation(),
-            0,
-            0,
-            texture.getWidth(),
-            texture.getHeight(),
-            false,
-            false
-        );
-        if (orderCompleted) {
-            Texture texture = order.getTexture();
-            batch.draw(
                 texture,
-                getX() + 0.5f,
-                getY() + 0.2f,
-                0f,
-                0.3f,
-                0.6f,
-                0.6f,
-                1.5f,
-                1.5f,
+                getX() + (1 - textureBounds.x) / 2f,
+                getY() + (1 - textureBounds.y) / 2f,
+                textureBounds.x / 2f,
+                textureBounds.y / 2f,
+                textureBounds.x,
+                textureBounds.y,
+                1f,
+                1f,
                 getRotation(),
                 0,
                 0,
                 texture.getWidth(),
                 texture.getHeight(),
                 false,
-                false
-            );
+                false);
+        if (orderCompleted) {
+            Texture texture = order.getTexture();
+            batch.draw(
+                    texture,
+                    getX() + 0.5f,
+                    getY() + 0.2f,
+                    0f,
+                    0.3f,
+                    0.6f,
+                    0.6f,
+                    1.5f,
+                    1.5f,
+                    getRotation(),
+                    0,
+                    0,
+                    texture.getWidth(),
+                    texture.getHeight(),
+                    false,
+                    false);
         }
     }
 
@@ -163,12 +159,10 @@ public class Customer extends Actor implements Disposable {
             }
         }
 
-        if (
-            !orderCompleted &&
-            reputation &&
-            repTimer.tick(delta) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)
-        ) {
+        if (!orderCompleted &&
+                reputation &&
+                repTimer.tick(delta) &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_REP_LOSS)) {
             customerManager.loseReputation();
             reputation = false;
             Gdx.app.log("rep loss", "");
