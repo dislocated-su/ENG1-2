@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.food.ingredients;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.BasicChoppable;
 import cs.eng1.piazzapanic.food.ingredients.Tomato;
+import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -73,7 +74,8 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getChoppingResult checked to add correct tags (via .toString() of the return Holdable)
+     * getChoppingResult checked to add correct tags (via .toString() of the return
+     * Holdable)
      */
     @Test
     public void getChoppingResultTests() {
@@ -115,7 +117,8 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getTexture returns correct texture based on whether the choppable is chopped or not.
+     * getTexture returns correct texture based on whether the choppable is chopped
+     * or not.
      */
     @Test
     public void getChoppedTests() {
@@ -146,7 +149,8 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getTexture returns correct texture based on whether the choppable is chopped or not.
+     * getTexture returns correct texture based on whether the choppable is chopped
+     * or not.
      */
     @Test
     public void getTextureTests() {
@@ -154,23 +158,46 @@ public class BasicChoppableTests {
         final Texture choppedTomato = foodTextureManager.getTexture(
             "tomato_chopped"
         );
-        final Texture ruinedTomato = foodTextureManager.getTexture(
-            "tomato_ruined"
-        );
+        final Texture ruinedTomato = foodTextureManager.getTexture("rotten");
         assertEquals(
-            "The BasicChoppable texture should be += _raw, as it is unchopped",
+            "The BasicChoppable texture should be += _raw, as it is unchopped.",
             rawTomato,
             tomato.getTexture()
         );
-        tomato.choppingTick(2);
+        tomato.choppingTick(1);
         assertEquals(
-            "The BasicChoppable texture should be += _chopped, as it has been chopped",
+            "The BasicChoppable texture should be += _raw, as it is unchopped.",
+            rawTomato,
+            tomato.getTexture()
+        );
+        tomato.choppingTick(1);
+        assertEquals(
+            "The BasicChoppable texture should be += _chopped, as it has been chopped.",
             choppedTomato,
             tomato.getTexture()
         );
-        tomato.choppingTick(3);
+        tomato.choppingTick(1);
+
         assertEquals(
-            "The BasicChoppable texture should be += _ruined, as it has been ruined",
+            "The BasicChoppable texture should be += _chopped, as it has been chopped.",
+            choppedTomato,
+            tomato.getTexture()
+        );
+        tomato.choppingTick(1);
+        assertEquals(
+            "The BasicChoppable texture should be += _chopped, as it has been chopped.",
+            choppedTomato,
+            tomato.getTexture()
+        );
+        tomato.choppingTick(1);
+        assertEquals(
+            "The BasicChoppable texture should be rotten, as it has been ruined.",
+            ruinedTomato,
+            tomato.getTexture()
+        );
+        tomato.choppingTick(400);
+        assertEquals(
+            "The BasicChoppable texture should stay ruined indefinitely.",
             ruinedTomato,
             tomato.getTexture()
         );

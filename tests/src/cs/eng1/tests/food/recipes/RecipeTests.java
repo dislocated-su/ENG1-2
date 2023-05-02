@@ -1,9 +1,10 @@
-package cs.eng1.tests;
+package cs.eng1.tests.food.recipes;
 
 import static org.junit.Assert.assertEquals;
 
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
+import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -85,22 +86,22 @@ public class RecipeTests {
         assertEquals(
             "MAKE_BURGER should return a recipe of type burger",
             "burger",
-            Recipe.fromString("MAKE_BURGER", textureManager).getType()
+            Recipe.fromString("burger", textureManager).getType()
         );
         assertEquals(
             "MAKE_PIZZA should return a recipe of type pizza",
             "pizza",
-            Recipe.fromString("MAKE_PIZZA", textureManager).getType()
+            Recipe.fromString("pizza", textureManager).getType()
         );
         assertEquals(
             "MAKE_SALAD should return a recipe of type salad",
             "salad",
-            Recipe.fromString("MAKE_SALAD", textureManager).getType()
+            Recipe.fromString("salad", textureManager).getType()
         );
         assertEquals(
             "MAKE_JACKET should return a recipe of type jacket_potato",
             "jacket_potato",
-            Recipe.fromString("MAKE_JACKET", textureManager).getType()
+            Recipe.fromString("jacket_potato", textureManager).getType()
         );
     }
 

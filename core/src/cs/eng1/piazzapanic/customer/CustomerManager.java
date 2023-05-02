@@ -297,16 +297,15 @@ public class CustomerManager {
         completedOrders++;
         customerQueue.remove(customer);
         customer.fulfillOrder();
-
-        for (Customer c : customerQueue.subList(3, customerQueue.size())) {
-            Integer objective = findAvailableObjective();
-            if (objective == null) {
-                continue;
+        if (customerQueue.size() >= 3) {
+            for (Customer c : customerQueue.subList(3, customerQueue.size())) {
+                Integer objective = findAvailableObjective();
+                if (objective == null) {
+                    continue;
+                }
+                updateCustomerLocation(c, objective);
             }
-
-            updateCustomerLocation(c, objective);
         }
-
         notifySubmitStations();
         // requires updating overlay to allow for multiple orders being displayed at
         // once
@@ -466,10 +465,6 @@ public class CustomerManager {
         return spawnTimer;
     }
 
-    public Timer getEndlessTimer() {
-        return endlessTimer;
-    }
-
     public int getSpawnedCustomers() {
         return spawnedCustomers;
     }
@@ -478,8 +473,32 @@ public class CustomerManager {
         return customerQueue;
     }
 
+    public Customer getCustomer(int pos) {
+        return customerQueue.get(pos);
+    }
+
     public int getReputation() {
         return reputation;
+    }
+
+    public Map<Integer, Box2dLocation> getObjectives() {
+        return objectives;
+    }
+
+    public Timer getEndlessTimer() {
+        return endlessTimer;
+    }
+
+    public List<Vector2> getSpawnLocations() {
+        return spawnLocations;
+    }
+
+    public int getCompletedOrders() {
+        return completedOrders;
+    }
+
+    public int getMaxSpawnRate() {
+        return maxSpawnRate;
     }
 
     public Map<Integer, Boolean> getAvailabilities() {

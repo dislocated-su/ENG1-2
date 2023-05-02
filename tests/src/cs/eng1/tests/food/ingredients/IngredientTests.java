@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.food.ingredients;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -9,6 +9,7 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.ingredients.UncookedPizza;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
+import cs.eng1.tests.GdxTestRunner;
 import javax.swing.plaf.TextUI;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -190,7 +191,8 @@ public class IngredientTests {
             "cheese_chopped",
             cheese.toString()
         );
-        //I would like to inform you that I hate how we read uncooked pizza with .toString(), but it is what it is.
+        // I would like to inform you that I hate how we read uncooked pizza with
+        // .toString(), but it is what it is.
         assertEquals(
             "Ingredient should be _raw when raw",
             "uncooked_pizza_raw",
@@ -285,10 +287,7 @@ public class IngredientTests {
         assertEquals(Pizza.class, unPizza.getCookingResult().getClass());
         unPizza.setUseable(false);
         pizza.setUseable(false);
-        assertEquals(
-            textureManager.getTexture("ruined_pizza"),
-            unPizza.getTexture()
-        );
+        assertEquals(textureManager.getTexture("burnt"), unPizza.getTexture());
         assertEquals(
             "uncooked_pizza_ruined",
             unPizza.getCookingResult().toString()

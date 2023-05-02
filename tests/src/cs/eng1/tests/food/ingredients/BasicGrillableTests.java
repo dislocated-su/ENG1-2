@@ -1,4 +1,4 @@
-package cs.eng1.tests;
+package cs.eng1.tests.food.ingredients;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,7 @@ import cs.eng1.piazzapanic.food.ingredients.BasicGrillable;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
+import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -192,9 +193,7 @@ public class BasicGrillableTests {
         final Texture cookedPatty = foodTextureManager.getTexture(
             "patty_grilled"
         );
-        final Texture ruinedPatty = foodTextureManager.getTexture(
-            "patty_ruined"
-        );
+        final Texture ruinedPatty = foodTextureManager.getTexture("burnt");
         assertEquals(
             "The BasicGrillable texture should be += _raw, as it is ungrilled",
             rawPatty,
