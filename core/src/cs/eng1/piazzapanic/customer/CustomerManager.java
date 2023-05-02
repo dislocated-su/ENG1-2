@@ -41,7 +41,7 @@ public class CustomerManager {
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
 
-    private final Timer spawnTimer = new Timer(1000, false, true);
+    private final Timer spawnTimer = new Timer(60000, false, true);
     private final Timer endlessTimer = new Timer(8000, false, true);
     // Separate random instances are used to not break existing tests relying on a
     // set permutation of orders.
@@ -398,4 +398,9 @@ public class CustomerManager {
     public int getCompletedOrders() {
         return completedOrders;
     }
+
+    public int getMaxSpawnRate() {
+        return maxSpawnRate;
+    }
+
 }

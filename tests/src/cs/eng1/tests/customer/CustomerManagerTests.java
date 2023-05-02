@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
+
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
@@ -216,7 +218,28 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        assertTrue(customerManager.getEndlessTimer().getRunning());
+        assertTrue(
+            "EndlessTimer should be running in endless mode.", 
+            customerManager.getEndlessTimer().getRunning()
+        );
+        double log1 = Math.log(0.95);
+        double log2 = Math.log(10000/customerManager.getTimer().getRemainingTime());
+        double iterations = log1 / log2;
+        for (int i = 0; i < iterations; i++) {
+            int spawnTimer = customerManager.getTimer().getRemainingTime();
+            act(customerManager.getEndlessTimer().getRemainingTime()+1);
+            customerManager.getEndlessTimer().reset();
+            assertEquals(
+                "spawnTimer should decrease by 5% when endlessTimer.tick(delta) is true", 
+                Math.round(spawnTimer * 0.95f), 
+                customerManager.getTimer().getRemainingTime(), 
+                0.1
+            );
+            if (i == iterations - 1) {
+                assertEquals(10000, customerManager.getTimer().getRemainingTime());
+            }
+        }
+        
     }
 
     @Test
