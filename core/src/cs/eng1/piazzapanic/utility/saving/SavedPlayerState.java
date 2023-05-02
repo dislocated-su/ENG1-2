@@ -7,10 +7,11 @@ import cs.eng1.piazzapanic.utility.Timer;
 public class SavedPlayerState {
 
     public float cash, upgradeCost;
-    public int difficulty, hireCost;
+    public int difficulty, hireCost, purchaseChefs;
     public SerializeableMap<PowerUp, Timer> powerUpTimers;
 
-    public SavedPlayerState() {}
+    public SavedPlayerState() {
+    }
 
     public SavedPlayerState(PlayerState state) {
         this.powerUpTimers = new SerializeableMap<>(state.getPowerUpTimers());
@@ -18,5 +19,6 @@ public class SavedPlayerState {
         difficulty = state.getDifficulty();
         upgradeCost = state.getUpgradeCost(false);
         hireCost = state.getChefHireCost(false);
+        purchaseChefs = state.getPurchasedChefs();
     }
 }

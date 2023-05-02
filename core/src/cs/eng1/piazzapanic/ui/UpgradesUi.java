@@ -26,7 +26,7 @@ public class UpgradesUi {
 
     private PiazzaPanicGame game;
 
-    TextButton moreChefs;
+    TextButton buyChef;
 
     private Value scale, scale1, scale2;
     private Label chefHireCostLabel;
@@ -38,14 +38,10 @@ public class UpgradesUi {
         root.setFillParent(true);
         table = new Table();
 
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
                 new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"
-                    )
-                )
-            );
+                        Gdx.files.internal(
+                                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")));
 
         root.add(table).width(450).height(350).center();
 
@@ -92,44 +88,31 @@ public class UpgradesUi {
             createRow(powerUp);
         }
 
-        TextButton button = game
-            .getButtonManager()
-            .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
-        button.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    PlayerState playerState = PlayerState.getInstance();
-                    if (
-                        playerState.getCash() >=
-                        playerState.getChefHireCost(false)
-                    ) {
-                        if (playerState.getPurchasedChefs() <= 1) {
-                            playerState.spendCash(
-                                playerState.getChefHireCost(true)
-                            );
-                            updateChefHireCost();
-                            chefHireFlag = true;
-                            playerState.setPurchasedChefs(
-                                playerState.getPurchasedChefs() + 1
-                            );
-                            if (playerState.getPurchasedChefs() == 2) {
-                                button.setVisible(false);
-                                chefHireCostLabel.setVisible(false);
+        buyChef = game
+                .getButtonManager()
+                .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
+        buyChef.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        PlayerState playerState = PlayerState.getInstance();
+                        if (playerState.getCash() >= playerState.getChefHireCost(false)) {
+                            int purchasedChefs = playerState.getPurchasedChefs();
+                            if (purchasedChefs <= 1) {
+
+                                playerState.spendCash(playerState.getChefHireCost(true));
+
+                                chefHireFlag = true;
+                                playerState.setPurchasedChefs(purchasedChefs + 1);
+                                updateChefHireCost();
                             }
                         }
                     }
-                }
-            }
-        );
-
-        if (PlayerState.getInstance().getPurchasedChefs() != 2) {
-            button.setVisible(true);
-        }
+                });
 
         chefHireCostLabel = new Label("", hudLabelFont);
         updateChefHireCost();
-        table.add(button).width(scale2).height(scale);
+        table.add(buyChef).width(scale2).height(scale);
         table.add();
         table.add(chefHireCostLabel);
     }
@@ -138,9 +121,12 @@ public class UpgradesUi {
      * Updates the cost for hiring a chef after buying one.
      */
     private void updateChefHireCost() {
+        if (PlayerState.getInstance().getPurchasedChefs() >= 2) {
+            buyChef.setVisible(false);
+            chefHireCostLabel.setVisible(false);
+        }
         chefHireCostLabel.setText(
-            "£" + PlayerState.getInstance().getChefHireCost(false)
-        );
+                "£" + PlayerState.getInstance().getChefHireCost(false));
     }
 
     /**
@@ -153,8 +139,7 @@ public class UpgradesUi {
         String powerUpName = playerState.getPowerupName(powerUp);
         int cost = playerState.getPowerupCost(powerUp);
         String time = String.valueOf(
-            playerState.getBuffDuration(powerUp) / 1000
-        );
+                playerState.getBuffDuration(powerUp) / 1000);
 
         // sets it font, format and value
         Label timerLabel = new Label(String.format(time + " s"), hudLabelFont);
@@ -162,23 +147,20 @@ public class UpgradesUi {
         Label costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
         TextButton button = game
-            .getButtonManager()
-            .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
+                .getButtonManager()
+                .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
 
         button.addListener(
-            new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    PlayerState playerState = PlayerState.getInstance();
-                    if (
-                        cost <= playerState.getCash() &&
-                        !playerState.getBuffActive(powerUp)
-                    ) {
-                        playerState.spendCash(cost);
-                        playerState.activateBuff(powerUp);
+                new ClickListener() {
+                    public void clicked(InputEvent event, float x, float y) {
+                        PlayerState playerState = PlayerState.getInstance();
+                        if (cost <= playerState.getCash() &&
+                                !playerState.getBuffActive(powerUp)) {
+                            playerState.spendCash(cost);
+                            playerState.activateBuff(powerUp);
+                        }
                     }
-                }
-            }
-        );
+                });
 
         table.add(button).width(scale2).height(scale).pad(3);
         table.add(timerLabel).width(scale).height(scale).pad(3);
