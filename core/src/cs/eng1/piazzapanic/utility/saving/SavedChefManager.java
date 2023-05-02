@@ -1,9 +1,8 @@
 package cs.eng1.piazzapanic.utility.saving;
 
-import java.util.List;
-
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
+import java.util.List;
 
 public class SavedChefManager {
 
@@ -17,11 +16,14 @@ public class SavedChefManager {
             if (chefManager.getCurrentChef() == null) {
                 savedChefs[i] = new SavedChef(chefs.get(i), false);
             } else {
-                savedChefs[i] = new SavedChef(chefs.get(i), chefManager.getCurrentChef().equals(chefs.get(i)));
+                savedChefs[i] =
+                    new SavedChef(
+                        chefs.get(i),
+                        chefManager.getCurrentChef().equals(chefs.get(i))
+                    );
             }
         }
     }
 
-    public SavedChefManager() {
-    }
+    public SavedChefManager() {}
 }

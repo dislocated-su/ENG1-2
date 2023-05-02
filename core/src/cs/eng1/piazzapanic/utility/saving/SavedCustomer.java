@@ -1,12 +1,12 @@
 package cs.eng1.piazzapanic.utility.saving;
 
 import com.badlogic.gdx.math.Vector2;
-
 import cs.eng1.piazzapanic.customer.Customer;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 
 public class SavedCustomer {
+
     public Vector2 position;
     public Timer repTimer;
     public boolean reputation, orderCompleted;
@@ -14,9 +14,7 @@ public class SavedCustomer {
     public Integer currentObjective;
     public String imagePath;
 
-    public SavedCustomer() {
-
-    }
+    public SavedCustomer() {}
 
     public SavedCustomer(Customer customer) {
         this.position = customer.steeringBody.getBody().getPosition();

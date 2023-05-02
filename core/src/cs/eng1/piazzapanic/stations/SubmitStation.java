@@ -25,12 +25,13 @@ public class SubmitStation extends Station {
     public Customer customer;
 
     public SubmitStation(
-            int id,
-            TextureRegion image,
-            StationUIController uiController,
-            ActionAlignment alignment,
-            Boolean locked,
-            CustomerManager customerManager) {
+        int id,
+        TextureRegion image,
+        StationUIController uiController,
+        ActionAlignment alignment,
+        Boolean locked,
+        CustomerManager customerManager
+    ) {
         super(id, image, uiController, alignment, locked);
         this.customerManager = customerManager;
     }
@@ -51,7 +52,7 @@ public class SubmitStation extends Station {
     private boolean checkCorrectRecipe(Holdable item) {
         if (customer != null && item instanceof Recipe) {
             return ((Recipe) item).getType()
-                    .equals(customer.getOrder().getType());
+                .equals(customer.getOrder().getType());
         }
         return false;
     }

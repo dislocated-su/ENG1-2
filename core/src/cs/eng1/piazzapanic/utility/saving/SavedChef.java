@@ -1,12 +1,12 @@
 package cs.eng1.piazzapanic.utility.saving;
 
 import com.badlogic.gdx.math.Vector2;
-
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 
 public class SavedChef {
+
     public Vector2 position;
     public SavedFood[] inventory;
     public boolean inputEnabled;
@@ -29,7 +29,5 @@ public class SavedChef {
         this.currentChef = currentChef;
     }
 
-    public SavedChef() {
-
-    }
+    public SavedChef() {}
 }

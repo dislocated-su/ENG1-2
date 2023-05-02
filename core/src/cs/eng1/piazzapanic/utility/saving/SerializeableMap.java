@@ -16,9 +16,7 @@ public class SerializeableMap<K, V> {
         values = (V[]) map.values().toArray();
     }
 
-    public SerializeableMap() {
-
-    }
+    public SerializeableMap() {}
 
     public Map<K, V> get() {
         Map<K, V> output = new HashMap<>();

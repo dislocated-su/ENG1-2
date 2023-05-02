@@ -33,7 +33,8 @@ public class IngredientStack extends HashMap<String, FixedStack<Ingredient>> {
     public void addIngredient(String type, Ingredient ingredient) {
         if (!this.containsKey(type)) {
             FixedStack<Ingredient> newStack = new FixedStack<Ingredient>(
-                    maxStackSize);
+                maxStackSize
+            );
             newStack.add(ingredient);
             this.put(type, newStack);
         } else {

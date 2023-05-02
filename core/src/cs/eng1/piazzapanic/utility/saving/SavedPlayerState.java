@@ -10,9 +10,7 @@ public class SavedPlayerState {
     public int difficulty, hireCost;
     public SerializeableMap<PowerUp, Timer> powerUpTimers;
 
-    public SavedPlayerState() {
-
-    }
+    public SavedPlayerState() {}
 
     public SavedPlayerState(PlayerState state) {
         this.powerUpTimers = new SerializeableMap<>(state.getPowerUpTimers());
@@ -21,5 +19,4 @@ public class SavedPlayerState {
         upgradeCost = state.getUpgradeCost(false);
         hireCost = state.getChefHireCost(false);
     }
-
 }

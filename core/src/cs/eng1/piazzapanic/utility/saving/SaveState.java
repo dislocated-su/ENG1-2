@@ -6,6 +6,7 @@ import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.stations.Station;
 
 public class SaveState {
+
     public SavedPlayerState playerState;
 
     public SavedChefManager chefManager;
@@ -29,5 +30,4 @@ public class SaveState {
     public void setStations(SavedStation[] stations) {
         this.stations = stations;
     }
-
 }

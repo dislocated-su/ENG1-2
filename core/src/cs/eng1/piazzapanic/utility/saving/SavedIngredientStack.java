@@ -1,23 +1,21 @@
 package cs.eng1.piazzapanic.utility.saving;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.stations.IngredientStack;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * SavedIngredientStack
@@ -52,9 +50,7 @@ public class SavedIngredientStack {
         this.stack = new SerializeableMap<>(map);
     }
 
-    SavedIngredientStack() {
-
-    }
+    SavedIngredientStack() {}
 
     public IngredientStack get(FoodTextureManager manager) {
         Map<String, String> savedFoodMap = stack.get();
@@ -64,10 +60,16 @@ public class SavedIngredientStack {
         Json json = new Json();
 
         for (String key : savedFoodMap.keySet()) {
-            SavedFood[] arr = json.fromJson(SavedFood[].class, savedFoodMap.get(key));
+            SavedFood[] arr = json.fromJson(
+                SavedFood[].class,
+                savedFoodMap.get(key)
+            );
 
             for (SavedFood savedFood : arr) {
-                ingredientStack.addIngredient(key, (Ingredient) savedFood.get(manager));
+                ingredientStack.addIngredient(
+                    key,
+                    (Ingredient) savedFood.get(manager)
+                );
             }
         }
         // for (String key : savedFoodMap.keySet()) {
@@ -84,5 +86,4 @@ public class SavedIngredientStack {
 
         return ingredientStack;
     }
-
 }

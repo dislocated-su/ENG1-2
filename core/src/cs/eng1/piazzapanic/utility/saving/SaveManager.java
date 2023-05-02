@@ -1,26 +1,23 @@
 package cs.eng1.piazzapanic.utility.saving;
 
-import java.util.LinkedList;
-
-import java.util.List;
-
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Json;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.stations.IngredientStation;
 import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.stations.SubmitStation;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SaveManager {
+
     private static SaveManager instance = null;
 
-    private SaveManager() {
-    }
+    private SaveManager() {}
 
     public static SaveManager getInstance() {
         if (instance == null) {
@@ -35,7 +32,11 @@ public class SaveManager {
      * @param customerManager
      * @param stage
      */
-    public void save(ChefManager chefManager, CustomerManager customerManager, Stage stage) {
+    public void save(
+        ChefManager chefManager,
+        CustomerManager customerManager,
+        Stage stage
+    ) {
         SaveState state = new SaveState();
         state.setPlayerState(PlayerState.getInstance());
         state.setChefManager(chefManager);
@@ -44,8 +45,11 @@ public class SaveManager {
         List<SavedStation> stations = new LinkedList<>();
 
         for (Actor actor : stage.getActors().items) {
-            if (actor instanceof Station && !(actor instanceof IngredientStation)
-                    && !(actor instanceof SubmitStation)) {
+            if (
+                actor instanceof Station &&
+                !(actor instanceof IngredientStation) &&
+                !(actor instanceof SubmitStation)
+            ) {
                 stations.add(new SavedStation((Station) actor));
             }
         }
@@ -53,15 +57,21 @@ public class SaveManager {
         state.setStations(stations.toArray(new SavedStation[stations.size()]));
 
         Json json = new Json();
-        json.toJson(state, SaveState.class, null, new FileHandle("savefile.json"));
-
+        json.toJson(
+            state,
+            SaveState.class,
+            null,
+            new FileHandle("savefile.json")
+        );
     }
 
     public SaveState load() {
         Json json = new Json();
-        SaveState state = json.fromJson(SaveState.class, new FileHandle("savefile.json"));
+        SaveState state = json.fromJson(
+            SaveState.class,
+            new FileHandle("savefile.json")
+        );
 
         return state;
     }
-
 }

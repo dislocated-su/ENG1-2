@@ -3,7 +3,6 @@ package cs.eng1.piazzapanic;
 import com.badlogic.gdx.Gdx;
 import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.piazzapanic.utility.saving.SavedPlayerState;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,15 +32,16 @@ public class PlayerState {
         }
     };
 
-    private final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
-        {
-            put(PowerUp.WALK_FAST, 100);
-            put(PowerUp.COOK_FAST, 100);
-            put(PowerUp.NO_SPOILING, 100);
-            put(PowerUp.NO_REP_LOSS, 100);
-            put(PowerUp.MORE_MONEY, 100);
-        }
-    };
+    private final HashMap<PowerUp, Integer> powerUpCosts =
+        new HashMap<PowerUp, Integer>() {
+            {
+                put(PowerUp.WALK_FAST, 100);
+                put(PowerUp.COOK_FAST, 100);
+                put(PowerUp.NO_SPOILING, 100);
+                put(PowerUp.NO_REP_LOSS, 100);
+                put(PowerUp.MORE_MONEY, 100);
+            }
+        };
 
     public enum PowerUp {
         WALK_FAST,
@@ -51,9 +51,7 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    public PlayerState() {
-
-    }
+    public PlayerState() {}
 
     public PlayerState(SavedPlayerState state) {
         setDifficulty(state.difficulty);

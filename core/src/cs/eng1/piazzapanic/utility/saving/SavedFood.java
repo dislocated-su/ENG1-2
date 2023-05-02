@@ -15,9 +15,7 @@ public class SavedFood {
     public Boolean completed = false;
     public Boolean halfCompleted = false;
 
-    public SavedFood() {
-
-    }
+    public SavedFood() {}
 
     public SavedFood(Holdable item) {
         this.type = item.getType();
@@ -39,7 +37,6 @@ public class SavedFood {
     }
 
     public Holdable get(FoodTextureManager manager) throws AssertionError {
-
         Ingredient i = Ingredient.fromString(type, manager);
         if (i != null) {
             if (i instanceof BasicGrillable) {

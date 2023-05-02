@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,8 +67,9 @@ public class Recipe implements Holdable {
     }
 
     public static Recipe fromAction(
-            ActionType action,
-            FoodTextureManager textureManager) {
+        ActionType action,
+        FoodTextureManager textureManager
+    ) {
         switch (action) {
             case MAKE_BURGER:
                 return new Burger(textureManager);
@@ -81,11 +81,15 @@ public class Recipe implements Holdable {
                 return new Pizza(textureManager);
             default:
                 throw new IllegalArgumentException(
-                        action.name() + "is not a valid recipe type");
+                    action.name() + "is not a valid recipe type"
+                );
         }
     }
 
-    public static Recipe fromString(String type, FoodTextureManager textureManager) {
+    public static Recipe fromString(
+        String type,
+        FoodTextureManager textureManager
+    ) {
         switch (type) {
             case "burger":
                 return new Burger(textureManager);
@@ -97,9 +101,9 @@ public class Recipe implements Holdable {
                 return new Pizza(textureManager);
             default:
                 throw new IllegalArgumentException(
-                        type + "is not a valid recipe type");
+                    type + "is not a valid recipe type"
+                );
         }
-
     }
 
     public FoodTextureManager getTextureManager() {
