@@ -3,7 +3,6 @@ package cs.eng1.piazzapanic.utility.saving;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * A simple container for a Map<K,V> that stores the values as arrays for serialisation.
  * @param <K> the key type of the Map

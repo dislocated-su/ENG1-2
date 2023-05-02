@@ -21,7 +21,6 @@ public class PauseOverlay {
     public boolean saving = false;
 
     public PauseOverlay(Stage stage, PiazzaPanicGame game, UIOverlay hud) {
-
         root = new Table();
         root.setFillParent(true);
         root.setVisible(false);

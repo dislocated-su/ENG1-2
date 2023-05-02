@@ -20,6 +20,7 @@ public class GrillingStation extends Station {
     public Grillable currentIngredient;
     public boolean progressVisible = false;
     private boolean checkUpdateUI = false;
+
     /**
      * The constructor method for the class
      *

@@ -22,7 +22,6 @@ public class FixedStack<T> extends Stack<T> {
         this.maxSize = size;
     }
 
-
     /**
      * @param item the item to be pushed onto this stack.
      * @return the item that was pushed.

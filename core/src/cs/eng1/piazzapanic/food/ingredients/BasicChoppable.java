@@ -29,7 +29,6 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
         super(type, textureManager);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -69,6 +68,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
         }
         return chopped;
     }
+
     /**
      * Gets the current chopping progress as a percentage.
      * @return the current chopping progress as a percentage.

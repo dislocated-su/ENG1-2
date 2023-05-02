@@ -92,7 +92,6 @@ public class Customer extends Actor implements Disposable {
         return repTimer;
     }
 
-
     public boolean getReputation() {
         return reputation;
     }

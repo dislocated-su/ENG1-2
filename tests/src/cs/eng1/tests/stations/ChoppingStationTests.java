@@ -138,8 +138,7 @@ public class ChoppingStationTests {
         station.reset();
         assertTrue(
             "Tests the reset method",
-            station.currentIngredient == null &&
-                    !station.progressVisible
+            station.currentIngredient == null && !station.progressVisible
         );
     }
 }

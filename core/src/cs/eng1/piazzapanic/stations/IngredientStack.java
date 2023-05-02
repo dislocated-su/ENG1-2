@@ -3,7 +3,6 @@ package cs.eng1.piazzapanic.stations;
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
-
 import java.util.HashMap;
 
 /**
@@ -46,6 +45,7 @@ public class IngredientStack extends HashMap<String, FixedStack<Ingredient>> {
         }
         return null;
     }
+
     /**
      * Add a new {@link Ingredient} to the collection.
      * @param type The type of ingredient to be added. Can be the same as {@link Ingredient#getType()}
@@ -53,9 +53,7 @@ public class IngredientStack extends HashMap<String, FixedStack<Ingredient>> {
      */
     public void addIngredient(String type, Ingredient ingredient) {
         if (!this.containsKey(type)) {
-            FixedStack<Ingredient> newStack = new FixedStack<>(
-                    maxStackSize
-            );
+            FixedStack<Ingredient> newStack = new FixedStack<>(maxStackSize);
             newStack.add(ingredient);
             this.put(type, newStack);
         } else {

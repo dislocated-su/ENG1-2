@@ -1,13 +1,13 @@
 package cs.eng1.tests.food.ingredients;
 
+import static org.junit.Assert.*;
+
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.*;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class IngredientTests {

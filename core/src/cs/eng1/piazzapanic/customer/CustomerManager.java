@@ -19,7 +19,6 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 import cs.eng1.piazzapanic.utility.saving.SavedCustomerManager;
-
 import java.util.*;
 
 public class CustomerManager {
@@ -240,7 +239,6 @@ public class CustomerManager {
         return output;
     }
 
-
     /**
      * Needs to be called every frame to occasionally spawn customers.
      * @param delta time since last frame in seconds
@@ -267,11 +265,11 @@ public class CustomerManager {
         checkSpawn(delta);
     }
 
-
     private void checkSpawn(float delta) {
         if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
-
-            int customerCount = (spawnTimer.getDelay() < 45000) ? randomCustomerCount.nextInt(1,4) : 1;
+            int customerCount = (spawnTimer.getDelay() < 45000)
+                ? randomCustomerCount.nextInt(1, 4)
+                : 1;
 
             for (int i = 0; i < customerCount; i++) {
                 generateCustomer();
@@ -337,10 +335,7 @@ public class CustomerManager {
 
     public void addStation(SubmitStation station) {
         recipeStations.put(station.getId(), station);
-        stationsRanked =
-            recipeStations
-                .keySet()
-                .toArray(new Integer[0]);
+        stationsRanked = recipeStations.keySet().toArray(new Integer[0]);
         Arrays.sort(stationsRanked);
     }
 
@@ -441,7 +436,6 @@ public class CustomerManager {
             customer.steeringBody.setOrientation((float) -(1.5f * Math.PI));
         }
     }
-
 
     /**
      * Calls makeItGoThere but with objective set to -1, effectively making the agent walk back to the despawn point.

@@ -45,7 +45,10 @@ public class StationTests {
         );
         chefSubject.deregister(station);
         station.update(null);
-        assertNull("tests that nearbyChef is set to null if there is no chef", station.nearbyChef);
+        assertNull(
+            "tests that nearbyChef is set to null if there is no chef",
+            station.nearbyChef
+        );
     }
 
     @Test
@@ -88,7 +91,10 @@ public class StationTests {
     public void testDoStationActionNothing() {
         Station station = new Station(0, null, uiController, null, null);
         station.doStationAction(null);
-        assertNull("tests that doStationAction does nothing if the action is null", station.nearbyChef);
+        assertNull(
+            "tests that doStationAction does nothing if the action is null",
+            station.nearbyChef
+        );
     }
 
     @Test

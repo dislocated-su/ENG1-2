@@ -82,7 +82,6 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
         return halfCooked;
     }
 
-
     public void setHalfCooked(boolean value) {
         halfCooked = value;
     }

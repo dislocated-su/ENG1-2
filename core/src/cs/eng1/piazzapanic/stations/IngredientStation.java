@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 
 /**
@@ -18,6 +17,7 @@ import java.util.LinkedList;
 public class IngredientStation extends Station {
 
     protected final Ingredient ingredientDispensed;
+
     /**
      * The constructor method for the class
      *

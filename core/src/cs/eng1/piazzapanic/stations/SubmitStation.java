@@ -11,7 +11,6 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 import cs.eng1.piazzapanic.ui.StationUIController;
-
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -66,8 +65,7 @@ public class SubmitStation extends Station {
 
     private boolean checkCorrectRecipe(Holdable item) {
         if (customer != null && item instanceof Recipe) {
-            return item.getType()
-                .equals(customer.getOrder().getType());
+            return item.getType().equals(customer.getOrder().getType());
         }
         return false;
     }

@@ -604,7 +604,7 @@ public class UIOverlay {
             if (state.getBuffActive(powerup)) {
                 activePowerups.setVisible(true);
                 Label activePowerupLabel = new Label(
-                        "",
+                    "",
                     new LabelStyle(
                         game.getFontManager().getMediumFont(),
                         Color.WHITE

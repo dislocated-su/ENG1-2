@@ -22,9 +22,7 @@ public class SavedCustomerManager {
         this.endlessTimer = customerManager.getEndlessTimer();
         this.reputation = customerManager.getReputation();
         this.objectiveAvailabilities =
-                new SerializableMap<>(
-                        customerManager.getAvailabilities()
-                );
+            new SerializableMap<>(customerManager.getAvailabilities());
         List<Customer> customers = customerManager.getCustomerQueue();
         customerQueue = new SavedCustomer[customers.size()];
         for (int i = 0; i < customers.size(); i++) {

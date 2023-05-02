@@ -6,6 +6,7 @@ import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
+
 /**
  * A base class for ingredients that need to be grilled, such as {@link Patty}.
  * Implements the {@link Grillable} interface to enable the chopping functionality.
@@ -20,6 +21,7 @@ public abstract class BasicGrillable extends Ingredient implements Grillable {
     private final float failTime = 3f;
     private boolean halfGrilled = false;
     private boolean flipped = false;
+
     /**
      * Constructor for BasicGrillable.
      * @param type the type of ingredient.
@@ -71,6 +73,7 @@ public abstract class BasicGrillable extends Ingredient implements Grillable {
         }
         return false;
     }
+
     /**
      * Gets the current grilling progress as a percentage.
      * @return the current grilling progress as a percentage.
@@ -112,7 +115,6 @@ public abstract class BasicGrillable extends Ingredient implements Grillable {
         }
         return textureManager.getTexture(name);
     }
-
 
     @Override
     public boolean getHalfGrilled() {
