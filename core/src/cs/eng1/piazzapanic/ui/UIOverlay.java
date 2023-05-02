@@ -42,6 +42,8 @@ public class UIOverlay {
 
     private Table recipeBook, recipeBookRoot, recipeBookSteps;
     private Table activePowerups;
+    private Table floatingBottomTable;
+    private Table root;
 
     private Stack chefInventoryRoot;
     private VerticalGroup chefInventory;
@@ -54,13 +56,18 @@ public class UIOverlay {
     private final TextureRegionDrawable crossButtonDrawable;
 
     public boolean pauseToggle = false;
+    public boolean paused = false;
     private boolean activatedShop = false;
 
     private Value scale;
 
+    public PauseOverlay pauseOverlay;
+
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
         this.uiStage = uiStage;
+
+        this.pauseOverlay = new PauseOverlay(uiStage, game, this);
 
         // Commonly reused green background
         Drawable greenPillBG = new TextureRegionDrawable(
@@ -91,13 +98,13 @@ public class UIOverlay {
             );
 
         // Initialize table
-        Table root = new Table();
+        root = new Table();
         root.setFillParent(true);
         root.center().top().pad(15f);
         uiStage.addActor(root);
         root.debug();
 
-        Table floatingBottomTable = new Table();
+        floatingBottomTable = new Table();
         floatingBottomTable.setFillParent(true);
         floatingBottomTable.bottom().pad(15f).padRight(60f);
         uiStage.addActor(floatingBottomTable);
@@ -214,9 +221,13 @@ public class UIOverlay {
                 @Override
                 public boolean keyDown(InputEvent event, int keycode) {
                     if (keycode == Keys.ESCAPE) {
-                        if (PlayerState.getInstance().getPaused()) {
+                        if (paused) {
+                            pauseOverlay.hide();
+                            show();
                             resume();
                         } else {
+                            hide();
+                            pauseOverlay.show();
                             pause();
                         }
                     }
@@ -227,6 +238,7 @@ public class UIOverlay {
     }
 
     private Label recipeName;
+    public UpgradesUi upgradesUi;
 
     public void createRecipeTable() {
         recipeBookRoot.setVisible(false);
@@ -369,7 +381,7 @@ public class UIOverlay {
     public TextButton upgradesButton() {
         TextButton upgrades;
 
-        UpgradesUi upgradesUi = game.getUpgradesUi();
+        upgradesUi = new UpgradesUi(game);
         upgradesUi.addToStage(uiStage);
 
         upgrades =
@@ -623,15 +635,15 @@ public class UIOverlay {
      * Pauses the game
      */
     private void pause() {
-        PlayerState.getInstance().pause();
+        paused = true;
         pauseToggle = true;
     }
 
     /**
      * Resumes the game
      */
-    private void resume() {
-        PlayerState.getInstance().resume();
+    protected void resume() {
+        paused = false;
         pauseToggle = true;
     }
 
@@ -643,18 +655,16 @@ public class UIOverlay {
     }
 
     public void show() {
-        recipeBook.setVisible(true);
-        recipeBookRoot.setVisible(true);
-        recipeBookSteps.setVisible(true);
         chefInventory.setVisible(true);
         orderGroup.setVisible(true);
+        root.setVisible(true);
+        floatingBottomTable.setVisible(true);
     }
 
     public void hide() {
-        recipeBook.setVisible(false);
         recipeBookRoot.setVisible(false);
-        recipeBookSteps.setVisible(false);
-        chefInventory.setVisible(false);
-        orderGroup.setVisible(false);
+        root.setVisible(false);
+        upgradesUi.hide();
+        floatingBottomTable.setVisible(false);
     }
 }

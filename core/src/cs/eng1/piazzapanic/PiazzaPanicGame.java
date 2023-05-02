@@ -8,7 +8,7 @@ import cs.eng1.piazzapanic.ui.FontManager;
 import cs.eng1.piazzapanic.ui.ModeSelectOverlay;
 import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
-import cs.eng1.piazzapanic.ui.UpgradesUi;
+import cs.eng1.piazzapanic.utility.saving.SaveState;
 
 public class PiazzaPanicGame extends Game {
 
@@ -19,7 +19,6 @@ public class PiazzaPanicGame extends Game {
     private TutorialOverlay tutorialOverlay;
     private SettingsOverlay settingsOverlay;
     private ModeSelectOverlay modeSelect;
-    private UpgradesUi upgrades;
 
     /**
      * Creates new instances of all fields, and loads HomeScreen
@@ -31,7 +30,6 @@ public class PiazzaPanicGame extends Game {
         tutorialOverlay = new TutorialOverlay(this);
         settingsOverlay = new SettingsOverlay(this);
         modeSelect = new ModeSelectOverlay(this);
-        upgrades = new UpgradesUi(this);
         loadHomeScreen();
     }
 
@@ -72,6 +70,10 @@ public class PiazzaPanicGame extends Game {
         setScreen(new GameScreen(this, customers, difficulty));
     }
 
+    public void loadGameScreen(SaveState save) {
+        setScreen(new GameScreen(this, save));
+    }
+
     /**
      * @returns single instance of TutorialOverlay
      */
@@ -105,12 +107,5 @@ public class PiazzaPanicGame extends Game {
      */
     public ButtonManager getButtonManager() {
         return buttonManager;
-    }
-
-    /**
-     * @returns single instance of UpgradesUi
-     */
-    public UpgradesUi getUpgradesUi() {
-        return upgrades;
     }
 }

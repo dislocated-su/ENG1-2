@@ -12,9 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.ui.ButtonManager;
+import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import cs.eng1.piazzapanic.ui.ModeSelectOverlay;
 import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
+import cs.eng1.piazzapanic.utility.saving.SaveManager;
 
 public class HomeScreen implements Screen {
 
@@ -56,6 +58,22 @@ public class HomeScreen implements Screen {
                 }
             }
         );
+
+        TextButton loadGame = game
+            .getButtonManager()
+            .createTextButton("Load Game", ButtonColour.BLUE);
+        loadGame.sizeBy(3f);
+        loadGame.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (Gdx.files.internal("savefile.json").exists()) {
+                        game.loadGameScreen(SaveManager.getInstance().load());
+                    }
+                }
+            }
+        );
+
         TextButton tutorialButton = game
             .getButtonManager()
             .createTextButton("Tutorial", ButtonManager.ButtonColour.BLUE);
@@ -64,7 +82,7 @@ public class HomeScreen implements Screen {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    hide();
+                    // hide();
                     tutorialOverlay.show();
                 }
             }
@@ -77,7 +95,7 @@ public class HomeScreen implements Screen {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    hide();
+                    // hide();
                     settingsOverlay.show();
                 }
             }
@@ -102,6 +120,8 @@ public class HomeScreen implements Screen {
         table.add(welcomeLabel).padBottom(100f);
         table.row();
         table.add(startButton).padBottom(20f);
+        table.row();
+        table.add(loadGame).padBottom(20f);
         table.row();
         table.add(tutorialButton).padBottom(20f);
         table.row();

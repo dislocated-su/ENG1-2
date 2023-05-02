@@ -16,6 +16,7 @@ import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dSteeringBody;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
+import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 
 public class Customer extends Actor implements Disposable {
 
@@ -32,7 +33,6 @@ public class Customer extends Actor implements Disposable {
     public Integer currentObjective = null;
 
     private Body body;
-    private boolean despawnFlag = false;
     private Box2dLocation endObjective;
 
     public Customer(
@@ -75,6 +75,22 @@ public class Customer extends Actor implements Disposable {
         return order;
     }
 
+    public Timer getRepTimer() {
+        return repTimer;
+    }
+
+    public boolean getReputation() {
+        return reputation;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public boolean getOrderCompleted() {
+        return orderCompleted;
+    }
+
     public void fulfillOrder() {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
         PlayerState.getInstance().earnCash(100, happiness);
@@ -85,7 +101,6 @@ public class Customer extends Actor implements Disposable {
         );
         customerManager.walkBack(this);
         endObjective = customerManager.getObjective(currentObjective);
-        despawnFlag = true;
     }
 
     @Override
@@ -141,7 +156,7 @@ public class Customer extends Actor implements Disposable {
 
         setRotation((float) Math.toDegrees(body.getAngle()));
 
-        if (despawnFlag) {
+        if (orderCompleted) {
             if (endObjective.getPosition().epsilonEquals(position, 0.5f)) {
                 this.remove();
                 this.dispose();
@@ -162,6 +177,18 @@ public class Customer extends Actor implements Disposable {
 
     public boolean isOrderCompleted() {
         return orderCompleted;
+    }
+
+    public SavedCustomer getSavedCustomer() {
+        SavedCustomer save = new SavedCustomer();
+        save.currentObjective = currentObjective;
+        save.imagePath = texture.getTextureData().toString();
+        save.order = order.getType();
+        save.orderCompleted = orderCompleted;
+        save.position = body.getPosition();
+        save.repTimer = repTimer;
+        save.reputation = reputation;
+        return save;
     }
 
     @Override

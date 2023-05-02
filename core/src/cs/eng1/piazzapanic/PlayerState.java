@@ -2,7 +2,9 @@ package cs.eng1.piazzapanic;
 
 import com.badlogic.gdx.Gdx;
 import cs.eng1.piazzapanic.utility.Timer;
+import cs.eng1.piazzapanic.utility.saving.SavedPlayerState;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerState {
 
@@ -12,24 +14,23 @@ public class PlayerState {
 
     private float cash = 1000000;
 
-    private boolean paused = false;
-
     private int difficultyLevel = 1;
 
     private float upgradeCost = 100f;
 
     private int hireCost = 1000;
 
-    private HashMap<PowerUp, Timer> powerUpTimers =
-        new HashMap<PowerUp, Timer>() {
-            {
-                put(PowerUp.WALK_FAST, new Timer(60000, false, false));
-                put(PowerUp.COOK_FAST, new Timer(60000, false, false));
-                put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
-                put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
-                put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
-            }
-        };
+    private int purchasedChefs = 0;
+
+    private Map<PowerUp, Timer> powerUpTimers = new HashMap<PowerUp, Timer>() {
+        {
+            put(PowerUp.WALK_FAST, new Timer(60000, false, false));
+            put(PowerUp.COOK_FAST, new Timer(60000, false, false));
+            put(PowerUp.NO_SPOILING, new Timer(60000, false, false));
+            put(PowerUp.NO_REP_LOSS, new Timer(60000, false, false));
+            put(PowerUp.MORE_MONEY, new Timer(60000, false, false));
+        }
+    };
 
     private final HashMap<PowerUp, Integer> powerUpCosts =
         new HashMap<PowerUp, Integer>() {
@@ -50,7 +51,16 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    private PlayerState() {}
+    public PlayerState() {}
+
+    public PlayerState(SavedPlayerState state) {
+        setDifficulty(state.difficulty);
+        this.cash = state.cash;
+        this.hireCost = state.hireCost;
+        this.upgradeCost = state.upgradeCost;
+        this.powerUpTimers = state.powerUpTimers.get();
+        this.purchasedChefs = state.purchaseChefs;
+    }
 
     /**
      * Gets the value of unlocking a new station, also increments this price each
@@ -79,7 +89,7 @@ public class PlayerState {
     public int getChefHireCost(boolean buying) {
         int output = hireCost;
         if (buying) {
-            hireCost = 10000;
+            hireCost *= 10;
         }
         return output;
     }
@@ -104,6 +114,10 @@ public class PlayerState {
             instance = new PlayerState();
         }
         return instance;
+    }
+
+    public static void loadInstance(PlayerState state) {
+        instance = state;
     }
 
     /**
@@ -244,24 +258,19 @@ public class PlayerState {
         difficultyLevel = value;
     }
 
-    /**
-     * Sets paused flag to true
-     */
-    public void pause() {
-        paused = true;
+    public int getPurchasedChefs() {
+        return purchasedChefs;
     }
 
-    /**
-     * Sets paused flag to false
-     */
-    public void resume() {
-        paused = false;
+    public void setPurchasedChefs(int value) {
+        purchasedChefs = value;
     }
 
-    /**
-     * @returns value of paused
-     */
-    public boolean getPaused() {
-        return paused;
+    public Timer getTimer(PowerUp powerUp) {
+        return powerUpTimers.get(powerUp);
+    }
+
+    public Map<PowerUp, Timer> getPowerUpTimers() {
+        return powerUpTimers;
     }
 }

@@ -12,7 +12,9 @@ public class Cheese extends BasicChoppable {
     @Override
     public Texture getTexture() {
         String name = "cheese";
-        if (chopped) {
+        if (!useable) {
+            name = "rotten";
+        } else if (chopped) {
             name += "_sliced";
         }
         return textureManager.getTexture(name);

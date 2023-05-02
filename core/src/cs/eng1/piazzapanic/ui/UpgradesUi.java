@@ -26,12 +26,11 @@ public class UpgradesUi {
 
     private PiazzaPanicGame game;
 
-    TextButton moreChefs;
+    TextButton buyChef;
 
     private Value scale, scale1, scale2;
     private Label chefHireCostLabel;
     public boolean chefHireFlag;
-    private int purchasedChefs = 0;
 
     public UpgradesUi(PiazzaPanicGame game) {
         this.game = game;
@@ -93,10 +92,11 @@ public class UpgradesUi {
             createRow(powerUp);
         }
 
-        TextButton button = game
-            .getButtonManager()
-            .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
-        button.addListener(
+        buyChef =
+            game
+                .getButtonManager()
+                .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
+        buyChef.addListener(
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -105,17 +105,15 @@ public class UpgradesUi {
                         playerState.getCash() >=
                         playerState.getChefHireCost(false)
                     ) {
+                        int purchasedChefs = playerState.getPurchasedChefs();
                         if (purchasedChefs <= 1) {
                             playerState.spendCash(
                                 playerState.getChefHireCost(true)
                             );
-                            updateChefHireCost();
+
                             chefHireFlag = true;
-                            purchasedChefs++;
-                            if (purchasedChefs == 2) {
-                                button.setVisible(false);
-                                chefHireCostLabel.setVisible(false);
-                            }
+                            playerState.setPurchasedChefs(purchasedChefs + 1);
+                            updateChefHireCost();
                         }
                     }
                 }
@@ -124,7 +122,7 @@ public class UpgradesUi {
 
         chefHireCostLabel = new Label("", hudLabelFont);
         updateChefHireCost();
-        table.add(button).width(scale2).height(scale);
+        table.add(buyChef).width(scale2).height(scale);
         table.add();
         table.add(chefHireCostLabel);
     }
@@ -133,6 +131,10 @@ public class UpgradesUi {
      * Updates the cost for hiring a chef after buying one.
      */
     private void updateChefHireCost() {
+        if (PlayerState.getInstance().getPurchasedChefs() >= 2) {
+            buyChef.setVisible(false);
+            chefHireCostLabel.setVisible(false);
+        }
         chefHireCostLabel.setText(
             "£" + PlayerState.getInstance().getChefHireCost(false)
         );

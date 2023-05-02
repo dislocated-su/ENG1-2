@@ -73,7 +73,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
     public Texture getTexture() {
         String name = getType() + "_";
         if (!useable) {
-            name += "ruined";
+            name = "rotten";
         } else if (chopped) {
             name += "chopped";
         } else {

@@ -9,8 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
+import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
+import cs.eng1.piazzapanic.utility.saving.SavedChef;
+import cs.eng1.piazzapanic.utility.saving.SavedChefManager;
+import cs.eng1.piazzapanic.utility.saving.SavedFood;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +74,46 @@ public class ChefManager implements Disposable {
             );
             chef.setInputEnabled(false);
             chefs.add(chef);
+        }
+    }
+
+    public ChefManager(
+        SavedChefManager save,
+        float chefScale,
+        UIOverlay overlay,
+        World world,
+        KeyboardInput keyboardInput,
+        FoodTextureManager textureManager
+    ) {
+        this.overlay = overlay;
+        this.world = world;
+        this.keyboardInput = keyboardInput;
+        this.chefScale = chefScale;
+
+        chefs = new ArrayList<Chef>();
+
+        for (SavedChef savedChef : save.savedChefs) {
+            Texture chefTexture = new Texture(
+                Gdx.files.internal(savedChef.imagePath)
+            );
+            Chef chef = new Chef(
+                chefTexture,
+                new Vector2(
+                    chefTexture.getWidth() * chefScale,
+                    chefTexture.getHeight() * chefScale
+                ),
+                this
+            );
+            chef.init(savedChef.position.x, savedChef.position.y);
+            for (SavedFood item : savedChef.inventory) {
+                chef.grabItem(item.get(textureManager));
+            }
+            chef.setInputEnabled(savedChef.inputEnabled);
+            chefs.add(chef);
+
+            if (savedChef.currentChef) {
+                currentChef = chef;
+            }
         }
     }
 
