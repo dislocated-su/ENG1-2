@@ -402,5 +402,4 @@ public class CustomerManager {
     public int getMaxSpawnRate() {
         return maxSpawnRate;
     }
-
 }
