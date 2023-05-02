@@ -306,22 +306,22 @@ public class CustomerManagerTests {
             2,
             customerManager.getReputation()
         );
-        for (int i = 2; i <= x; i++) {
+        for (int i = 0; i <= x; i++) {
             act(spawnTime);
             assertEquals(
                 "Act should spawn customers if the correct amount of time has passed.",
-                Math.min(i, 5),
+                Math.min(i + 2, 5),
                 customerManager.getCustomerQueue().size()
             );
             if (i < 5) {
-                Customer customer = customerManager.getCustomer(i - 1);
-                Box2dLocation objective = customerManager.getObjective(i - 1);
+                Customer customer = customerManager.getCustomer(i);
+                Box2dLocation objective = customerManager.getObjective(i);
                 for (float f = 0; f <= spawnTime; f += 1f / 60) {
                     customer.act(f);
                     world.step(f, 6, 2);
                 }
-                // assertEquals(objective.getPosition().x, customer.getX(), 1f);
-                // assertEquals(objective.getPosition().y, customer.getY(), 1f);
+                assertEquals(objective.getPosition().x, customer.getX(), 1f);
+                assertEquals(objective.getPosition().y, customer.getY(), 1f);
             }
         }
         for (float i = 0; i < 2 * spawnTime; i += 1f / 60) {
