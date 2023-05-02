@@ -3,6 +3,8 @@ package cs.eng1.tests.chef;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
@@ -123,46 +125,74 @@ public class ChefManagerTests {
             textureManager,
             customerManager
         );
+        ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
         for (int i = 2; i < 4; i++) {
             chefManager.hireChef(
-                mapLoader.cookSpawnpoints.get(i - 2), 
+                spawnPoints.get(i - 2), 
                 stage
             );
-            assertEquals(i + 1, chefManager.getChefs().size());
+            assertEquals(
+                new Vector2(
+                    Math.round(spawnPoints.get(i - 2).x),
+                    Math.round(spawnPoints.get(i - 2).y)
+                ), 
+                new Vector2(
+                    Math.round(chefManager.getChefs().get(i).getX()), 
+                    Math.round(chefManager.getChefs().get(i).getY())
+                )
+            );
+            assertEquals(
+                "Hire Chef should add a chef to the chefManagers chefs.", 
+                i + 1, 
+                chefManager.getChefs().size()
+            );
 
             assertFalse(
                 "Chefs should not take inputs by default after being hired.", 
                 chefManager.getChefs().get(i).isInputEnabled()
             );
         }
+        chefManager.hireChef(
+                spawnPoints.get(0), 
+                stage
+        );
+        assertEquals(
+                "Hire Chef shouldn't add chefs over 4.", 
+                4, 
+                chefManager.getChefs().size()
+        );
          
     }
 
     @Test
     public void actTests() {
-        kbInput.keyDown(Keys.E);
-        chefManager.act(1);
-        int chefIndex = chefManager
-            .getChefs()
-            .indexOf(chefManager.getCurrentChef());
-        assertEquals(
-            "After E is pressed, the current chef should be initialised.",
-            chefManager.getCurrentChef(),
-            chefManager.getChefs().get(chefIndex)
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
         );
-        kbInput.keyDown(Keys.E);
-        chefManager.act(1);
-        assertEquals(
-            "Pressing E after having a current chef should change the current chef.",
-            chefManager.getCurrentChef(),
-            chefManager.getChefs().get(chefIndex + 1)
+        ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
+        assertNull(
+            "currentChef should be null by default.",
+            chefManager.getCurrentChef()
         );
-        kbInput.keyDown(Keys.E);
-        chefManager.act(1);
-        assertEquals(
-            "When E is pressed and currentchef is the end of the array, it should wrap to the first chef.",
-            chefManager.getCurrentChef(),
-            chefManager.getChefs().get(chefIndex)
-        );
+        int maxChefs = 4;
+        for (int chefIndex = 0; chefIndex < maxChefs; chefIndex++) {
+            kbInput.keyDown(Keys.E);
+            chefManager.act(1);
+            assertEquals(
+                "After E is pressed, the current chef should be initialised.",
+                chefManager.getCurrentChef(),
+                chefManager.getChefs().get(chefIndex)
+            );
+            if (chefIndex < 2) {
+                chefManager.hireChef(
+                    spawnPoints.get(chefIndex), 
+                    stage
+            );
+            }
+        }
     }
 }
