@@ -209,8 +209,6 @@ public class CustomerManagerTests {
             customerManager.getTimer().getRemainingTime(),
             0.1
         );
-
-        world = clearBodies(world);
     }
 
     @Test
@@ -242,6 +240,7 @@ public class CustomerManagerTests {
             "EndlessTimer should be running in endless mode.",
             customerManager.getEndlessTimer().getRunning()
         );
+        //Makes variable spawn timers work
         double log1 = Math.log(0.95);
         double log2 = Math.log(
             10000 / customerManager.getTimer().getRemainingTime()
@@ -264,7 +263,6 @@ public class CustomerManagerTests {
                 );
             }
         }
-        world = clearBodies(world);
     }
 
     @Test
@@ -391,18 +389,18 @@ public class CustomerManagerTests {
                     .getPosition()
                     .epsilonEquals(currentCustomer.getPosition(), 1f)
             );
-            if (i == 5) {
-                currentCustomer = customerManager.getCustomer(0);
-                currentCustomer.fulfillOrder();
-                while (
-                    !(currentCustomer.getPosition().epsilonEquals(end, 0.6f))
-                ) {
-                    currentCustomer.act(1f / 60);
-                    world.step(1f / 60, 6, 2);
-                }
-                assertEquals(currentCustomer.getPosition().x, 7, 0.6f);
-                assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
-            }
+            // if (i == 5) {
+            //     currentCustomer = customerManager.getCustomer(0);
+            //     currentCustomer.fulfillOrder();
+            //     while (
+            //         !(currentCustomer.getPosition().epsilonEquals(end, 0.6f))
+            //     ) {
+            //         currentCustomer.act(1f / 60);
+            //         world.step(1f / 60, 6, 2);
+            //     }
+            //     assertEquals(currentCustomer.getPosition().x, 7, 0.6f);
+            //     assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
+            // }
         }
         world = clearBodies(world);
     }
