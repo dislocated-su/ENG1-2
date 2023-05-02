@@ -20,15 +20,17 @@ public class UpgradesUi {
 
     private static Table table;
     Table root;
-    private LabelStyle hudLabelFont;
-    private LabelStyle hudTitleFont;
-    private LabelStyle hudHeaderFont;
+    private final LabelStyle hudLabelFont;
+    private final LabelStyle hudTitleFont;
+    private final LabelStyle hudHeaderFont;
 
-    private PiazzaPanicGame game;
+    private final PiazzaPanicGame game;
 
     TextButton buyChef;
 
-    private Value scale, scale1, scale2;
+    private final Value scale;
+    private final Value scale1;
+    private final Value scale2;
     private Label chefHireCostLabel;
     public boolean chefHireFlag;
 

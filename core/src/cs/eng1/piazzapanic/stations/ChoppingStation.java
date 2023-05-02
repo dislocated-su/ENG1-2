@@ -14,6 +14,11 @@ import java.util.LinkedList;
  * The ChoppingStation class is a station representing the place in
  * the kitchen where you chop lettuce and tomatoes to be used in making
  * a salad
+ *
+ * @author Matt Fitzpatrick
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class ChoppingStation extends Station {
 
@@ -33,7 +38,7 @@ public class ChoppingStation extends Station {
      *                     action
      *                     buttons belonging to the station
      * @param alignment    Dictates where the action buttons are shown
-     * @param locked
+     * @param locked       Whether the station is locked and has to be purchased before it can be used.
      */
     public ChoppingStation(
         int id,

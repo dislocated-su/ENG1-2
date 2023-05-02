@@ -38,12 +38,14 @@ import java.util.List;
 public class UIOverlay {
 
     private final PiazzaPanicGame game;
-    private Stage uiStage;
+    private final Stage uiStage;
 
-    private Table recipeBook, recipeBookRoot, recipeBookSteps;
-    private Table activePowerups;
-    private Table floatingBottomTable;
-    private Table root;
+    private final Table recipeBook;
+    private final Table recipeBookRoot;
+    private final Table recipeBookSteps;
+    private final Table activePowerups;
+    private final Table floatingBottomTable;
+    private final Table root;
 
     private Stack chefInventoryRoot;
     private VerticalGroup chefInventory;
@@ -51,7 +53,7 @@ public class UIOverlay {
     private Stack chefDisplay;
     private Image chefImage;
 
-    private VerticalGroup orderGroup;
+    private final VerticalGroup orderGroup;
 
     private final TextureRegionDrawable crossButtonDrawable;
 
@@ -59,7 +61,7 @@ public class UIOverlay {
     public boolean paused = false;
     private boolean activatedShop = false;
 
-    private Value scale;
+    private final Value scale;
 
     public PauseOverlay pauseOverlay;
 
@@ -392,7 +394,7 @@ public class UIOverlay {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (activatedShop == false) { // to check whether to hid or unhide the upgrades panel
+                    if (!activatedShop) { // to check whether to hid or unhide the upgrades panel
                         activatedShop = true;
                         upgradesUi.show();
                         upgrades.setText("Return");
@@ -511,7 +513,7 @@ public class UIOverlay {
         }
 
         // Pizza has extra cooking step
-        if (recipe.getType() == "pizza") {
+        if (recipe.getType().equals("pizza")) {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
             Image uncooked = new Image(
@@ -602,7 +604,7 @@ public class UIOverlay {
             if (state.getBuffActive(powerup)) {
                 activePowerups.setVisible(true);
                 Label activePowerupLabel = new Label(
-                    String.format(""),
+                        "",
                     new LabelStyle(
                         game.getFontManager().getMediumFont(),
                         Color.WHITE

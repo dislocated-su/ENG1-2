@@ -22,6 +22,9 @@ import java.util.List;
  * The controller that handles switching control between chefs and tells them
  * about the surrounding
  * environment.
+ *
+ * @author Alistair Foggin
+ * @author Ross Holmes
  */
 public class ChefManager implements Disposable {
 
@@ -37,7 +40,7 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
     };
-    private float chefScale;
+    private final float chefScale;
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an
@@ -46,6 +49,9 @@ public class ChefManager implements Disposable {
      * @param overlay   the user interface overlay to display information about the
      *                  current chef
      *                  and time, and to provide more controls.
+     * @param world     Box2D world to use for Chef collision and movement.
+     *
+     * @param keyboardInput Input processor for input from the keyboard. Passed down to the chefs this class owns.
      */
     public ChefManager(
         float chefScale,
@@ -90,7 +96,7 @@ public class ChefManager implements Disposable {
         this.keyboardInput = keyboardInput;
         this.chefScale = chefScale;
 
-        chefs = new ArrayList<Chef>();
+        chefs = new ArrayList<>();
 
         for (SavedChef savedChef : save.savedChefs) {
             Texture chefTexture = new Texture(

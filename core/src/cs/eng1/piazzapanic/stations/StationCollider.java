@@ -12,6 +12,8 @@ import java.util.List;
  * This is a collider that checks to see if the chef has entered its bounds. If
  * it has then it
  * notifies all the linked stations which chef has overlapped.
+ *
+ * @author Alistair Foggin
  */
 public class StationCollider extends Actor implements Subject<Chef> {
 

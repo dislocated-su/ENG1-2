@@ -18,11 +18,17 @@ import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.ui.ButtonManager;
 import cs.eng1.piazzapanic.ui.FontManager;
 
+/**
+ * Screen that shows at the end of the game, displaying whether the player won or not as well as related stats.
+ *
+ * @author Louis Warren
+ * @author Joel Paxman
+ */
 public class EndScreen implements Screen {
 
     private final Table table;
     PiazzaPanicGame game;
-    private Stage stage;
+    private final Stage stage;
 
     public EndScreen(PiazzaPanicGame game, String text, String reputation) {
         ScreenViewport viewport = new ScreenViewport();

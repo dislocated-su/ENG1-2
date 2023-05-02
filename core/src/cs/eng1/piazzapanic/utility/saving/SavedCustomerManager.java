@@ -13,7 +13,7 @@ public class SavedCustomerManager {
     public int totalCustomers, spawnedCustomers;
     public Timer spawnTimer, endlessTimer;
     public int reputation;
-    public SerializeableMap<Integer, Boolean> objectiveAvailabilities;
+    public SerializableMap<Integer, Boolean> objectiveAvailabilities;
 
     public SavedCustomerManager(CustomerManager customerManager) {
         this.totalCustomers = customerManager.totalCustomers;
@@ -22,9 +22,9 @@ public class SavedCustomerManager {
         this.endlessTimer = customerManager.getEndlessTimer();
         this.reputation = customerManager.getReputation();
         this.objectiveAvailabilities =
-            new SerializeableMap<Integer, Boolean>(
-                customerManager.getAvailabilities()
-            );
+                new SerializableMap<>(
+                        customerManager.getAvailabilities()
+                );
         List<Customer> customers = customerManager.getCustomerQueue();
         customerQueue = new SavedCustomer[customers.size()];
         for (int i = 0; i < customers.size(); i++) {

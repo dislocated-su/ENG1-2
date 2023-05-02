@@ -24,6 +24,8 @@ import java.util.HashMap;
  * A utility which generates UI buttons with the correct background images given
  * specific text,
  * images and colours.
+ *
+ * @author Alistair Foggin
  */
 public class ButtonManager implements Disposable {
 
@@ -40,7 +42,7 @@ public class ButtonManager implements Disposable {
     private final HashMap<ButtonColour, CheckBox.CheckBoxStyle> checkBoxStyles;
 
     private final Texture checkboxUnchecked;
-    private AssetManager assetManager = new AssetManager();
+    private final AssetManager assetManager = new AssetManager();
 
     /**
      * @param fontManager the fontManager from which this class can get the right

@@ -2,11 +2,7 @@ package cs.eng1.piazzapanic.customer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.Proximity;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
-import com.badlogic.gdx.ai.steer.behaviors.BlendedSteering;
-import com.badlogic.gdx.ai.steer.behaviors.CollisionAvoidance;
-import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
-import com.badlogic.gdx.ai.steer.behaviors.RaycastObstacleAvoidance;
+import com.badlogic.gdx.ai.steer.behaviors.*;
 import com.badlogic.gdx.ai.steer.utils.rays.CentralRayWithWhiskersConfiguration;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -16,31 +12,19 @@ import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.box2d.Box2dRadiusProximity;
 import cs.eng1.piazzapanic.box2d.Box2dRaycastCollisionDetector;
-import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.food.recipes.Burger;
-import cs.eng1.piazzapanic.food.recipes.JacketPotato;
-import cs.eng1.piazzapanic.food.recipes.Pizza;
-import cs.eng1.piazzapanic.food.recipes.Recipe;
-import cs.eng1.piazzapanic.food.recipes.Salad;
+import cs.eng1.piazzapanic.food.recipes.*;
 import cs.eng1.piazzapanic.stations.SubmitStation;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 import cs.eng1.piazzapanic.utility.saving.SavedCustomerManager;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+
+import java.util.*;
 
 public class CustomerManager {
 
-    private final LinkedList<Customer> customerQueue =
-        new LinkedList<Customer>();
+    private final LinkedList<Customer> customerQueue;
     private final HashMap<Integer, SubmitStation> recipeStations;
     private final UIOverlay overlay;
     public final int totalCustomers;
@@ -56,6 +40,8 @@ public class CustomerManager {
     // set permutation of orders.
     private final Random randomOrders;
     private final Random randomTextures;
+
+    private final Random randomCustomerCount;
 
     private int reputation = 3;
     private int spawnedCustomers = 0;
@@ -94,6 +80,8 @@ public class CustomerManager {
         endlessTimer = new Timer(8000, false, true);
 
         objectiveAvailability = new HashMap<>();
+        customerQueue = new LinkedList<>();
+        randomCustomerCount = new Random();
     }
 
     public CustomerManager(
@@ -117,7 +105,7 @@ public class CustomerManager {
         endlessTimer = save.endlessTimer;
 
         reputation = save.reputation;
-
+        randomCustomerCount = new Random();
         objectiveAvailability = save.objectiveAvailabilities.get();
 
         possibleRecipes =
@@ -128,6 +116,7 @@ public class CustomerManager {
                 new JacketPotato(textureManager),
             };
 
+        customerQueue = new LinkedList<>();
         for (SavedCustomer savedCustomer : save.customerQueue) {
             Texture texture = new Texture(
                 Gdx.files.internal(savedCustomer.imagePath)
@@ -240,6 +229,9 @@ public class CustomerManager {
         }
     }
 
+    /**
+     * @return a {@link List} containing all orders represented as a {@link Recipe}, in the order they have been added.
+     */
     public List<Recipe> getOrders() {
         LinkedList<Recipe> output = new LinkedList<>();
         for (Customer c : customerQueue) {
@@ -248,6 +240,11 @@ public class CustomerManager {
         return output;
     }
 
+
+    /**
+     * Needs to be called every frame to occasionally spawn customers.
+     * @param delta time since last frame in seconds
+     */
     public void act(float delta) {
         if (reputation == 0) {
             overlay.finishGameUI();
@@ -270,16 +267,25 @@ public class CustomerManager {
         checkSpawn(delta);
     }
 
-    public void checkSpawn(float delta) {
+
+    private void checkSpawn(float delta) {
         if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
-            generateCustomer();
+
+            int customerCount = (spawnTimer.getDelay() < 45000) ? randomCustomerCount.nextInt(1,4) : 1;
+
+            for (int i = 0; i < customerCount; i++) {
+                generateCustomer();
+            }
             overlay.updateOrders(getOrders());
 
             spawnTimer.reset();
         }
     }
 
-    public void loseReputation() {
+    /**
+     * Lose a reputation point. Is supposed to be called by a customer.
+     */
+    protected void loseReputation() {
         if (reputation > 0) {
             reputation--;
             overlay.updateReputationCounter(reputation);
@@ -287,13 +293,15 @@ public class CustomerManager {
     }
 
     /**
-     * Complete the current order nad move on to the next one. Then update the UI.
+     * Complete the provided customers order and move on to the next one. Then update the UI.
      * If all the recipes are completed, then show the winning UI.
      *
      * With the current implementation, it is possible to have endless mode use the
-     * totalCustomers value of 0 without requiring changes
+     * totalCustomers value of 0 without requiring changes.
+     *
+     * @param customer The customer whose order is to be fulfilled.
      */
-    public void nextRecipe(Chef chef, Customer customer) {
+    public void nextRecipe(Customer customer) {
         completedOrders++;
         customerQueue.remove(customer);
         customer.fulfillOrder();
@@ -332,7 +340,7 @@ public class CustomerManager {
         stationsRanked =
             recipeStations
                 .keySet()
-                .toArray(new Integer[recipeStations.keySet().size()]);
+                .toArray(new Integer[0]);
         Arrays.sort(stationsRanked);
     }
 
@@ -365,9 +373,6 @@ public class CustomerManager {
     private void updateCustomerLocation(Customer customer, Integer objective) {
         makeItGoThere(customer, objective);
         if (objective < 4) {
-            if (customer == null) {
-                throw new AssertionError("Customer is null???");
-            }
             recipeStations.get(stationsRanked[objective]).customer = customer;
         }
     }
@@ -437,6 +442,10 @@ public class CustomerManager {
         }
     }
 
+
+    /**
+     * Calls makeItGoThere but with objective set to -1, effectively making the agent walk back to the despawn point.
+     */
     public void walkBack(Customer customer) {
         this.makeItGoThere(customer, -1);
     }

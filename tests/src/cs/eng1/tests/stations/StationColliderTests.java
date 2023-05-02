@@ -1,8 +1,5 @@
 package cs.eng1.tests.stations;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import cs.eng1.piazzapanic.chef.Chef;
@@ -12,18 +9,21 @@ import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.tests.GdxTestRunner;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
     World world = new World(Vector2.Zero, true);
-    private UIOverlay overlay = mock(UIOverlay.class);
+    private final UIOverlay overlay = mock(UIOverlay.class);
     ChefManager chefManager = new ChefManager(0, overlay, world, null);
     Chef chef = new Chef(null, null, chefManager);
-    private StationUIController uiController = mock(StationUIController.class);
+    private final StationUIController uiController = mock(StationUIController.class);
     IngredientStation station = new IngredientStation(
         0,
         null,
@@ -64,11 +64,7 @@ public class StationColliderTests {
         stationCollider.deregister(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
-            "tests that deregister removes the nearbyChef",
-            null,
-            station.nearbyChef
-        );
+        assertNull("tests that deregister removes the nearbyChef", station.nearbyChef);
     }
 
     @Test
@@ -82,11 +78,7 @@ public class StationColliderTests {
         stationCollider.clearAllObservers();
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
-            "tests that clearAllObservers removes all nearbyChef",
-            null,
-            station.nearbyChef
-        );
+        assertNull("tests that clearAllObservers removes all nearbyChef", station.nearbyChef);
     }
 
     @Test

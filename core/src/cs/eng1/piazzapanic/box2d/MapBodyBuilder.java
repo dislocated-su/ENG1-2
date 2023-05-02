@@ -21,6 +21,15 @@ import com.badlogic.gdx.utils.Array;
 /**
  * Populates the world with bodies created from the obstacle layer. Used for
  * creating collisions.
+ *
+ * This class is present in many other libgdx projects and our
+ * implementation only contains minor changes based on what we need.
+ *
+ * The original code was found in a forum post and links to a tutorial that is no longer available.
+ * <a href="https://gamedev.stackexchange.com/questions/66924/how-can-i-convert-a-tilemap-to-a-box2d-world">...</a>
+ * The original author is assumed to be the person claiming to be in said forum.
+ * @author David Saltares
+ * @author Andrey Samoilov
  */
 public class MapBodyBuilder {
 
@@ -32,7 +41,7 @@ public class MapBodyBuilder {
      * @param layer {@link MapLayer} to create bodies from.
      * @param pixels Pixels per tile (default 16).
      * @param world Box2D {@link World} to create objects in.
-     * @return
+     * @return Array of built shapes for further processing.
      */
     public static Array<Body> buildShapes(
         MapLayer layer,
@@ -42,7 +51,7 @@ public class MapBodyBuilder {
         ppt = pixels;
         MapObjects shadowedObjects = layer.getObjects();
 
-        Array<Body> bodies = new Array<Body>();
+        Array<Body> bodies = new Array<>();
 
         for (MapObject object : shadowedObjects) {
             Shape shape = decideShape(object);

@@ -36,7 +36,7 @@ public class SavedFood {
         }
     }
 
-    public Holdable get(FoodTextureManager manager) throws AssertionError {
+    public Holdable get(FoodTextureManager manager) {
         Ingredient i = Ingredient.fromString(type, manager);
         if (i != null) {
             if (i instanceof BasicGrillable) {
@@ -51,13 +51,9 @@ public class SavedFood {
                 BasicChoppable choppable = (BasicChoppable) i;
                 choppable.setChopped(completed);
             }
-            return (Holdable) i;
+            return i;
         }
-        Recipe r = Recipe.fromString(type, manager);
-        if (r != null) {
-            return (Holdable) r;
-        }
-
-        throw new AssertionError("Loaded food is not of any known type");
+        // If not an ingredient, then a recipe.
+        return Recipe.fromString(type, manager);
     }
 }

@@ -28,8 +28,8 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class RecipeStationTests {
 
-    private ChefManager chefManager = mock(ChefManager.class);
-    private StationUIController mockUI = mock(StationUIController.class);
+    private final ChefManager chefManager = mock(ChefManager.class);
+    private final StationUIController mockUI = mock(StationUIController.class);
 
     @Test
     /**

@@ -8,12 +8,12 @@ public class SavedPlayerState {
 
     public float cash, upgradeCost;
     public int difficulty, hireCost, purchaseChefs;
-    public SerializeableMap<PowerUp, Timer> powerUpTimers;
+    public SerializableMap<PowerUp, Timer> powerUpTimers;
 
     public SavedPlayerState() {}
 
     public SavedPlayerState(PlayerState state) {
-        this.powerUpTimers = new SerializeableMap<>(state.getPowerUpTimers());
+        this.powerUpTimers = new SerializableMap<>(state.getPowerUpTimers());
         cash = state.getCash();
         difficulty = state.getDifficulty();
         upgradeCost = state.getUpgradeCost(false);

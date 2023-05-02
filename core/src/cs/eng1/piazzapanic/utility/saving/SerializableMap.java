@@ -3,20 +3,25 @@ package cs.eng1.piazzapanic.utility.saving;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * SerializeableHashmap
+ * A simple container for a Map<K,V> that stores the values as arrays for serialisation.
+ * @param <K> the key type of the Map
+ * @param <V> the value type of the Map
+ *
+ * @author Andrey Samoilov
  */
-public class SerializeableMap<K, V> {
+public class SerializableMap<K, V> {
 
     public K[] keys;
     public V[] values;
 
-    SerializeableMap(Map<K, V> map) {
+    SerializableMap(Map<K, V> map) {
         keys = (K[]) map.keySet().toArray();
         values = (V[]) map.values().toArray();
     }
 
-    public SerializeableMap() {}
+    public SerializableMap() {}
 
     public Map<K, V> get() {
         Map<K, V> output = new HashMap<>();

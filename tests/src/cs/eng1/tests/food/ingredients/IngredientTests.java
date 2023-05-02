@@ -1,29 +1,24 @@
 package cs.eng1.tests.food.ingredients;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-
 import cs.eng1.piazzapanic.food.FoodTextureManager;
-import cs.eng1.piazzapanic.food.ingredients.Cheese;
-import cs.eng1.piazzapanic.food.ingredients.Ingredient;
-import cs.eng1.piazzapanic.food.ingredients.Patty;
-import cs.eng1.piazzapanic.food.ingredients.UncookedPizza;
+import cs.eng1.piazzapanic.food.ingredients.*;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.tests.GdxTestRunner;
-import javax.swing.plaf.TextUI;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
 
 @RunWith(GdxTestRunner.class)
 public class IngredientTests {
 
     FoodTextureManager textureManager = new FoodTextureManager();
-    Ingredient patty = new Ingredient("patty", textureManager);
-    Ingredient lettuce = new Ingredient("lettuce", textureManager);
-    Ingredient tomato = new Ingredient("tomato", textureManager);
-    Ingredient potato = new Ingredient("potato", textureManager);
-    Ingredient cheese = new Ingredient("cheese", textureManager);
-    Ingredient pizza = new Ingredient("uncooked_pizza", textureManager);
+    Ingredient patty = new Patty(textureManager);
+    Ingredient lettuce = new Lettuce(textureManager);
+    Ingredient tomato = new Tomato(textureManager);
+    Ingredient potato = new Potato(textureManager);
+    Ingredient cheese = new Cheese(textureManager);
+    Ingredient pizza = new UncookedPizza(textureManager);
 
     /*
      * These test the behaviour of fromString

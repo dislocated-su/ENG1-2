@@ -19,6 +19,10 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
  * and put down
  * ingredients and interact with stations.
+ *
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class Chef extends Actor implements Disposable {
 

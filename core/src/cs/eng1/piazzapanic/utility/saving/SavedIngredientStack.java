@@ -15,13 +15,13 @@ import java.util.Map;
 public class SavedIngredientStack {
 
     // Figure out a way to not use SavedFood[] as it does not get stored correctly
-    SerializeableMap<String, String> stack;
+    SerializableMap<String, String> stack;
     int maxStackSize;
 
     SavedIngredientStack(IngredientStack stack) {
         this.maxStackSize = stack.maxStackSize;
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
         for (String type : stack.keySet()) {
             FixedStack<Ingredient> fixedStack = stack.get(type);
@@ -39,7 +39,7 @@ public class SavedIngredientStack {
             map.put(type, jsonString);
         }
 
-        this.stack = new SerializeableMap<>(map);
+        this.stack = new SerializableMap<>(map);
     }
 
     SavedIngredientStack() {}

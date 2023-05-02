@@ -1,17 +1,32 @@
 package cs.eng1.piazzapanic.food.interfaces;
 
+/**
+ * A {@link Holdable} that can be grilled on {@link cs.eng1.piazzapanic.stations.GrillingStation}
+ * Ingredients that implement this must have 2-step processing logic.
+ *
+ * @author Andrey Samoilov
+ * @author Ross Holmes
+ */
 public interface Grillable extends Holdable {
-    public boolean grillTick(float delta);
+    /**
+     * Perform one tick of grilling
+     * @param delta time elapsed since the previous frame in seconds.
+     * @return {@code boolean} indicating whether the grilling process is complete.
+     */
+    boolean grillTick(float delta);
 
-    public boolean getHalfGrilled();
+    boolean getHalfGrilled();
 
-    public boolean getGrilled();
+    boolean getGrilled();
 
-    public Holdable getGrillResult();
+    Holdable getGrillResult();
 
-    public boolean grillStepComplete();
+    boolean grillStepComplete();
 
-    public float getGrillProgress();
+    float getGrillProgress();
 
-    public void flip();
+    /**
+     * This action is done by the player and prevents the object from becoming burnt.
+     */
+    void flip();
 }

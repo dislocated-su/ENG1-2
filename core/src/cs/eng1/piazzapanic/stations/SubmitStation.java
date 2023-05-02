@@ -1,6 +1,5 @@
 package cs.eng1.piazzapanic.stations;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,11 +11,15 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.piazzapanic.ui.StationActionUI.ActionAlignment;
 import cs.eng1.piazzapanic.ui.StationUIController;
+
 import java.util.LinkedList;
 import java.util.Objects;
 
 /**
- * AssembleStation
+ * The SubmitStation class is a station representing the place in the kitchen
+ * where you can submit an order to a customer.
+ *
+ * @author Andrey Samoilov
  */
 public class SubmitStation extends Station {
 
@@ -24,6 +27,18 @@ public class SubmitStation extends Station {
 
     public Customer customer;
 
+    /**
+     * The constructor method for the class
+     *
+     * @param id           The unique identifier of the station
+     * @param image        The rectangular area of the texture
+     * @param uiController The controller from which we can get show and hide the
+     *                     action
+     *                     buttons belonging to the station
+     * @param alignment    Dictates where the action buttons are shown
+     * @param locked       Whether the station is locked and has to be purchased before it can be used.
+     * @param customerManager instance of
+     */
     public SubmitStation(
         int id,
         TextureRegion image,
@@ -51,7 +66,7 @@ public class SubmitStation extends Station {
 
     private boolean checkCorrectRecipe(Holdable item) {
         if (customer != null && item instanceof Recipe) {
-            return ((Recipe) item).getType()
+            return item.getType()
                 .equals(customer.getOrder().getType());
         }
         return false;
@@ -67,7 +82,7 @@ public class SubmitStation extends Station {
             }
             Customer c = this.customer;
             customer = null;
-            customerManager.nextRecipe(nearbyChef, c);
+            customerManager.nextRecipe(c);
         }
 
         uiController.showActions(this, getActionTypes());

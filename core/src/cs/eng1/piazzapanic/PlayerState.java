@@ -68,7 +68,7 @@ public class PlayerState {
      *
      * @param buying whether the call is at time of buying, meaning when it will
      *               increase price as well
-     * @returns returnCost, the cost of purchasing the station
+     * {@code @returns} returnCost, the cost of purchasing the station
      */
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
@@ -84,7 +84,7 @@ public class PlayerState {
      *
      * @param buying whether the call is at time of buying, meaning it will increase
      *               the price as well
-     * @returns output, the cost of hiring a cook
+     * @return output, the cost of hiring a cook
      */
     public int getChefHireCost(boolean buying) {
         int output = hireCost;
@@ -95,8 +95,8 @@ public class PlayerState {
     }
 
     /**
-     * @param powerUp to be checked
-     * @returns cost of the PowerUp
+     * @param powerup {@link PowerUp} to be checked
+     * @return cost of the PowerUp
      */
     public int getPowerupCost(PowerUp powerup) {
         return powerUpCosts.get(powerup);
@@ -106,7 +106,7 @@ public class PlayerState {
      * Returns an instance of PlayerState, making this class function as a Singleton
      * class and can be called to access the same object across the program
      *
-     * @returns instance, the instance of PlayerState, newly created if no one
+     * @return instance, the instance of PlayerState, newly created if no one
      *          exists prior
      */
     public static PlayerState getInstance() {
@@ -219,7 +219,7 @@ public class PlayerState {
 
     /**
      * @param powerUp to be checked
-     * @returns the time the powerUp will last for at max
+     * @return the time the powerUp will last for at max
      */
     public int getBuffDuration(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getDelay();
@@ -227,7 +227,7 @@ public class PlayerState {
 
     /**
      * @param powerUp to be checked
-     * @returns remaining time of the PowerUp
+     * @return remaining time of the PowerUp
      */
     public int getBuffRemaining(PowerUp powerUp) {
         return powerUpTimers.get(powerUp).getRemainingTime();
@@ -235,7 +235,7 @@ public class PlayerState {
 
     /**
      * @param powerUp to return name of
-     * @returns the formatted name of the PowerUp (capitalized first letter, removed
+     * @return the formatted name of the PowerUp (capitalized first letter, removed
      *          underscore)
      */
     public String getPowerupName(PowerUp powerUp) {

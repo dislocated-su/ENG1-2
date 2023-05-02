@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 import java.util.HashMap;
 
+/**
+ * Helper class that allows textures to be mapped and stored and disposed of in a single location.
+ *
+ * @author Alistair Foggin
+ */
 public class FoodTextureManager implements Disposable {
 
     private final HashMap<String, Texture> foodTextures;

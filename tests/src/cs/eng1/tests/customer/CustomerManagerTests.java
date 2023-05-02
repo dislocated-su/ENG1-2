@@ -10,7 +10,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
@@ -23,13 +22,6 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Properties;
-import java.util.Vector;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -328,7 +320,7 @@ public class CustomerManagerTests {
         }
         for (int i = 1; i < 5; i++) {
             act(spawnTime * 500);
-            customerManager.nextRecipe(chef, customerManager.getCustomer(0));
+            customerManager.nextRecipe(customerManager.getCustomer(0));
             assertEquals(
                 "Act combined with getRecipe should spawn the correct number of total customers and complete orders.",
                 i,

@@ -3,26 +3,42 @@ package cs.eng1.piazzapanic.stations;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
 
+/**
+ * The GrillingStation class is a station representing the place in the kitchen
+ * where you grill {@link Patty} to be used in making burgers.
+ * @author Ross Holmes
+ */
 public class GrillingStation extends Station {
 
     public Grillable currentIngredient;
     public boolean progressVisible = false;
     private boolean checkUpdateUI = false;
-
+    /**
+     * The constructor method for the class
+     *
+     * @param id                  The unique identifier of the station
+     * @param textureRegion       The rectangular area of the texture
+     * @param uiController        The controller from which we can get show and hide
+     *                            the action
+     *                            buttons belonging to the station
+     * @param alignment           Dictates where the action buttons are shown
+     * @param locked              Whether the station is locked and has to be purchased before it can be used.
+     */
     public GrillingStation(
         int id,
-        TextureRegion image,
+        TextureRegion textureRegion,
         StationUIController uiController,
         StationActionUI.ActionAlignment alignment,
         Boolean locked
     ) {
-        super(id, image, uiController, alignment, locked);
+        super(id, textureRegion, uiController, alignment, locked);
     }
 
     @Override
@@ -52,6 +68,7 @@ public class GrillingStation extends Station {
                 uiController.showActions(this, getActionTypes());
                 checkUpdateUI = true;
             }
+            assert currentIngredient != null;
             uiController.updateProgressValue(
                 this,
                 currentIngredient.getGrillProgress()
