@@ -288,7 +288,6 @@ public class CustomerManagerTests {
         );
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
-        Vector2 firstPos = customerManager.getObjective(0).getPosition();
         assertEquals(
             "Reputation should be 3 by default.",
             3,
@@ -314,14 +313,14 @@ public class CustomerManagerTests {
                 customerManager.getCustomerQueue().size()
             );
             if (i < 5) {
-                Customer customer = customerManager.getCustomer(i);
+                Customer currentCustomer = customerManager.getCustomer(i);
                 Box2dLocation objective = customerManager.getObjective(i);
                 for (float f = 0; f <= spawnTime; f += 1f / 60) {
-                    customer.act(f);
+                    currentCustomer.act(f);
                     world.step(f, 6, 2);
                 }
-                assertEquals(objective.getPosition().x, customer.getX(), 1f);
-                assertEquals(objective.getPosition().y, customer.getY(), 1f);
+                assertEquals(objective.getPosition().x, currentCustomer.getX(), 1f);
+                assertEquals(objective.getPosition().y, currentCustomer.getY(), 1f);
             }
         }
         for (float i = 0; i < 2 * spawnTime; i += 1f / 60) {
