@@ -313,34 +313,9 @@ public class CustomerManagerTests {
                 Math.min(i + 2, 5),
                 customerManager.getCustomerQueue().size()
             );
-            if (i < 5) {
-                Customer currentCustomer = customerManager.getCustomer(i);
-                Box2dLocation objective = customerManager.getObjective(i);
-                for (float f = 0; f <= spawnTime; f += 1f / 60) {
-                    currentCustomer.act(f);
-                    world.step(f, 6, 2);
-                }
-                if (
-                    !(
-                        currentCustomer.getX() > 9f &&
-                        currentCustomer.getX() < 11f
-                    )
-                ) {
-                    assertEquals(
-                        objective.getPosition().x,
-                        currentCustomer.getX(),
-                        1f
-                    );
-                    assertEquals(
-                        objective.getPosition().y,
-                        currentCustomer.getY(),
-                        1f
-                    );
-                }
-            }
         }
         for (float i = 0; i < 2 * spawnTime; i += 1f / 60) {
-            customerManager.act(i);
+            customerManager.act(1f/60);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",
                 5,
@@ -395,33 +370,32 @@ public class CustomerManagerTests {
             mapLoader.aiSpawnpoints
         );
         float spawnTime = (customerManager.getTimer().getRemainingTime()) / 500;
-        Box2dLocation spawn = new Box2dLocation();
-        for (int i = 0, f = 0; f < customers; i++, f++) {
-            if (i < 5) {
-                act(spawnTime);
-                Customer currentCustomer = customerManager.getCustomer(i);
-                Box2dLocation objective = customerManager.getObjective(i);
-                for (float n = 0; n <= spawnTime; n += 1f / 60) {
-                    currentCustomer.act(n);
-                    world.step(n, 6, 2);
-                }
-                assertEquals(
-                    objective.getPosition().x,
-                    currentCustomer.getX(),
-                    1f
-                );
-                assertEquals(
-                    objective.getPosition().y,
-                    currentCustomer.getY(),
-                    1f
-                );
-            } else {
-                Customer currentCustomer = customerManager.getCustomer(f);
+        Vector2 end = new Vector2(7, 10);
+        for (int i = 0; i < 6; i++) {
+            act(spawnTime);
+            Customer currentCustomer = customerManager.getCustomer(i);
+            Box2dLocation objective = customerManager.getObjective(i);
+            for (float n = 0; n <= spawnTime; n += 1f / 60) {
+                currentCustomer.act(1f/60);
+                world.step(1f/60, 6, 2);
+            }
+            assertEquals(
+                objective.getPosition().x,
+                currentCustomer.getX(),
+                1f
+            );
+            assertTrue(
+                objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f)
+            );
+            if (i == 5) {
+                currentCustomer = customerManager.getCustomer(0);
                 currentCustomer.fulfillOrder();
-                for (float n = 0; n <= spawnTime; n += 1f / 60) {
-                    currentCustomer.act(n);
-                    world.step(n, 6, 2);
+                while (!(currentCustomer.getPosition().epsilonEquals(end, 0.6f))) {
+                    currentCustomer.act(1f / 60);
+                    world.step(1f/60, 6, 2);
                 }
+                assertEquals(currentCustomer.getPosition().x, 7, 0.6f);
+                assertEquals(currentCustomer.getPosition().y, 10, 0.6f);
             }
         }
     }
