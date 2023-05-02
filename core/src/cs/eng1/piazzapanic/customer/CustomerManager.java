@@ -504,6 +504,7 @@ public class CustomerManager {
     public int getMaxSpawnRate() {
         return maxSpawnRate;
     }
+
     public Map<Integer, Boolean> getAvailabilities() {
         return objectiveAvailability;
     }
