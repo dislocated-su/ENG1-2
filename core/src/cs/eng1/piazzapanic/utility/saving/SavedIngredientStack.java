@@ -42,8 +42,7 @@ public class SavedIngredientStack {
         this.stack = new SerializeableMap<>(map);
     }
 
-    SavedIngredientStack() {
-    }
+    SavedIngredientStack() {}
 
     public IngredientStack get(FoodTextureManager manager) {
         Map<String, String> savedFoodMap = stack.get();
@@ -54,13 +53,15 @@ public class SavedIngredientStack {
 
         for (String key : savedFoodMap.keySet()) {
             SavedFood[] arr = json.fromJson(
-                    SavedFood[].class,
-                    savedFoodMap.get(key));
+                SavedFood[].class,
+                savedFoodMap.get(key)
+            );
 
             for (SavedFood savedFood : arr) {
                 ingredientStack.addIngredient(
-                        key,
-                        (Ingredient) savedFood.get(manager));
+                    key,
+                    (Ingredient) savedFood.get(manager)
+                );
             }
         }
         // for (String key : savedFoodMap.keySet()) {

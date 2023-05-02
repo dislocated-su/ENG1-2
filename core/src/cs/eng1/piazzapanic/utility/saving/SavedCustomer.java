@@ -13,8 +13,7 @@ public class SavedCustomer {
     public Integer currentObjective;
     public String imagePath;
 
-    public SavedCustomer() {
-    }
+    public SavedCustomer() {}
 
     public SavedCustomer(Customer customer) {
         this.position = customer.steeringBody.getBody().getPosition();
