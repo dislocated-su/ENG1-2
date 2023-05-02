@@ -406,6 +406,7 @@ public class CustomerManagerTests {
             );
         }
     }
+
     /**
      * Acts for customerManager and each customer within it.
      * @param delta Time in seconds
