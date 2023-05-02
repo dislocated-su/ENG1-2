@@ -64,6 +64,9 @@ public class CustomerManagerTests {
 
     MapLoader mapLoader = new MapLoader("test-map.tmx");
 
+    /**
+     * Test the functionality of init()
+     */
     @Test
     public void initTests() {
         mapLoader.loadWaypoints(
@@ -211,6 +214,9 @@ public class CustomerManagerTests {
         );
     }
 
+    /**
+     * Test the functionality of endless mode in relation to customerManager.
+     */
     @Test
     public void endlessTests() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
@@ -265,6 +271,9 @@ public class CustomerManagerTests {
         }
     }
 
+    /**
+     * Test the functionality of act in CustomerManager by relation Customer.
+     */
     @Test
     public void actTests() {
         customerManager = new CustomerManager(1, overlay, world, 5, 0);
@@ -345,9 +354,11 @@ public class CustomerManagerTests {
             0,
             customerManager.getReputation()
         );
-        world = clearBodies(world);
     }
 
+    /**
+     * Test the movement of customers and its relation to CustomerManager.
+     */
     @Test
     public void movementTests() {
         int customers = 30;
@@ -394,22 +405,15 @@ public class CustomerManagerTests {
                     .epsilonEquals(currentCustomer.getPosition(), 1f)
             );
         }
-        world = clearBodies(world);
     }
-
-    public void act(float delta) {
+    /**
+     * Acts for customerManager and each customer within it.
+     * @param delta Time in seconds
+     */
+    private void act(float delta) {
         customerManager.act(delta);
         for (Customer customer : customerManager.getCustomerQueue()) {
             customer.act(delta);
         }
-    }
-
-    public World clearBodies(World world) {
-        Array<Body> bodies = new Array<>(100);
-        world.getBodies(bodies);
-        for (Body body : bodies) {
-            world.destroyBody(body);
-        }
-        return world;
     }
 }
