@@ -290,14 +290,14 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime());
+        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime()) / 500;
         int x = customerManager.getObjectives().size();
         assertEquals(
             "Reputation should be 3 by default.",
             3,
             customerManager.getReputation()
         );
-        customerManager.getCustomer(0).act(spawnTime);
+        customerManager.getCustomer(0).act(spawnTime * 500);
         assertEquals(
             "Customers should cause a loss of reputation when they have not been served in a timely manner.",
             2,
@@ -317,7 +317,7 @@ public class CustomerManagerTests {
                 customerManager.getCustomerQueue().size()
             );
         }
-        for (float i = 0; i < 2 * spawnTime; i += 1f / 60) {
+        for (float i = 0; i < spawnTime * 2; i += 1f / 60) {
             customerManager.act(1f / 60);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",
@@ -326,7 +326,7 @@ public class CustomerManagerTests {
             );
         }
         for (int i = 1; i < 5; i++) {
-            act(spawnTime);
+            act(spawnTime * 500);
             customerManager.nextRecipe(chef, customerManager.getCustomer(0));
             assertEquals(
                 "Act combined with getRecipe should spawn the correct number of total customers and complete orders.",
