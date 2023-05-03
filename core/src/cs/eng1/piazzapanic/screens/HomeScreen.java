@@ -68,7 +68,9 @@ public class HomeScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (Gdx.files.internal("savefile.json").exists()) {
-                        game.loadGameScreen(SaveManager.getInstance().load());
+                        game.loadGameScreen(
+                            SaveManager.getInstance().load("savefile.json")
+                        );
                     }
                 }
             }

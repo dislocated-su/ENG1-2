@@ -1,174 +1,142 @@
-// package cs.eng1.tests.stations;
+package cs.eng1.tests.stations;
 
-// import static org.junit.Assert.*;
-// import static org.mockito.Mockito.mock;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
-// import com.badlogic.gdx.math.Vector2;
-// import com.badlogic.gdx.physics.box2d.World;
-// import com.badlogic.gdx.scenes.scene2d.Stage;
-// import cs.eng1.piazzapanic.box2d.Box2dLocation;
-// import cs.eng1.piazzapanic.chef.Chef;
-// import cs.eng1.piazzapanic.chef.ChefManager;
-// import cs.eng1.piazzapanic.customer.CustomerManager;
-// import cs.eng1.piazzapanic.food.FoodTextureManager;
-// import cs.eng1.piazzapanic.food.ingredients.Patty;
-// import cs.eng1.piazzapanic.food.recipes.JacketPotato;
-// import cs.eng1.piazzapanic.food.recipes.Pizza;
-// import cs.eng1.piazzapanic.stations.StationAction;
-// import cs.eng1.piazzapanic.stations.StationAction.ActionType;
-// import cs.eng1.piazzapanic.stations.SubmitStation;
-// import cs.eng1.piazzapanic.ui.StationUIController;
-// import cs.eng1.piazzapanic.ui.UIOverlay;
-// import cs.eng1.tests.GdxTestRunner;
-// import java.util.ArrayList;
-// import java.util.HashMap;
-// import java.util.List;
-// import org.junit.Ignore;
-// import org.junit.Test;
-// import org.junit.runner.RunWith;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import cs.eng1.piazzapanic.chef.Chef;
+import cs.eng1.piazzapanic.chef.ChefManager;
+import cs.eng1.piazzapanic.customer.CustomerManager;
+import cs.eng1.piazzapanic.food.FoodTextureManager;
+import cs.eng1.piazzapanic.food.ingredients.Patty;
+import cs.eng1.piazzapanic.food.recipes.Pizza;
+import cs.eng1.piazzapanic.stations.StationAction;
+import cs.eng1.piazzapanic.stations.StationAction.ActionType;
+import cs.eng1.piazzapanic.stations.SubmitStation;
+import cs.eng1.piazzapanic.ui.StationUIController;
+import cs.eng1.piazzapanic.ui.UIOverlay;
+import cs.eng1.piazzapanic.utility.KeyboardInput;
+import cs.eng1.piazzapanic.utility.MapLoader;
+import cs.eng1.tests.GdxTestRunner;
+import java.util.List;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-// @RunWith(GdxTestRunner.class)
-// @Ignore
-// public class SubmitStationTests {
+@RunWith(GdxTestRunner.class)
+public class SubmitStationTests {
 
-//     ChefManager chefManager = new ChefManager(0, null, null, null);
-//     Chef chef = new Chef(null, null, chefManager);
-//     FoodTextureManager textureManager = new FoodTextureManager();
-//     StationUIController uiController = mock(StationUIController.class);
-//     UIOverlay overlay = mock(UIOverlay.class);
+    UIOverlay overlay = mock(UIOverlay.class);
+    Stage stage = mock(Stage.class);
+    World world = new World(Vector2.Zero, true);
+    KeyboardInput kbInput = new KeyboardInput();
+    FoodTextureManager textureManager = new FoodTextureManager();
+    StationUIController stationUIController = new StationUIController(
+        stage,
+        null
+    );
+    CustomerManager customerManager = new CustomerManager(
+        1,
+        overlay,
+        world,
+        5,
+        0
+    );
+    StationUIController uiController = mock(StationUIController.class);
+    MapLoader mapLoader = new MapLoader("test-map.tmx");
+    ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
 
-//     Stage stage = mock(Stage.class);
+    Texture fake = new Texture(
+        Gdx.files.internal(
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
+        )
+    );
+    Chef chef = new Chef(fake, Vector2.Zero, chefManager);
 
-//     World world = new World(Vector2.Zero, true);
-//     CustomerManager customerManager = new CustomerManager(
-//         1,
-//         overlay,
-//         world,
-//         0,
-//         0
-//     );
+    /**
+     * Tests that getActionTypes returns nothing when the user is unable to use the
+     * station
+     * because there is no nearby chef, the chef isn't holding anything or they
+     * aren't
+     * holding a recipe
+     */
+    @Test
+    public void testGetActionTypesNothing() {
+        SubmitStation station = new SubmitStation(
+            1,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
+        List<StationAction.ActionType> actionTypes = station.getActionTypes();
+        assertTrue(
+            "nothing is added to action types if no chef is nearby",
+            actionTypes.isEmpty()
+        );
+        station.nearbyChef = chef;
+        actionTypes = station.getActionTypes();
+        assertTrue(
+            "nothing is added to action types if the chef and station have no ingredients",
+            actionTypes.isEmpty()
+        );
+        chef.grabItem(new Patty(textureManager));
+        actionTypes = station.getActionTypes();
+        assertTrue(
+            "Nothing is added to action types if the chef has an item that is not a Recipe.",
+            actionTypes.isEmpty()
+        );
+    }
 
-//     // pizza, jacket, burger, pizza
+    /**
+     * Tests that getActionTypes returns SUBMIT_ORDER when the chef has the next
+     * recipe
+     * that needs to be submited and doesn't when the chef does not.
+     */
+    @Test
+    public void testCorrectRecipe() {
+        mapLoader.loadWaypoints(
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
+        mapLoader.createStations(
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            uiController,
+            textureManager,
+            customerManager
+        );
+        customerManager.init(
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
+        SubmitStation station = customerManager.getRecipeStations().get(63);
+        station.nearbyChef = chef;
+        station.customer = customerManager.getCustomer(0);
 
-//     @Test
-//     /**
-//      * Tests that getActionTypes returns nothing when the user is unable to use the
-//      * station
-//      * because there is no nearby chef, the chef isn't holding anything or they
-//      * aren't
-//      * holding a recipe
-//      */
-//     public void testGetActionTypesNothing() {
-//         SubmitStation station = new SubmitStation(
-//             1,
-//             null,
-//             null,
-//             null,
-//             null,
-//             null
-//         );
-//         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-//         assertTrue(
-//             "nothing is added to action types if no chef is nearby",
-//             actionTypes.isEmpty()
-//         );
-//         station.nearbyChef = chef;
-//         actionTypes = station.getActionTypes();
-//         assertTrue(
-//             "nothing is added to action types if the chef and station have no ingredients",
-//             actionTypes.isEmpty()
-//         );
-//         chef.grabItem(new Patty(textureManager));
-//         actionTypes = station.getActionTypes();
-//         assertTrue(
-//             "Nothing is added to action types if the chef has an item that is not a Recipe.",
-//             actionTypes.isEmpty()
-//         );
-//     }
+        List<StationAction.ActionType> actionTypes = station.getActionTypes();
+        assertFalse(
+            "Submit order is not added to action types if the chef has an incorrect recipe",
+            actionTypes.contains(ActionType.SUBMIT_ORDER)
+        );
+        chef.getStack().clear();
+        chef.grabItem(new Pizza(textureManager));
 
-//     @Test
-//     /**
-//      * Tests that getActionTypes returns SUBMIT_ORDER when the chef has the next
-//      * recipe
-//      * that needs to be submited
-//      */
-//     public void testCorrectRecipe() {
-//         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-//         customerManager.init(
-//             textureManager,
-//             stage,
-//             new HashMap<Integer, Box2dLocation>(),
-//             new ArrayList<>()
-//         );
-//         // pizza, jacket, burger, pizza
-//         SubmitStation station = new SubmitStation(
-//             1,
-//             null,
-//             null,
-//             null,
-//             null,
-//             customerManager
-//         );
-//         station.nearbyChef = chef;
-
-//         chef.getStack().clear();
-//         chef.grabItem(new Pizza(textureManager));
-
-//         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-
-//         boolean test = actionTypes.contains(ActionType.SUBMIT_ORDER);
-//         assertTrue(
-//             "submit order is added to action types if the chef has a correct recipe",
-//             test
-//         );
-//     }
-
-//     @Test
-//     /**
-//      * Tests that doStationAction(SUBMIT_ORDER) does nothing when the wrong recipe
-//      * is
-//      * submitted, and that it moves onto the next order when the correct recipe is
-//      * submitted
-//      */
-//     public void testDoStationAction() {
-//         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-//         customerManager.init(
-//             textureManager,
-//             stage,
-//             new HashMap<Integer, Box2dLocation>(),
-//             new ArrayList<>()
-//         );
-//         // pizza, jacket, burger, pizza
-//         SubmitStation station = new SubmitStation(
-//             1,
-//             null,
-//             uiController,
-//             null,
-//             null,
-//             customerManager
-//         );
-
-//         station.nearbyChef = chef;
-
-//         chef.getStack().clear();
-//         chef.getStack().add(new JacketPotato(textureManager));
-
-//         station.doStationAction(ActionType.SUBMIT_ORDER);
-
-//         assertTrue(
-//             "Chef loses wrong item and order remains to be Pizza (instead of next JacketPotato)",
-//             chef.getStack().size() == 0 &&
-//             customerManager.checkRecipe(new Pizza(textureManager))
-//         );
-
-//         chef.getStack().clear();
-//         chef.grabItem(new Pizza(textureManager));
-//         customerManager.generateCustomer();
-//         station.doStationAction(ActionType.SUBMIT_ORDER);
-//         assertTrue(
-//             "Chef loses correct item and order switches to JacketPotato",
-//             chef.getStack().size() == 0 &&
-//             customerManager.checkRecipe(new JacketPotato(textureManager))
-//         );
-//     }
-// }
+        actionTypes = station.getActionTypes();
+        assertTrue(
+            "Submit order is added to action types if the chef has a correct recipe",
+            actionTypes.contains(ActionType.SUBMIT_ORDER)
+        );
+    }
+}

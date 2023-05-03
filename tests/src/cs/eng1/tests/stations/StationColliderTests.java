@@ -12,7 +12,6 @@ import cs.eng1.piazzapanic.stations.StationCollider;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.tests.GdxTestRunner;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
