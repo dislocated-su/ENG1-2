@@ -37,7 +37,6 @@ jobs:
           arguments: tests:test
       - name: Upload game JAR
         uses: actions/upload-artifact@v3.1.2
-        if: ${{ matrix.codecov && success()}}
         with:
           name: piazza-panic_relase_${{env.RELEASE_VERSION}}_{{$matrix.os}}
           path: desktop/build/libs/desktop-1.0.jar
