@@ -137,8 +137,8 @@ public class ChefManagerTests {
             chefManager.hireChef(spawnPoints.get(i - 3), stage);
             assertEquals(
                 new Vector2(
-                    Math.round(spawnPoints.get(i-3).x),
-                    Math.round(spawnPoints.get(i-3).y)
+                    Math.round(spawnPoints.get(i - 3).x),
+                    Math.round(spawnPoints.get(i - 3).y)
                 ),
                 new Vector2(
                     Math.round(chefManager.getChefs().get(i).getX()),
