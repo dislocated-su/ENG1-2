@@ -20,7 +20,12 @@ import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 
 /**
  * In-game customer, displayed as a Scene2D actor.
- * World collisions are handled by box2d and station interaction collisions are handled using StationCollider and Scene2D.
+ * World collisions are handled by box2d and station interaction collisions are
+ * handled using StationCollider and Scene2D.
+ *
+ * This class and associated functions, particularly in CustomerManager, were
+ * created for assessment 2
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -28,11 +33,13 @@ public class Customer extends Actor implements Disposable {
 
     /**
      * Wrapper for a steering agent responsible for moving the body.
+     *
      * @see Box2dSteeringBody
      */
     public Box2dSteeringBody steeringBody;
     /**
-     * Current objective of the steering agent. Represented as an ID for a map in CustomerManager.
+     * Current objective of the steering agent. Represented as an ID for a map in
+     * CustomerManager.
      */
     public Integer currentObjective = null;
     private final Timer repTimer;
@@ -100,13 +107,13 @@ public class Customer extends Actor implements Disposable {
 
     /**
      * Procedure for fulfilling the customers order:
-     *  Completes the order of the current customer.
-     *  Updates the player's cash.
-     *  Makes the customer walk away.
+     * Completes the order of the current customer.
+     * Updates the player's cash.
+     * Makes the customer walk away.
      */
     public void fulfillOrder() {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
-        PlayerState.getInstance().earnCash(100, happiness);
+        PlayerState.getInstance().earnCash(10, happiness);
         orderCompleted = true;
         Gdx.app.log("Current cash", Float.toString(PlayerState.getInstance().getCash()));
         customerManager.walkBack(this);

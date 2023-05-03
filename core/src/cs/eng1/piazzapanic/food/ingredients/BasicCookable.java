@@ -17,8 +17,8 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 public abstract class BasicCookable extends Ingredient implements Cookable {
 
     private float accumulator = 0f;
-    private final float cookingStepTime = 2f;
-    private final float failTime = 3f;
+    private final float cookingStepTime = 5f;
+    private final float failTime = 5f;
     private boolean halfCooked = false;
     private boolean flipped = false;
 

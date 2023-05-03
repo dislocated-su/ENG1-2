@@ -148,6 +148,12 @@ public class ButtonManager implements Disposable {
         return new ImageButton(btnStyle);
     }
 
+    /**
+     * Made for assessment 2.
+     *
+     * @param text The text to be turned into a text field.
+     * @return generated text field
+     */
     public TextField createTextField(String text) {
         return new TextField(text, (Skin) assetManager.get("skin/skin.json"));
     }
@@ -160,6 +166,7 @@ public class ButtonManager implements Disposable {
 
     /**
      * Create a text button with certain parameters.
+     * This was made for assessment 2.
      *
      * @param text   The string to display on the button.
      * @param colour The colour of the base button.

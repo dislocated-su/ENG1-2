@@ -34,23 +34,23 @@ public class TutorialOverlay {
         table.setBackground(textureRegionDrawableBg);
 
         // Initialize movement instructions label
-        LabelStyle labelStyle = new LabelStyle(game.getFontManager().getHeaderFont(), Color.BLACK);
+        LabelStyle labelStyle = new LabelStyle(game.getFontManager().getMediumFont(), Color.BLACK);
         Label chefMovement = new Label(
-            "Left click on a chef to select them. Then use WASD or the arrow keys to move around.",
+            "Left click on a chef to select them, or press E to cycle between them.  Then use WASD or the arrow keys to move around.",
             labelStyle
         );
         chefMovement.setWrap(true);
 
         // Initialize station usage label
         Label stationUsage = new Label(
-            "Move towards a station to get possible actions to appear as buttons including placing ingredients, picking up ingredients, and dealing with the ingredients.",
+            "Move towards a station to get possible actions to appear as buttons including placing ingredients, picking up ingredients, and dealing with the ingredients. Or, if the station is locked, spending money to buy it.",
             labelStyle
         );
         stationUsage.setWrap(true);
 
         // Initialize recipe creation label
         Label recipeLabel = new Label(
-            "Take the ingredients and process them as required for the recipe shown on the right. Then take them to the counter (table with the orange tablecloth) to build the recipe and complete the order.",
+            "Take the ingredients and complete the order shown on the right (click on the order icon to get a recipe book). Then, take them to the plate to build the recipe. Then, take the order to the correct serving station.",
             labelStyle
         );
         recipeLabel.setWrap(true);

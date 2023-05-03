@@ -17,26 +17,27 @@ import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 
 /**
- * UpgradesUI displays an upgrades screen over the rest of the game where the player can buy powerups and unlock more chefs.
+ * UpgradesUi is an upgrades menu that appears over the main stage.
  *
+ * This class was introduced to meet assessment 2 requirements.
+ * @author Andrey Samoilov
  * @author Louis Warren
  * @author Joel Paxman
+ * @author Ross Holmes
  */
 public class UpgradesUi {
 
     private static Table table;
     Table root;
-    private final LabelStyle hudLabelFont;
-    private final LabelStyle hudTitleFont;
-    private final LabelStyle hudHeaderFont;
+    private LabelStyle hudLabelFont;
+    private LabelStyle hudTitleFont;
+    private LabelStyle hudHeaderFont;
 
-    private final PiazzaPanicGame game;
+    private PiazzaPanicGame game;
 
     TextButton buyChef;
 
-    private final Value scale;
-    private final Value scale1;
-    private final Value scale2;
+    private Value scale, scale1, scale2;
     private Label chefHireCostLabel;
     public boolean chefHireFlag;
 

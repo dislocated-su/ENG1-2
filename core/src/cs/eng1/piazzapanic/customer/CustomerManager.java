@@ -59,7 +59,8 @@ public class CustomerManager {
      * @param customerScale how big are customers as a multiplier of the unit scale.
      * @param overlay       {@link UIOverlay}
      * @param world         {@link World}
-     * @param customers     how many customers will spawn total. For endless mode, set this to 0.
+     * @param customers     how many customers will spawn total. For endless mode,
+     *                      set this to 0.
      */
     public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers) {
         this.overlay = overlay;
@@ -72,7 +73,7 @@ public class CustomerManager {
         this.world = world;
 
         spawnTimer = new Timer(60000, false, true);
-        endlessTimer = new Timer(8000, false, true);
+        endlessTimer = new Timer(30000, false, true);
 
         objectiveAvailability = new HashMap<>();
         customerQueue = new LinkedList<>();
@@ -203,9 +204,12 @@ public class CustomerManager {
     }
 
     /**
-     * A version of {@link CustomerManager#init(FoodTextureManager, Stage, Map, List)} with fewer arguments and logic.
+     * A version of
+     * {@link CustomerManager#init(FoodTextureManager, Stage, Map, List)} with fewer
+     * arguments and logic.
      * This is because a lot of the state is loaded from the save. <br>
-     * When loaded from a {@link SavedCustomerManager}, use this instead of {@code .init()}
+     * When loaded from a {@link SavedCustomerManager}, use this instead of
+     * {@code .init()}
      *
      * @param stage          The stage to display customers on.
      * @param objectives     The objectives loaded from the map
@@ -223,7 +227,8 @@ public class CustomerManager {
     }
 
     /**
-     * @return a {@link List} containing all orders represented as a {@link Recipe}, in the order they have been added.
+     * @return a {@link List} containing all orders represented as a {@link Recipe},
+     *         in the order they have been added.
      */
     public List<Recipe> getOrders() {
         LinkedList<Recipe> output = new LinkedList<>();
@@ -263,7 +268,8 @@ public class CustomerManager {
     }
 
     /**
-     * Complete the provided customers order and move on to the next one. Then update the UI.
+     * Complete the provided customers order and move on to the next one. Then
+     * update the UI.
      * If all the recipes are completed, then show the winning UI.
      * <p>
      * With the current implementation, it is possible to have endless mode use the
@@ -334,7 +340,8 @@ public class CustomerManager {
     }
 
     /**
-     * Tick a spawn timer and check if we can spawn a customer. Can spawn multiple if enough time has passed.
+     * Tick a spawn timer and check if we can spawn a customer. Can spawn multiple
+     * if enough time has passed.
      */
     private void checkSpawn(float delta) {
         if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
@@ -359,6 +366,9 @@ public class CustomerManager {
     /**
      * Give the customer an objective to go to.
      *
+     *
+     * This is a brought-over implementation of gdx-ai from asessment 1.
+     *
      * @param locationID and id from objectives
      */
     private void makeItGoThere(Customer customer, int locationID) {
@@ -368,25 +378,31 @@ public class CustomerManager {
 
         Box2dLocation there = objectives.get(locationID);
 
+        // Arrive behaviour moves the customer to their target
         Arrive<Vector2> arrive = new Arrive<>(customer.steeringBody)
             .setTimeToTarget(3f)
             .setArrivalTolerance(0.1f)
             .setDecelerationRadius(2)
             .setTarget(there);
 
+        // Proximity set to trigger at a distance of 0.5f
         Proximity<Vector2> proximity = new Box2dRadiusProximity(customer.steeringBody, world, 0.5f);
+        // Collision avoidance using collision prediction (customer-to-customer
+        // collisions)
         CollisionAvoidance<Vector2> collisionAvoidance = new CollisionAvoidance<>(customer.steeringBody, proximity);
-
+        // Collision avoidance using raycast (more suitable for walls)
         RaycastObstacleAvoidance<Vector2> wallAvoidance = new RaycastObstacleAvoidance<>(customer.steeringBody);
         wallAvoidance
             .setRayConfiguration(new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f))
             .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
             .setDistanceFromBoundary(locationID);
 
+        // Both collision avoidance behaviours are blended to combine output from both.
         BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(customer.steeringBody)
             .add(collisionAvoidance, 0.5f)
             .add(wallAvoidance, 0.5f);
 
+        // Collision avoidance takes priority over arriving at the target
         PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(customer.steeringBody)
             .add(blendedAvoidance)
             .add(arrive);
@@ -403,7 +419,8 @@ public class CustomerManager {
     }
 
     /**
-     * Calls makeItGoThere but with objective set to -1, effectively making the agent walk back to the despawn point.
+     * Calls makeItGoThere but with objective set to -1, effectively making the
+     * agent walk back to the despawn point.
      */
     public void walkBack(Customer customer) {
         this.makeItGoThere(customer, -1);

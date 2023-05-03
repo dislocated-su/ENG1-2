@@ -17,8 +17,8 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 public abstract class BasicGrillable extends Ingredient implements Grillable {
 
     private float accumulator = 0f;
-    private final float grillStepTime = 2f;
-    private final float failTime = 3f;
+    private final float grillStepTime = 5f;
+    private final float failTime = 5f;
     private boolean halfGrilled = false;
     private boolean flipped = false;
 

@@ -69,6 +69,12 @@ public class UIOverlay {
 
     public PauseOverlay pauseOverlay;
 
+    /**
+     * Constructs a new UIOverlay for purposes of showing every section of the main game screen.
+     *
+     * @param uiStage The stage for actors to be added on to.
+     * @param game The game to set the UIOverlay game to.
+     */
     public UIOverlay(Stage uiStage, final PiazzaPanicGame game) {
         this.game = game;
         this.uiStage = uiStage;
