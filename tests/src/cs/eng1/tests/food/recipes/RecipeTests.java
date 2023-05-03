@@ -7,21 +7,23 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the functionality of Recipe and various Recipes, as well as their behaviour - 
+ * being getTexture, getType, getRecipeIngredients, and fromString.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class RecipeTests {
 
-    /*
-     * Define a variable for each recipe
-     */
     FoodTextureManager textureManager = new FoodTextureManager();
     Recipe pizza = new Recipe("pizza", textureManager);
     Recipe burger = new Recipe("burger", textureManager);
     Recipe salad = new Recipe("salad", textureManager);
     Recipe potato = new Recipe("jacket_potato", textureManager);
 
-    /*
-     * These test getTexture finds the right texture for the recipes
+    /**
+     * Asserts getTexture finds the right texture for the recipes given
      */
     @Test
     public void getTextureTests() {
@@ -40,8 +42,8 @@ public class RecipeTests {
         );
     }
 
-    /*
-     * These test getType finds the right type for the recipe
+    /**
+     * Asserts getType finds the right type for the recipe
      */
     @Test
     public void getTypeTests() {
@@ -51,8 +53,8 @@ public class RecipeTests {
         assertEquals("jacket_potato", potato.getType());
     }
 
-    /*
-     * These test getRecipeIngredients returns a list of the right ingredients for the recipe
+    /**
+     * Asserts getRecipeIngredients returns a list of the right ingredients for the recipe
      */
     @Test
     public void getRecipeIngredientsTests() {
@@ -78,8 +80,8 @@ public class RecipeTests {
         );
     }
 
-    /*
-     * These test fromString returns the right type for the recipe given
+    /**
+     * Asserts fromString returns the right holdable
      */
     @Test
     public void fromStringTests() {
@@ -105,8 +107,8 @@ public class RecipeTests {
         );
     }
 
-    /*
-     * This tests getTextureManager finds the texturemanager of the recipe.
+    /**
+     * Asserts getTextureManager finds the texturemanager of the recipe.
      */
     @Test
     public void getTextureManagerTests() {

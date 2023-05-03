@@ -22,7 +22,12 @@ import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the functionality of CustomerManager (and for convenience customer) being:
+ * init, some of endless mode, act and customer movement.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
 
@@ -260,7 +265,7 @@ public class CustomerManagerTests {
     }
 
     /**
-     * Test the functionality of act in CustomerManager by relation Customer.
+     * Test the functionality of act in CustomerManager, and by relation Customer.
      */
     @Test
     public void actTests() {

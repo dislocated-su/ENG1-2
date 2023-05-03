@@ -10,14 +10,21 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the functionality of the abstract class BasicGrillable - being grillTick adding grill progress, 
+ * getGrillProgress / getGrillResult / getGrilled / getHalfGrilled / grillStepComplete returning the proper step in grilling,
+ * flip() flipping the Grillable.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class BasicGrillableTests {
 
     FoodTextureManager foodTextureManager = new FoodTextureManager();
     BasicGrillable patty = new Patty(foodTextureManager) {};
 
-    /*
-     * These test the behaviour of grillTick
+    /**
+     * Asserts grillTick progresses time and the grillable cooks / burns as expected
      */
     @Test
     public void grillTickTests() {
@@ -45,8 +52,8 @@ public class BasicGrillableTests {
         assertFalse(patty.getUseable());
     }
 
-    /*
-     * These test getGrillProgress returns a percentage progress of the grilling
+    /**
+     * Asserts getGrillProgress returns a percentage progress of the grilling
      */
     @Test
     public void getGrillProgressTests() {
@@ -107,8 +114,8 @@ public class BasicGrillableTests {
         );
     }
 
-    /*
-     * These test the getGrillResults return the right texture names
+    /**
+     * Assert getGrillResults returns the right texture names
      */
     @Test
     public void getGrillResultTests() {
@@ -167,8 +174,8 @@ public class BasicGrillableTests {
         );
     }
 
-    /*
-     * These test getGrilled properly returns the grilled value
+    /**
+     * Assert getGrilled returns the grilled value
      */
     @Test
     public void getGrilledTests() {
@@ -181,8 +188,8 @@ public class BasicGrillableTests {
         assertTrue(patty.getGrilled());
     }
 
-    /*
-     * These test that getTexture returns the filename of the texture of the
+    /**
+     * Assert getTexture returns the filename of the texture of the
      * BasicGrillable in it's current state
      */
     @Test
@@ -229,8 +236,8 @@ public class BasicGrillableTests {
         );
     }
 
-    /*
-     * These test getHalfGrilled properly returns the halfGrilled value
+    /**
+     * Assert getHalfGrilled properly returns the halfGrilled value
      */
     @Test
     public void getHalfGrilledTests() {
@@ -245,8 +252,8 @@ public class BasicGrillableTests {
         assertTrue(patty.getHalfGrilled());
     }
 
-    /*
-     * These test the grillStepComplete returns if the BasicGrillable is
+    /**
+     * Assert grillStepComplete returns if the BasicGrillable is
      * interactable to either flip or pick up.
      */
     @Test
@@ -292,8 +299,8 @@ public class BasicGrillableTests {
         );
     }
 
-    /*
-     * These test the behaviour of flip is correct.
+    /**
+     * Assert flip() flips the grillable.
      */
     @Test
     public void flipTests() {

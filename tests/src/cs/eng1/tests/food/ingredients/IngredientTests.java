@@ -8,7 +8,12 @@ import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the behaviour of Ingredient and various ingredients - being getTexture, 
+ * getType, getRecipeIngredients, fromString and getTextureManager.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class IngredientTests {
 
@@ -20,10 +25,9 @@ public class IngredientTests {
     Ingredient cheese = new Cheese(textureManager);
     Ingredient pizza = new UncookedPizza(textureManager);
 
-    /*
-     * These test the behaviour of fromString
+    /**
+     * Assert behaviour of fromString
      */
-
     @Test
     public void testFromString() {
         Ingredient pattyFromString = Ingredient.fromString(
@@ -38,8 +42,8 @@ public class IngredientTests {
         );
     }
 
-    /*
-     * These test isCooked properly accesses cooked
+    /**
+     * Assert isCooked properly accesses cooked
      */
     @Test
     public void testIsCooked() {
@@ -61,8 +65,8 @@ public class IngredientTests {
         );
     }
 
-    /*
-     * These test isChopped properly accesses chopped
+    /**
+     * Assert isChopped properly accesses chopped
      */
     @Test
     public void testIsChopped() {
@@ -84,6 +88,9 @@ public class IngredientTests {
         );
     }
 
+    /**
+     * Assert cheese behaviour is the the same from a BasicChoppable and textureManager
+     */
     @Test
     public void testCheese() {
         Cheese cheese2 = new Cheese(textureManager);
@@ -100,8 +107,8 @@ public class IngredientTests {
         );
     }
 
-    /*
-     * These test isGrilled properly accesses grilled.
+    /**
+     * Assert isGrilled properly accesses grilled.
      */
     @Test
     public void testIsGrilled() {
@@ -123,8 +130,8 @@ public class IngredientTests {
         );
     }
 
-    /*
-     * These test toString gets the right name for each state of an ingredient
+    /**
+     * Assert toString gets the right name for each state of an ingredient
      */
     @Test
     public void testToString() {
@@ -186,8 +193,6 @@ public class IngredientTests {
             "cheese_chopped",
             cheese.toString()
         );
-        // I would like to inform you that I hate how we read uncooked pizza with
-        // .toString(), but it is what it is.
         assertEquals(
             "Ingredient should be _raw when raw",
             "uncooked_pizza_raw",
@@ -201,8 +206,8 @@ public class IngredientTests {
         );
     }
 
-    /*
-     * These test getUseable accesses useable
+    /**
+     * Assert getUseable accesses useable and useable is true at the correct times.
      */
     @Test
     public void testUseable() {
@@ -224,6 +229,9 @@ public class IngredientTests {
         );
     }
 
+    /**
+     * Assert arrayFromString splits and gets correct textures from an array
+     */
     @Test
     public void arrayFromStringTests() {
         Ingredient[] ingredients = Ingredient.arrayFromString(
@@ -243,6 +251,9 @@ public class IngredientTests {
         );
     }
 
+    /**
+     * Assert getTexture gets the right textures.
+     */
     @Test
     public void getTextureTests() {
         assertEquals(
@@ -272,6 +283,9 @@ public class IngredientTests {
         );
     }
 
+    /**
+     * Assert uncookedPizza behaviour.
+     */
     @Test
     public void testUncookedPizza() {
         UncookedPizza unPizza = new UncookedPizza(textureManager);

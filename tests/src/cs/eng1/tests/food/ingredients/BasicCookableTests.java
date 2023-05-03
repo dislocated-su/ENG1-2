@@ -8,7 +8,13 @@ import cs.eng1.piazzapanic.food.interfaces.Cookable;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the functionality of the abstract class BasicCookable - being cookingTick adding cooking progress, 
+ * getHalfCooked / getCookingResult / cookingStepComplete / getCookingProgress returning the proper step in cooking,
+ * flip() flipping the cookable.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class BasicCookableTests {
 
@@ -16,7 +22,7 @@ public class BasicCookableTests {
     Cookable potato = new Potato(foodTextureManager) {};
 
     /*
-     * These test that cooking tick properly adds time to the Cookable and recognises when it is complete, as well as resetting when it is flipped.
+     * Asserts cooking tick properly adds time to the Cookable and recognises when it is complete, as well as resetting when it is flipped.
      */
     @Test
     public void cookingTickTests() {
@@ -40,7 +46,7 @@ public class BasicCookableTests {
     }
 
     /*
-     * These test that the BasicCookable is properly assigned halfcooked and remain halfcooked after flipping.
+     * Asserts BasicCookable is properly assigned halfcooked and remains halfcooked after flipping.
      */
     @Test
     public void getHalfCookedTests() {
@@ -66,7 +72,7 @@ public class BasicCookableTests {
     }
 
     /*
-     * These test that getCookingResult returns whether or not a BasicCookable has been cooked by returning its Texture name
+     * Asserts getCookingResult returns whether or not a BasicCookable has been cooked by returning its Texture name
      */
     @Test
     public void getCookingResultTests() {
@@ -107,8 +113,8 @@ public class BasicCookableTests {
         );
     }
 
-    /*
-     * These test that cookingStepComplete properly checks whether or not a BasicCookable has fully progressed to be flippable or be fully cooked.
+    /**
+     * Asserts cookingStepComplete properly checks whether or not a BasicCookable has fully progressed to be flippable or be fully cooked.
      */
     @Test
     public void cookingStepCompleteTests() {
@@ -148,8 +154,8 @@ public class BasicCookableTests {
         );
     }
 
-    /*
-     * These test that getCookingProgress properly returns the cooking progress of a BasicCookable in a percentage format, including over 100
+    /**
+     * Asserts getCookingProgress properly returns the cooking progress of a BasicCookable in a percentage format, including over 100.
      */
     @Test
     public void getCookingProgressTests() {
@@ -210,8 +216,8 @@ public class BasicCookableTests {
         );
     }
 
-    /*
-     * These test that flip properly flips the BasicCookable and fully reset the accumulator.
+    /**
+     * Asserts flip properly flips the BasicCookable and fully resets the accumulator.
      */
     @Test
     public void flipTests() {
