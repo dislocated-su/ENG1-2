@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Base class for all Stations. Implements {@link Observer}
+ * Base class for all Stations. Implements {@link Observer} of type {@link Chef}
  *
  * @author Alistair Foggin
  * @author Matt Fitzpatrick
