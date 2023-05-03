@@ -15,7 +15,11 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the StationCollider class, the behaviour of which being determined by notify observer, registering (as well as deregister), and act. 
+ * 
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
@@ -35,10 +39,10 @@ public class StationColliderTests {
         null
     );
 
-    @Test
     /**
      * Tests that notfiyObservers and getLastNotification work correctly
      */
+    @Test
     public void testNotifyObservers() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -56,10 +60,10 @@ public class StationColliderTests {
         );
     }
 
-    @Test
     /**
      * Tests that register and deregister work correctly
      */
+    @Test
     public void testDeregister() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -72,11 +76,11 @@ public class StationColliderTests {
         );
     }
 
-    @Test
     /**
      * Tests that clearAllObservesr corectly deregisters the station from all its
      * current observers
      */
+    @Test
     public void testDeregisterFromAllSubjects() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -89,10 +93,10 @@ public class StationColliderTests {
         );
     }
 
-    @Test
     /**
      * Tests that register adds the station to the station coliders observers
      */
+    @Test
     public void testRegister() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -105,10 +109,10 @@ public class StationColliderTests {
         );
     }
 
+    /**
+    * tests that act works corectly
+    */
     @Test
-    ///**
-    // * tests that act works corectly
-    // */
     public void testAct() {
         StationCollider stationCollider = new StationCollider(chefManager);
         chefManager.setCurrentChef(chefManager.getChefs().get(0));

@@ -16,7 +16,11 @@ import cs.eng1.tests.GdxTestRunner;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the behaviour of cookingStation, being getActionTypes returning correct values and reset.
+ * 
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class GrillingStationTests {
 
@@ -25,7 +29,9 @@ public class GrillingStationTests {
     Patty patty = new Patty(textureManager);
     Chef chef = new Chef(null, null, chefManager);
     StationUIController uiController = mock(StationUIController.class);
-
+     /**
+     * Asserts actiontypes as empty with no nearby chef.
+     */
     @Test
     public void testGetActionTypesNothing() {
         GrillingStation station = new GrillingStation(
@@ -53,7 +59,9 @@ public class GrillingStationTests {
             actionTypes.isEmpty()
         );
     }
-
+    /**
+     * Assert getActionTypes for place ingredient.
+     */
     @Test
     public void testGetActionPlaceIngredient() {
         GrillingStation station = new GrillingStation(
@@ -71,7 +79,9 @@ public class GrillingStationTests {
             actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT)
         );
     }
-
+    /**
+     * Asserts getActionTypes for cook, flip and grab ingredient.
+     */
     @Test
     public void testCooking() {
         GrillingStation station = new GrillingStation(
@@ -111,7 +121,9 @@ public class GrillingStationTests {
             chef.getStack().peek() == patty
         );
     }
-
+    /**
+     * Asserts getActionTypes for place ingredient.
+     */
     @Test
     public void testPlaceIngredient() {
         GrillingStation station = new GrillingStation(
@@ -130,7 +142,9 @@ public class GrillingStationTests {
             station.currentIngredient
         );
     }
-
+    /**
+     * Asserts reset behaviour
+     */
     @Test
     public void testReset() {
         GrillingStation station = new GrillingStation(

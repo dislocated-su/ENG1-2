@@ -24,17 +24,21 @@ import cs.eng1.tests.GdxTestRunner;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the behaviour of ingredientStation, being getActionTypes returning correct values and performing those actions, as well as reset.
+ * 
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class RecipeStationTests {
 
     private final ChefManager chefManager = mock(ChefManager.class);
     private final StationUIController mockUI = mock(StationUIController.class);
 
-    @Test
     /**
      * Tests that getActionTypes returns nothing when nearbyChef is null
      */
+    @Test
     public void testGetActionTypesNoChef() {
         RecipeStation station = new RecipeStation(
             1,
@@ -51,11 +55,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that getActionTypes returns nothing when nearbyChef is not holding
      * anything
      */
+    @Test
     public void testGetActionTypesWithNoIngredient() {
         RecipeStation station = new RecipeStation(
             1,
@@ -74,11 +78,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that getActionTypes returns nothing when nearbyChef is not holiding a
      * processed ingredient
      */
+    @Test
     public void testGetActionTypesWithIncorrectIngredient() {
         RecipeStation station = new RecipeStation(
             1,
@@ -98,11 +102,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that getActionTypes returns PLACE_INGREDIENT when nearbyChef is holding
      * a processed ingredient (chopped lettuce)
      */
+    @Test
     public void testGetActionTypesWithCorrectIngredient() {
         RecipeStation station = new RecipeStation(
             1,
@@ -124,11 +128,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (PLACE_INGREDIENT) put the nearbyChef's top
      * ingredient onto the station
      */
+    @Test
     public void testDoPlaceAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -150,11 +154,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (GRAB_INGREDIENT) puts the completedRecipe onto
      * the chef's foodStack
      */
+    @Test
     public void testDoGrabIngredientAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -174,11 +178,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (MAKE_BURGER) creates a Burger in completedRecipe
      * if given a Bun and Patty
      */
+    @Test
     public void testDoMakeBurgerAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -197,11 +201,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (MAKE_SALAD) creates a Salad in completedRecipe
      * if given Lettuce and Tomato
      */
+    @Test
     public void testDoMakeSaladAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -220,11 +224,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (MAKE_JACKET) creates a JacketPotato if given
      * Potato and Cheese
      */
+    @Test
     public void testDoMakeJacketAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -243,11 +247,11 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests that doStationAction (ASSEMBLE_PIZZA) creates an UncookedPizza if given
      * Dough, Cheese and Tomato
      */
+    @Test
     public void doAssemblePizzaAction() {
         RecipeStation station = new RecipeStation(
             1,
@@ -267,10 +271,10 @@ public class RecipeStationTests {
         );
     }
 
-    @Test
     /**
      * Tests the reset method appropriately resets all values.
      */
+    @Test
     public void testResetMethod() {
         RecipeStation station = new RecipeStation(
             1,

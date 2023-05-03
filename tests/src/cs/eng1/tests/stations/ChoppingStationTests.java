@@ -16,7 +16,11 @@ import cs.eng1.tests.GdxTestRunner;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the behaviour of choppingStation, being getActionTypes returning correct values and reset.
+ * 
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class ChoppingStationTests {
 
@@ -25,7 +29,9 @@ public class ChoppingStationTests {
     FoodTextureManager textureManager = new FoodTextureManager();
     Lettuce lettuce = new Lettuce(textureManager);
     StationUIController uiController = mock(StationUIController.class);
-
+    /**
+     * Asserts actiontypes as empty with no nearby chef
+     */
     @Test
     public void testGetActionTypesNothing() {
         ChoppingStation station = new ChoppingStation(
@@ -53,7 +59,9 @@ public class ChoppingStationTests {
             actionTypes.isEmpty()
         );
     }
-
+    /**
+     * Assert getActionTypes for place ingredient.
+     */
     @Test
     public void testGetActionPlaceIngredient() {
         ChoppingStation station = new ChoppingStation(
@@ -71,7 +79,9 @@ public class ChoppingStationTests {
             actionTypes.contains(StationAction.ActionType.PLACE_INGREDIENT)
         );
     }
-
+    /**
+     * Assert actionTypes for Chopping
+     */
     @Test
     public void testChopping() {
         ChoppingStation station = new ChoppingStation(
@@ -105,6 +115,9 @@ public class ChoppingStationTests {
         );
     }
 
+    /**
+     * Assert actionTypes for placeIngredient
+     */
     @Test
     public void testPlaceIngredient() {
         ChoppingStation station = new ChoppingStation(
@@ -123,7 +136,9 @@ public class ChoppingStationTests {
             station.currentIngredient
         );
     }
-
+    /**
+     * Asserts reset method resets chopping station.
+     */
     @Test
     public void testReset() {
         ChoppingStation station = new ChoppingStation(
