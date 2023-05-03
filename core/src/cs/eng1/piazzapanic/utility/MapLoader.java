@@ -35,6 +35,11 @@ import java.util.HashMap;
 
 /**
  * Loads the map and initialises objects from map data.
+ * 
+ * Moved from GameScreen into a separate class and expanded for assessment 2.
+ * 
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
  */
 public class MapLoader {
 
@@ -53,6 +58,11 @@ public class MapLoader {
 
     public final ArrayList<Vector3> lights = new ArrayList<>();
 
+    /**
+     * Load a new map from a string path.
+     * 
+     * @param path string filepath.
+     */
     public MapLoader(String path) {
         map = new TmxMapLoader().load(path);
 
@@ -73,18 +83,33 @@ public class MapLoader {
         return new OrthogonalTiledMapRenderer(map, unitScale);
     }
 
+    /**
+     * Creates an array of Box2DBodies from the given mapLayer.
+     * 
+     * @param mapLayerName The layer of the map to create bodies from.
+     * @param world        The world to build the shapes into.
+     * @return Array of box2d Bodies.
+     */
     public Array<Body> createBox2DBodies(String mapLayerName, World world) {
         MapLayer b2dBodyLayer = map.getLayers().get(mapLayerName);
         return MapBodyBuilder.buildShapes(b2dBodyLayer, pixelsPerTile, world);
     }
 
+    /**
+     * loads all the ai queuing points
+     * 
+     * @param waypointLayerName   name of the waypoint layer on the map
+     * @param cookSpawnProperty   name of the cook spawn property
+     * @param aiSpawnProperty     name of the ai spawn point property on the map
+     * @param lightSpawnProperty  name of the light spawn property on the map
+     * @param aiObjectiveProperty name of the ai objective spawn property on the map
+     */
     public void loadWaypoints(
-        String waypointLayerName,
-        String cookSpawnProperty,
-        String aiSpawnProperty,
-        String lightSpawnProperty,
-        String aiObjectiveProperty
-    ) {
+            String waypointLayerName,
+            String cookSpawnProperty,
+            String aiSpawnProperty,
+            String lightSpawnProperty,
+            String aiObjectiveProperty) {
         MapObjects objects = map.getLayers().get(waypointLayerName).getObjects();
 
         for (MapObject object : objects) {
@@ -93,47 +118,53 @@ public class MapLoader {
                 RectangleMapObject point = (RectangleMapObject) object;
 
                 Vector2 waypoint = new Vector2(
-                    point.getRectangle().x / pixelsPerTile,
-                    point.getRectangle().y / pixelsPerTile
-                );
+                        point.getRectangle().x / pixelsPerTile,
+                        point.getRectangle().y / pixelsPerTile);
                 if (properties.containsKey(cookSpawnProperty)) {
                     Gdx.app.log(
-                        "Loading Waypoint",
-                        String.format("Cook spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
-                    );
+                            "Loading Waypoint",
+                            String.format("Cook spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y));
                     cookSpawnpoints.add(waypoint);
                 } else if (properties.containsKey(aiSpawnProperty)) {
                     Gdx.app.log(
-                        "Loading Waypoint",
-                        String.format("AI spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
-                    );
+                            "Loading Waypoint",
+                            String.format("AI spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y));
                     aiSpawnpoints.add(waypoint);
                 } else if (properties.containsKey(aiObjectiveProperty)) {
                     Gdx.app.log(
-                        "Loading Waypoint",
-                        String.format("AI objective at (%.2f,%.2f)", waypoint.x, waypoint.y)
-                    );
+                            "Loading Waypoint",
+                            String.format("AI objective at (%.2f,%.2f)", waypoint.x, waypoint.y));
                     aiObjectives.put(properties.get(aiObjectiveProperty, int.class), new Box2dLocation(waypoint, 0));
                 } else if (properties.containsKey(lightSpawnProperty)) {
+                    // Unimplemented feature
                     Gdx.app.log(
-                        "Loading Waypoint",
-                        String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
-                    );
+                            "Loading Waypoint",
+                            String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y));
                     lights.add(new Vector3(waypoint, properties.get(lightSpawnProperty, int.class)));
                 }
             }
         }
     }
 
+    /**
+     * @param stationLayerName    name of the station layer
+     * @param colliderLayerName   name of the colider layer
+     * @param chefManager         instance of the chefManger
+     * @param stage               {@link Stage} instance to add stations to.
+     * @param stationUIController {@link StationUIController} instance to give to
+     *                            the stations
+     * @param foodTextureManager  instance of the fooTextureManager
+     * @param customerManager     instance of the customerManager
+     * 
+     */
     public void createStations(
-        String stationLayerName,
-        String colliderLayerName,
-        ChefManager chefManager,
-        Stage stage,
-        StationUIController stationUIController,
-        FoodTextureManager foodTextureManager,
-        CustomerManager customerManager
-    ) {
+            String stationLayerName,
+            String colliderLayerName,
+            ChefManager chefManager,
+            Stage stage,
+            StationUIController stationUIController,
+            FoodTextureManager foodTextureManager,
+            CustomerManager customerManager) {
         MapLayer stationLayer = map.getLayers().get(stationLayerName);
 
         Array<TiledMapTileMapObject> tileObjects = stationLayer.getObjects().getByType(TiledMapTileMapObject.class);
@@ -150,11 +181,10 @@ public class MapLoader {
             StationCollider collider = new StationCollider(chefManager);
             Rectangle bounds = colliderObject.getRectangle();
             collider.setBounds(
-                bounds.getX() * unitScale,
-                bounds.getY() * unitScale,
-                bounds.getWidth() * unitScale,
-                bounds.getHeight() * unitScale
-            );
+                    bounds.getX() * unitScale,
+                    bounds.getY() * unitScale,
+                    bounds.getWidth() * unitScale,
+                    bounds.getHeight() * unitScale);
 
             stage.addActor(collider);
             colliders.put(id, collider);
@@ -171,57 +201,50 @@ public class MapLoader {
             int id = tileObject.getProperties().get("id", Integer.class);
             String ingredients = tileObject.getProperties().get("ingredients", String.class);
             StationActionUI.ActionAlignment alignment = StationActionUI.ActionAlignment.valueOf(
-                tileObject.getProperties().get("actionAlignment", "TOP", String.class)
-            );
+                    tileObject.getProperties().get("actionAlignment", "TOP", String.class));
 
             Boolean locked = tileObject.getProperties().get("locked", Boolean.class);
 
             // Initialize specific station types
             switch (tileObject.getProperties().get("stationType", String.class)) {
                 case "cookingStation":
-                    station =
-                        new CookingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
+                    station = new CookingStation(id, tileObject.getTextureRegion(), stationUIController, alignment,
+                            locked);
                     break;
                 case "ingredientStation":
-                    station =
-                        new IngredientStation(
+                    station = new IngredientStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
                             locked,
-                            Ingredient.fromString(ingredients, foodTextureManager)
-                        );
+                            Ingredient.fromString(ingredients, foodTextureManager));
                     break;
                 case "choppingStation":
-                    station =
-                        new ChoppingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
+                    station = new ChoppingStation(id, tileObject.getTextureRegion(), stationUIController, alignment,
+                            locked);
                     break;
                 case "recipeStation":
-                    station =
-                        new RecipeStation(
+                    station = new RecipeStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
                             locked,
-                            foodTextureManager
-                        );
+                            foodTextureManager);
                     break;
                 case "grillingStation":
-                    station =
-                        new GrillingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
+                    station = new GrillingStation(id, tileObject.getTextureRegion(), stationUIController, alignment,
+                            locked);
                     break;
                 case "submitStation":
-                    station =
-                        new SubmitStation(
+                    station = new SubmitStation(
                             id,
                             tileObject.getTextureRegion(),
                             stationUIController,
                             alignment,
                             locked,
-                            customerManager
-                        );
+                            customerManager);
                     customerManager.addStation((SubmitStation) station);
                     break;
                 default:

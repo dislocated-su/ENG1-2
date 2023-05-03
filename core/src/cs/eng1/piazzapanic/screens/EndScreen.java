@@ -19,8 +19,10 @@ import cs.eng1.piazzapanic.ui.ButtonManager;
 import cs.eng1.piazzapanic.ui.FontManager;
 
 /**
- * Screen that shows at the end of the game, displaying whether the player won or not as well as related stats.
- *
+ * Screen that shows at the end of the game, displaying whether the player won
+ * or not as well as related stats.
+ * Made for assessment 2.
+ * 
  * @author Louis Warren
  * @author Joel Paxman
  */
@@ -30,6 +32,11 @@ public class EndScreen implements Screen {
     PiazzaPanicGame game;
     private final Stage stage;
 
+    /**
+     * @param game       Game to that the screen will be shown on.
+     * @param text       Time elapsed since game start
+     * @param reputation Reputation at the end (0 if lost)
+     */
     public EndScreen(PiazzaPanicGame game, String text, String reputation) {
         ScreenViewport viewport = new ScreenViewport();
         stage = new Stage(viewport);
@@ -65,14 +72,13 @@ public class EndScreen implements Screen {
 
         TextButton backButton = game.getButtonManager().createTextButton("Again?", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    game.getModeSelectOverlay().hide();
-                    game.loadHomeScreen();
-                }
-            }
-        );
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        game.getModeSelectOverlay().hide();
+                        game.loadHomeScreen();
+                    }
+                });
 
         table.add(endText).row();
         table.add(time).row();
@@ -103,11 +109,14 @@ public class EndScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 }

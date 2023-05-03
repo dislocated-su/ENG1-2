@@ -30,7 +30,9 @@ public interface Cookable extends Holdable {
      */
     Holdable getCookingResult();
 
-    //TODO: figure this out
+    /**
+     * @return get the result of the current cooking step.
+     */
     boolean cookingStepComplete();
 
     float getCookingProgress();

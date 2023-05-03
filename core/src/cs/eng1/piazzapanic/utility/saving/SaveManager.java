@@ -16,6 +16,8 @@ import java.util.List;
 /**
  * SaveManager is a singleton class that is used to perform saving and loading
  *
+ * All of cs.eng1.piazzapanic.utility.saving was created for assesment 2;
+ * 
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -23,7 +25,8 @@ public class SaveManager {
 
     private static SaveManager instance = null;
 
-    private SaveManager() {}
+    private SaveManager() {
+    }
 
     public static SaveManager getInstance() {
         if (instance == null) {
@@ -36,7 +39,9 @@ public class SaveManager {
     /**
      * intiates saving to savefile.json
      *
-     * This creates the Saved files and assigns them in SaveState, including looping through all actors to locate stations and save them into SaveState before saving SaveState
+     * This creates the Saved files and assigns them in SaveState, including looping
+     * through all actors to locate stations and save them into SaveState before
+     * saving SaveState
      *
      * @param chefManager
      * @param customerManager
@@ -51,9 +56,8 @@ public class SaveManager {
         List<SavedStation> stations = new LinkedList<>();
 
         for (Actor actor : stage.getActors().items) {
-            if (
-                actor instanceof Station && !(actor instanceof IngredientStation) && !(actor instanceof SubmitStation)
-            ) {
+            if (actor instanceof Station && !(actor instanceof IngredientStation)
+                    && !(actor instanceof SubmitStation)) {
                 stations.add(new SavedStation((Station) actor));
             }
         }

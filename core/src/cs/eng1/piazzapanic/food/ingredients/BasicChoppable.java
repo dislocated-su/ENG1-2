@@ -8,7 +8,8 @@ import cs.eng1.piazzapanic.food.interfaces.Choppable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 
 /**
- * A base class for ingredients that need to be chopped, such as Lettuce and Tomato.
+ * A base class for ingredients that need to be chopped, such as Lettuce and
+ * Tomato.
  * Implements the Choppable interface to enable the chopping functionality.
  *
  * @author Ross Holmes
@@ -17,12 +18,13 @@ import cs.eng1.piazzapanic.food.interfaces.Holdable;
 public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     private float accumulator = 0f;
-    private final float chopTime = 2f;
-    private final float failTime = 3f;
+    private final float chopTime = 5f;
+    private final float failTime = 5f;
 
     /**
      * Constructor for BasicChoppable.
-     * @param type the type of ingredient.
+     * 
+     * @param type           the type of ingredient.
      * @param textureManager the texture manager to use.
      */
     public BasicChoppable(String type, FoodTextureManager textureManager) {
@@ -36,11 +38,9 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
     public boolean choppingTick(float delta) {
         accumulator += (delta * ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST)) ? 2 : 1));
 
-        if (
-            accumulator >=
-            (chopTime + (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))) &&
-            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
-        ) {
+        if (accumulator >= (chopTime
+                + (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))) &&
+                !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)) {
             setUseable(false);
             return false;
         } else if (accumulator >= chopTime) {
@@ -51,6 +51,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Gets the current chopping progress as a percentage.
+     * 
      * @return the current chopping progress as a percentage.
      */
     @Override
@@ -60,6 +61,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Gets the result of the chopping.
+     * 
      * @return the chopped ingredient.
      */
     @Override
@@ -69,6 +71,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Get texture based on ingredient type and chopping status.
+     * 
      * @see Holdable
      * @return Texture
      */

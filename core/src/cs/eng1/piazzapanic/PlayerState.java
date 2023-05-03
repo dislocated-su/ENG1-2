@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PlayerState {
 
-    private final float happinessMult = 1.3f;
+    private final float happinessMult = 1.2f;
 
     private static PlayerState instance = null;
 
@@ -16,9 +16,9 @@ public class PlayerState {
 
     private int difficultyLevel = 1;
 
-    private float upgradeCost = 100f;
+    private float upgradeCost = 35f;
 
-    private int hireCost = 1000;
+    private int hireCost = 40;
 
     private int purchasedChefs = 0;
 
@@ -34,11 +34,11 @@ public class PlayerState {
 
     private final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
         {
-            put(PowerUp.WALK_FAST, 100);
-            put(PowerUp.COOK_FAST, 100);
-            put(PowerUp.NO_SPOILING, 100);
-            put(PowerUp.NO_REP_LOSS, 100);
-            put(PowerUp.MORE_MONEY, 100);
+            put(PowerUp.WALK_FAST, 10);
+            put(PowerUp.COOK_FAST, 30);
+            put(PowerUp.NO_SPOILING, 30);
+            put(PowerUp.NO_REP_LOSS, 30);
+            put(PowerUp.MORE_MONEY, 40);
         }
     };
 
@@ -50,7 +50,8 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    public PlayerState() {}
+    public PlayerState() {
+    }
 
     public PlayerState(SavedPlayerState state) {
         setDifficulty(state.difficulty);
@@ -72,7 +73,7 @@ public class PlayerState {
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
         if (buying) {
-            upgradeCost += 100f;
+            upgradeCost += 10f;
         }
         return returnCost;
     }
