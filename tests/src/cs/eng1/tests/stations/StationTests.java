@@ -32,21 +32,24 @@ public class StationTests {
         chefSubject.register(station);
         station.update(chef);
         assertEquals(
-                "tests that update changes nearbyChef when there's a chef",
-                chef,
-                station.nearbyChef);
+            "tests that update changes nearbyChef when there's a chef",
+            chef,
+            station.nearbyChef
+        );
         station.nearbyChef = chef;
         chefSubject.notifyObservers(chef2);
         station.update(null);
         assertEquals(
-                "tests that nearby chef chenges when a chef leaves but a different chef is still in range of the station",
-                chef2,
-                station.nearbyChef);
+            "tests that nearby chef chenges when a chef leaves but a different chef is still in range of the station",
+            chef2,
+            station.nearbyChef
+        );
         chefSubject.deregister(station);
         station.update(null);
         assertNull(
-                "tests that nearbyChef is set to null if there is no chef",
-                station.nearbyChef);
+            "tests that nearbyChef is set to null if there is no chef",
+            station.nearbyChef
+        );
     }
 
     /**
@@ -62,9 +65,10 @@ public class StationTests {
         chefSubject2.register(station);
         station.deregisterFromAllSubjects();
         assertEquals(
-                "tests that deregisterFromAllSubjects removes all subjects from the list",
-                0,
-                station.getSubjects().size());
+            "tests that deregisterFromAllSubjects removes all subjects from the list",
+            0,
+            station.getSubjects().size()
+        );
     }
 
     /**
@@ -75,9 +79,10 @@ public class StationTests {
         Station station = new Station(0, null, uiController, null, null);
         List<String> actionTypes = new LinkedList<>();
         assertEquals(
-                "tests that getActionTypes returns an empty list if there are no actions",
-                actionTypes,
-                station.getActionTypes());
+            "tests that getActionTypes returns an empty list if there are no actions",
+            actionTypes,
+            station.getActionTypes()
+        );
         // TODO: this assertEquals needs to be fixed as a List<String> and
         // LinkedList<ActionType> are never equal
     }
@@ -90,8 +95,9 @@ public class StationTests {
         Station station = new Station(0, null, uiController, null, null);
         station.doStationAction(null);
         assertNull(
-                "tests that doStationAction does nothing if the action is null",
-                station.nearbyChef);
+            "tests that doStationAction does nothing if the action is null",
+            station.nearbyChef
+        );
     }
 
     /**
@@ -101,8 +107,9 @@ public class StationTests {
     public void testGetId() {
         Station station = new Station(0, null, uiController, null, null);
         assertEquals(
-                "tests that getId returns the correct id",
-                0,
-                station.getId());
+            "tests that getId returns the correct id",
+            0,
+            station.getId()
+        );
     }
 }

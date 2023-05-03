@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
@@ -21,7 +20,6 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -252,8 +250,7 @@ public class CustomerManagerTests {
                 customerManager.getSpawnTimer().getDelay(),
                 10f
             );
-            customerManager.act(
-                customerManager.getEndlessTimer().getDelay());
+            customerManager.act(customerManager.getEndlessTimer().getDelay());
         }
         customerManager.act(1000f);
         assertEquals(
@@ -327,7 +324,7 @@ public class CustomerManagerTests {
             4,
             customerManager.getCustomerQueue().size()
         );
-        for (float i = 0; i < 2; i ++) {
+        for (float i = 0; i < 2; i++) {
             customerManager.act(spawnTime);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",

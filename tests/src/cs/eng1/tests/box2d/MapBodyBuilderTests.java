@@ -17,9 +17,10 @@ import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the public function of MapBodyBuilder - being buildShapes and decideShapes - given a map.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)
@@ -30,6 +31,7 @@ public class MapBodyBuilderTests {
     MapLayer layer = mapLoader.getMap().getLayers().get("Obstacles");
     Array<Body> bodies = MapBodyBuilder.buildShapes(layer, 16, world);
     MapBodyBuilder bodyBuilder = new MapBodyBuilder();
+
     /**
      * Asserts that buildShapes finds each shape in a given map.
      */
@@ -47,6 +49,7 @@ public class MapBodyBuilderTests {
             bodies.size
         );
     }
+
     /**
      * Asserts the function of decideShape - being parsing Polygons, Lines, and Rectangles - within a map.
      */

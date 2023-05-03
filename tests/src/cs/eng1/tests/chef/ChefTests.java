@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
@@ -20,14 +19,13 @@ import cs.eng1.piazzapanic.food.ingredients.Patty;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.tests.GdxTestRunner;
-
 import java.util.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the function of Chef - being chefStack, init, createBody and movement.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)
@@ -73,7 +71,7 @@ public class ChefTests {
         );
         chef.grabItem(cheese);
         assertTrue(
-            "hasIngredient should be true when the chef has an ingredient.", 
+            "hasIngredient should be true when the chef has an ingredient.",
             chef.hasIngredient()
         );
         chef.getStack().pop();

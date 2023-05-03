@@ -26,7 +26,7 @@ public class Chef extends Actor implements Disposable {
 
     /**
      * image, imageBounds and imageRotation are all used to display the chef to the
-     * user and show the user where the chef is and what direction it is moving 
+     * user and show the user where the chef is and what direction it is moving
      * without changing any collision details.
      */
     private final Texture image;
@@ -77,10 +77,10 @@ public class Chef extends Actor implements Disposable {
     }
 
     /**
-    * Initialises the Chef
-    * 
-    * @param x, y the coordinates for the Chef to spawn at
-    */
+     * Initialises the Chef
+     *
+     * @param x, y the coordinates for the Chef to spawn at
+     */
     public void init(float x, float y) {
         setX(x);
         setY(y);

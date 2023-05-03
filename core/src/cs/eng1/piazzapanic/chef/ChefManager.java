@@ -134,7 +134,7 @@ public class ChefManager implements Disposable {
     }
 
     /**
-     * 
+     *
      */
     public void hireChef(Vector2 position, Stage stage) {
         if (chefs.size() >= 4) {

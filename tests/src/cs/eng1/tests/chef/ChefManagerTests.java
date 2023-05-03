@@ -21,9 +21,10 @@ import cs.eng1.tests.GdxTestRunner;
 import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the function of ChefManager - being initialising, init, hireChef and act.
- * 
+ *
  * @author Joel Paxman
  * @author Ross Holmes
  */

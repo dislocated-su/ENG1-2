@@ -35,21 +35,25 @@ public class SubmitStationTests {
     KeyboardInput kbInput = new KeyboardInput();
     FoodTextureManager textureManager = new FoodTextureManager();
     StationUIController stationUIController = new StationUIController(
-            stage,
-            null);
+        stage,
+        null
+    );
     CustomerManager customerManager = new CustomerManager(
-            1,
-            overlay,
-            world,
-            5,
-            0);
+        1,
+        overlay,
+        world,
+        5,
+        0
+    );
     StationUIController uiController = mock(StationUIController.class);
     MapLoader mapLoader = new MapLoader("test-map.tmx");
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
 
     Texture fake = new Texture(
-            Gdx.files.internal(
-                    "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"));
+        Gdx.files.internal(
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png"
+        )
+    );
     Chef chef = new Chef(fake, Vector2.Zero, chefManager);
 
     /**
@@ -62,26 +66,30 @@ public class SubmitStationTests {
     @Test
     public void testGetActionTypesNothing() {
         SubmitStation station = new SubmitStation(
-                1,
-                null,
-                null,
-                null,
-                null,
-                null);
+            1,
+            null,
+            null,
+            null,
+            null,
+            null
+        );
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertTrue(
-                "nothing is added to action types if no chef is nearby",
-                actionTypes.isEmpty());
+            "nothing is added to action types if no chef is nearby",
+            actionTypes.isEmpty()
+        );
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
-                "nothing is added to action types if the chef and station have no ingredients",
-                actionTypes.isEmpty());
+            "nothing is added to action types if the chef and station have no ingredients",
+            actionTypes.isEmpty()
+        );
         chef.grabItem(new Patty(textureManager));
         actionTypes = station.getActionTypes();
         assertTrue(
-                "Nothing is added to action types if the chef has an item that is not a Recipe.",
-                actionTypes.isEmpty());
+            "Nothing is added to action types if the chef has an item that is not a Recipe.",
+            actionTypes.isEmpty()
+        );
     }
 
     /**
@@ -92,38 +100,43 @@ public class SubmitStationTests {
     @Test
     public void testCorrectRecipe() {
         mapLoader.loadWaypoints(
-                "Waypoints",
-                "cookspawnid",
-                "aispawnid",
-                "lightid",
-                "aiobjective");
+            "Waypoints",
+            "cookspawnid",
+            "aispawnid",
+            "lightid",
+            "aiobjective"
+        );
         mapLoader.createStations(
-                "Stations",
-                "Sensors",
-                chefManager,
-                stage,
-                uiController,
-                textureManager,
-                customerManager);
+            "Stations",
+            "Sensors",
+            chefManager,
+            stage,
+            uiController,
+            textureManager,
+            customerManager
+        );
         customerManager.init(
-                textureManager,
-                stage,
-                mapLoader.aiObjectives,
-                mapLoader.aiSpawnpoints);
+            textureManager,
+            stage,
+            mapLoader.aiObjectives,
+            mapLoader.aiSpawnpoints
+        );
         SubmitStation station = customerManager.getRecipeStations().get(63);
         station.nearbyChef = chef;
         station.customer = customerManager.getCustomer(0);
 
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
         assertFalse(
-                "Submit order is not added to action types if the chef has an incorrect recipe",
-                actionTypes.contains(ActionType.SUBMIT_ORDER));
+            "Submit order is not added to action types if the chef has an incorrect recipe",
+            actionTypes.contains(ActionType.SUBMIT_ORDER)
+        );
         chef.getStack().clear();
         chef.grabItem(new Pizza(textureManager));
 
         actionTypes = station.getActionTypes();
         assertTrue(
-                "Submit order is added to action types if the chef has a correct recipe",
-                actionTypes.contains(ActionType.SUBMIT_ORDER));
+            "Submit order is added to action types if the chef has a correct recipe",
+            actionTypes.contains(ActionType.SUBMIT_ORDER)
+        );
     }
 }
