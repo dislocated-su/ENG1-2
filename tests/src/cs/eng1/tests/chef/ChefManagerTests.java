@@ -39,145 +39,138 @@ public class ChefManagerTests {
     FoodTextureManager textureManager = new FoodTextureManager();
 
     StationUIController stationUIController = new StationUIController(
-        stage,
-        null
-    );
+            stage,
+            null);
     CustomerManager customerManager = new CustomerManager(
-        1,
-        overlay,
-        world,
-        5,
-        0
-    );
+            1,
+            overlay,
+            world,
+            5,
+            0);
 
     Texture fake = new Texture(Gdx.files.internal("badlogic.jpg"));
     Chef fakeChef = new Chef(fake, Vector2.Zero, chefManager);
 
     MapLoader mapLoader = new MapLoader("test-map.tmx");
 
+    /**
+     * Tests all values assigned by constructor are accurate
+     */
     @Test
     public void startTests() {
         assertEquals(
-            "The game should start with 2 chefs.",
-            2,
-            chefManager.getChefs().size()
-        );
+                "The game should start with 2 chefs.",
+                2,
+                chefManager.getChefs().size());
         for (Chef chef : chefManager.getChefs()) {
             assertNotEquals(
-                "The chef textures should not be badlogic.",
-                "badlogic.jpg",
-                chef.getTexture().toString()
-            );
+                    "The chef textures should not be badlogic.",
+                    "badlogic.jpg",
+                    chef.getTexture().toString());
             assertFalse(
-                "Chefs should not take inputs by default.",
-                chef.isInputEnabled()
-            );
+                    "Chefs should not take inputs by default.",
+                    chef.isInputEnabled());
         }
     }
 
+    /**
+     * Tests that ChefManager.init assigns all values correctly
+     */
     @Test
     public void initTests() {
         mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+                "Waypoints",
+                "cookspawnid",
+                "aispawnid",
+                "lightid",
+                "aiobjective");
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            textureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                textureManager,
+                customerManager);
         chefManager.init(mapLoader.cookSpawnpoints);
         int i = 0;
         for (Chef chef : chefManager.getChefs()) {
             assertTrue(
-                mapLoader.cookSpawnpoints
-                    .get(i)
-                    .epsilonEquals(chef.getBody().getPosition(), 1f)
-            );
+                    mapLoader.cookSpawnpoints
+                            .get(i)
+                            .epsilonEquals(chef.getBody().getPosition(), 1f));
             i++;
         }
     }
 
+    /**
+     * Tests the function to hire chefs correctly creates and stores a Chef
+     */
     @Test
     public void hireChefTests() {
         mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+                "Waypoints",
+                "cookspawnid",
+                "aispawnid",
+                "lightid",
+                "aiobjective");
         mapLoader.createStations(
-            "Stations",
-            "Sensors",
-            chefManager,
-            stage,
-            stationUIController,
-            textureManager,
-            customerManager
-        );
+                "Stations",
+                "Sensors",
+                chefManager,
+                stage,
+                stationUIController,
+                textureManager,
+                customerManager);
         ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
         for (int i = 2; i < 4; i++) {
             chefManager.hireChef(spawnPoints.get(i - 2), stage);
             assertEquals(
-                new Vector2(
-                    Math.round(spawnPoints.get(i - 2).x),
-                    Math.round(spawnPoints.get(i - 2).y)
-                ),
-                new Vector2(
-                    Math.round(chefManager.getChefs().get(i).getX()),
-                    Math.round(chefManager.getChefs().get(i).getY())
-                )
-            );
+                    new Vector2(
+                            Math.round(spawnPoints.get(i - 2).x),
+                            Math.round(spawnPoints.get(i - 2).y)),
+                    new Vector2(
+                            Math.round(chefManager.getChefs().get(i).getX()),
+                            Math.round(chefManager.getChefs().get(i).getY())));
             assertEquals(
-                "Hire Chef should add a chef to the chefManagers chefs.",
-                i + 1,
-                chefManager.getChefs().size()
-            );
+                    "Hire Chef should add a chef to the chefManagers chefs.",
+                    i + 1,
+                    chefManager.getChefs().size());
 
             assertFalse(
-                "Chefs should not take inputs by default after being hired.",
-                chefManager.getChefs().get(i).isInputEnabled()
-            );
+                    "Chefs should not take inputs by default after being hired.",
+                    chefManager.getChefs().get(i).isInputEnabled());
         }
         chefManager.hireChef(spawnPoints.get(0), stage);
         assertEquals(
-            "Hire Chef shouldn't add chefs over 4.",
-            4,
-            chefManager.getChefs().size()
-        );
+                "Hire Chef shouldn't add chefs over 4.",
+                4,
+                chefManager.getChefs().size());
     }
 
+    /**
+     * Tests that the act function results in the correct values after ticking
+     */
     @Test
     public void actTests() {
         mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+                "Waypoints",
+                "cookspawnid",
+                "aispawnid",
+                "lightid",
+                "aiobjective");
         ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
         assertNull(
-            "currentChef should be null by default.",
-            chefManager.getCurrentChef()
-        );
+                "currentChef should be null by default.",
+                chefManager.getCurrentChef());
         int maxChefs = 4;
         for (int chefIndex = 0; chefIndex < maxChefs; chefIndex++) {
             kbInput.keyDown(Keys.E);
             chefManager.act(1);
             assertEquals(
-                "After E is pressed, the current chef should be initialised.",
-                chefManager.getCurrentChef(),
-                chefManager.getChefs().get(chefIndex)
-            );
+                    "After E is pressed, the current chef should be initialised.",
+                    chefManager.getCurrentChef(),
+                    chefManager.getChefs().get(chefIndex));
             if (chefIndex < 2) {
                 chefManager.hireChef(spawnPoints.get(chefIndex), stage);
             }

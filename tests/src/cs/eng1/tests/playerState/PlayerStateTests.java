@@ -1,12 +1,9 @@
 package cs.eng1.tests.playerState;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
-import cs.eng1.piazzapanic.customer.Customer;
-import cs.eng1.piazzapanic.customer.CustomerManager;
 import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
@@ -16,18 +13,8 @@ import org.junit.runner.RunWith;
 public class PlayerStateTests {
 
     /**
-     * getUpgradeCost
-     * getChefHireCost
-     * //getPowerupCost
-     * //loadInstance
-     * //reset
-     * totalMultiplier
-     * earnCash
-     * spendCash
-     * act
-     * getPowerupName
+     * Test if PlayerState returns and increments the price when purchased
      */
-
     @Test
     public void getCostsTests() {
         PlayerState state = PlayerState.getInstance();
@@ -52,6 +39,10 @@ public class PlayerStateTests {
         assertEquals("", initialChefCost, state.getChefHireCost(false), 0.1f);
     }
 
+    /**
+     * Tests if PlayerState correctly earns and spends cash
+     * Tests the different possible multipliers on earning cash
+     */
     @Test
     public void cashTests() {
         PlayerState.reset();
@@ -122,6 +113,9 @@ public class PlayerStateTests {
         );
     }
 
+    /**
+     * Tests if PowerUp names are returned and formatted correctly
+     */
     @Test
     public void powerUpNameTests() {
         PlayerState.reset();
@@ -153,6 +147,9 @@ public class PlayerStateTests {
         );
     }
 
+    /**
+     * Tests if the PlayerState act function correctly tick all PowerUp timers correctly
+     */
     @Test
     public void actTests() {
         PlayerState.reset();
