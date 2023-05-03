@@ -7,10 +7,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
@@ -19,10 +17,6 @@ import cs.eng1.piazzapanic.ui.StationUIController;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
-import cs.eng1.piazzapanic.utility.saving.SaveManager;
-import cs.eng1.piazzapanic.utility.saving.SaveState;
-import cs.eng1.piazzapanic.utility.saving.SavedChef;
-import cs.eng1.piazzapanic.utility.saving.SavedChefManager;
 import cs.eng1.tests.GdxTestRunner;
 import java.util.ArrayList;
 import org.junit.Test;
@@ -195,17 +189,4 @@ public class ChefManagerTests {
             }
         }
     }
-    // @Test
-    // public void loadFromSave() {
-    // SaveState state = SaveManager.getInstance().load("testsavefile.json");
-
-    // ChefManager newChefManager = new ChefManager(state.chefManager, 1, overlay,
-    // world, kbInput,
-    // new FoodTextureManager());
-
-    // assertEquals(
-    // "The ChefManager created with the SavedChefManager constructor should match
-    // the original ChefManager",
-    // newChefManager, chefManager);
-    // }
 }
