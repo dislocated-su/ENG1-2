@@ -83,14 +83,14 @@ public class CookingStationTests {
         );
         station.doStationAction(StationAction.ActionType.COOK_ACTION);
         station.act(1);
-        station.act(1);
+        station.act(4);
         actionTypes = station.getActionTypes();
         assertTrue(
             "adds FLIP_ACTION to action types when the ingredient is ready to be flipped",
             actionTypes.contains(StationAction.ActionType.FLIP_ACTION)
         );
         station.doStationAction(StationAction.ActionType.FLIP_ACTION);
-        station.act(2);
+        station.act(6);
         actionTypes = station.getActionTypes();
         assertTrue(
             "adds GRAB_INGREDIENT to action types when the ingredient is fully cooked",
