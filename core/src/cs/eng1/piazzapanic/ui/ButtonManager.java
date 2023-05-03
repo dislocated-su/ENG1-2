@@ -134,12 +134,13 @@ public class ButtonManager implements Disposable {
         }
 
         // load skin for TextField
-        ObjectMap<String, Object> fontMap = new ObjectMap<String, Object>();
+        ObjectMap<String, Object> fontMap = new ObjectMap<>();
         fontMap.put("font1", fontManager.getLabelFont());
         SkinParameter parameter = new SkinParameter(fontMap);
         assetManager.load("skin/skin.atlas", TextureAtlas.class);
         assetManager.load("skin/skin.json", Skin.class, parameter);
 
+        // Run until assetManager finishes loading
         while (!assetManager.update()) {}
     }
 
@@ -182,8 +183,8 @@ public class ButtonManager implements Disposable {
     }
 
     public SelectBox<String> createSelectBox(String[] options) {
-        SelectBox<String> temp = new SelectBox<String>(
-            (Skin) assetManager.get("skin/skin.json")
+        SelectBox<String> temp = new SelectBox<>(
+                (Skin) assetManager.get("skin/skin.json")
         );
         temp.setItems(options);
         return temp;

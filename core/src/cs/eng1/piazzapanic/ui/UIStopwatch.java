@@ -4,6 +4,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
+/**
+ * UIStopWatch is a label that can update itself to display time elapsed.
+ * This is used to display the game timer.
+ */
 public class UIStopwatch extends Label {
 
     private float totalTime = 0;

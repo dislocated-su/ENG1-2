@@ -14,6 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 
+/**
+ * SettingsOverlay allows the user to toggle fullscreen mode.
+ *
+ * @author Alistair Foggin
+ */
 public class SettingsOverlay {
 
     private final Table table;

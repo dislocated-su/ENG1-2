@@ -16,6 +16,12 @@ import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 
+/**
+ * UpgradesUI displays an upgrades screen over the rest of the game where the player can buy powerups and unlock more chefs.
+ *
+ * @author Louis Warren
+ * @author Joel Paxman
+ */
 public class UpgradesUi {
 
     private static Table table;

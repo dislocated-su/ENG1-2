@@ -16,6 +16,11 @@ import cs.eng1.piazzapanic.stations.Station;
 import cs.eng1.piazzapanic.stations.StationAction;
 import java.util.List;
 
+/**
+ * StationActionUI displays buttons that allow the chefs to interact with stations.
+ *
+ * @author Alistair Foggin
+ */
 public class StationActionUI extends Table {
 
     private ActionAlignment actionAlignment = ActionAlignment.TOP;

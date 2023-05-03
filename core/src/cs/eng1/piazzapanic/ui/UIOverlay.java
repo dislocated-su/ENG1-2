@@ -32,9 +32,14 @@ import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import java.util.Collection;
 import java.util.List;
 
-// if you can just avoid
-// please dont mark us on this
-
+/**
+ * Main game HUD.
+ *
+ * @author Alistair Foggin
+ * @author Louis Warren
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class UIOverlay {
 
     private final PiazzaPanicGame game;
