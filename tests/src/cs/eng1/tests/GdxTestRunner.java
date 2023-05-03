@@ -19,8 +19,7 @@ import org.junit.runners.model.InitializationError;
  */
 public class GdxTestRunner extends BlockJUnit4ClassRunner implements ApplicationListener {
 
-    public Map<FrameworkMethod, RunNotifier> invokeInRender =
-        new HashMap<FrameworkMethod, RunNotifier>();
+    public Map<FrameworkMethod, RunNotifier> invokeInRender = new HashMap<FrameworkMethod, RunNotifier>();
 
     public GdxTestRunner(Class<?> klass) throws InitializationError {
         super(klass);

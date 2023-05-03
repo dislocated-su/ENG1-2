@@ -33,14 +33,10 @@ public class SettingsOverlay {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(bgPixmap)
-        );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
-        TextButton backButton = game
-            .getButtonManager()
-            .createTextButton("Back", ButtonManager.ButtonColour.GREY);
+        TextButton backButton = game.getButtonManager().createTextButton("Back", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
             new ClickListener() {
                 @Override
@@ -50,9 +46,7 @@ public class SettingsOverlay {
             }
         );
 
-        final CheckBox fullscreenCheckbox = game
-            .getButtonManager()
-            .createCheckbox("Fullscreen", ButtonColour.BLUE);
+        final CheckBox fullscreenCheckbox = game.getButtonManager().createCheckbox("Fullscreen", ButtonColour.BLUE);
         fullscreenCheckbox.addListener(
             new ClickListener() {
                 @Override

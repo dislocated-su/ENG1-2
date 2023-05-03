@@ -45,9 +45,7 @@ public class EndScreen implements Screen {
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
 
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(bgPixmap)
-        );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
         LabelStyle hudTitleFont = new Label.LabelStyle();
@@ -65,9 +63,7 @@ public class EndScreen implements Screen {
 
         Label repLabel = new Label(reputation, hudTitleFont);
 
-        TextButton backButton = game
-            .getButtonManager()
-            .createTextButton("Again?", ButtonManager.ButtonColour.GREY);
+        TextButton backButton = game.getButtonManager().createTextButton("Again?", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
             new ClickListener() {
                 @Override

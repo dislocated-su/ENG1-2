@@ -66,11 +66,7 @@ public class CookingStation extends Station {
         if (inUse) {
             currentIngredient.cookingTick(delta);
 
-            if (
-                currentIngredient != null &&
-                !((Ingredient) currentIngredient).getUseable() &&
-                !checkUpdateUI
-            ) {
+            if (currentIngredient != null && !((Ingredient) currentIngredient).getUseable() && !checkUpdateUI) {
                 uiController.showActions(this, getActionTypes());
                 checkUpdateUI = true;
             }
@@ -99,9 +95,7 @@ public class CookingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
-                return (
-                    !((Cookable) itemToCheck).getCooked() && ((Ingredient) itemToCheck).getUseable()
-                );
+                return (!((Cookable) itemToCheck).getCooked() && ((Ingredient) itemToCheck).getUseable());
             }
         }
         return false;
@@ -175,11 +169,7 @@ public class CookingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
+                if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
                     if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
                         currentIngredient = (Cookable) nearbyChef.popFood();
                     }

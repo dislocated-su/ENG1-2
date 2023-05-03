@@ -43,23 +43,17 @@ public class SavedStation {
             if (station instanceof ChoppingStation) {
                 ChoppingStation choppingStation = (ChoppingStation) station;
                 items[0] =
-                    choppingStation.currentIngredient != null
-                        ? new SavedFood(choppingStation.currentIngredient)
-                        : null;
+                    choppingStation.currentIngredient != null ? new SavedFood(choppingStation.currentIngredient) : null;
                 type = "Chopping";
             } else if (station instanceof CookingStation) {
                 CookingStation cookingStation = (CookingStation) station;
                 items[0] =
-                    cookingStation.currentIngredient != null
-                        ? new SavedFood(cookingStation.currentIngredient)
-                        : null;
+                    cookingStation.currentIngredient != null ? new SavedFood(cookingStation.currentIngredient) : null;
                 type = "Cooking";
             } else if (station instanceof GrillingStation) {
                 GrillingStation grillingStation = (GrillingStation) station;
                 items[0] =
-                    grillingStation.currentIngredient != null
-                        ? new SavedFood(grillingStation.currentIngredient)
-                        : null;
+                    grillingStation.currentIngredient != null ? new SavedFood(grillingStation.currentIngredient) : null;
                 type = "Grilling";
             } else {
                 throw new AssertionError("Attempting to save a station of invalid type");

@@ -106,29 +106,13 @@ public class IngredientTests {
      */
     @Test
     public void testToString() {
-        assertEquals(
-            "Ingredient should be raw without interaction.",
-            "patty_raw",
-            patty.toString()
-        );
+        assertEquals("Ingredient should be raw without interaction.", "patty_raw", patty.toString());
         patty.setIsGrilled(true);
-        assertEquals(
-            "Ingredient should be changed to _grilled when fully grilled.",
-            "patty_grilled",
-            patty.toString()
-        );
+        assertEquals("Ingredient should be changed to _grilled when fully grilled.", "patty_grilled", patty.toString());
         patty.setUseable(false);
-        assertEquals(
-            "Ingredient should be _ruined when not useable.",
-            "patty_ruined",
-            patty.toString()
-        );
+        assertEquals("Ingredient should be _ruined when not useable.", "patty_ruined", patty.toString());
 
-        assertEquals(
-            "Ingredient should be raw without interaction.",
-            "lettuce_raw",
-            lettuce.toString()
-        );
+        assertEquals("Ingredient should be raw without interaction.", "lettuce_raw", lettuce.toString());
         lettuce.setChopped(true);
         assertEquals(
             "Ingredient should be changed to _choppedwhen fully chopped.",
@@ -136,41 +120,17 @@ public class IngredientTests {
             lettuce.toString()
         );
         lettuce.setUseable(false);
-        assertEquals(
-            "Ingredient should be _ruined when not useable.",
-            "lettuce_ruined",
-            lettuce.toString()
-        );
-        assertEquals(
-            "Ingredient should be raw without interaction.",
-            "potato_raw",
-            potato.toString()
-        );
+        assertEquals("Ingredient should be _ruined when not useable.", "lettuce_ruined", lettuce.toString());
+        assertEquals("Ingredient should be raw without interaction.", "potato_raw", potato.toString());
         potato.setIsCooked(true);
-        assertEquals(
-            "Ingredient should be changed to _cooked when fully cooked.",
-            "potato_cooked",
-            potato.toString()
-        );
+        assertEquals("Ingredient should be changed to _cooked when fully cooked.", "potato_cooked", potato.toString());
         potato.setUseable(false);
-        assertEquals(
-            "Ingredient should be _ruined when not useable.",
-            "potato_ruined",
-            potato.toString()
-        );
+        assertEquals("Ingredient should be _ruined when not useable.", "potato_ruined", potato.toString());
         cheese.setChopped(true);
-        assertEquals(
-            "Ingredient should be _chopped when chopped.",
-            "cheese_chopped",
-            cheese.toString()
-        );
+        assertEquals("Ingredient should be _chopped when chopped.", "cheese_chopped", cheese.toString());
         assertEquals("Ingredient should be _raw when raw", "uncooked_pizza_raw", pizza.toString());
         pizza.setIsCooked(true);
-        assertEquals(
-            "Ingredient should be _raw when raw",
-            "uncooked_pizza_cooked",
-            pizza.toString()
-        );
+        assertEquals("Ingredient should be _raw when raw", "uncooked_pizza_cooked", pizza.toString());
     }
 
     /**
@@ -196,11 +156,7 @@ public class IngredientTests {
             "patty,tomato,lettuce,bun,cheese,potato,dough,uncooked_pizza",
             textureManager
         );
-        assertEquals(
-            "arrayFromString should properly split the given string properly.",
-            8,
-            ingredients.length
-        );
+        assertEquals("arrayFromString should properly split the given string properly.", 8, ingredients.length);
         lettuce.setChopped(false);
         assertEquals(
             "arrayFromString should get textures from the split string.",

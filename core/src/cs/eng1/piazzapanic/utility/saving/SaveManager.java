@@ -52,9 +52,7 @@ public class SaveManager {
 
         for (Actor actor : stage.getActors().items) {
             if (
-                actor instanceof Station &&
-                !(actor instanceof IngredientStation) &&
-                !(actor instanceof SubmitStation)
+                actor instanceof Station && !(actor instanceof IngredientStation) && !(actor instanceof SubmitStation)
             ) {
                 stations.add(new SavedStation((Station) actor));
             }

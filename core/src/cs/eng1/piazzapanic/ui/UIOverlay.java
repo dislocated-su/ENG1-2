@@ -77,16 +77,12 @@ public class UIOverlay {
 
         // Commonly reused green background
         Drawable greenPillBG = new TextureRegionDrawable(
-            new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"
-            )
+            new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png")
         );
 
         // Commonly reused grey background
         TextureRegionDrawable greyPillBG = new TextureRegionDrawable(
-            new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
-            )
+            new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png")
         );
 
         // X button
@@ -96,8 +92,7 @@ public class UIOverlay {
             );
 
         // Arrow down
-        pointer =
-            new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
+        pointer = new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
 
         // Initialize table
         root = new Table();
@@ -147,12 +142,7 @@ public class UIOverlay {
         root.row();
 
         // Floating elements on the bottom
-        floatingBottomTable
-            .add(upgradesButton())
-            .width(upgradeButtonScale)
-            .height(scale)
-            .expandX()
-            .left();
+        floatingBottomTable.add(upgradesButton()).width(upgradeButtonScale).height(scale).expandX().left();
         floatingBottomTable.add().expandX();
         floatingBottomTable.add(activePowerups).height(scale).left();
 
@@ -210,11 +200,7 @@ public class UIOverlay {
         reputationLabel = new Label("", timerStyle);
         updateReputationCounter(3);
         reputationLabel.setAlignment(Align.center);
-        moneyLabel =
-            new Label(
-                " Money: £" + String.format("%.0f", PlayerState.getInstance().getCash()),
-                timerStyle
-            );
+        moneyLabel = new Label(" Money: £" + String.format("%.0f", PlayerState.getInstance().getCash()), timerStyle);
         moneyLabel.setAlignment(Align.center);
 
         timer =
@@ -296,9 +282,7 @@ public class UIOverlay {
         recipeBook.add(recipeBookSteps).colspan(2).expand();
 
         TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(
-                Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")
-            )
+            new Texture(Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"))
         );
         recipeBook.setBackground(textureRegionDrawableBg.tint(Color.GRAY));
         recipeBookRoot.row();
@@ -352,9 +336,7 @@ public class UIOverlay {
             chefInventory.addActor(image);
         }
         if (!chef.getStack().isEmpty()) {
-            ImageButton btn = game
-                .getButtonManager()
-                .createImageButton(crossButtonDrawable, ButtonColour.RED, -1.5f);
+            ImageButton btn = game.getButtonManager().createImageButton(crossButtonDrawable, ButtonColour.RED, -1.5f);
             btn.addListener(
                 new ClickListener() {
                     @Override
@@ -373,9 +355,7 @@ public class UIOverlay {
     public void finishGameUI() {
         pause();
         hide();
-        game.setScreen(
-            new EndScreen(game, timer.getTimeString(), reputationLabel.getText().toString())
-        );
+        game.setScreen(new EndScreen(game, timer.getTimeString(), reputationLabel.getText().toString()));
     }
 
     /**
@@ -387,8 +367,7 @@ public class UIOverlay {
         upgradesUi = new UpgradesUi(game);
         upgradesUi.addToStage(uiStage);
 
-        upgrades =
-            game.getButtonManager().createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
+        upgrades = game.getButtonManager().createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
         upgrades.addListener(
             new ClickListener() {
                 @Override
@@ -418,11 +397,7 @@ public class UIOverlay {
             .getButtonManager()
             .createImageButton(
                 new TextureRegionDrawable(
-                    new Texture(
-                        Gdx.files.internal(
-                            "Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"
-                        )
-                    )
+                    new Texture(Gdx.files.internal("Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"))
                 ),
                 ButtonManager.ButtonColour.BLUE,
                 -1.5f
@@ -557,11 +532,7 @@ public class UIOverlay {
             recipeImage.getDrawable().setMinWidth(width);
             ImageButton recipeButton = game
                 .getButtonManager()
-                .createImageButton(
-                    recipeImage.getDrawable(),
-                    ButtonManager.ButtonColour.GREY,
-                    0.5f
-                );
+                .createImageButton(recipeImage.getDrawable(), ButtonManager.ButtonColour.GREY, 0.5f);
 
             recipeButton.addListener(
                 new ClickListener() {
@@ -607,9 +578,7 @@ public class UIOverlay {
      * Updates the Money UI label at the top of the screen.
      */
     private void updateCash() {
-        moneyLabel.setText(
-            " Money: £" + String.format("%.0f", PlayerState.getInstance().getCash())
-        );
+        moneyLabel.setText(" Money: £" + String.format("%.0f", PlayerState.getInstance().getCash()));
     }
 
     /**

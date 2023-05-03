@@ -31,21 +31,12 @@ public class PauseOverlay {
         root.pad(30f);
         // root.debug();
 
-        LabelStyle pauseScreenStyle = new LabelStyle(
-            game.getFontManager().getTitleFont(),
-            Color.BLACK
-        );
+        LabelStyle pauseScreenStyle = new LabelStyle(game.getFontManager().getTitleFont(), Color.BLACK);
         Label pauseScreenTitle = new Label("Pause Menu", pauseScreenStyle);
 
-        TextButton resumeButton = game
-            .getButtonManager()
-            .createTextButton("Resume", ButtonManager.ButtonColour.GREY);
-        TextButton saveButton = game
-            .getButtonManager()
-            .createTextButton("Save Game", ButtonManager.ButtonColour.GREY);
-        TextButton exitButton = game
-            .getButtonManager()
-            .createTextButton("Exit Game", ButtonManager.ButtonColour.GREY);
+        TextButton resumeButton = game.getButtonManager().createTextButton("Resume", ButtonManager.ButtonColour.GREY);
+        TextButton saveButton = game.getButtonManager().createTextButton("Save Game", ButtonManager.ButtonColour.GREY);
+        TextButton exitButton = game.getButtonManager().createTextButton("Exit Game", ButtonManager.ButtonColour.GREY);
 
         resumeButton.addListener(
             new ClickListener() {

@@ -96,12 +96,7 @@ public class SubmitStationTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
         SubmitStation station = customerManager.getRecipeStations().get(63);
         station.nearbyChef = chef;
         station.customer = customerManager.getCustomer(0);

@@ -51,9 +51,7 @@ public class HomeScreen implements Screen {
         );
 
         // Initialize buttons and callbacks
-        TextButton startButton = game
-            .getButtonManager()
-            .createTextButton("Start", ButtonManager.ButtonColour.BLUE);
+        TextButton startButton = game.getButtonManager().createTextButton("Start", ButtonManager.ButtonColour.BLUE);
         startButton.sizeBy(3f);
         startButton.addListener(
             new ClickListener() {
@@ -64,9 +62,7 @@ public class HomeScreen implements Screen {
             }
         );
 
-        TextButton loadGame = game
-            .getButtonManager()
-            .createTextButton("Load Game", ButtonColour.BLUE);
+        TextButton loadGame = game.getButtonManager().createTextButton("Load Game", ButtonColour.BLUE);
         loadGame.sizeBy(3f);
         loadGame.addListener(
             new ClickListener() {

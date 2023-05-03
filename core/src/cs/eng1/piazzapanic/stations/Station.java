@@ -77,18 +77,7 @@ public class Station extends Actor implements Observer<Chef> {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(
-            stationImage,
-            getX(),
-            getY(),
-            0.5f,
-            0.5f,
-            getWidth(),
-            getHeight(),
-            1f,
-            1f,
-            imageRotation
-        );
+        batch.draw(stationImage, getX(), getY(), 0.5f, 0.5f, getWidth(), getHeight(), 1f, 1f, imageRotation);
     }
 
     /**

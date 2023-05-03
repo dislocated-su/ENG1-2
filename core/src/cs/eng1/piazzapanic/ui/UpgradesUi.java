@@ -47,9 +47,7 @@ public class UpgradesUi {
         table = new Table();
 
         TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(
-                Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")
-            )
+            new Texture(Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"))
         );
 
         root.add(table).width(450).height(350).center();
@@ -97,8 +95,7 @@ public class UpgradesUi {
             createRow(powerUp);
         }
 
-        buyChef =
-            game.getButtonManager().createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
+        buyChef = game.getButtonManager().createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
         buyChef.addListener(
             new ClickListener() {
                 @Override
@@ -152,9 +149,7 @@ public class UpgradesUi {
 
         Label costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
-        TextButton button = game
-            .getButtonManager()
-            .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
+        TextButton button = game.getButtonManager().createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
 
         button.addListener(
             new ClickListener() {

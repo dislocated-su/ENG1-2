@@ -30,9 +30,7 @@ public class TutorialOverlay {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(bgPixmap)
-        );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
         // Initialize movement instructions label
@@ -57,9 +55,7 @@ public class TutorialOverlay {
         );
         recipeLabel.setWrap(true);
 
-        TextButton backButton = game
-            .getButtonManager()
-            .createTextButton("Done", ButtonManager.ButtonColour.GREY);
+        TextButton backButton = game.getButtonManager().createTextButton("Done", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
             new ClickListener() {
                 @Override

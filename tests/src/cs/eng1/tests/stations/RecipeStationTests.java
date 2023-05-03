@@ -111,10 +111,7 @@ public class RecipeStationTests {
         lettuce.setChopped(true);
         chef.grabItem(lettuce);
         station.doStationAction(ActionType.PLACE_INGREDIENT);
-        assertTrue(
-            "The chef puts lettuce on the station.",
-            station.ingredientStack.contains(lettuce.getType())
-        );
+        assertTrue("The chef puts lettuce on the station.", station.ingredientStack.contains(lettuce.getType()));
     }
 
     /**
@@ -153,14 +150,7 @@ public class RecipeStationTests {
      */
     @Test
     public void testDoMakeSaladAction() {
-        RecipeStation station = new RecipeStation(
-            1,
-            null,
-            mock(StationUIController.class),
-            null,
-            null,
-            null
-        );
+        RecipeStation station = new RecipeStation(1, null, mock(StationUIController.class), null, null, null);
         station.placeIngredient(new Lettuce(null));
         station.placeIngredient(new Tomato(null));
         station.doStationAction(ActionType.MAKE_SALAD);

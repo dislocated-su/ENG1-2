@@ -88,10 +88,7 @@ public class ChoppingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Choppable) {
-                return (
-                    !((Choppable) itemToCheck).getChopped() &&
-                    ((Ingredient) itemToCheck).getUseable()
-                );
+                return (!((Choppable) itemToCheck).getChopped() && ((Ingredient) itemToCheck).getUseable());
             }
         }
         return false;
@@ -118,9 +115,7 @@ public class ChoppingStation extends Station {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
-            if (
-                currentIngredient.getChopped() || !(((Ingredient) currentIngredient).getUseable())
-            ) {
+            if (currentIngredient.getChopped() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
             if (!inUse) {
@@ -150,11 +145,7 @@ public class ChoppingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
+                if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
                     if ((this.isCorrectIngredient(nearbyChef.getStack().peek()))) {
                         currentIngredient = (Choppable) nearbyChef.popFood();
                     }
@@ -162,11 +153,7 @@ public class ChoppingStation extends Station {
                 uiController.showActions(this, getActionTypes());
                 break;
             case GRAB_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.canGrabIngredient() &&
-                    currentIngredient != null
-                ) {
+                if (this.nearbyChef != null && nearbyChef.canGrabIngredient() && currentIngredient != null) {
                     nearbyChef.grabItem(currentIngredient.getChoppingResult());
                     currentIngredient = null;
                     inUse = false;

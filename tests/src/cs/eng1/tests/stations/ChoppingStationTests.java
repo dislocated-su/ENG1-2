@@ -92,9 +92,7 @@ public class ChoppingStationTests {
         station.doStationAction(ActionType.GRAB_INGREDIENT);
         assertTrue(
             "the chef collects a cooked ingredient and the station is empty",
-            lettuce.getChopped() &&
-            station.currentIngredient == null &&
-            chef.getStack().peek() == lettuce
+            lettuce.getChopped() && station.currentIngredient == null && chef.getStack().peek() == lettuce
         );
     }
 
@@ -107,11 +105,7 @@ public class ChoppingStationTests {
         station.nearbyChef = chef;
         chef.grabItem(lettuce);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
-        assertEquals(
-            "an ingredient can be placed on the station",
-            lettuce,
-            station.currentIngredient
-        );
+        assertEquals("an ingredient can be placed on the station", lettuce, station.currentIngredient);
     }
 
     /**
@@ -123,9 +117,6 @@ public class ChoppingStationTests {
         station.currentIngredient = lettuce;
         station.progressVisible = true;
         station.reset();
-        assertTrue(
-            "Tests the reset method",
-            station.currentIngredient == null && !station.progressVisible
-        );
+        assertTrue("Tests the reset method", station.currentIngredient == null && !station.progressVisible);
     }
 }

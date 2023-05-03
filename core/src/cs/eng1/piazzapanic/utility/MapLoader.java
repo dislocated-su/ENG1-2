@@ -113,18 +113,13 @@ public class MapLoader {
                         "Loading Waypoint",
                         String.format("AI objective at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
-                    aiObjectives.put(
-                        properties.get(aiObjectiveProperty, int.class),
-                        new Box2dLocation(waypoint, 0)
-                    );
+                    aiObjectives.put(properties.get(aiObjectiveProperty, int.class), new Box2dLocation(waypoint, 0));
                 } else if (properties.containsKey(lightSpawnProperty)) {
                     Gdx.app.log(
                         "Loading Waypoint",
                         String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
-                    lights.add(
-                        new Vector3(waypoint, properties.get(lightSpawnProperty, int.class))
-                    );
+                    lights.add(new Vector3(waypoint, properties.get(lightSpawnProperty, int.class)));
                 }
             }
         }
@@ -141,15 +136,11 @@ public class MapLoader {
     ) {
         MapLayer stationLayer = map.getLayers().get(stationLayerName);
 
-        Array<TiledMapTileMapObject> tileObjects = stationLayer
-            .getObjects()
-            .getByType(TiledMapTileMapObject.class);
+        Array<TiledMapTileMapObject> tileObjects = stationLayer.getObjects().getByType(TiledMapTileMapObject.class);
 
         MapLayer colliderLayer = map.getLayers().get(colliderLayerName);
 
-        Array<RectangleMapObject> colliderObjects = colliderLayer
-            .getObjects()
-            .getByType(RectangleMapObject.class);
+        Array<RectangleMapObject> colliderObjects = colliderLayer.getObjects().getByType(RectangleMapObject.class);
 
         HashMap<Integer, StationCollider> colliders = new HashMap<>();
 
@@ -189,13 +180,7 @@ public class MapLoader {
             switch (tileObject.getProperties().get("stationType", String.class)) {
                 case "cookingStation":
                     station =
-                        new CookingStation(
-                            id,
-                            tileObject.getTextureRegion(),
-                            stationUIController,
-                            alignment,
-                            locked
-                        );
+                        new CookingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
                     break;
                 case "ingredientStation":
                     station =
@@ -210,13 +195,7 @@ public class MapLoader {
                     break;
                 case "choppingStation":
                     station =
-                        new ChoppingStation(
-                            id,
-                            tileObject.getTextureRegion(),
-                            stationUIController,
-                            alignment,
-                            locked
-                        );
+                        new ChoppingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
                     break;
                 case "recipeStation":
                     station =
@@ -231,13 +210,7 @@ public class MapLoader {
                     break;
                 case "grillingStation":
                     station =
-                        new GrillingStation(
-                            id,
-                            tileObject.getTextureRegion(),
-                            stationUIController,
-                            alignment,
-                            locked
-                        );
+                        new GrillingStation(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
                     break;
                 case "submitStation":
                     station =
@@ -252,14 +225,7 @@ public class MapLoader {
                     customerManager.addStation((SubmitStation) station);
                     break;
                 default:
-                    station =
-                        new Station(
-                            id,
-                            tileObject.getTextureRegion(),
-                            stationUIController,
-                            alignment,
-                            locked
-                        );
+                    station = new Station(id, tileObject.getTextureRegion(), stationUIController, alignment, locked);
             }
             float tileX = tileObject.getX() * unitScale;
             float tileY = tileObject.getY() * unitScale;

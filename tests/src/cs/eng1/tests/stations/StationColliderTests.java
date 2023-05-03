@@ -40,11 +40,7 @@ public class StationColliderTests {
         stationCollider.register(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
-            "tests that notfiyObservers tells the observers(stations) about a chef",
-            chef,
-            station.nearbyChef
-        );
+        assertEquals("tests that notfiyObservers tells the observers(stations) about a chef", chef, station.nearbyChef);
         assertEquals(
             "tests getLastNotification returns the last thing that was notified",
             chef,

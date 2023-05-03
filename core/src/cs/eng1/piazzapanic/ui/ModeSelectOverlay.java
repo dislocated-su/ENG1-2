@@ -35,9 +35,7 @@ public class ModeSelectOverlay {
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
 
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
-            new Texture(bgPixmap)
-        );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(new Texture(bgPixmap));
         table.setBackground(textureRegionDrawableBg);
 
         final TextField scenarioNumber = game.getButtonManager().createTextField("");
@@ -47,9 +45,7 @@ public class ModeSelectOverlay {
             .createSelectBox(new String[] { "Easy", "Medium", "Hard" });
         difficultySelection.setSelected("Medium");
 
-        TextButton backButton = game
-            .getButtonManager()
-            .createTextButton("Back", ButtonManager.ButtonColour.GREY);
+        TextButton backButton = game.getButtonManager().createTextButton("Back", ButtonManager.ButtonColour.GREY);
         backButton.addListener(
             new ClickListener() {
                 @Override
@@ -69,18 +65,13 @@ public class ModeSelectOverlay {
                     String text = scenarioNumber.getText();
 
                     if (text.matches("[1-9]{1,}")) {
-                        game.loadGameScreen(
-                            Integer.parseInt(text),
-                            difficultySelection.getSelectedIndex()
-                        );
+                        game.loadGameScreen(Integer.parseInt(text), difficultySelection.getSelectedIndex());
                     }
                 }
             }
         );
 
-        final TextButton endlessCheckbox = game
-            .getButtonManager()
-            .createTextButton("Endless Mode", ButtonColour.BLUE);
+        final TextButton endlessCheckbox = game.getButtonManager().createTextButton("Endless Mode", ButtonColour.BLUE);
         endlessCheckbox.addListener(
             new ClickListener() {
                 @Override

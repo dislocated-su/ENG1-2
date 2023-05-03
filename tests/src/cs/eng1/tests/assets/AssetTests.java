@@ -72,10 +72,7 @@ public class AssetTests {
      */
     @Test
     public void tomatoAssetTest() {
-        assertTrue(
-            "Passes if food/buff_chef/tomato.png",
-            Gdx.files.internal("food/buff_chef/tomato.png").exists()
-        );
+        assertTrue("Passes if food/buff_chef/tomato.png", Gdx.files.internal("food/buff_chef/tomato.png").exists());
     }
 
     /**
@@ -160,10 +157,7 @@ public class AssetTests {
      */
     @Test
     public void bunAssetTest() {
-        assertTrue(
-            "Passes if food/buff_chef/buns.png exists",
-            Gdx.files.internal("food/buff_chef/buns.png").exists()
-        );
+        assertTrue("Passes if food/buff_chef/buns.png exists", Gdx.files.internal("food/buff_chef/buns.png").exists());
     }
 
     /**
@@ -212,10 +206,7 @@ public class AssetTests {
      * Asserts the existence of a burnt image.
      */
     public void burntTest() {
-        assertTrue(
-            "Passes if food/original/burnt.png exists",
-            Gdx.files.internal("food/original/burnt.png").exists()
-        );
+        assertTrue("Passes if food/original/burnt.png exists", Gdx.files.internal("food/original/burnt.png").exists());
     }
 
     /**

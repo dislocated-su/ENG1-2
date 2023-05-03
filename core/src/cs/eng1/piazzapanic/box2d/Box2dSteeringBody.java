@@ -46,8 +46,9 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
 
     protected SteeringBehavior<Vector2> steeringBehavior;
 
-    private static final SteeringAcceleration<Vector2> steeringOutput =
-        new SteeringAcceleration<Vector2>(new Vector2());
+    private static final SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<Vector2>(
+        new Vector2()
+    );
 
     public Box2dSteeringBody(Body body, boolean independentFacing, float boundingRadius) {
         this.body = body;
@@ -173,9 +174,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
             float currentSpeedSquare = velocity.len2();
             float maxLinearSpeed = getMaxLinearSpeed();
             if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
-                body.setLinearVelocity(
-                    velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
-                );
+                body.setLinearVelocity(velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)));
             }
 
             // Cap the angular speed

@@ -52,29 +52,14 @@ public class PlayerStateTests {
 
         state.earnCash(100, true);
 
-        assertEquals(
-            "Cash should be 230 after earning with happiness multiplier.",
-            230,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 230 after earning with happiness multiplier.", 230, state.getCash(), 0);
 
         state.activateBuff(PowerUp.MORE_MONEY);
         state.earnCash(100, false);
-        assertEquals(
-            "Cash should be 430 after earning with money power up.",
-            430,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 430 after earning with money power up.", 430, state.getCash(), 0);
 
         state.earnCash(100, true);
-        assertEquals(
-            "Cash should be 690 after earning with money power up.",
-            690,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 690 after earning with money power up.", 690, state.getCash(), 0);
 
         state.spendCash(0);
         assertEquals("Cash should be 690 after spending 0 cash.", 690, state.getCash(), 0);
@@ -147,29 +132,20 @@ public class PlayerStateTests {
         state.activateBuff(PowerUp.NO_REP_LOSS);
 
         for (Timer powerUp : state.getPowerUpTimers().values()) {
-            assertTrue(
-                "All PowerUps should be active after being activated.",
-                powerUp.getRunning()
-            );
+            assertTrue("All PowerUps should be active after being activated.", powerUp.getRunning());
         }
 
         for (int i = 0; i < 60; i++) {
             state.act(1f);
             for (Timer powerUp : state.getPowerUpTimers().values()) {
-                assertTrue(
-                    "All PowerUp timers should be running after they are activated.",
-                    powerUp.getRunning()
-                );
+                assertTrue("All PowerUp timers should be running after they are activated.", powerUp.getRunning());
             }
         }
 
         state.act(1f);
 
         for (Timer powerUp : state.getPowerUpTimers().values()) {
-            assertFalse(
-                "All PowerUps should not be running after their duration elaspes.",
-                powerUp.getRunning()
-            );
+            assertFalse("All PowerUps should not be running after their duration elaspes.", powerUp.getRunning());
         }
     }
 }

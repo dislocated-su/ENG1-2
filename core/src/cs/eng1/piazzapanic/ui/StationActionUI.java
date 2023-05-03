@@ -46,9 +46,7 @@ public class StationActionUI extends Table {
         ProgressBarStyle progressBarStyle = new ProgressBarStyle(
             new TextureRegionDrawable(
                 new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png"
-                    )
+                    Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png")
                 )
             ),
             null
@@ -56,9 +54,7 @@ public class StationActionUI extends Table {
         progressBarStyle.knobBefore =
             new TextureRegionDrawable(
                 new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png"
-                    )
+                    Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png")
                 )
             );
         progress = new ProgressBar(0, 100, 0.1f, false, progressBarStyle);

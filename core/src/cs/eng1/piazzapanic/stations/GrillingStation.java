@@ -61,11 +61,7 @@ public class GrillingStation extends Station {
         if (inUse) {
             currentIngredient.grillTick(delta);
 
-            if (
-                currentIngredient != null &&
-                !((Ingredient) currentIngredient).getUseable() &&
-                !checkUpdateUI
-            ) {
+            if (currentIngredient != null && !((Ingredient) currentIngredient).getUseable() && !checkUpdateUI) {
                 uiController.showActions(this, getActionTypes());
                 checkUpdateUI = true;
             }
@@ -94,10 +90,7 @@ public class GrillingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Grillable) {
-                return (
-                    !((Grillable) itemToCheck).getGrilled() &&
-                    ((Ingredient) itemToCheck).getUseable()
-                );
+                return (!((Grillable) itemToCheck).getGrilled() && ((Ingredient) itemToCheck).getUseable());
             }
         }
         return false;
@@ -134,9 +127,7 @@ public class GrillingStation extends Station {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (
-                currentIngredient.getGrilled() || !(((Ingredient) currentIngredient).getUseable())
-            ) {
+            if (currentIngredient.getGrilled() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -166,11 +157,7 @@ public class GrillingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
+                if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
                     if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
                         currentIngredient = (Grillable) nearbyChef.popFood();
                     }

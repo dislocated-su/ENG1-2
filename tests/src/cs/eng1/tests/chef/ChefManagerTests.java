@@ -53,11 +53,7 @@ public class ChefManagerTests {
     public void startTests() {
         assertEquals("The game should start with 3 chefs.", 3, chefManager.getChefs().size());
         for (Chef chef : chefManager.getChefs()) {
-            assertNotEquals(
-                "The chef textures should not be badlogic.",
-                "badlogic.jpg",
-                chef.getTexture().toString()
-            );
+            assertNotEquals("The chef textures should not be badlogic.", "badlogic.jpg", chef.getTexture().toString());
             assertFalse("Chefs should not take inputs by default.", chef.isInputEnabled());
         }
     }
@@ -80,9 +76,7 @@ public class ChefManagerTests {
         chefManager.init(mapLoader.cookSpawnpoints);
         int i = 0;
         for (Chef chef : chefManager.getChefs()) {
-            assertTrue(
-                mapLoader.cookSpawnpoints.get(i).epsilonEquals(chef.getBody().getPosition(), 1f)
-            );
+            assertTrue(mapLoader.cookSpawnpoints.get(i).epsilonEquals(chef.getBody().getPosition(), 1f));
             i++;
         }
     }
@@ -106,10 +100,7 @@ public class ChefManagerTests {
         for (int i = 3; i < 5; i++) {
             chefManager.hireChef(spawnPoints.get(i - 3), stage);
             assertEquals(
-                new Vector2(
-                    Math.round(spawnPoints.get(i - 3).x),
-                    Math.round(spawnPoints.get(i - 3).y)
-                ),
+                new Vector2(Math.round(spawnPoints.get(i - 3).x), Math.round(spawnPoints.get(i - 3).y)),
                 new Vector2(
                     Math.round(chefManager.getChefs().get(i).getX()),
                     Math.round(chefManager.getChefs().get(i).getY())

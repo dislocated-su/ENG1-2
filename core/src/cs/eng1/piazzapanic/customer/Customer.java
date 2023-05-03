@@ -45,13 +45,7 @@ public class Customer extends Actor implements Disposable {
     private boolean orderCompleted = false;
     private Box2dLocation endObjective;
 
-    public Customer(
-        Texture texture,
-        Vector2 bounds,
-        Vector2 position,
-        Recipe order,
-        CustomerManager customerManager
-    ) {
+    public Customer(Texture texture, Vector2 bounds, Vector2 position, Recipe order, CustomerManager customerManager) {
         repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;

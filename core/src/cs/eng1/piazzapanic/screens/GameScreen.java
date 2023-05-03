@@ -80,11 +80,7 @@ public class GameScreen implements Screen {
 
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
-        ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x / 3,
-            mapLoader.mapSize.y / 3,
-            camera
-        );
+        ExtendViewport viewport = new ExtendViewport(mapLoader.mapSize.x / 3, mapLoader.mapSize.y / 3, camera);
 
         this.stage = new Stage(viewport);
 
@@ -100,16 +96,12 @@ public class GameScreen implements Screen {
 
         foodTextureManager = new FoodTextureManager();
 
-        Gdx.app.log(
-            "Chef hire cost",
-            String.valueOf(PlayerState.getInstance().getChefHireCost(false))
-        );
+        Gdx.app.log("Chef hire cost", String.valueOf(PlayerState.getInstance().getChefHireCost(false)));
         PlayerState.getInstance().setDifficulty(difficulty);
 
         chefManager = new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world, kbInput);
 
-        customerManager =
-            new CustomerManager(mapLoader.unitScale * 2.5f, uiOverlay, world, totalCustomers);
+        customerManager = new CustomerManager(mapLoader.unitScale * 2.5f, uiOverlay, world, totalCustomers);
 
         mapLoader.createStations(
             "Stations",
@@ -123,12 +115,7 @@ public class GameScreen implements Screen {
 
         mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
 
-        customerManager.init(
-            foodTextureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(foodTextureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
 
@@ -146,11 +133,7 @@ public class GameScreen implements Screen {
 
         // Initialize stage and camera
         OrthographicCamera camera = new OrthographicCamera();
-        ExtendViewport viewport = new ExtendViewport(
-            mapLoader.mapSize.x / 3,
-            mapLoader.mapSize.y / 3,
-            camera
-        );
+        ExtendViewport viewport = new ExtendViewport(mapLoader.mapSize.x / 3, mapLoader.mapSize.y / 3, camera);
 
         this.stage = new Stage(viewport);
 
@@ -180,13 +163,7 @@ public class GameScreen implements Screen {
             );
 
         customerManager =
-            new CustomerManager(
-                save.customerManager,
-                mapLoader.unitScale * 2.5f,
-                uiOverlay,
-                world,
-                foodTextureManager
-            );
+            new CustomerManager(save.customerManager, mapLoader.unitScale * 2.5f, uiOverlay, world, foodTextureManager);
 
         mapLoader.createStations(
             "Stations",
@@ -211,9 +188,7 @@ public class GameScreen implements Screen {
         HashMap<Integer, Station> stationMap = new HashMap<>();
         for (Actor actor : stage.getActors().items) {
             if (
-                actor instanceof Station &&
-                !(actor instanceof IngredientStation) &&
-                !(actor instanceof SubmitStation)
+                actor instanceof Station && !(actor instanceof IngredientStation) && !(actor instanceof SubmitStation)
             ) {
                 Station currentStation = (Station) actor;
                 stationMap.put(currentStation.getId(), currentStation);
@@ -224,13 +199,10 @@ public class GameScreen implements Screen {
             Station tempStation = stationMap.get(savedStation.id);
             if (tempStation instanceof RecipeStation) {
                 RecipeStation recipeStation = (RecipeStation) tempStation;
-                recipeStation.ingredientStack =
-                    savedStation.ingredientStack.get(foodTextureManager);
+                recipeStation.ingredientStack = savedStation.ingredientStack.get(foodTextureManager);
 
                 for (SavedFood savedFood : savedStation.items) {
-                    recipeStation.displayIngredient.add(
-                        (Ingredient) savedFood.get(foodTextureManager)
-                    );
+                    recipeStation.displayIngredient.add((Ingredient) savedFood.get(foodTextureManager));
                 }
             } else if (tempStation instanceof ChoppingStation) {
                 ChoppingStation chopTemp = (ChoppingStation) tempStation;
@@ -303,11 +275,7 @@ public class GameScreen implements Screen {
         if (chefManager.getCurrentChef() != null) {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
             camera.position.lerp(
-                new Vector3(
-                    chefManager.getCurrentChef().getX(),
-                    chefManager.getCurrentChef().getY(),
-                    1
-                ),
+                new Vector3(chefManager.getCurrentChef().getX(), chefManager.getCurrentChef().getY(), 1),
                 0.1f
             );
             camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
