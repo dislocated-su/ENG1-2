@@ -108,7 +108,7 @@ public class UIOverlay {
         root.setFillParent(true);
         root.center().top().pad(15f);
         uiStage.addActor(root);
-        root.debug();
+        // root.debug();
 
         floatingBottomTable = new Table();
         floatingBottomTable.setFillParent(true);

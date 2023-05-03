@@ -373,7 +373,7 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        box2dDebugRenderer.render(world, stage.getCamera().combined);
+        // box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {

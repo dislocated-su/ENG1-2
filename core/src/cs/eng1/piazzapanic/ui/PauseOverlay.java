@@ -29,7 +29,7 @@ public class PauseOverlay {
         root.setFillParent(true);
         root.setVisible(false);
         root.pad(30f);
-        root.debug();
+        // root.debug();
 
         LabelStyle pauseScreenStyle = new LabelStyle(
             game.getFontManager().getTitleFont(),
