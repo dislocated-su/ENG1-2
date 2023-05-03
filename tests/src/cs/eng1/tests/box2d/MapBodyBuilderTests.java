@@ -38,16 +38,9 @@ public class MapBodyBuilderTests {
     @Test
     public void buildShapesTest() {
         for (int i = 0; i < bodies.size; i++) {
-            assertTrue(
-                "Each object in buildShapes should be a body.",
-                bodies.get(i) instanceof Body
-            );
+            assertTrue("Each object in buildShapes should be a body.", bodies.get(i) instanceof Body);
         }
-        assertEquals(
-            "buildShapes should properly parse the objects in an object layer.",
-            11,
-            bodies.size
-        );
+        assertEquals("buildShapes should properly parse the objects in an object layer.", 11, bodies.size);
     }
 
     /**

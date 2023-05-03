@@ -99,12 +99,7 @@ public class box2dSteeringBodyTests {
         assertEquals(0.7, vector.y, 0.1);
         for (float i = 1 / 6000; i < 1; i += 1 / 6000f) {
             steeringBody.angleToVector(vector, -pi * i);
-            assertEquals(
-                "angleToVector should always return a vector with a length of 1",
-                1,
-                vector.len(),
-                0.000001
-            );
+            assertEquals("angleToVector should always return a vector with a length of 1", 1, vector.len(), 0.000001);
         }
     }
 
@@ -113,9 +108,6 @@ public class box2dSteeringBodyTests {
      */
     @Test
     public void steeringBehaviorTests() {
-        assertNull(
-            "SteeringBehaviour should be null by default.",
-            steeringBody.getSteeringBehavior()
-        );
+        assertNull("SteeringBehaviour should be null by default.", steeringBody.getSteeringBehavior());
     }
 }

@@ -36,18 +36,9 @@ public class GrillingStationTests {
      */
     @Test
     public void testGetActionTypesNothing() {
-        GrillingStation station = new GrillingStation(
-            1,
-            null,
-            null,
-            null,
-            null
-        );
+        GrillingStation station = new GrillingStation(1, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+        assertTrue("nothing is added to action types if no chef is nearby", actionTypes.isEmpty());
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
@@ -67,13 +58,7 @@ public class GrillingStationTests {
      */
     @Test
     public void testGetActionPlaceIngredient() {
-        GrillingStation station = new GrillingStation(
-            1,
-            null,
-            null,
-            null,
-            null
-        );
+        GrillingStation station = new GrillingStation(1, null, null, null, null);
         chef.grabItem(patty);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -88,13 +73,7 @@ public class GrillingStationTests {
      */
     @Test
     public void testCooking() {
-        GrillingStation station = new GrillingStation(
-            1,
-            null,
-            uiController,
-            null,
-            null
-        );
+        GrillingStation station = new GrillingStation(1, null, uiController, null, null);
         station.nearbyChef = chef;
         station.currentIngredient = patty;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
@@ -120,9 +99,7 @@ public class GrillingStationTests {
         station.doStationAction(ActionType.GRAB_INGREDIENT);
         assertTrue(
             "the chef collects a cooked ingredient and the station is empty",
-            patty.getGrilled() &&
-            station.currentIngredient == null &&
-            chef.getStack().peek() == patty
+            patty.getGrilled() && station.currentIngredient == null && chef.getStack().peek() == patty
         );
     }
 
@@ -131,21 +108,11 @@ public class GrillingStationTests {
      */
     @Test
     public void testPlaceIngredient() {
-        GrillingStation station = new GrillingStation(
-            1,
-            null,
-            uiController,
-            null,
-            null
-        );
+        GrillingStation station = new GrillingStation(1, null, uiController, null, null);
         station.nearbyChef = chef;
         chef.grabItem(patty);
         station.doStationAction(StationAction.ActionType.PLACE_INGREDIENT);
-        assertEquals(
-            "an ingredient can be placed on the station",
-            patty,
-            station.currentIngredient
-        );
+        assertEquals("an ingredient can be placed on the station", patty, station.currentIngredient);
     }
 
     /**
@@ -153,19 +120,10 @@ public class GrillingStationTests {
      */
     @Test
     public void testReset() {
-        GrillingStation station = new GrillingStation(
-            1,
-            null,
-            uiController,
-            null,
-            null
-        );
+        GrillingStation station = new GrillingStation(1, null, uiController, null, null);
         station.currentIngredient = patty;
         station.progressVisible = true;
         station.reset();
-        assertTrue(
-            "Tests the reset method",
-            station.currentIngredient == null && !station.progressVisible
-        );
+        assertTrue("Tests the reset method", station.currentIngredient == null && !station.progressVisible);
     }
 }

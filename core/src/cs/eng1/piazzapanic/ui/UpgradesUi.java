@@ -46,14 +46,9 @@ public class UpgradesUi {
         root.setFillParent(true);
         table = new Table();
 
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(
-                new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"
-                    )
-                )
-            );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+            new Texture(Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"))
+        );
 
         root.add(table).width(450).height(350).center();
 
@@ -100,24 +95,16 @@ public class UpgradesUi {
             createRow(powerUp);
         }
 
-        buyChef =
-            game
-                .getButtonManager()
-                .createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
+        buyChef = game.getButtonManager().createTextButton("Extra chef", ButtonManager.ButtonColour.RED);
         buyChef.addListener(
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     PlayerState playerState = PlayerState.getInstance();
-                    if (
-                        playerState.getCash() >=
-                        playerState.getChefHireCost(false)
-                    ) {
+                    if (playerState.getCash() >= playerState.getChefHireCost(false)) {
                         int purchasedChefs = playerState.getPurchasedChefs();
                         if (purchasedChefs <= 1) {
-                            playerState.spendCash(
-                                playerState.getChefHireCost(true)
-                            );
+                            playerState.spendCash(playerState.getChefHireCost(true));
 
                             chefHireFlag = true;
                             playerState.setPurchasedChefs(purchasedChefs + 1);
@@ -143,9 +130,7 @@ public class UpgradesUi {
             buyChef.setVisible(false);
             chefHireCostLabel.setVisible(false);
         }
-        chefHireCostLabel.setText(
-            "£" + PlayerState.getInstance().getChefHireCost(false)
-        );
+        chefHireCostLabel.setText("£" + PlayerState.getInstance().getChefHireCost(false));
     }
 
     /**
@@ -157,27 +142,20 @@ public class UpgradesUi {
         PlayerState playerState = PlayerState.getInstance();
         String powerUpName = playerState.getPowerupName(powerUp);
         int cost = playerState.getPowerupCost(powerUp);
-        String time = String.valueOf(
-            playerState.getBuffDuration(powerUp) / 1000
-        );
+        String time = String.valueOf(playerState.getBuffDuration(powerUp) / 1000);
 
         // sets it font, format and value
         Label timerLabel = new Label(String.format(time + " s"), hudLabelFont);
 
         Label costLabel = new Label(String.format("£" + cost), hudLabelFont);
 
-        TextButton button = game
-            .getButtonManager()
-            .createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
+        TextButton button = game.getButtonManager().createTextButton(powerUpName, ButtonManager.ButtonColour.BLUE);
 
         button.addListener(
             new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
                     PlayerState playerState = PlayerState.getInstance();
-                    if (
-                        cost <= playerState.getCash() &&
-                        !playerState.getBuffActive(powerUp)
-                    ) {
+                    if (cost <= playerState.getCash() && !playerState.getBuffActive(powerUp)) {
                         playerState.spendCash(cost);
                         playerState.activateBuff(powerUp);
                     }

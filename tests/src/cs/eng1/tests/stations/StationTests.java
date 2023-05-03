@@ -37,11 +37,7 @@ public class StationTests {
         Station station = new Station(0, null, uiController, null, null);
         chefSubject.register(station);
         station.update(chef);
-        assertEquals(
-            "tests that update changes nearbyChef when there's a chef",
-            chef,
-            station.nearbyChef
-        );
+        assertEquals("tests that update changes nearbyChef when there's a chef", chef, station.nearbyChef);
         station.nearbyChef = chef;
         chefSubject.notifyObservers(chef2);
         station.update(null);
@@ -52,10 +48,7 @@ public class StationTests {
         );
         chefSubject.deregister(station);
         station.update(null);
-        assertNull(
-            "tests that nearbyChef is set to null if there is no chef",
-            station.nearbyChef
-        );
+        assertNull("tests that nearbyChef is set to null if there is no chef", station.nearbyChef);
     }
 
     /**
@@ -100,10 +93,7 @@ public class StationTests {
     public void testDoStationActionNothing() {
         Station station = new Station(0, null, uiController, null, null);
         station.doStationAction(null);
-        assertNull(
-            "tests that doStationAction does nothing if the action is null",
-            station.nearbyChef
-        );
+        assertNull("tests that doStationAction does nothing if the action is null", station.nearbyChef);
     }
 
     /**
@@ -112,10 +102,6 @@ public class StationTests {
     @Test
     public void testGetId() {
         Station station = new Station(0, null, uiController, null, null);
-        assertEquals(
-            "tests that getId returns the correct id",
-            0,
-            station.getId()
-        );
+        assertEquals("tests that getId returns the correct id", 0, station.getId());
     }
 }

@@ -28,22 +28,13 @@ public class BasicGrillableTests {
      */
     @Test
     public void grillTickTests() {
-        assertFalse(
-            "The BasicGrillable should not be ready to flip immediately",
-            patty.grillTick(1)
-        );
-        assertTrue(
-            "The BasicGrillable should be flippable after cooking for its grillStepTime",
-            patty.grillTick(1)
-        );
+        assertFalse("The BasicGrillable should not be ready to flip immediately", patty.grillTick(1));
+        assertTrue("The BasicGrillable should be flippable after cooking for its grillStepTime", patty.grillTick(1));
         assertTrue(
             "The BasicGrillable should remain flippable even after cooking for more than its grillStepTime",
             patty.grillTick(1)
         );
-        assertTrue(
-            "The BasicGrillable should not be ruined after grilling for its grillStepTime",
-            patty.getUseable()
-        );
+        assertTrue("The BasicGrillable should not be ruined after grilling for its grillStepTime", patty.getUseable());
         patty.flip();
         assertFalse(patty.grillTick(1));
         assertTrue(patty.grillTick(1));
@@ -195,15 +186,9 @@ public class BasicGrillableTests {
     @Test
     public void getTextureTests() {
         final Texture rawPatty = foodTextureManager.getTexture("patty_raw");
-        final Texture cookedPatty = foodTextureManager.getTexture(
-            "patty_grilled"
-        );
+        final Texture cookedPatty = foodTextureManager.getTexture("patty_grilled");
         final Texture ruinedPatty = foodTextureManager.getTexture("burnt");
-        assertEquals(
-            "The BasicGrillable texture should be += _raw, as it is ungrilled",
-            rawPatty,
-            patty.getTexture()
-        );
+        assertEquals("The BasicGrillable texture should be += _raw, as it is ungrilled", rawPatty, patty.getTexture());
         patty.grillTick(2);
         assertEquals(
             "The BasicGrillable texture should be += _raw, as it is not fully grilled",
@@ -306,12 +291,7 @@ public class BasicGrillableTests {
     public void flipTests() {
         patty.grillTick(2);
         patty.flip();
-        assertEquals(
-            "After flipping, grill progress should be 0.",
-            0,
-            patty.getGrillProgress(),
-            0.1
-        );
+        assertEquals("After flipping, grill progress should be 0.", 0, patty.getGrillProgress(), 0.1);
         assertFalse(
             "After flip is called on a BasicGrilable, it should take the same amount of time to be cooked as it did to become flippable.",
             patty.grillTick(1)

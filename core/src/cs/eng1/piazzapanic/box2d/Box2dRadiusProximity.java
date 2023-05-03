@@ -28,11 +28,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * @author davebaol */
 public class Box2dRadiusProximity extends Box2dSquareAABBProximity {
 
-    public Box2dRadiusProximity(
-        Steerable<Vector2> owner,
-        World world,
-        float detectionRadius
-    ) {
+    public Box2dRadiusProximity(Steerable<Vector2> owner, World world, float detectionRadius) {
         super(owner, world, detectionRadius);
     }
 
@@ -49,9 +45,7 @@ public class Box2dRadiusProximity extends Box2dSquareAABBProximity {
 
         // Make sure the current body is within the range.
         // Notice we're working in distance-squared space to avoid square root.
-        float distanceSquare = steerable
-            .getPosition()
-            .dst2(owner.getPosition());
+        float distanceSquare = steerable.getPosition().dst2(owner.getPosition());
 
         return distanceSquare <= range * range;
     }

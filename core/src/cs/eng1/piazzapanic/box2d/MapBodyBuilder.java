@@ -43,11 +43,7 @@ public class MapBodyBuilder {
      * @param world Box2D {@link World} to create objects in.
      * @return Array of built shapes for further processing.
      */
-    public static Array<Body> buildShapes(
-        MapLayer layer,
-        float pixels,
-        World world
-    ) {
+    public static Array<Body> buildShapes(MapLayer layer, float pixels, World world) {
         ppt = pixels;
         MapObjects shadowedObjects = layer.getObjects();
 
@@ -93,21 +89,14 @@ public class MapBodyBuilder {
         return shape;
     }
 
-    private static PolygonShape getRectangle(
-        RectangleMapObject rectangleObject
-    ) {
+    private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {
         Rectangle rectangle = rectangleObject.getRectangle();
         PolygonShape polygon = new PolygonShape();
         Vector2 size = new Vector2(
             (rectangle.x + rectangle.width * 0.5f) / ppt,
             (rectangle.y + rectangle.height * 0.5f) / ppt
         );
-        polygon.setAsBox(
-            rectangle.width * 0.5f / ppt,
-            rectangle.height * 0.5f / ppt,
-            size,
-            0.0f
-        );
+        polygon.setAsBox(rectangle.width * 0.5f / ppt, rectangle.height * 0.5f / ppt, size, 0.0f);
         return polygon;
     }
 
@@ -127,9 +116,7 @@ public class MapBodyBuilder {
     }
 
     private static ChainShape getPolyline(PolylineMapObject polylineObject) {
-        float[] vertices = polylineObject
-            .getPolyline()
-            .getTransformedVertices();
+        float[] vertices = polylineObject.getPolyline().getTransformedVertices();
         Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < vertices.length / 2; ++i) {

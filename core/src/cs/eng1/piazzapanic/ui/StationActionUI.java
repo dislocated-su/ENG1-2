@@ -46,9 +46,7 @@ public class StationActionUI extends Table {
         ProgressBarStyle progressBarStyle = new ProgressBarStyle(
             new TextureRegionDrawable(
                 new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png"
-                    )
+                    Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_outline_up.png")
                 )
             ),
             null
@@ -56,9 +54,7 @@ public class StationActionUI extends Table {
         progressBarStyle.knobBefore =
             new TextureRegionDrawable(
                 new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png"
-                    )
+                    Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_button_gradient_up.png")
                 )
             );
         progress = new ProgressBar(0, 100, 0.1f, false, progressBarStyle);
@@ -93,15 +89,10 @@ public class StationActionUI extends Table {
     public void showActions(List<StationAction.ActionType> actions) {
         hideActions();
         for (final StationAction.ActionType action : actions) {
-            String actionDescription = StationAction.getActionDescription(
-                action
-            );
+            String actionDescription = StationAction.getActionDescription(action);
             TextButton actionButton = game
                 .getButtonManager()
-                .createTextButton(
-                    actionDescription,
-                    ButtonManager.ButtonColour.BLUE
-                );
+                .createTextButton(actionDescription, ButtonManager.ButtonColour.BLUE);
             actionButton.addListener(
                 new ClickListener() {
                     @Override
@@ -185,10 +176,7 @@ public class StationActionUI extends Table {
                 worldPosition.y = station.getY();
                 break;
         }
-        Vector3 screenPosition = station
-            .getStage()
-            .getCamera()
-            .project(worldPosition);
+        Vector3 screenPosition = station.getStage().getCamera().project(worldPosition);
         setPosition(screenPosition.x, screenPosition.y);
     }
 }

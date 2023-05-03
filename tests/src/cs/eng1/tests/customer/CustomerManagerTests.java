@@ -37,17 +37,8 @@ public class CustomerManagerTests {
     World world = new World(Vector2.Zero, true);
     KeyboardInput kbInput = new KeyboardInput();
     FoodTextureManager textureManager = new FoodTextureManager();
-    StationUIController stationUIController = new StationUIController(
-        stage,
-        null
-    );
-    CustomerManager customerManager = new CustomerManager(
-        1,
-        overlay,
-        world,
-        5,
-        0
-    );
+    StationUIController stationUIController = new StationUIController(stage, null);
+    CustomerManager customerManager = new CustomerManager(1, overlay, world, 5, 0);
 
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
 
@@ -65,13 +56,7 @@ public class CustomerManagerTests {
      */
     @Test
     public void initTests() {
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -83,31 +68,12 @@ public class CustomerManagerTests {
         );
         int defaultTime = customerManager.getSpawnTimer().getRemainingTime();
         PlayerState.getInstance().setDifficulty(0);
-        assertNull(
-            "customerManager should have no objectives by default.",
-            customerManager.getObjectives()
-        );
-        assertNull(
-            "customerManager should have no spawns by default.",
-            customerManager.getSpawnLocations()
-        );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        assertNull("customerManager should have no objectives by default.", customerManager.getObjectives());
+        assertNull("customerManager should have no spawns by default.", customerManager.getSpawnLocations());
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
         int objectives = customerManager.getObjectives().size();
-        assertEquals(
-            "Init should create 1 customer.",
-            1,
-            customerManager.getCustomerQueue().size()
-        );
-        assertEquals(
-            "Init should identify the correct number of objectives.",
-            10,
-            objectives
-        );
+        assertEquals("Init should create 1 customer.", 1, customerManager.getCustomerQueue().size());
+        assertEquals("Init should identify the correct number of objectives.", 10, objectives);
         assertEquals(
             "Init should identify objectives correctly.",
             new Vector2(21, 11),
@@ -148,11 +114,7 @@ public class CustomerManagerTests {
             new Vector2(7, 10),
             customerManager.getObjective(-1).getPosition()
         );
-        assertEquals(
-            "Init should have the correct number of spawns.",
-            2,
-            customerManager.getSpawnLocations().size()
-        );
+        assertEquals("Init should have the correct number of spawns.", 2, customerManager.getSpawnLocations().size());
         assertEquals(
             "Init should identify spawns correctly.",
             new Vector2(13, 7),
@@ -170,23 +132,14 @@ public class CustomerManagerTests {
         );
 
         PlayerState.getInstance().setDifficulty(2);
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
 
         assertEquals(
             "Calling init multiple times should reset / not duplicate objectives.",
             objectives,
             customerManager.getObjectives().size()
         );
-        assertEquals(
-            "Init should reset customers.",
-            1,
-            customerManager.getCustomerQueue().size()
-        );
+        assertEquals("Init should reset customers.", 1, customerManager.getCustomerQueue().size());
         assertEquals(
             "A PlayerState difficulty of 2 should multiply the difficulty by 0.75",
             1.5f * defaultTime,
@@ -195,12 +148,7 @@ public class CustomerManagerTests {
         );
 
         PlayerState.getInstance().setDifficulty(17);
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
 
         assertEquals(
             "A non-recognised playerstate difficulty should not multiply difficulty.",
@@ -216,13 +164,7 @@ public class CustomerManagerTests {
     @Test
     public void endlessTests() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -232,16 +174,8 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
-        assertTrue(
-            "EndlessTimer should be running in endless mode.",
-            customerManager.getEndlessTimer().getRunning()
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        assertTrue("EndlessTimer should be running in endless mode.", customerManager.getEndlessTimer().getRunning());
 
         customerManager.getSpawnTimer().reset();
         // Loops until it reaches maxSpawnRate
@@ -259,10 +193,7 @@ public class CustomerManagerTests {
             customerManager.act(customerManager.getEndlessTimer().getDelay());
         }
         customerManager.act(1000f);
-        assertEquals(
-            customerManager.getMaxSpawnRate(),
-            customerManager.getSpawnTimer().getDelay()
-        );
+        assertEquals(customerManager.getMaxSpawnRate(), customerManager.getSpawnTimer().getDelay());
     }
 
     /**
@@ -271,13 +202,7 @@ public class CustomerManagerTests {
     @Test
     public void actTests() {
         customerManager = new CustomerManager(1, overlay, world, 5, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -287,19 +212,9 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
-        float spawnTime =
-            (customerManager.getSpawnTimer().getRemainingTime()) / 500;
-        assertEquals(
-            "Reputation should be 3 by default.",
-            3,
-            customerManager.getReputation()
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
+        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime()) / 500;
+        assertEquals("Reputation should be 3 by default.", 3, customerManager.getReputation());
         customerManager.getCustomer(0).act(spawnTime * 500);
         assertEquals(
             "Customers should cause a loss of reputation when they have not been served in a timely manner.",
@@ -347,16 +262,8 @@ public class CustomerManagerTests {
                 customerManager.getCompletedOrders()
             );
         }
-        assertEquals(
-            "Act and nextRecipe should despawn customers.",
-            1,
-            customerManager.getCustomerQueue().size()
-        );
-        assertEquals(
-            "Reputation should not go below 0.",
-            0,
-            customerManager.getReputation()
-        );
+        assertEquals("Act and nextRecipe should despawn customers.", 1, customerManager.getCustomerQueue().size());
+        assertEquals("Reputation should not go below 0.", 0, customerManager.getReputation());
     }
 
     /**
@@ -366,13 +273,7 @@ public class CustomerManagerTests {
     public void movementTests() {
         int customers = 30;
         customerManager = new CustomerManager(1, overlay, world, customers, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -382,12 +283,7 @@ public class CustomerManagerTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
         float spawnTime = (customerManager.getSpawnTimer().getRemainingTime());
         for (int i = 0; i < 6; i++) {
             act(spawnTime);
@@ -397,16 +293,8 @@ public class CustomerManagerTests {
                 currentCustomer.act(1f / 60);
                 world.step(1f / 60, 6, 2);
             }
-            assertEquals(
-                objective.getPosition().x,
-                currentCustomer.getPosition().x,
-                1f
-            );
-            assertTrue(
-                objective
-                    .getPosition()
-                    .epsilonEquals(currentCustomer.getPosition(), 1f)
-            );
+            assertEquals(objective.getPosition().x, currentCustomer.getPosition().x, 1f);
+            assertTrue(objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f));
         }
     }
 

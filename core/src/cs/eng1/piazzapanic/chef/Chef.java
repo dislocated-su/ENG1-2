@@ -135,15 +135,7 @@ public class Chef extends Actor implements Disposable {
 
     @Override
     public void act(float delta) {
-        Vector2 movement = getInput()
-            .scl(
-                speed *
-                (
-                    PlayerState.getInstance().getBuffActive(PowerUp.WALK_FAST)
-                        ? 2
-                        : 1
-                )
-            );
+        Vector2 movement = getInput().scl(speed * (PlayerState.getInstance().getBuffActive(PowerUp.WALK_FAST) ? 2 : 1));
         Vector2 bodyVector2 = body.getPosition();
 
         if (!movement.isZero(0.1f)) {

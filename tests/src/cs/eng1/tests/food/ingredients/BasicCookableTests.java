@@ -27,19 +27,13 @@ public class BasicCookableTests {
      */
     @Test
     public void cookingTickTests() {
-        assertFalse(
-            "The BasicCookable should not be complete in half of its cooking time.",
-            potato.cookingTick(1)
-        );
+        assertFalse("The BasicCookable should not be complete in half of its cooking time.", potato.cookingTick(1));
         assertTrue(
             "When a basic cookable has been cooked for its cooking time, it should be fully cooked (pre flipping)",
             potato.cookingTick(1)
         );
         potato.flip();
-        assertFalse(
-            "When a basic cookable is flipped, it should refresh its cooking time.",
-            potato.cookingTick(1)
-        );
+        assertFalse("When a basic cookable is flipped, it should refresh its cooking time.", potato.cookingTick(1));
         assertTrue(
             "When a basic cookable has been flipped, it should be marked as fully cooked after being cooked again for its cooking time.",
             potato.cookingTick(1)
@@ -51,25 +45,16 @@ public class BasicCookableTests {
      */
     @Test
     public void getHalfCookedTests() {
-        assertFalse(
-            "halfCooked should be false before cooking a BasicCookable.",
-            potato.getHalfCooked()
-        );
+        assertFalse("halfCooked should be false before cooking a BasicCookable.", potato.getHalfCooked());
         potato.cookingTick(1);
-        assertFalse(
-            "halfCooked should be false before a BasicCookable has been flipped.",
-            potato.getHalfCooked()
-        );
+        assertFalse("halfCooked should be false before a BasicCookable has been flipped.", potato.getHalfCooked());
         potato.cookingTick(1);
         assertTrue(
             "halfCooked should be true when a BasicCookable has cooked once for its cookingTime",
             potato.getHalfCooked()
         );
         potato.flip();
-        assertTrue(
-            "halfCooked should remain true after flipping a BasicCookable.",
-            potato.getHalfCooked()
-        );
+        assertTrue("halfCooked should remain true after flipping a BasicCookable.", potato.getHalfCooked());
     }
 
     /*
@@ -119,10 +104,7 @@ public class BasicCookableTests {
      */
     @Test
     public void cookingStepCompleteTests() {
-        assertFalse(
-            "A BasicCookable should not flippable before cooking.",
-            potato.cookingStepComplete()
-        );
+        assertFalse("A BasicCookable should not flippable before cooking.", potato.cookingStepComplete());
         potato.cookingTick(1);
         assertFalse(
             "A BasicCookable should not be flippable before cooking for its cookingTime",
@@ -139,10 +121,7 @@ public class BasicCookableTests {
             potato.cookingStepComplete()
         );
         potato.flip();
-        assertFalse(
-            "A BasicCookable should not be complete immediately after flipping.",
-            potato.cookingStepComplete()
-        );
+        assertFalse("A BasicCookable should not be complete immediately after flipping.", potato.cookingStepComplete());
         potato.cookingTick(1);
         assertFalse(
             "A BasicCookable should not be complete without cooking for its cookingTime after flipping.",
@@ -224,12 +203,7 @@ public class BasicCookableTests {
     public void flipTests() {
         potato.cookingTick(2);
         potato.flip();
-        assertEquals(
-            "After flipping, cooking progress should be 0.",
-            0,
-            potato.getCookingProgress(),
-            0.1
-        );
+        assertEquals("After flipping, cooking progress should be 0.", 0, potato.getCookingProgress(), 0.1);
         assertFalse(
             "After flip is called on a BasicCookable, it should take the same amount of time to be cooked as it did to become flippable.",
             potato.cookingTick(1)

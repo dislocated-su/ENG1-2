@@ -42,11 +42,7 @@ public class SaveManager {
      * @param customerManager
      * @param stage
      */
-    public void save(
-        ChefManager chefManager,
-        CustomerManager customerManager,
-        Stage stage
-    ) {
+    public void save(ChefManager chefManager, CustomerManager customerManager, Stage stage) {
         SaveState state = new SaveState();
         state.setPlayerState(PlayerState.getInstance());
         state.setChefManager(chefManager);
@@ -56,9 +52,7 @@ public class SaveManager {
 
         for (Actor actor : stage.getActors().items) {
             if (
-                actor instanceof Station &&
-                !(actor instanceof IngredientStation) &&
-                !(actor instanceof SubmitStation)
+                actor instanceof Station && !(actor instanceof IngredientStation) && !(actor instanceof SubmitStation)
             ) {
                 stations.add(new SavedStation((Station) actor));
             }
@@ -67,12 +61,7 @@ public class SaveManager {
         state.setStations(stations.toArray(new SavedStation[stations.size()]));
 
         Json json = new Json();
-        json.toJson(
-            state,
-            SaveState.class,
-            null,
-            new FileHandle("savefile.json")
-        );
+        json.toJson(state, SaveState.class, null, new FileHandle("savefile.json"));
     }
 
     /**
@@ -82,10 +71,7 @@ public class SaveManager {
      */
     public SaveState load(String fileHandle) {
         Json json = new Json();
-        SaveState state = json.fromJson(
-            SaveState.class,
-            new FileHandle(fileHandle)
-        );
+        SaveState state = json.fromJson(SaveState.class, new FileHandle(fileHandle));
 
         return state;
     }

@@ -54,12 +54,7 @@ public class ChefManager implements Disposable {
      * @param keyboardInput Input processor for input from the keyboard. Passed down
      *                      to the chefs this class owns.
      */
-    public ChefManager(
-        float chefScale,
-        UIOverlay overlay,
-        World world,
-        KeyboardInput keyboardInput
-    ) {
+    public ChefManager(float chefScale, UIOverlay overlay, World world, KeyboardInput keyboardInput) {
         this.overlay = overlay;
         this.world = world;
         this.keyboardInput = keyboardInput;
@@ -73,10 +68,7 @@ public class ChefManager implements Disposable {
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));
             Chef chef = new Chef(
                 chefTexture,
-                new Vector2(
-                    chefTexture.getWidth() * chefScale,
-                    chefTexture.getHeight() * chefScale
-                ),
+                new Vector2(chefTexture.getWidth() * chefScale, chefTexture.getHeight() * chefScale),
                 this
             );
             chef.setInputEnabled(false);
@@ -100,15 +92,10 @@ public class ChefManager implements Disposable {
         chefs = new ArrayList<>();
 
         for (SavedChef savedChef : save.savedChefs) {
-            Texture chefTexture = new Texture(
-                Gdx.files.internal(savedChef.imagePath)
-            );
+            Texture chefTexture = new Texture(Gdx.files.internal(savedChef.imagePath));
             Chef chef = new Chef(
                 chefTexture,
-                new Vector2(
-                    chefTexture.getWidth() * chefScale,
-                    chefTexture.getHeight() * chefScale
-                ),
+                new Vector2(chefTexture.getWidth() * chefScale, chefTexture.getHeight() * chefScale),
                 this
             );
             chef.init(savedChef.position.x, savedChef.position.y);
@@ -147,15 +134,10 @@ public class ChefManager implements Disposable {
             return;
         }
 
-        Texture chefTexture = new Texture(
-            Gdx.files.internal(chefSprites[chefs.size()])
-        );
+        Texture chefTexture = new Texture(Gdx.files.internal(chefSprites[chefs.size()]));
         Chef chef = new Chef(
             chefTexture,
-            new Vector2(
-                chefTexture.getWidth() * chefScale,
-                chefTexture.getHeight() * chefScale
-            ),
+            new Vector2(chefTexture.getWidth() * chefScale, chefTexture.getHeight() * chefScale),
             this
         );
 

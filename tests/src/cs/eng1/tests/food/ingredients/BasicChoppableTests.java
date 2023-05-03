@@ -66,12 +66,7 @@ public class BasicChoppableTests {
             0.01
         );
         tomato.choppingTick(1);
-        assertEquals(
-            "Chopping is done, so chopping progress should be 100",
-            100,
-            tomato.getChoppingProgress(),
-            0.01
-        );
+        assertEquals("Chopping is done, so chopping progress should be 100", 100, tomato.getChoppingProgress(), 0.01);
         tomato.choppingTick(1);
         assertEquals(
             "Chopping should continue to progress, even after the BasicChoppable is fully chopped.",
@@ -135,40 +130,25 @@ public class BasicChoppableTests {
      */
     @Test
     public void getChoppedTests() {
-        assertFalse(
-            "A BasicChoppable should not become chopped immediately,",
-            tomato.getChopped()
-        );
+        assertFalse("A BasicChoppable should not become chopped immediately,", tomato.getChopped());
         tomato.choppingTick(1);
         assertFalse(
             "A BasicChoppable should not be chopped before it has chopped for its chopTime.",
             tomato.getChopped()
         );
         tomato.choppingTick(1);
-        assertTrue(
-            "A BasicChoppable should become chopped after chopping for its chopTime.",
-            tomato.getChopped()
-        );
+        assertTrue("A BasicChoppable should become chopped after chopping for its chopTime.", tomato.getChopped());
         tomato.choppingTick(1);
-        assertTrue(
-            "A BasicChoppable should not be ruined before chopping for too long.",
-            tomato.getChopped()
-        );
+        assertTrue("A BasicChoppable should not be ruined before chopping for too long.", tomato.getChopped());
         tomato.choppingTick(1);
-        assertTrue(
-            "A BasicChoppable should not be ruined before chopping for too long.",
-            tomato.getChopped()
-        );
+        assertTrue("A BasicChoppable should not be ruined before chopping for too long.", tomato.getChopped());
         tomato.choppingTick(1);
         assertTrue(
             "A BasicChoppable should be ruined after chopping for too long but remain chopped.",
             (!tomato.getUseable()) && tomato.getChopped()
         );
         tomato.choppingTick(400);
-        assertTrue(
-            "A BasicChoppable should remain indefinitely chopped after becoming chopped.",
-            tomato.getChopped()
-        );
+        assertTrue("A BasicChoppable should remain indefinitely chopped after becoming chopped.", tomato.getChopped());
     }
 
     /**
@@ -178,9 +158,7 @@ public class BasicChoppableTests {
     @Test
     public void getTextureTests() {
         final Texture rawTomato = foodTextureManager.getTexture("tomato_raw");
-        final Texture choppedTomato = foodTextureManager.getTexture(
-            "tomato_chopped"
-        );
+        final Texture choppedTomato = foodTextureManager.getTexture("tomato_chopped");
         final Texture ruinedTomato = foodTextureManager.getTexture("rotten");
         assertEquals(
             "The BasicChoppable texture should be += _raw, as it is unchopped.",
@@ -219,10 +197,6 @@ public class BasicChoppableTests {
             tomato.getTexture()
         );
         tomato.choppingTick(400);
-        assertEquals(
-            "The BasicChoppable texture should stay ruined indefinitely.",
-            ruinedTomato,
-            tomato.getTexture()
-        );
+        assertEquals("The BasicChoppable texture should stay ruined indefinitely.", ruinedTomato, tomato.getTexture());
     }
 }

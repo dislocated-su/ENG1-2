@@ -28,17 +28,8 @@ public class StationColliderTests {
     private final UIOverlay overlay = mock(UIOverlay.class);
     ChefManager chefManager = new ChefManager(0, overlay, world, null);
     Chef chef = new Chef(null, null, chefManager);
-    private final StationUIController uiController = mock(
-        StationUIController.class
-    );
-    IngredientStation station = new IngredientStation(
-        0,
-        null,
-        uiController,
-        null,
-        null,
-        null
-    );
+    private final StationUIController uiController = mock(StationUIController.class);
+    IngredientStation station = new IngredientStation(0, null, uiController, null, null, null);
 
     /**
      * Tests that notfiyObservers and getLastNotification work correctly
@@ -49,11 +40,7 @@ public class StationColliderTests {
         stationCollider.register(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
-            "tests that notfiyObservers tells the observers(stations) about a chef",
-            chef,
-            station.nearbyChef
-        );
+        assertEquals("tests that notfiyObservers tells the observers(stations) about a chef", chef, station.nearbyChef);
         assertEquals(
             "tests getLastNotification returns the last thing that was notified",
             chef,
@@ -71,10 +58,7 @@ public class StationColliderTests {
         stationCollider.deregister(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertNull(
-            "tests that deregister removes the nearbyChef",
-            station.nearbyChef
-        );
+        assertNull("tests that deregister removes the nearbyChef", station.nearbyChef);
     }
 
     /**
@@ -88,10 +72,7 @@ public class StationColliderTests {
         stationCollider.clearAllObservers();
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertNull(
-            "tests that clearAllObservers removes all nearbyChef",
-            station.nearbyChef
-        );
+        assertNull("tests that clearAllObservers removes all nearbyChef", station.nearbyChef);
     }
 
     /**

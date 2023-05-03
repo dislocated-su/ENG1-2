@@ -30,8 +30,7 @@ import com.badlogic.gdx.physics.box2d.World;
  *
  * @author davebaol
  */
-public class Box2dRaycastCollisionDetector
-    implements RaycastCollisionDetector<Vector2> {
+public class Box2dRaycastCollisionDetector implements RaycastCollisionDetector<Vector2> {
 
     World world;
     Box2dRaycastCallback callback;
@@ -40,10 +39,7 @@ public class Box2dRaycastCollisionDetector
         this(world, new Box2dRaycastCallback());
     }
 
-    public Box2dRaycastCollisionDetector(
-        World world,
-        Box2dRaycastCallback callback
-    ) {
+    public Box2dRaycastCollisionDetector(World world, Box2dRaycastCallback callback) {
         this.world = world;
         this.callback = callback;
     }
@@ -54,17 +50,9 @@ public class Box2dRaycastCollisionDetector
     }
 
     @Override
-    public boolean findCollision(
-        Collision<Vector2> outputCollision,
-        Ray<Vector2> inputRay
-    ) {
+    public boolean findCollision(Collision<Vector2> outputCollision, Ray<Vector2> inputRay) {
         callback.collided = false;
-        if (
-            !inputRay.start.epsilonEquals(
-                inputRay.end,
-                MathUtils.FLOAT_ROUNDING_ERROR
-            )
-        ) {
+        if (!inputRay.start.epsilonEquals(inputRay.end, MathUtils.FLOAT_ROUNDING_ERROR)) {
             callback.outputCollision = outputCollision;
             world.rayCast(callback, inputRay.start, inputRay.end);
         }
@@ -79,12 +67,7 @@ public class Box2dRaycastCollisionDetector
         public Box2dRaycastCallback() {}
 
         @Override
-        public float reportRayFixture(
-            Fixture fixture,
-            Vector2 point,
-            Vector2 normal,
-            float fraction
-        ) {
+        public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
             if (outputCollision != null) outputCollision.set(point, normal);
             collided = true;
             return fraction;

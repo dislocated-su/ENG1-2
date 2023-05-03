@@ -33,28 +33,16 @@ public class RecipeStation extends Station {
 
     public Stack<Ingredient> displayIngredient = new Stack<>();
 
-    public IngredientStack ingredientStack = new IngredientStack(
-        MAX_ITEMS_PER_GROUP
-    );
+    public IngredientStack ingredientStack = new IngredientStack(MAX_ITEMS_PER_GROUP);
 
-    HashMap<ActionType, String[]> makeActions =
-        new HashMap<ActionType, String[]>() {
-            {
-                put(ActionType.MAKE_BURGER, new String[] { "bun", "patty" });
-                put(
-                    ActionType.MAKE_SALAD,
-                    new String[] { "tomato", "lettuce" }
-                );
-                put(
-                    ActionType.ASSEMBLE_PIZZA,
-                    new String[] { "dough", "cheese", "tomato" }
-                );
-                put(
-                    ActionType.MAKE_JACKET,
-                    new String[] { "potato", "cheese" }
-                );
-            }
-        };
+    HashMap<ActionType, String[]> makeActions = new HashMap<ActionType, String[]>() {
+        {
+            put(ActionType.MAKE_BURGER, new String[] { "bun", "patty" });
+            put(ActionType.MAKE_SALAD, new String[] { "tomato", "lettuce" });
+            put(ActionType.ASSEMBLE_PIZZA, new String[] { "dough", "cheese", "tomato" });
+            put(ActionType.MAKE_JACKET, new String[] { "potato", "cheese" });
+        }
+    };
 
     public void placeIngredient(Ingredient input) {
         ingredientStack.addIngredient(input.getType(), input);
@@ -110,8 +98,7 @@ public class RecipeStation extends Station {
      */
     @Override
     public LinkedList<ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -142,8 +129,7 @@ public class RecipeStation extends Station {
             for (ActionType makeAction : makeActions.keySet()) {
                 boolean canMake = true;
                 for (String ingredientType : makeActions.get(makeAction)) {
-                    canMake =
-                        canMake && ingredientStack.contains(ingredientType);
+                    canMake = canMake && ingredientStack.contains(ingredientType);
                 }
                 if (canMake) {
                     actionTypes.add(makeAction);

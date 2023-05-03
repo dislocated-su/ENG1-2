@@ -54,39 +54,26 @@ public class ButtonManager implements Disposable {
         checkBoxStyles = new HashMap<>();
 
         String basePath = "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/";
-        checkboxUnchecked =
-            new Texture(Gdx.files.internal(basePath + "grey_box.png"));
+        checkboxUnchecked = new Texture(Gdx.files.internal(basePath + "grey_box.png"));
 
         for (ButtonColour buttonColour : ButtonColour.values()) {
             // Generate all the different base colour styles from images and store them in a
             // HashMap
-            TextButton.TextButtonStyle textButtonStyle =
-                new TextButton.TextButtonStyle(
-                    new TextureRegionDrawable(
-                        new Texture(
-                            Gdx.files.internal(
-                                basePath +
-                                buttonColour.name().toLowerCase() +
-                                "_button_flat_up.png"
-                            )
-                        )
-                    ),
-                    new TextureRegionDrawable(
-                        new Texture(
-                            Gdx.files.internal(
-                                basePath +
-                                buttonColour.name().toLowerCase() +
-                                "_button_flat_down.png"
-                            )
-                        )
-                    ),
-                    null,
-                    fontManager.getLabelFont()
-                );
-            if (
-                buttonColour == ButtonColour.GREY ||
-                buttonColour == ButtonColour.YELLOW
-            ) {
+            TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_flat_up.png")
+                    )
+                ),
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_flat_down.png")
+                    )
+                ),
+                null,
+                fontManager.getLabelFont()
+            );
+            if (buttonColour == ButtonColour.GREY || buttonColour == ButtonColour.YELLOW) {
                 textButtonStyle.fontColor = Color.BLACK;
             }
             textButtonStyles.put(buttonColour, textButtonStyle);
@@ -95,19 +82,13 @@ public class ButtonManager implements Disposable {
             Button.ButtonStyle imageButtonBaseStyle = new Button.ButtonStyle(
                 new TextureRegionDrawable(
                     new Texture(
-                        Gdx.files.internal(
-                            basePath +
-                            buttonColour.name().toLowerCase() +
-                            "_button_square_flat_up.png"
-                        )
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_square_flat_up.png")
                     )
                 ),
                 new TextureRegionDrawable(
                     new Texture(
                         Gdx.files.internal(
-                            basePath +
-                            buttonColour.name().toLowerCase() +
-                            "_button_square_flat_down.png"
+                            basePath + buttonColour.name().toLowerCase() + "_button_square_flat_down.png"
                         )
                     )
                 ),
@@ -119,13 +100,7 @@ public class ButtonManager implements Disposable {
             CheckBoxStyle checkBoxStyle = new CheckBoxStyle(
                 new TextureRegionDrawable(checkboxUnchecked),
                 new TextureRegionDrawable(
-                    new Texture(
-                        Gdx.files.internal(
-                            basePath +
-                            buttonColour.name().toLowerCase() +
-                            "_boxCheckmark.png"
-                        )
-                    )
+                    new Texture(Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_boxCheckmark.png"))
                 ),
                 fontManager.getLabelFont(),
                 Color.BLACK
@@ -166,13 +141,8 @@ public class ButtonManager implements Disposable {
      * @return The image button constructed based on the input with a default of 0
      *         padding.
      */
-    public ImageButton createImageButton(
-        Drawable image,
-        ButtonColour colour,
-        float yPressedOffset
-    ) {
-        ImageButton.ImageButtonStyle btnStyle =
-            new ImageButton.ImageButtonStyle(imageButtonBaseStyles.get(colour));
+    public ImageButton createImageButton(Drawable image, ButtonColour colour, float yPressedOffset) {
+        ImageButton.ImageButtonStyle btnStyle = new ImageButton.ImageButtonStyle(imageButtonBaseStyles.get(colour));
         btnStyle.imageUp = image;
         btnStyle.pressedOffsetY = yPressedOffset;
         return new ImageButton(btnStyle);
@@ -183,9 +153,7 @@ public class ButtonManager implements Disposable {
     }
 
     public SelectBox<String> createSelectBox(String[] options) {
-        SelectBox<String> temp = new SelectBox<>(
-            (Skin) assetManager.get("skin/skin.json")
-        );
+        SelectBox<String> temp = new SelectBox<>((Skin) assetManager.get("skin/skin.json"));
         temp.setItems(options);
         return temp;
     }
@@ -207,28 +175,18 @@ public class ButtonManager implements Disposable {
     @Override
     public void dispose() {
         for (TextButton.TextButtonStyle style : textButtonStyles.values()) {
-            ((TextureRegionDrawable) style.up).getRegion()
-                .getTexture()
-                .dispose();
-            ((TextureRegionDrawable) style.down).getRegion()
-                .getTexture()
-                .dispose();
+            ((TextureRegionDrawable) style.up).getRegion().getTexture().dispose();
+            ((TextureRegionDrawable) style.down).getRegion().getTexture().dispose();
         }
 
         for (Button.ButtonStyle style : imageButtonBaseStyles.values()) {
-            ((TextureRegionDrawable) style.up).getRegion()
-                .getTexture()
-                .dispose();
-            ((TextureRegionDrawable) style.down).getRegion()
-                .getTexture()
-                .dispose();
+            ((TextureRegionDrawable) style.up).getRegion().getTexture().dispose();
+            ((TextureRegionDrawable) style.down).getRegion().getTexture().dispose();
         }
 
         checkboxUnchecked.dispose();
         for (CheckBoxStyle style : checkBoxStyles.values()) {
-            ((TextureRegionDrawable) style.checkboxOn).getRegion()
-                .getTexture()
-                .dispose();
+            ((TextureRegionDrawable) style.checkboxOn).getRegion().getTexture().dispose();
         }
     }
 }

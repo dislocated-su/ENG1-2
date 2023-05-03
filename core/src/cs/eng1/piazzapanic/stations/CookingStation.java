@@ -66,19 +66,12 @@ public class CookingStation extends Station {
         if (inUse) {
             currentIngredient.cookingTick(delta);
 
-            if (
-                currentIngredient != null &&
-                !((Ingredient) currentIngredient).getUseable() &&
-                !checkUpdateUI
-            ) {
+            if (currentIngredient != null && !((Ingredient) currentIngredient).getUseable() && !checkUpdateUI) {
                 uiController.showActions(this, getActionTypes());
                 checkUpdateUI = true;
             }
 
-            uiController.updateProgressValue(
-                this,
-                currentIngredient.getCookingProgress()
-            );
+            uiController.updateProgressValue(this, currentIngredient.getCookingProgress());
 
             if (currentIngredient.cookingStepComplete() && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -102,10 +95,7 @@ public class CookingStation extends Station {
     private boolean isCorrectIngredient(Holdable itemToCheck) {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
-                return (
-                    !((Cookable) itemToCheck).getCooked() &&
-                    ((Ingredient) itemToCheck).getUseable()
-                );
+                return (!((Cookable) itemToCheck).getCooked() && ((Ingredient) itemToCheck).getUseable());
             }
         }
         return false;
@@ -120,8 +110,7 @@ public class CookingStation extends Station {
      */
     @Override
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -129,10 +118,7 @@ public class CookingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-            if (
-                nearbyChef.hasIngredient() &&
-                isCorrectIngredient(nearbyChef.getStack().peek())
-            ) {
+            if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
@@ -146,10 +132,7 @@ public class CookingStation extends Station {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (
-                currentIngredient.getCooked() ||
-                !(((Ingredient) currentIngredient).getUseable())
-            ) {
+            if (currentIngredient.getCooked() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -186,14 +169,8 @@ public class CookingStation extends Station {
                 progressVisible = true;
                 break;
             case PLACE_INGREDIENT:
-                if (
-                    this.nearbyChef != null &&
-                    nearbyChef.hasIngredient() &&
-                    currentIngredient == null
-                ) {
-                    if (
-                        this.isCorrectIngredient(nearbyChef.getStack().peek())
-                    ) {
+                if (this.nearbyChef != null && nearbyChef.hasIngredient() && currentIngredient == null) {
+                    if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
                         currentIngredient = (Cookable) nearbyChef.popFood();
                     }
                 }

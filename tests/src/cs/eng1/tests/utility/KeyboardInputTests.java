@@ -38,11 +38,7 @@ public class KeyboardInputTests {
     public void variablesTest() {
         assertFalse(
             "All keys for movement and chef switching should start as false.",
-            kbInput.left &&
-            kbInput.right &&
-            kbInput.up &&
-            kbInput.down &&
-            kbInput.changeCooks
+            kbInput.left && kbInput.right && kbInput.up && kbInput.down && kbInput.changeCooks
         );
     }
 

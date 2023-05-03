@@ -61,12 +61,7 @@ public class CustomerManager {
      * @param world         {@link World}
      * @param customers     how many customers will spawn total. For endless mode, set this to 0.
      */
-    public CustomerManager(
-        float customerScale,
-        UIOverlay overlay,
-        World world,
-        int customers
-    ) {
+    public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers) {
         this.overlay = overlay;
         this.recipeStations = new HashMap<>();
 
@@ -118,15 +113,10 @@ public class CustomerManager {
 
         customerQueue = new LinkedList<>();
         for (SavedCustomer savedCustomer : save.customerQueue) {
-            Texture texture = new Texture(
-                Gdx.files.internal(savedCustomer.imagePath)
-            );
+            Texture texture = new Texture(Gdx.files.internal(savedCustomer.imagePath));
             Customer customer = new Customer(
                 texture,
-                new Vector2(
-                    texture.getWidth() * customerScale,
-                    texture.getHeight() * customerScale
-                ),
+                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
                 savedCustomer.position,
                 Recipe.fromString(savedCustomer.order, textureManager),
                 this
@@ -150,13 +140,7 @@ public class CustomerManager {
      * @param customers The total number of customers to spawn - 0 means endless
      * @param seed      seed for the {@link Random} instance to generate set orders
      */
-    public CustomerManager(
-        float customerScale,
-        UIOverlay overlay,
-        World world,
-        int customers,
-        long seed
-    ) {
+    public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers, long seed) {
         this(customerScale, overlay, world, customers);
         randomOrders.setSeed(seed);
         randomCustomerCount.setSeed(seed);
@@ -227,11 +211,7 @@ public class CustomerManager {
      * @param objectives     The objectives loaded from the map
      * @param spawnLocations Spawn locations loaded from the map
      */
-    public void load(
-        Stage stage,
-        Map<Integer, Box2dLocation> objectives,
-        List<Vector2> spawnLocations
-    ) {
+    public void load(Stage stage, Map<Integer, Box2dLocation> objectives, List<Vector2> spawnLocations) {
         this.stage = stage;
         this.objectives = objectives;
         this.spawnLocations = spawnLocations;
@@ -265,16 +245,8 @@ public class CustomerManager {
 
         if (endlessTimer.getRunning()) {
             if (endlessTimer.tick(delta)) {
-                spawnTimer.setDelay(
-                    Math.max(
-                        Math.round(spawnTimer.getDelay() * 0.95f),
-                        maxSpawnRate
-                    )
-                );
-                Gdx.app.log(
-                    "Changing spawnTimer delay",
-                    spawnTimer.getDelay() + ""
-                );
+                spawnTimer.setDelay(Math.max(Math.round(spawnTimer.getDelay() * 0.95f), maxSpawnRate));
+                Gdx.app.log("Changing spawnTimer delay", spawnTimer.getDelay() + "");
             }
         }
         checkSpawn(delta);
@@ -347,17 +319,10 @@ public class CustomerManager {
         if (customerObjective != null) {
             spawnedCustomers++;
             // implement random generation of two or three customers at once here
-            Texture texture = new Texture(
-                customerSprites[randomTextures.nextInt(
-                        customerSprites.length - 1
-                    )]
-            );
+            Texture texture = new Texture(customerSprites[randomTextures.nextInt(customerSprites.length - 1)]);
             Customer customer = new Customer(
                 texture,
-                new Vector2(
-                    texture.getWidth() * customerScale,
-                    texture.getHeight() * customerScale
-                ),
+                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
                 spawnLocations.get(0),
                 possibleRecipes[randomOrders.nextInt(4)],
                 this
@@ -373,9 +338,7 @@ public class CustomerManager {
      */
     private void checkSpawn(float delta) {
         if (spawnedCustomers != totalCustomers && spawnTimer.tick(delta)) {
-            int customerCount = (spawnTimer.getDelay() < 45000)
-                ? randomCustomerCount.nextInt(1, 4)
-                : 1;
+            int customerCount = (spawnTimer.getDelay() < 45000) ? randomCustomerCount.nextInt(1, 4) : 1;
 
             for (int i = 0; i < customerCount; i++) {
                 generateCustomer();
@@ -411,39 +374,20 @@ public class CustomerManager {
             .setDecelerationRadius(2)
             .setTarget(there);
 
-        Proximity<Vector2> proximity = new Box2dRadiusProximity(
-            customer.steeringBody,
-            world,
-            0.5f
-        );
-        CollisionAvoidance<Vector2> collisionAvoidance =
-            new CollisionAvoidance<>(customer.steeringBody, proximity);
+        Proximity<Vector2> proximity = new Box2dRadiusProximity(customer.steeringBody, world, 0.5f);
+        CollisionAvoidance<Vector2> collisionAvoidance = new CollisionAvoidance<>(customer.steeringBody, proximity);
 
-        RaycastObstacleAvoidance<Vector2> wallAvoidance =
-            new RaycastObstacleAvoidance<>(customer.steeringBody);
+        RaycastObstacleAvoidance<Vector2> wallAvoidance = new RaycastObstacleAvoidance<>(customer.steeringBody);
         wallAvoidance
-            .setRayConfiguration(
-                new CentralRayWithWhiskersConfiguration<>(
-                    customer.steeringBody,
-                    0.1f,
-                    0.3f,
-                    0.35f
-                )
-            )
-            .setRaycastCollisionDetector(
-                new Box2dRaycastCollisionDetector(world)
-            )
+            .setRayConfiguration(new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f))
+            .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
             .setDistanceFromBoundary(locationID);
 
-        BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(
-            customer.steeringBody
-        )
+        BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(customer.steeringBody)
             .add(collisionAvoidance, 0.5f)
             .add(wallAvoidance, 0.5f);
 
-        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(
-            customer.steeringBody
-        )
+        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(customer.steeringBody)
             .add(blendedAvoidance)
             .add(arrive);
 

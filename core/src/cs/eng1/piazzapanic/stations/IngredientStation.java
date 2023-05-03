@@ -44,8 +44,7 @@ public class IngredientStation extends Station {
 
     @Override
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -64,10 +63,7 @@ public class IngredientStation extends Station {
         if (action == StationAction.ActionType.GRAB_INGREDIENT) {
             if (this.nearbyChef != null && nearbyChef.canGrabIngredient()) {
                 nearbyChef.grabItem(
-                    Ingredient.fromString(
-                        ingredientDispensed.getType(),
-                        ingredientDispensed.getTextureManager()
-                    )
+                    Ingredient.fromString(ingredientDispensed.getType(), ingredientDispensed.getTextureManager())
                 );
             }
         }

@@ -50,10 +50,7 @@ public abstract class Ingredient implements Holdable {
      *                       Tiled
      * @return the Ingredient of the type defined by the input
      */
-    public static Ingredient fromString(
-        String ingredientName,
-        FoodTextureManager textureManager
-    ) {
+    public static Ingredient fromString(String ingredientName, FoodTextureManager textureManager) {
         switch (ingredientName) {
             case "patty":
                 return new Patty(textureManager);
@@ -84,10 +81,7 @@ public abstract class Ingredient implements Holdable {
      *                           with no whitespace as defined in Tiled
      * @return An array of Ingredient based on the input string
      */
-    public static Ingredient[] arrayFromString(
-        String csvIngredientNames,
-        FoodTextureManager textureManager
-    ) {
+    public static Ingredient[] arrayFromString(String csvIngredientNames, FoodTextureManager textureManager) {
         String[] ingredientNames = csvIngredientNames.split(",");
         Ingredient[] ingredients = new Ingredient[ingredientNames.length];
         for (int i = 0; i < ingredientNames.length; i++) {

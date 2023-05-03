@@ -31,8 +31,7 @@ import com.badlogic.gdx.physics.box2d.World;
  * square AABB built around the circle having the specified detection radius and whose center is the owner position.
  *
  * @author davebaol */
-public class Box2dSquareAABBProximity
-    implements Proximity<Vector2>, QueryCallback {
+public class Box2dSquareAABBProximity implements Proximity<Vector2>, QueryCallback {
 
     protected Steerable<Vector2> owner;
     protected World world;
@@ -43,11 +42,7 @@ public class Box2dSquareAABBProximity
 
     private static final AABB aabb = new AABB();
 
-    public Box2dSquareAABBProximity(
-        Steerable<Vector2> owner,
-        World world,
-        float detectionRadius
-    ) {
+    public Box2dSquareAABBProximity(Steerable<Vector2> owner, World world, float detectionRadius) {
         this.owner = owner;
         this.world = world;
         this.detectionRadius = detectionRadius;
@@ -90,13 +85,7 @@ public class Box2dSquareAABBProximity
         this.behaviorCallback = behaviorCallback;
         neighborCount = 0;
         prepareAABB(aabb);
-        world.QueryAABB(
-            this,
-            aabb.lowerX,
-            aabb.lowerY,
-            aabb.upperX,
-            aabb.upperY
-        );
+        world.QueryAABB(this, aabb.lowerX, aabb.lowerY, aabb.upperX, aabb.upperY);
         this.behaviorCallback = null;
         return neighborCount;
     }

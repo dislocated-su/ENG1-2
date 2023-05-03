@@ -40,17 +40,8 @@ public class SubmitStationTests {
     World world = new World(Vector2.Zero, true);
     KeyboardInput kbInput = new KeyboardInput();
     FoodTextureManager textureManager = new FoodTextureManager();
-    StationUIController stationUIController = new StationUIController(
-        stage,
-        null
-    );
-    CustomerManager customerManager = new CustomerManager(
-        1,
-        overlay,
-        world,
-        5,
-        0
-    );
+    StationUIController stationUIController = new StationUIController(stage, null);
+    CustomerManager customerManager = new CustomerManager(1, overlay, world, 5, 0);
     StationUIController uiController = mock(StationUIController.class);
     MapLoader mapLoader = new MapLoader("test-map.tmx");
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
@@ -71,19 +62,9 @@ public class SubmitStationTests {
      */
     @Test
     public void testGetActionTypesNothing() {
-        SubmitStation station = new SubmitStation(
-            1,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
+        SubmitStation station = new SubmitStation(1, null, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+        assertTrue("nothing is added to action types if no chef is nearby", actionTypes.isEmpty());
         station.nearbyChef = chef;
         actionTypes = station.getActionTypes();
         assertTrue(
@@ -105,13 +86,7 @@ public class SubmitStationTests {
      */
     @Test
     public void testCorrectRecipe() {
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -121,12 +96,7 @@ public class SubmitStationTests {
             textureManager,
             customerManager
         );
-        customerManager.init(
-            textureManager,
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.init(textureManager, stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
         SubmitStation station = customerManager.getRecipeStations().get(63);
         station.nearbyChef = chef;
         station.customer = customerManager.getCustomer(0);

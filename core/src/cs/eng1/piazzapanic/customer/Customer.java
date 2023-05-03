@@ -45,13 +45,7 @@ public class Customer extends Actor implements Disposable {
     private boolean orderCompleted = false;
     private Box2dLocation endObjective;
 
-    public Customer(
-        Texture texture,
-        Vector2 bounds,
-        Vector2 position,
-        Recipe order,
-        CustomerManager customerManager
-    ) {
+    public Customer(Texture texture, Vector2 bounds, Vector2 position, Recipe order, CustomerManager customerManager) {
         repTimer = new Timer(60000, true, false);
         this.order = order;
         this.customerManager = customerManager;
@@ -114,10 +108,7 @@ public class Customer extends Actor implements Disposable {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
         PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
-        Gdx.app.log(
-            "Current cash",
-            Float.toString(PlayerState.getInstance().getCash())
-        );
+        Gdx.app.log("Current cash", Float.toString(PlayerState.getInstance().getCash()));
         customerManager.walkBack(this);
         endObjective = customerManager.getObjective(currentObjective);
     }

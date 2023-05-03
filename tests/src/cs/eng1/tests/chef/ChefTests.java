@@ -44,17 +44,7 @@ public class ChefTests {
     );
     Chef chef = new Chef(fake, new Vector2(1, 1), chefManager);
     List<Integer> inputs = new ArrayList<>(
-        Arrays.asList(
-            Keys.LEFT,
-            Keys.DOWN,
-            Keys.UP,
-            Keys.RIGHT,
-            Keys.E,
-            Keys.A,
-            Keys.S,
-            Keys.D,
-            Keys.W
-        )
+        Arrays.asList(Keys.LEFT, Keys.DOWN, Keys.UP, Keys.RIGHT, Keys.E, Keys.A, Keys.S, Keys.D, Keys.W)
     );
 
     /**
@@ -65,15 +55,9 @@ public class ChefTests {
         chef.init(0, 0);
         Ingredient cheese = new Cheese(foodManager);
         Patty patty = new Patty(foodManager);
-        assertTrue(
-            "A chef with an empty stack should be able to grab ingredients.",
-            chef.canGrabIngredient()
-        );
+        assertTrue("A chef with an empty stack should be able to grab ingredients.", chef.canGrabIngredient());
         chef.grabItem(cheese);
-        assertTrue(
-            "hasIngredient should be true when the chef has an ingredient.",
-            chef.hasIngredient()
-        );
+        assertTrue("hasIngredient should be true when the chef has an ingredient.", chef.hasIngredient());
         chef.getStack().pop();
         chef.grabItem(patty);
         assertTrue(chef.hasIngredient());
@@ -91,41 +75,18 @@ public class ChefTests {
     @Test
     public void initTests() {
         chef.init(0, 0);
-        assertEquals(
-            "Init(0, 0) should set the chef X to 0.",
-            0,
-            chef.getX(),
-            1f
-        );
+        assertEquals("Init(0, 0) should set the chef X to 0.", 0, chef.getX(), 1f);
 
-        assertEquals(
-            "Init(0, 0) should set the chef Y to 0.",
-            0,
-            chef.getY(),
-            1f
-        );
+        assertEquals("Init(0, 0) should set the chef Y to 0.", 0, chef.getY(), 1f);
 
         chef.grabItem(new Cheese(foodManager));
 
         chef.init(10, 10);
-        assertEquals(
-            "Init(10, 10) should set the chef X to 10.",
-            10,
-            chef.getX(),
-            1f
-        );
+        assertEquals("Init(10, 10) should set the chef X to 10.", 10, chef.getX(), 1f);
 
-        assertEquals(
-            "Init(10, 10) should set the chef Y to 10.",
-            10,
-            chef.getY(),
-            1f
-        );
+        assertEquals("Init(10, 10) should set the chef Y to 10.", 10, chef.getY(), 1f);
 
-        assertFalse(
-            "init should set the chef stack to an empty list.",
-            chef.hasIngredient()
-        );
+        assertFalse("init should set the chef stack to an empty list.", chef.hasIngredient());
     }
 
     /**
@@ -135,11 +96,7 @@ public class ChefTests {
     public void createBodyTests() {
         chef.createBody();
         assertNotNull("Create body should create a body.", chef.getBody());
-        assertEquals(
-            "CreateBody should initialise at (0, 0.2)",
-            start,
-            chef.getBody().getPosition()
-        );
+        assertEquals("CreateBody should initialise at (0, 0.2)", start, chef.getBody().getPosition());
         world = clearBodies(world);
     }
 
@@ -161,34 +118,14 @@ public class ChefTests {
         clear();
         kbInput.keyDown(Keys.RIGHT);
         move();
-        assertEquals(
-            "When the chef moves right for 1 second, it should move properly.",
-            -0.3,
-            chef.getX(),
-            1f
-        );
-        assertEquals(
-            "When the chef moves right, its vertical position shouldn't change.",
-            -0.3,
-            chef.getY(),
-            1f
-        );
+        assertEquals("When the chef moves right for 1 second, it should move properly.", -0.3, chef.getX(), 1f);
+        assertEquals("When the chef moves right, its vertical position shouldn't change.", -0.3, chef.getY(), 1f);
         clear();
         kbInput.keyDown(Keys.LEFT);
         kbInput.keyDown(Keys.UP);
         move();
-        assertEquals(
-            "When the chef moves left and up, it should be normalised to a diagonal.",
-            -0.8,
-            chef.getX(),
-            1f
-        );
-        assertEquals(
-            "When the chef moves left and up, it should be normalised to a diagonal.",
-            -0.3,
-            chef.getY(),
-            1f
-        );
+        assertEquals("When the chef moves left and up, it should be normalised to a diagonal.", -0.8, chef.getX(), 1f);
+        assertEquals("When the chef moves left and up, it should be normalised to a diagonal.", -0.3, chef.getY(), 1f);
         clear();
         kbInput.keyDown(Keys.A);
         kbInput.keyDown(Keys.D);

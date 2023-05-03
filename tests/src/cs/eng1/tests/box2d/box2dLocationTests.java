@@ -23,17 +23,8 @@ public class box2dLocationTests {
     public void newLocationTests() {
         Box2dLocation functionless = new Box2dLocation(new Vector2(1, 1), 1f);
         Location<Vector2> location = functionless.newLocation();
-        assertEquals(
-            "A new location should have co-ordinates (0, 0).",
-            new Vector2(),
-            location.getPosition()
-        );
-        assertEquals(
-            "A new location should have an orientation of 0.",
-            0,
-            location.getOrientation(),
-            0.1
-        );
+        assertEquals("A new location should have co-ordinates (0, 0).", new Vector2(), location.getPosition());
+        assertEquals("A new location should have an orientation of 0.", 0, location.getOrientation(), 0.1);
         location.setOrientation(1f);
         assertEquals(
             "setOrientation should properly set the orientation of a new location.",
