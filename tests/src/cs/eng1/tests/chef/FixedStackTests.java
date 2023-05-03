@@ -2,7 +2,6 @@ package cs.eng1.tests.chef;
 
 import static org.junit.Assert.*;
 
-
 import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;

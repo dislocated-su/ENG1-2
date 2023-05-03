@@ -290,7 +290,7 @@ public class IngredientTests {
 
         unPizza.setUseable(false);
         pizza.setUseable(false);
-        
+
         assertEquals(textureManager.getTexture("burnt"), unPizza.getTexture());
         assertEquals(
             "uncooked_pizza_ruined",
