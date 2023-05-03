@@ -83,7 +83,7 @@ public class ChoppingStationTests {
         );
         station.doStationAction(StationAction.ActionType.CHOP_ACTION);
         station.act(1);
-        station.act(1);
+        station.act(6);
         actionTypes = station.getActionTypes();
         assertTrue(
             "adds GRAB_INGREDIENT to action types when the ingredient is chopped",

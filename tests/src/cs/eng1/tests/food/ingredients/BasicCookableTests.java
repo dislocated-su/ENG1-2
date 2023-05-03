@@ -30,13 +30,13 @@ public class BasicCookableTests {
         assertFalse("The BasicCookable should not be complete in half of its cooking time.", potato.cookingTick(1));
         assertTrue(
             "When a basic cookable has been cooked for its cooking time, it should be fully cooked (pre flipping)",
-            potato.cookingTick(1)
+            potato.cookingTick(5f)
         );
         potato.flip();
         assertFalse("When a basic cookable is flipped, it should refresh its cooking time.", potato.cookingTick(1));
         assertTrue(
             "When a basic cookable has been flipped, it should be marked as fully cooked after being cooked again for its cooking time.",
-            potato.cookingTick(1)
+            potato.cookingTick(4)
         );
     }
 
@@ -48,7 +48,7 @@ public class BasicCookableTests {
         assertFalse("halfCooked should be false before cooking a BasicCookable.", potato.getHalfCooked());
         potato.cookingTick(1);
         assertFalse("halfCooked should be false before a BasicCookable has been flipped.", potato.getHalfCooked());
-        potato.cookingTick(1);
+        potato.cookingTick(4);
         assertTrue(
             "halfCooked should be true when a BasicCookable has cooked once for its cookingTime",
             potato.getHalfCooked()
@@ -91,7 +91,9 @@ public class BasicCookableTests {
             "potato_raw",
             potato.getCookingResult().toString()
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2);
+        potato.cookingTick(2);
+        potato.cookingTick(2);
         assertEquals(
             "A BasicCookable should be considered cooked after completing its cookingTime after flipping.",
             "potato_cooked",
@@ -110,7 +112,7 @@ public class BasicCookableTests {
             "A BasicCookable should not be flippable before cooking for its cookingTime",
             potato.cookingStepComplete()
         );
-        potato.cookingTick(1);
+        potato.cookingTick(4);
         assertTrue(
             "A BasicCookable should be flippable after cooking for its cookingTime.",
             potato.cookingStepComplete()
@@ -127,7 +129,7 @@ public class BasicCookableTests {
             "A BasicCookable should not be complete without cooking for its cookingTime after flipping.",
             potato.cookingStepComplete()
         );
-        potato.cookingTick(1);
+        potato.cookingTick(4);
         assertTrue(
             "A BasicCookable should be complete after flipping, then cooking for its cookingTime",
             potato.cookingStepComplete()
@@ -145,21 +147,21 @@ public class BasicCookableTests {
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should be half cooked after cooking for half of its cookingTime.",
             50,
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should be fully cooked after cooking for its cookingTime.",
             100,
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should continue cooking after reaching its cookingTime.",
             150,
@@ -173,21 +175,21 @@ public class BasicCookableTests {
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should be half cooked after cooking for half its cookingTime after flipping.",
             50,
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should be fully cooked after cooking for its cookingTime after flipping.",
             100,
             potato.getCookingProgress(),
             0.1
         );
-        potato.cookingTick(1);
+        potato.cookingTick(2.5f);
         assertEquals(
             "A BasicCookable should continue cooking, even after being fully complete.",
             150,

@@ -33,17 +33,17 @@ public class BasicChoppableTests {
             "When accumulator ticks for delta = one, it shouldn't be considered chopped.",
             tomato.choppingTick(1)
         );
-        assertTrue(
+        assertFalse(
             "When accumulator ticks and becomes equal to chopTime, it should become chopped.",
             tomato.choppingTick(1)
         );
-        assertTrue(
+        assertFalse(
             "When accumulator ticks and the choppable has already been chopped, it should still be considered chopped",
             tomato.choppingTick(1)
         );
-        assertFalse(
+        assertTrue(
             "When a BasicChoppable is chopped for too long, it should become unuseable.",
-            tomato.choppingTick(3)
+            tomato.choppingTick(5)
         );
     }
 
@@ -58,16 +58,16 @@ public class BasicChoppableTests {
             tomato.getChoppingProgress(),
             0.01
         );
-        tomato.choppingTick(1);
+        tomato.choppingTick(2.5f);
         assertEquals(
             "Chopping is half done, so chopping progress should be 50",
             50,
             tomato.getChoppingProgress(),
             0.01
         );
-        tomato.choppingTick(1);
+        tomato.choppingTick(2.5f);
         assertEquals("Chopping is done, so chopping progress should be 100", 100, tomato.getChoppingProgress(), 0.01);
-        tomato.choppingTick(1);
+        tomato.choppingTick(2.5f);
         assertEquals(
             "Chopping should continue to progress, even after the BasicChoppable is fully chopped.",
             150,
@@ -77,7 +77,7 @@ public class BasicChoppableTests {
         tomato.choppingTick(400);
         assertEquals(
             "Chopping should continue to progress indefinitely, even after the BasicChoppable is fully chopped.",
-            20150,
+            8150,
             tomato.getChoppingProgress(),
             0.01
         );
@@ -99,7 +99,7 @@ public class BasicChoppableTests {
             "tomato_raw",
             tomato.getChoppingResult().toString()
         );
-        tomato.choppingTick(1);
+        tomato.choppingTick(7);
         assertEquals(
             "The chopping result of tomato should be +=_chopped, as progress has finished.",
             "tomato_chopped",
@@ -136,7 +136,7 @@ public class BasicChoppableTests {
             "A BasicChoppable should not be chopped before it has chopped for its chopTime.",
             tomato.getChopped()
         );
-        tomato.choppingTick(1);
+        tomato.choppingTick(7);
         assertTrue("A BasicChoppable should become chopped after chopping for its chopTime.", tomato.getChopped());
         tomato.choppingTick(1);
         assertTrue("A BasicChoppable should not be ruined before chopping for too long.", tomato.getChopped());
@@ -171,7 +171,7 @@ public class BasicChoppableTests {
             rawTomato,
             tomato.getTexture()
         );
-        tomato.choppingTick(1);
+        tomato.choppingTick(7);
         assertEquals(
             "The BasicChoppable texture should be += _chopped, as it has been chopped.",
             choppedTomato,
@@ -179,12 +179,6 @@ public class BasicChoppableTests {
         );
         tomato.choppingTick(1);
 
-        assertEquals(
-            "The BasicChoppable texture should be += _chopped, as it has been chopped.",
-            choppedTomato,
-            tomato.getTexture()
-        );
-        tomato.choppingTick(1);
         assertEquals(
             "The BasicChoppable texture should be += _chopped, as it has been chopped.",
             choppedTomato,

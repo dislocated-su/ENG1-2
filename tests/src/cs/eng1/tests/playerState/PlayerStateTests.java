@@ -26,7 +26,7 @@ public class PlayerStateTests {
         PlayerState state = PlayerState.getInstance();
         float initialCost = state.getUpgradeCost(false);
         assertEquals("", initialCost, state.getUpgradeCost(true), 0.1f);
-        assertEquals("", initialCost += 100f, state.getUpgradeCost(false), 0.1f);
+        assertEquals("", initialCost += 10f, state.getUpgradeCost(false), 0.1f);
         assertEquals("", initialCost, state.getUpgradeCost(false), 0.1f);
 
         int initialChefCost = state.getChefHireCost(false);
@@ -52,30 +52,30 @@ public class PlayerStateTests {
 
         state.earnCash(100, true);
 
-        assertEquals("Cash should be 230 after earning with happiness multiplier.", 230, state.getCash(), 0);
+        assertEquals("Cash should be 220 after earning with happiness multiplier.", 220, state.getCash(), 0);
 
         state.activateBuff(PowerUp.MORE_MONEY);
         state.earnCash(100, false);
-        assertEquals("Cash should be 430 after earning with money power up.", 430, state.getCash(), 0);
+        assertEquals("Cash should be 420 after earning with money power up.", 420, state.getCash(), 0);
 
         state.earnCash(100, true);
-        assertEquals("Cash should be 690 after earning with money power up.", 690, state.getCash(), 0);
+        assertEquals("Cash should be 660 after earning with money power up.", 660, state.getCash(), 0);
 
         state.spendCash(0);
-        assertEquals("Cash should be 690 after spending 0 cash.", 690, state.getCash(), 0);
+        assertEquals("Cash should be 660 after spending 0 cash.", 660, state.getCash(), 0);
 
         state.spendCash(700);
         assertEquals(
             "Cash should still be at 690 after attempt to spend more cash than you have.",
-            690,
+            660,
             state.getCash(),
             0
         );
 
         state.spendCash(350);
-        assertEquals("Cash should be 340 after spending 350 cash.", 340, state.getCash(), 0);
+        assertEquals("Cash should be 340 after spending 350 cash.", 310, state.getCash(), 0);
 
-        state.spendCash(340);
+        state.spendCash(310);
         assertEquals("Cash should be 0 after spending 340 cash.", 0, state.getCash(), 0);
     }
 

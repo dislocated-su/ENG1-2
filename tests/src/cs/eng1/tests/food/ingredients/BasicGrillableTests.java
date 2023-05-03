@@ -29,15 +29,15 @@ public class BasicGrillableTests {
     @Test
     public void grillTickTests() {
         assertFalse("The BasicGrillable should not be ready to flip immediately", patty.grillTick(1));
-        assertTrue("The BasicGrillable should be flippable after cooking for its grillStepTime", patty.grillTick(1));
+        assertTrue("The BasicGrillable should be flippable after cooking for its grillStepTime", patty.grillTick(4));
         assertTrue(
             "The BasicGrillable should remain flippable even after cooking for more than its grillStepTime",
             patty.grillTick(1)
         );
         assertTrue("The BasicGrillable should not be ruined after grilling for its grillStepTime", patty.getUseable());
         patty.flip();
-        assertFalse(patty.grillTick(1));
-        assertTrue(patty.grillTick(1));
+        assertFalse(patty.grillTick(4));
+        assertTrue(patty.grillTick(4));
         assertTrue(patty.getUseable());
         patty.grillTick(3);
         assertFalse(patty.getUseable());
@@ -54,21 +54,21 @@ public class BasicGrillableTests {
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should be half grilled after grilling for half of its grillStepTime.",
             50,
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should be fully grilled after grilling for its grillStepTime.",
             100,
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should continue grilling after reaching its grillStepTime.",
             150,
@@ -82,21 +82,21 @@ public class BasicGrillableTests {
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should be half grilled after grilling for half its grillStepTime after flipping.",
             50,
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should be fully grilled after grilling for its grillStepTime after flipping.",
             100,
             patty.getGrillProgress(),
             0.1
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertEquals(
             "A BasicGrillable should continue grilling, even after being fully complete.",
             150,
@@ -139,7 +139,8 @@ public class BasicGrillableTests {
             "patty_raw",
             patty.getGrillResult().toString()
         );
-        patty.grillTick(1);
+        patty.grillTick(4f);
+        patty.grillTick(3f);
         assertEquals(
             "A BasicGrillable should be considered grilled after completing its grillStepTime after flipping.",
             "patty_grilled",
@@ -151,7 +152,7 @@ public class BasicGrillableTests {
             "patty_grilled",
             patty.getGrillResult().toString()
         );
-        patty.grillTick(2);
+        patty.grillTick(4f);
         assertEquals(
             "A BasicGrillable should be ruined after being fully cooked and continuing cooking for too long.",
             "patty_ruined",
@@ -171,11 +172,11 @@ public class BasicGrillableTests {
     @Test
     public void getGrilledTests() {
         assertFalse(patty.getGrilled());
-        patty.grillTick(2);
+        patty.grillTick(5f);
         assertFalse(patty.getGrilled());
         patty.flip();
         assertFalse(patty.getGrilled());
-        patty.grillTick(2);
+        patty.grillTick(5f);
         assertTrue(patty.getGrilled());
     }
 
@@ -189,7 +190,7 @@ public class BasicGrillableTests {
         final Texture cookedPatty = foodTextureManager.getTexture("patty_grilled");
         final Texture ruinedPatty = foodTextureManager.getTexture("burnt");
         assertEquals("The BasicGrillable texture should be += _raw, as it is ungrilled", rawPatty, patty.getTexture());
-        patty.grillTick(2);
+        patty.grillTick(5f);
         assertEquals(
             "The BasicGrillable texture should be += _raw, as it is not fully grilled",
             rawPatty,
@@ -201,15 +202,15 @@ public class BasicGrillableTests {
             rawPatty,
             patty.getTexture()
         );
-        patty.grillTick(2);
+        patty.grillTick(5f);
         assertEquals(
             "The BasicGrillable texture should be += _grilled, as it has been fully grilled",
             cookedPatty,
             patty.getTexture()
         );
-        patty.grillTick(3);
+        patty.grillTick(6f);
         assertEquals(
-            "The BasicGrillable texture should be += _ruined, as it has been grilled for too long",
+            "The BasicGrillable texture should be burnt, as it has been grilled for too long",
             ruinedPatty,
             patty.getTexture()
         );
@@ -227,13 +228,13 @@ public class BasicGrillableTests {
     @Test
     public void getHalfGrilledTests() {
         assertFalse(patty.getHalfGrilled());
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertFalse(patty.getHalfGrilled());
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertTrue(patty.getHalfGrilled());
         patty.flip();
         assertTrue(patty.getHalfGrilled());
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertTrue(patty.getHalfGrilled());
     }
 
@@ -247,12 +248,12 @@ public class BasicGrillableTests {
             "A BasicGrillable shouldn't have a complete grill step without being grilled at all.",
             patty.grillStepComplete()
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertFalse(
             "A BasicGrillable shouldn't have a complete grill step without being grilled for the full grillStep time.",
             patty.grillStepComplete()
         );
-        patty.grillTick(1);
+        patty.grillTick(2.5f);
         assertTrue(
             "A BasicGrillable should have a complete grill step after being grilled for the full grillStep time.",
             patty.grillStepComplete()
@@ -267,12 +268,12 @@ public class BasicGrillableTests {
             "A BasicGrillable shouldn't have a complete grill step without being grilled at all after flipping.",
             patty.grillStepComplete()
         );
-        patty.grillTick(1);
+        patty.grillTick(1f);
         assertFalse(
             "A BasicGrillable shouldn't have a complete grill step without being grilled for a grillStep after flipping.",
             patty.grillStepComplete()
         );
-        patty.grillTick(1);
+        patty.grillTick(4f);
         assertTrue(
             "A BasicGrillable should have a complete grill step after being grilled for the full grillStep time.",
             patty.grillStepComplete()
