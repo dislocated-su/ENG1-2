@@ -37,7 +37,6 @@ import java.util.List;
  *
  * @author Alistair Foggin
  * @author Louis Warren
- * @author Ross Holmes
  * @author Andrey Samoilov
  */
 public class UIOverlay {
@@ -170,7 +169,11 @@ public class UIOverlay {
 
         createRecipeTable();
     }
-
+    /**
+     * Initialises the UI to show both the current chef and their ingredient stack, as well as the background behind them.
+     * 
+     * @param background The background drawable to show behind the chef inventory.
+     */
     private void createChefInventory(Drawable background) {
         // Initialize UI for showing current chef
         this.chefDisplay = new Stack();
@@ -191,7 +194,11 @@ public class UIOverlay {
     private Label reputationLabel;
     private Label moneyLabel;
     private UIStopwatch timer;
-
+    /**
+     * Initialises the timer to display at the top of the screen, which now also displays reputation and current money.
+     * 
+     * @param background The background to show behind the timer, reputation counter, and money counter.
+     */
     private void createGameTimer(Drawable background) {
         // Initialize the timer
         LabelStyle timerStyle = new Label.LabelStyle(
@@ -246,7 +253,10 @@ public class UIOverlay {
 
     private Label recipeName;
     public UpgradesUi upgradesUi;
-
+    //TODO: Check over this, not sure I'm right.
+    /**
+     * Creates the recipe table, which shows the orders from the customers and the recipe steps UI.
+     */
     public void createRecipeTable() {
         recipeBookRoot.setVisible(false);
         recipeBook.clear();
@@ -303,7 +313,9 @@ public class UIOverlay {
 
         uiStage.addActor(recipeBookRoot);
     }
-
+    /**
+     * Updates the reputation counter at the top of the screen when necessary.
+     */
     public void updateReputationCounter(int reputation) {
         reputationLabel.setText("Reputation: " + reputation + " ");
     }
@@ -367,8 +379,7 @@ public class UIOverlay {
     }
 
     /**
-     * Show the label displaying that the game has finished along with the time it
-     * took to complete.
+     * Changes the Screen to the EndScreen, and stops the game.
      */
     public void finishGameUI() {
         pause();
@@ -383,7 +394,7 @@ public class UIOverlay {
     }
 
     /**
-     * Update method for the ugprade button.
+     * Initialise the upgrades button.
      */
     public TextButton upgradesButton() {
         TextButton upgrades;
@@ -451,7 +462,7 @@ public class UIOverlay {
      * Describe the cooking process of a recipe to the user with each step and
      * ingredient.
      *
-     * @param recipe The recipe to display the ingredients for.
+     * @param recipe The recipe to display the ingredients, steps, and final order for.
      */
     public void updateRecipeUI(Recipe recipe) {
         // null at the end of the scenario, lastShown allows for switching current
@@ -597,7 +608,7 @@ public class UIOverlay {
     }
 
     /**
-     * Refreshes the UI based on current active powerups.
+     * Refreshes the UI at the bottom of the screen based on current active powerups.
      */
     private void updateActivePowerups() {
         activePowerups.clearChildren();
@@ -639,7 +650,7 @@ public class UIOverlay {
     }
 
     /**
-     * Pauses the game
+     * Pauses the game 
      */
     private void pause() {
         paused = true;
@@ -661,13 +672,18 @@ public class UIOverlay {
         updateActivePowerups();
     }
 
+    /**
+     * Sets the visibility to true for the group of tables visible by default
+     */
     public void show() {
         chefInventory.setVisible(true);
         orderGroup.setVisible(true);
         root.setVisible(true);
         floatingBottomTable.setVisible(true);
     }
-
+    /**
+     * Sets the visibility to false for the group of tables visible by default
+     */
     public void hide() {
         recipeBookRoot.setVisible(false);
         root.setVisible(false);

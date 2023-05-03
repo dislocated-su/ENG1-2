@@ -38,6 +38,7 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Old/womanOld_hold.png"
     };
     private final float chefScale;
 
@@ -65,7 +66,7 @@ public class ChefManager implements Disposable {
         chefs = new ArrayList<>(chefSprites.length);
 
         // Initialize chefs
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             String sprite = chefSprites[i];
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));
             Chef chef = new Chef(
