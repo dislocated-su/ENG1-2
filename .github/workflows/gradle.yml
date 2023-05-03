@@ -28,7 +28,7 @@ jobs:
       uses: creyD/prettier_action@v4.3
       with:
         prettier_plugins: prettier-plugin-java
-        prettier_options: '--write **/*.java --tab-width 4'
+        prettier_options: '--write **/*.java --config ./.prettier.json'
    
   build:
     needs: format
