@@ -77,22 +77,31 @@ public class UIOverlay {
 
         // Commonly reused green background
         Drawable greenPillBG = new TextureRegionDrawable(
-                new Texture(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"));
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/green_button_gradient_down.png"
+            )
+        );
 
         // Commonly reused grey background
         TextureRegionDrawable greyPillBG = new TextureRegionDrawable(
-                new Texture(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"));
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_button_square_gradient_down.png"
+            )
+        );
 
         // X button
-        crossButtonDrawable = new TextureRegionDrawable(
+        crossButtonDrawable =
+            new TextureRegionDrawable(
                 new Texture(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png"));
+                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png"
+                )
+            );
 
         // Arrow down
-        pointer = new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
+        pointer =
+            new Texture(
+                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
+            );
 
         // Initialize table
         root = new Table();
@@ -143,11 +152,11 @@ public class UIOverlay {
 
         // Floating elements on the bottom
         floatingBottomTable
-                .add(upgradesButton())
-                .width(upgradeButtonScale)
-                .height(scale)
-                .expandX()
-                .left();
+            .add(upgradesButton())
+            .width(upgradeButtonScale)
+            .height(scale)
+            .expandX()
+            .left();
         floatingBottomTable.add().expandX();
         floatingBottomTable.add(activePowerups).height(scale).left();
 
@@ -198,8 +207,9 @@ public class UIOverlay {
     private void createGameTimer(Drawable background) {
         // Initialize the timer
         LabelStyle timerStyle = new Label.LabelStyle(
-                game.getFontManager().getHeaderFont(),
-                null);
+            game.getFontManager().getHeaderFont(),
+            null
+        );
 
         background.setMinWidth(300);
         timerStyle.background = background;
@@ -207,39 +217,43 @@ public class UIOverlay {
         reputationLabel = new Label("", timerStyle);
         updateReputationCounter(3);
         reputationLabel.setAlignment(Align.center);
-        moneyLabel = new Label(
+        moneyLabel =
+            new Label(
                 " Money: £" +
-                        String.format("%.0f", PlayerState.getInstance().getCash()),
-                timerStyle);
+                String.format("%.0f", PlayerState.getInstance().getCash()),
+                timerStyle
+            );
         moneyLabel.setAlignment(Align.center);
 
-        timer = new UIStopwatch(timerStyle) {
-            @Override
-            public void updateTimer() {
-                super.updateTimer();
-                updateCash();
-            }
-        };
+        timer =
+            new UIStopwatch(timerStyle) {
+                @Override
+                public void updateTimer() {
+                    super.updateTimer();
+                    updateCash();
+                }
+            };
         timer.setAlignment(Align.center);
 
         uiStage.addListener(
-                new InputListener() {
-                    @Override
-                    public boolean keyDown(InputEvent event, int keycode) {
-                        if (keycode == Keys.ESCAPE) {
-                            if (paused) {
-                                pauseOverlay.hide();
-                                show();
-                                resume();
-                            } else {
-                                hide();
-                                pauseOverlay.show();
-                                pause();
-                            }
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Keys.ESCAPE) {
+                        if (paused) {
+                            pauseOverlay.hide();
+                            show();
+                            resume();
+                        } else {
+                            hide();
+                            pauseOverlay.show();
+                            pause();
                         }
-                        return true;
                     }
-                });
+                    return true;
+                }
+            }
+        );
     }
 
     private Label recipeName;
@@ -256,26 +270,28 @@ public class UIOverlay {
         recipeBookRoot.right().padRight(chefDisplay.getWidth());
 
         LabelStyle recipeNameStyle = new LabelStyle(
-                game.getFontManager().getHeaderFont(),
-                null);
+            game.getFontManager().getHeaderFont(),
+            null
+        );
         recipeName = new Label("Recipe", recipeNameStyle);
 
         Stack titleStack = new Stack();
 
         ImageButton hideButton = game
-                .getButtonManager()
-                .createImageButton(crossButtonDrawable, ButtonColour.BLUE, -1.5f);
+            .getButtonManager()
+            .createImageButton(crossButtonDrawable, ButtonColour.BLUE, -1.5f);
 
         hideButton.setHeight(0.5f);
 
         hideButton.addListener(
-                new ClickListener() {
-                    public void clicked(InputEvent event, float x, float y) {
-                        recipeBookRoot.setVisible(false);
-                        resume();
-                        lastShown = null;
-                    }
-                });
+            new ClickListener() {
+                public void clicked(InputEvent event, float x, float y) {
+                    recipeBookRoot.setVisible(false);
+                    resume();
+                    lastShown = null;
+                }
+            }
+        );
 
         Table buttonTable = new Table();
         buttonTable.setFillParent(true);
@@ -290,10 +306,14 @@ public class UIOverlay {
 
         recipeBook.add(recipeBookSteps).colspan(2).expand();
 
-        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+        TextureRegionDrawable textureRegionDrawableBg =
+            new TextureRegionDrawable(
                 new Texture(
-                        Gdx.files.internal(
-                                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")));
+                    Gdx.files.internal(
+                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"
+                    )
+                )
+            );
         recipeBook.setBackground(textureRegionDrawableBg.tint(Color.GRAY));
         recipeBookRoot.row();
 
@@ -347,18 +367,20 @@ public class UIOverlay {
         }
         if (!chef.getStack().isEmpty()) {
             ImageButton btn = game
-                    .getButtonManager()
-                    .createImageButton(
-                            crossButtonDrawable,
-                            ButtonColour.RED,
-                            -1.5f);
+                .getButtonManager()
+                .createImageButton(
+                    crossButtonDrawable,
+                    ButtonColour.RED,
+                    -1.5f
+                );
             btn.addListener(
-                    new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            chef.popFood();
-                        }
-                    });
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        chef.popFood();
+                    }
+                }
+            );
             chefInventory.addActor(btn);
         }
     }
@@ -370,10 +392,12 @@ public class UIOverlay {
         pause();
         hide();
         game.setScreen(
-                new EndScreen(
-                        game,
-                        timer.getTimeString(),
-                        reputationLabel.getText().toString()));
+            new EndScreen(
+                game,
+                timer.getTimeString(),
+                reputationLabel.getText().toString()
+            )
+        );
     }
 
     /**
@@ -385,26 +409,28 @@ public class UIOverlay {
         upgradesUi = new UpgradesUi(game);
         upgradesUi.addToStage(uiStage);
 
-        upgrades = game
+        upgrades =
+            game
                 .getButtonManager()
                 .createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
         upgrades.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if (!activatedShop) { // to check whether to hid or unhide the upgrades panel
-                            activatedShop = true;
-                            upgradesUi.show();
-                            upgrades.setText("Return");
-                            pause();
-                        } else {
-                            activatedShop = false;
-                            upgradesUi.hide();
-                            upgrades.setText("Upgrades");
-                            resume();
-                        }
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (!activatedShop) { // to check whether to hid or unhide the upgrades panel
+                        activatedShop = true;
+                        upgradesUi.show();
+                        upgrades.setText("Return");
+                        pause();
+                    } else {
+                        activatedShop = false;
+                        upgradesUi.hide();
+                        upgrades.setText("Upgrades");
+                        resume();
                     }
-                });
+                }
+            }
+        );
         return upgrades;
     }
 
@@ -413,21 +439,26 @@ public class UIOverlay {
      */
     private ImageButton homeButton() {
         ImageButton homeButton = game
-                .getButtonManager()
-                .createImageButton(
-                        new TextureRegionDrawable(
-                                new Texture(
-                                        Gdx.files.internal(
-                                                "Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"))),
-                        ButtonManager.ButtonColour.BLUE,
-                        -1.5f);
+            .getButtonManager()
+            .createImageButton(
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(
+                            "Kenney-Game-Assets-1/2D assets/Game Icons/PNG/White/1x/home.png"
+                        )
+                    )
+                ),
+                ButtonManager.ButtonColour.BLUE,
+                -1.5f
+            );
         homeButton.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        game.loadHomeScreen();
-                    }
-                });
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.loadHomeScreen();
+                }
+            }
+        );
         return homeButton;
     }
 
@@ -457,8 +488,9 @@ public class UIOverlay {
         lastShown = recipe;
 
         String recipeString = recipe.getType().replaceAll("_", " ");
-        recipeString = Character.toUpperCase(recipeString.charAt(0)) +
-                recipeString.substring(1);
+        recipeString =
+            Character.toUpperCase(recipeString.charAt(0)) +
+            recipeString.substring(1);
 
         recipeName.setText(recipeString);
 
@@ -483,7 +515,8 @@ public class UIOverlay {
             }
 
             Image ingredientImage = new Image(
-                    recipe.getTextureManager().getTexture(foodName));
+                recipe.getTextureManager().getTexture(foodName)
+            );
 
             ingredientImage.getDrawable().setMinWidth(64);
             ingredientImage.getDrawable().setMinHeight(64);
@@ -496,7 +529,8 @@ public class UIOverlay {
         // Intermediary cooked ingredients
         for (String recipeIngredient : recipe.getRecipeIngredients()) {
             Image image = new Image(
-                    recipe.getTextureManager().getTexture(recipeIngredient));
+                recipe.getTextureManager().getTexture(recipeIngredient)
+            );
             image.getDrawable().setMinWidth(64);
             image.getDrawable().setMinHeight(64);
             recipeBookSteps.add(image);
@@ -507,7 +541,8 @@ public class UIOverlay {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
             Image uncooked = new Image(
-                    recipe.getTextureManager().getTexture("uncooked_pizza"));
+                recipe.getTextureManager().getTexture("uncooked_pizza")
+            );
             uncooked.getDrawable().setMinWidth(64);
             uncooked.getDrawable().setMinHeight(64);
             recipeBookSteps.add(uncooked).colspan(5).center();
@@ -535,9 +570,10 @@ public class UIOverlay {
      * Resizes the orders to the current screen size.
      */
     public void resizeOrders(
-            Collection<Recipe> orders,
-            float width,
-            float height) {
+        Collection<Recipe> orders,
+        float width,
+        float height
+    ) {
         generateOrders(orders, 0.04f * width, 0.075f * height);
     }
 
@@ -549,9 +585,10 @@ public class UIOverlay {
      * @param height The height of the order images.
      */
     private void generateOrders(
-            Collection<Recipe> orders,
-            float width,
-            float height) {
+        Collection<Recipe> orders,
+        float width,
+        float height
+    ) {
         orderGroup.clearChildren();
 
         for (Recipe order : orders) {
@@ -559,19 +596,21 @@ public class UIOverlay {
             recipeImage.getDrawable().setMinHeight(height);
             recipeImage.getDrawable().setMinWidth(width);
             ImageButton recipeButton = game
-                    .getButtonManager()
-                    .createImageButton(
-                            recipeImage.getDrawable(),
-                            ButtonManager.ButtonColour.GREY,
-                            0.5f);
+                .getButtonManager()
+                .createImageButton(
+                    recipeImage.getDrawable(),
+                    ButtonManager.ButtonColour.GREY,
+                    0.5f
+                );
 
             recipeButton.addListener(
-                    new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            updateRecipeUI(order);
-                        }
-                    });
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        updateRecipeUI(order);
+                    }
+                }
+            );
             orderGroup.addActor(recipeButton);
         }
     }
@@ -590,15 +629,18 @@ public class UIOverlay {
             if (state.getBuffActive(powerup)) {
                 activePowerups.setVisible(true);
                 Label activePowerupLabel = new Label(
-                        "",
-                        new LabelStyle(
-                                game.getFontManager().getMediumFont(),
-                                Color.WHITE));
+                    "",
+                    new LabelStyle(
+                        game.getFontManager().getMediumFont(),
+                        Color.WHITE
+                    )
+                );
 
                 String labelText = state.getPowerupName(powerup);
 
-                labelText += ": " +
-                        String.format("%d", state.getBuffRemaining(powerup) / 1000);
+                labelText +=
+                    ": " +
+                    String.format("%d", state.getBuffRemaining(powerup) / 1000);
 
                 activePowerupLabel.setText(labelText);
                 activePowerups.add(activePowerupLabel).width(130).padRight(15);
@@ -611,8 +653,9 @@ public class UIOverlay {
      */
     private void updateCash() {
         moneyLabel.setText(
-                " Money: £" +
-                        String.format("%.0f", PlayerState.getInstance().getCash()));
+            " Money: £" +
+            String.format("%.0f", PlayerState.getInstance().getCash())
+        );
     }
 
     /**
