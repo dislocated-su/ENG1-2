@@ -4,6 +4,12 @@ import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.customer.CustomerManager;
 
+/**
+ * SaveState stores all other types of Saved classes and serves to hold the json values read and written to file
+ * 
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class SaveState {
 
     public SavedPlayerState playerState;

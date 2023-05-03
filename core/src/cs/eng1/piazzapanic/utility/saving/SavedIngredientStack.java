@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * SavedIngredientStack
+ * SavedIngredientStack saves the values of IngredientStack in a way that means they can be serialized over for the purposes of saving to a json file
+ * 
+  * @author Ross Holmes
+ * @author Andrey Samoilov
  */
 public class SavedIngredientStack {
 
-    // Figure out a way to not use SavedFood[] as it does not get stored correctly
     SerializableMap<String, String> stack;
     int maxStackSize;
 
@@ -42,8 +44,15 @@ public class SavedIngredientStack {
         this.stack = new SerializableMap<>(map);
     }
 
-    SavedIngredientStack() {}
+    SavedIngredientStack() {
+    }
 
+    /**
+     * converts the SavedIngredientStack into an equivalent IngredientStack
+     * 
+     * @param manager, the instance FoodTextureManager
+     * @returns an IngredientStack object containing all the saved values
+     */
     public IngredientStack get(FoodTextureManager manager) {
         Map<String, String> savedFoodMap = stack.get();
 
@@ -53,29 +62,15 @@ public class SavedIngredientStack {
 
         for (String key : savedFoodMap.keySet()) {
             SavedFood[] arr = json.fromJson(
-                SavedFood[].class,
-                savedFoodMap.get(key)
-            );
+                    SavedFood[].class,
+                    savedFoodMap.get(key));
 
             for (SavedFood savedFood : arr) {
                 ingredientStack.addIngredient(
-                    key,
-                    (Ingredient) savedFood.get(manager)
-                );
+                        key,
+                        (Ingredient) savedFood.get(manager));
             }
         }
-        // for (String key : savedFoodMap.keySet()) {
-        // Object o = savedFoodMap.get(key);
-        // if (o instanceof JsonValue) {
-        // JsonValue val = (JsonValue) o;
-        // Gdx.app.log("", (val.toString()));
-        // }
-        Gdx.app.log("", "");
-        // for (SavedFood savedFood : arr) {
-        // ingredientStack.addIngredient(entry.getKey(), (Ingredient)
-        // savedFood.get(manager));
-        // }
-
         return ingredientStack;
     }
 }
