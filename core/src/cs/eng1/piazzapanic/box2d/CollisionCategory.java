@@ -11,7 +11,7 @@ public enum CollisionCategory {
     ENTITY((short) 0x0004),
     LIGHTS((short) 0x0010);
 
-    private short value;
+    private final short value;
 
     CollisionCategory(short v) {
         this.value = v;

@@ -24,6 +24,8 @@ import java.util.HashMap;
  * A utility which generates UI buttons with the correct background images given
  * specific text,
  * images and colours.
+ *
+ * @author Alistair Foggin
  */
 public class ButtonManager implements Disposable {
 
@@ -40,7 +42,7 @@ public class ButtonManager implements Disposable {
     private final HashMap<ButtonColour, CheckBox.CheckBoxStyle> checkBoxStyles;
 
     private final Texture checkboxUnchecked;
-    private AssetManager assetManager = new AssetManager();
+    private final AssetManager assetManager = new AssetManager();
 
     /**
      * @param fontManager the fontManager from which this class can get the right
@@ -132,12 +134,13 @@ public class ButtonManager implements Disposable {
         }
 
         // load skin for TextField
-        ObjectMap<String, Object> fontMap = new ObjectMap<String, Object>();
+        ObjectMap<String, Object> fontMap = new ObjectMap<>();
         fontMap.put("font1", fontManager.getLabelFont());
         SkinParameter parameter = new SkinParameter(fontMap);
         assetManager.load("skin/skin.atlas", TextureAtlas.class);
         assetManager.load("skin/skin.json", Skin.class, parameter);
 
+        // Run until assetManager finishes loading
         while (!assetManager.update()) {}
     }
 
@@ -180,7 +183,7 @@ public class ButtonManager implements Disposable {
     }
 
     public SelectBox<String> createSelectBox(String[] options) {
-        SelectBox<String> temp = new SelectBox<String>(
+        SelectBox<String> temp = new SelectBox<>(
             (Skin) assetManager.get("skin/skin.json")
         );
         temp.setItems(options);

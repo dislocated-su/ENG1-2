@@ -9,9 +9,17 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the stationAction class, being the correct descriptions.
+ *
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class StationActionTests {
 
+    /**
+     * Assert getActionDescription returns the correct string.
+     */
     @Test
     public void testGetActionDescription() {
         assertEquals(

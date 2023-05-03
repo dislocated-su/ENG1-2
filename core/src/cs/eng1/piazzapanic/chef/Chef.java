@@ -13,20 +13,21 @@ import com.badlogic.gdx.utils.Disposable;
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.PlayerState.PowerUp;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
-import cs.eng1.piazzapanic.food.recipes.Recipe;
 
 /**
  * The Chef class is an actor representing a chef in the kitchen. It can pick up
- * and put down
- * ingredients and interact with stations.
+ * and put down ingredients and interact with stations.
+ *
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class Chef extends Actor implements Disposable {
 
     /**
      * image, imageBounds and imageRotation are all used to display the chef to the
-     * user and show the
-     * user where the chef is and what direction it is moving without changing any
-     * collision details.
+     * user and show the user where the chef is and what direction it is moving
+     * without changing any collision details.
      */
     private final Texture image;
     private final Vector2 imageBounds;
@@ -42,13 +43,11 @@ public class Chef extends Actor implements Disposable {
     private boolean paused = false;
 
     /**
-     * @param image       the texture to display to the user
+     * @param image       the texture to display to the user.
      * @param imageBounds the bounds of the texture independent of the chef's own
-     *                    bounds to use for
-     *                    drawing the image to scale.
+     *                    bounds to use for drawing the image to scale.
      * @param chefManager the controller from which we can get information about all
-     *                    the chefs and
-     *                    their surrounding environment
+     *                    the chefs and their surrounding environment.
      */
     public Chef(Texture image, Vector2 imageBounds, ChefManager chefManager) {
         this.image = image;
@@ -56,6 +55,9 @@ public class Chef extends Actor implements Disposable {
         this.chefManager = chefManager;
     }
 
+    /**
+     * Creates a Box2d body for the Chef
+     */
     public void createBody() {
         CircleShape circle = new CircleShape();
         circle.setRadius(0.4f);
@@ -74,6 +76,11 @@ public class Chef extends Actor implements Disposable {
         body.createFixture(fDef);
     }
 
+    /**
+     * Initialises the Chef
+     *
+     * @param x, y the coordinates for the Chef to spawn at
+     */
     public void init(float x, float y) {
         setX(x);
         setY(y);
@@ -205,16 +212,6 @@ public class Chef extends Actor implements Disposable {
         return item;
     }
 
-    public Recipe placeRecipe() {
-        Holdable item = ingredientStack.peek();
-        if (item instanceof Recipe) {
-            ingredientStack.pop();
-            notifyAboutUpdatedStack();
-            return (Recipe) item;
-        }
-        return null;
-    }
-
     public FixedStack<Holdable> getStack() {
         return ingredientStack;
     }
@@ -245,8 +242,7 @@ public class Chef extends Actor implements Disposable {
 
     /**
      * Whenever the stack has items added or removed from it, notify the chef
-     * manager about the new
-     * stack.
+     * manager about the new stack.
      */
     public void notifyAboutUpdatedStack() {
         if (chefManager.getCurrentChef() == this) {

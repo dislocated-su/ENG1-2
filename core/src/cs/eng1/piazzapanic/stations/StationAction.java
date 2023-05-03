@@ -2,8 +2,16 @@ package cs.eng1.piazzapanic.stations;
 
 import cs.eng1.piazzapanic.PlayerState;
 
+/**
+ * Wrapper for {@link ActionType} that allows a mapping between items in the ActionType enum and string descriptions.
+ *
+ * @author Alistair Foggin
+ */
 public class StationAction {
 
+    /**
+     * Enumeration of all possible actions that a chef can take when interacting with a station.
+     */
     public enum ActionType {
         CHOP_ACTION,
         COOK_ACTION,

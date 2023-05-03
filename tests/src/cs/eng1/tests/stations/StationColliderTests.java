@@ -1,6 +1,7 @@
 package cs.eng1.tests.stations;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 import com.badlogic.gdx.math.Vector2;
@@ -15,14 +16,21 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the StationCollider class, the behaviour of which being determined by notify observer, registering (as well as deregister), and act.
+ *
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class StationColliderTests {
 
     World world = new World(Vector2.Zero, true);
-    private UIOverlay overlay = mock(UIOverlay.class);
+    private final UIOverlay overlay = mock(UIOverlay.class);
     ChefManager chefManager = new ChefManager(0, overlay, world, null);
     Chef chef = new Chef(null, null, chefManager);
-    private StationUIController uiController = mock(StationUIController.class);
+    private final StationUIController uiController = mock(
+        StationUIController.class
+    );
     IngredientStation station = new IngredientStation(
         0,
         null,
@@ -32,10 +40,10 @@ public class StationColliderTests {
         null
     );
 
-    @Test
     /**
      * Tests that notfiyObservers and getLastNotification work correctly
      */
+    @Test
     public void testNotifyObservers() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -53,45 +61,43 @@ public class StationColliderTests {
         );
     }
 
-    @Test
     /**
      * Tests that register and deregister work correctly
      */
+    @Test
     public void testDeregister() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
         stationCollider.deregister(station);
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
+        assertNull(
             "tests that deregister removes the nearbyChef",
-            null,
             station.nearbyChef
         );
     }
 
-    @Test
     /**
      * Tests that clearAllObservesr corectly deregisters the station from all its
      * current observers
      */
+    @Test
     public void testDeregisterFromAllSubjects() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
         stationCollider.clearAllObservers();
         stationCollider.notifyObservers(chef);
         station.update(null);
-        assertEquals(
+        assertNull(
             "tests that clearAllObservers removes all nearbyChef",
-            null,
             station.nearbyChef
         );
     }
 
-    @Test
     /**
      * Tests that register adds the station to the station coliders observers
      */
+    @Test
     public void testRegister() {
         StationCollider stationCollider = new StationCollider(chefManager);
         stationCollider.register(station);
@@ -104,10 +110,10 @@ public class StationColliderTests {
         );
     }
 
+    /**
+     * tests that act works corectly
+     */
     @Test
-    ///**
-    // * tests that act works corectly
-    // */
     public void testAct() {
         StationCollider stationCollider = new StationCollider(chefManager);
         chefManager.setCurrentChef(chefManager.getChefs().get(0));

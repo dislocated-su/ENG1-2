@@ -13,9 +13,17 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the behaviour of ingredientStation, being getActionTypes returning correct values.
+ *
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class IngredientStationTests {
 
+    /**
+     * Asserts getActionTypes as empty with no nearby chef.
+     */
     @Test
     public void testGetActionTypesNoChef() {
         IngredientStation station = new IngredientStation(
@@ -33,6 +41,9 @@ public class IngredientStationTests {
         );
     }
 
+    /**
+     * Asserts getActionTypes for grab ingredient.
+     */
     @Test
     public void testGetActionTypesWithChef() {
         IngredientStation station = new IngredientStation(
@@ -52,6 +63,9 @@ public class IngredientStationTests {
         );
     }
 
+    /**
+     * Asserts getActionTypes and action for grab ingredient.
+     */
     @Test
     public void testGettingIngredients() {
         IngredientStation station = new IngredientStation(

@@ -4,6 +4,16 @@ import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import java.util.List;
 
+/**
+ * SavedChefManager stores the relevant values for saving the ChefManager class
+ * as a json
+ *
+ * SavedChefManager stores an array of SavedChefs, which is the currently
+ * available chefs
+ *
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class SavedChefManager {
 
     public SavedChef[] savedChefs;

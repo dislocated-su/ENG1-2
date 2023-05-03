@@ -8,6 +8,8 @@ import java.util.List;
  * changes.
  *
  * @param <T> The class type that will be received every time this class receives an update.
+ *
+ * @author Alistair Foggin
  */
 public interface Observer<T> {
     /**

@@ -10,6 +10,14 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the functionality of the abstract class BasicChoppable - being choppingTick adding chopping progress,
+ * getChoppingProgress / getChoppingResult returning the proper step in chopping,
+ * getChopped returning chopped,
+ * and getTexture returning the correct texture.
+ *
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class BasicChoppableTests {
 
@@ -17,7 +25,7 @@ public class BasicChoppableTests {
     BasicChoppable tomato = new Tomato(foodTextureManager) {};
 
     /**
-     * choppingTick returns correct chopping status
+     * Assert choppingTick returns correct chopping status
      */
     @Test
     public void choppingTickTests() {
@@ -40,7 +48,7 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getChoppingProgress returns correct chopping percentages
+     * Assert getChoppingProgress returns correct chopping percentages
      */
     @Test
     public void getChoppingProgressTests() {
@@ -71,11 +79,17 @@ public class BasicChoppableTests {
             tomato.getChoppingProgress(),
             0.01
         );
+        tomato.choppingTick(400);
+        assertEquals(
+            "Chopping should continue to progress indefinitely, even after the BasicChoppable is fully chopped.",
+            20150,
+            tomato.getChoppingProgress(),
+            0.01
+        );
     }
 
     /**
-     * getChoppingResult checked to add correct tags (via .toString() of the return
-     * Holdable)
+     * Asserts getChoppingResult returns the proper holdable (converted via. toString method)
      */
     @Test
     public void getChoppingResultTests() {
@@ -117,8 +131,7 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getTexture returns correct texture based on whether the choppable is chopped
-     * or not.
+     * Asserts that choppables become chopped at the correct times.
      */
     @Test
     public void getChoppedTests() {
@@ -136,7 +149,17 @@ public class BasicChoppableTests {
             "A BasicChoppable should become chopped after chopping for its chopTime.",
             tomato.getChopped()
         );
-        tomato.choppingTick(3);
+        tomato.choppingTick(1);
+        assertTrue(
+            "A BasicChoppable should not be ruined before chopping for too long.",
+            tomato.getChopped()
+        );
+        tomato.choppingTick(1);
+        assertTrue(
+            "A BasicChoppable should not be ruined before chopping for too long.",
+            tomato.getChopped()
+        );
+        tomato.choppingTick(1);
         assertTrue(
             "A BasicChoppable should be ruined after chopping for too long but remain chopped.",
             (!tomato.getUseable()) && tomato.getChopped()
@@ -149,7 +172,7 @@ public class BasicChoppableTests {
     }
 
     /**
-     * getTexture returns correct texture based on whether the choppable is chopped
+     * Asserts that getTexture returns correct texture based on whether the choppable is chopped
      * or not.
      */
     @Test

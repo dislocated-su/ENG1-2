@@ -6,6 +6,14 @@ import cs.eng1.piazzapanic.stations.GrillingStation;
 import cs.eng1.piazzapanic.stations.RecipeStation;
 import cs.eng1.piazzapanic.stations.Station;
 
+/**
+ * SavedStation stores the values of an instance of a station relevant for saving in a manner that can be stored as a json
+ *
+ * SavedStation stores the station ID and its type, whether it is locked or in use and the food stored in that station
+ *
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class SavedStation {
 
     public int id;

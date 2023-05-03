@@ -5,6 +5,9 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Pizza;
 
+/**
+ * Formed, but not cooked, pizza. Can be cooked into a completed pizza.
+ */
 public class UncookedPizza extends BasicCookable {
 
     public UncookedPizza(FoodTextureManager textureManager) {

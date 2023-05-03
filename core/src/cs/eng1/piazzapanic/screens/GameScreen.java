@@ -47,6 +47,10 @@ import java.util.HashMap;
  * game. It does all the initialization and then lets each actor do its actions
  * based on the current
  * frame.
+ *
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class GameScreen implements Screen {
 
@@ -61,19 +65,16 @@ public class GameScreen implements Screen {
     private boolean isFirstFrame = true;
     private final Box2DDebugRenderer box2dDebugRenderer;
     private final World world;
-    private KeyboardInput kbInput;
-    private InputMultiplexer multiplexer = new InputMultiplexer();
-    private ArrayList<Vector2> extraCook;
+    private final KeyboardInput kbInput;
+    private final InputMultiplexer multiplexer = new InputMultiplexer();
+    private final ArrayList<Vector2> extraCook;
     private int currentChefSpawn = 0;
-    private PiazzaPanicGame game;
 
     public GameScreen(
         final PiazzaPanicGame game,
         int totalCustomers,
         int difficulty
     ) {
-        this.game = game;
-
         PlayerState.reset();
 
         world = new World(new Vector2(0, 0), true);
@@ -159,7 +160,6 @@ public class GameScreen implements Screen {
     }
 
     public GameScreen(PiazzaPanicGame game, SaveState save) {
-        this.game = game;
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 
@@ -373,7 +373,7 @@ public class GameScreen implements Screen {
 
         stage.draw();
         uiStage.draw();
-        box2dDebugRenderer.render(world, stage.getCamera().combined);
+        // box2dDebugRenderer.render(world, stage.getCamera().combined);
         world.step(delta, 6, 2);
 
         if (isFirstFrame) {

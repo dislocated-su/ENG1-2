@@ -10,6 +10,8 @@ import java.util.List;
 /**
  * The Recipe class is the parent class of the food classes that
  * dictates what ingredients are needed to make them
+ *
+ * @author Alistair Foggin
  */
 public class Recipe implements Holdable {
 
@@ -29,10 +31,16 @@ public class Recipe implements Holdable {
         this.textureManager = textureManager;
     }
 
+    /**
+     * @inheritDoc
+     */
     public Texture getTexture() {
         return textureManager.getTexture(type);
     }
 
+    /**
+     * @inheritDoc
+     */
     public String getType() {
         return type;
     }
@@ -66,6 +74,14 @@ public class Recipe implements Holdable {
         return ingredientTypes;
     }
 
+    /**
+     * Creates a new {@link Recipe} instance based on the specified {@link ActionType}.
+     * This method is used to convert compatible action types into their corresponding recipe when interacting with a station.
+     * @param action The {@link ActionType} to create the {@link Recipe} for.
+     * @param textureManager The {@link FoodTextureManager} instance to use for loading textures.
+     * @return The created {@link Recipe} instance.
+     * @throws IllegalArgumentException If the specified {@link ActionType} is not valid.
+     */
     public static Recipe fromAction(
         ActionType action,
         FoodTextureManager textureManager
@@ -86,6 +102,9 @@ public class Recipe implements Holdable {
         }
     }
 
+    /**
+     * @see Recipe#fromAction(ActionType, FoodTextureManager)
+     */
     public static Recipe fromString(
         String type,
         FoodTextureManager textureManager

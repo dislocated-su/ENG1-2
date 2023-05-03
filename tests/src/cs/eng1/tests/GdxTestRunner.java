@@ -14,6 +14,9 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 
+/**
+ * The test runner used to create a headless environment by mocking openGL.
+ */
 public class GdxTestRunner
     extends BlockJUnit4ClassRunner
     implements ApplicationListener {
@@ -65,9 +68,6 @@ public class GdxTestRunner
         waitUntilInvokedInRenderMethod();
     }
 
-    /**
-     *
-     */
     private void waitUntilInvokedInRenderMethod() {
         try {
             while (true) {

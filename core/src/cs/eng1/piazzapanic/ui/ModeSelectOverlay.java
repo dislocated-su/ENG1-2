@@ -14,6 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 
+/**
+ * ModeSelectOverlay renders a menu over the HomeScreen to allow the user to
+ * choose between Endless and Scenario mode, choose the number of customers for
+ * Scenario mode and select your difficulty
+ *
+ * @author Ross Holmes
+ */
 public class ModeSelectOverlay {
 
     private final Table table;

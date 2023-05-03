@@ -13,6 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import cs.eng1.piazzapanic.PiazzaPanicGame;
 
+/**
+ * Tutorial Screen.
+ *
+ * @author Alistair Foggin
+ */
 public class TutorialOverlay {
 
     private final Table table;

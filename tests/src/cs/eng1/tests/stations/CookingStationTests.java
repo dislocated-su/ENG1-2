@@ -17,6 +17,11 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the behaviour of cookingStation, being getActionTypes returning correct values and reset.
+ *
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class CookingStationTests {
 
@@ -26,6 +31,9 @@ public class CookingStationTests {
     Chef chef = new Chef(null, null, chefManager);
     StationUIController uiController = mock(StationUIController.class);
 
+    /**
+     * Asserts actiontypes as empty with no nearby chef.
+     */
     @Test
     public void testGetActionTypesNothing() {
         CookingStation station = new CookingStation(1, null, null, null, null);
@@ -48,6 +56,9 @@ public class CookingStationTests {
         );
     }
 
+    /**
+     * Assert getActionTypes for place ingredient.
+     */
     @Test
     public void testGetActionPlaceIngredient() {
         CookingStation station = new CookingStation(1, null, null, null, null);
@@ -60,6 +71,9 @@ public class CookingStationTests {
         );
     }
 
+    /**
+     * Assert actionTypes for Cooking, flipping, and grabbing.
+     */
     @Test
     public void testCooking() {
         CookingStation station = new CookingStation(
@@ -100,6 +114,9 @@ public class CookingStationTests {
         );
     }
 
+    /**
+     * Asserts getActionTypes for placeIngredient.
+     */
     @Test
     public void testPlaceIngredient() {
         CookingStation station = new CookingStation(
@@ -119,6 +136,9 @@ public class CookingStationTests {
         );
     }
 
+    /**
+     * Asserts reset method resets cooking station.
+     */
     @Test
     public void testReset() {
         CookingStation station = new CookingStation(
@@ -133,8 +153,7 @@ public class CookingStationTests {
         station.reset();
         assertTrue(
             "Tests the reset method",
-            station.currentIngredient == null &&
-            station.progressVisible == false
+            station.currentIngredient == null && !station.progressVisible
         );
     }
 }

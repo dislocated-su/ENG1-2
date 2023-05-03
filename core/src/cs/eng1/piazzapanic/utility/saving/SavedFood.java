@@ -8,6 +8,16 @@ import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 import cs.eng1.piazzapanic.food.recipes.Recipe;
 
+/**
+ * SavedFood stores the values of an instance of food, ingredient or recipe,
+ * relevant for saving in a manner that can be stored as a json
+ *
+ * SavedFood stores the name of the food, along with whether it is useable,
+ * completed and half completed (for grillable and cookable)
+ *
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class SavedFood {
 
     public String type;
@@ -36,7 +46,14 @@ public class SavedFood {
         }
     }
 
-    public Holdable get(FoodTextureManager manager) throws AssertionError {
+    /**
+     * Allows the user to conver the SavedFood instance into an instance of the food
+     * it is meant to represent
+     *
+     * @param manager the FoodTextureManager instance
+     * @returns an instance of the type of food with values correctly assigned
+     */
+    public Holdable get(FoodTextureManager manager) {
         Ingredient i = Ingredient.fromString(type, manager);
         if (i != null) {
             if (i instanceof BasicGrillable) {
@@ -51,13 +68,9 @@ public class SavedFood {
                 BasicChoppable choppable = (BasicChoppable) i;
                 choppable.setChopped(completed);
             }
-            return (Holdable) i;
+            return i;
         }
-        Recipe r = Recipe.fromString(type, manager);
-        if (r != null) {
-            return (Holdable) r;
-        }
-
-        throw new AssertionError("Loaded food is not of any known type");
+        // If not an ingredient, then a recipe.
+        return Recipe.fromString(type, manager);
     }
 }

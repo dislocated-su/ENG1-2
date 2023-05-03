@@ -32,18 +32,24 @@ import cs.eng1.piazzapanic.ui.ButtonManager.ButtonColour;
 import java.util.Collection;
 import java.util.List;
 
-// if you can just avoid
-// please dont mark us on this
-
+/**
+ * Main game HUD.
+ *
+ * @author Alistair Foggin
+ * @author Louis Warren
+ * @author Andrey Samoilov
+ */
 public class UIOverlay {
 
     private final PiazzaPanicGame game;
-    private Stage uiStage;
+    private final Stage uiStage;
 
-    private Table recipeBook, recipeBookRoot, recipeBookSteps;
-    private Table activePowerups;
-    private Table floatingBottomTable;
-    private Table root;
+    private final Table recipeBook;
+    private final Table recipeBookRoot;
+    private final Table recipeBookSteps;
+    private final Table activePowerups;
+    private final Table floatingBottomTable;
+    private final Table root;
 
     private Stack chefInventoryRoot;
     private VerticalGroup chefInventory;
@@ -51,7 +57,7 @@ public class UIOverlay {
     private Stack chefDisplay;
     private Image chefImage;
 
-    private VerticalGroup orderGroup;
+    private final VerticalGroup orderGroup;
 
     private final TextureRegionDrawable crossButtonDrawable;
 
@@ -59,7 +65,7 @@ public class UIOverlay {
     public boolean paused = false;
     private boolean activatedShop = false;
 
-    private Value scale;
+    private final Value scale;
 
     public PauseOverlay pauseOverlay;
 
@@ -102,7 +108,7 @@ public class UIOverlay {
         root.setFillParent(true);
         root.center().top().pad(15f);
         uiStage.addActor(root);
-        root.debug();
+        // root.debug();
 
         floatingBottomTable = new Table();
         floatingBottomTable.setFillParent(true);
@@ -164,6 +170,12 @@ public class UIOverlay {
         createRecipeTable();
     }
 
+    /**
+     * Initialises the UI to show both the current chef and their ingredient stack,
+     * as well as the background behind them.
+     *
+     * @param background The background drawable to show behind the chef inventory.
+     */
     private void createChefInventory(Drawable background) {
         // Initialize UI for showing current chef
         this.chefDisplay = new Stack();
@@ -185,6 +197,13 @@ public class UIOverlay {
     private Label moneyLabel;
     private UIStopwatch timer;
 
+    /**
+     * Initialises the timer to display at the top of the screen, which now also
+     * displays reputation and current money.
+     *
+     * @param background The background to show behind the timer, reputation
+     *                   counter, and money counter.
+     */
     private void createGameTimer(Drawable background) {
         // Initialize the timer
         LabelStyle timerStyle = new Label.LabelStyle(
@@ -240,6 +259,10 @@ public class UIOverlay {
     private Label recipeName;
     public UpgradesUi upgradesUi;
 
+    /**
+     * Creates the recipe table, which shows the orders from the customers and the
+     * recipe steps UI.
+     */
     public void createRecipeTable() {
         recipeBookRoot.setVisible(false);
         recipeBook.clear();
@@ -297,6 +320,9 @@ public class UIOverlay {
         uiStage.addActor(recipeBookRoot);
     }
 
+    /**
+     * Updates the reputation counter at the top of the screen when necessary.
+     */
     public void updateReputationCounter(int reputation) {
         reputationLabel.setText("Reputation: " + reputation + " ");
     }
@@ -360,8 +386,7 @@ public class UIOverlay {
     }
 
     /**
-     * Show the label displaying that the game has finished along with the time it
-     * took to complete.
+     * Changes the Screen to the EndScreen, and stops the game.
      */
     public void finishGameUI() {
         pause();
@@ -376,7 +401,7 @@ public class UIOverlay {
     }
 
     /**
-     * Update method for the ugprade button.
+     * Initialise the upgrades button.
      */
     public TextButton upgradesButton() {
         TextButton upgrades;
@@ -392,7 +417,7 @@ public class UIOverlay {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if (activatedShop == false) { // to check whether to hid or unhide the upgrades panel
+                    if (!activatedShop) { // to check whether to hid or unhide the upgrades panel
                         activatedShop = true;
                         upgradesUi.show();
                         upgrades.setText("Return");
@@ -444,7 +469,8 @@ public class UIOverlay {
      * Describe the cooking process of a recipe to the user with each step and
      * ingredient.
      *
-     * @param recipe The recipe to display the ingredients for.
+     * @param recipe The recipe to display the ingredients, steps, and final order
+     *               for.
      */
     public void updateRecipeUI(Recipe recipe) {
         // null at the end of the scenario, lastShown allows for switching current
@@ -511,7 +537,7 @@ public class UIOverlay {
         }
 
         // Pizza has extra cooking step
-        if (recipe.getType() == "pizza") {
+        if (recipe.getType().equals("pizza")) {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
             Image uncooked = new Image(
@@ -590,7 +616,8 @@ public class UIOverlay {
     }
 
     /**
-     * Refreshes the UI based on current active powerups.
+     * Refreshes the UI at the bottom of the screen based on current active
+     * powerups.
      */
     private void updateActivePowerups() {
         activePowerups.clearChildren();
@@ -602,7 +629,7 @@ public class UIOverlay {
             if (state.getBuffActive(powerup)) {
                 activePowerups.setVisible(true);
                 Label activePowerupLabel = new Label(
-                    String.format(""),
+                    "",
                     new LabelStyle(
                         game.getFontManager().getMediumFont(),
                         Color.WHITE
@@ -654,6 +681,9 @@ public class UIOverlay {
         updateActivePowerups();
     }
 
+    /**
+     * Sets the visibility to true for the group of tables visible by default
+     */
     public void show() {
         chefInventory.setVisible(true);
         orderGroup.setVisible(true);
@@ -661,6 +691,9 @@ public class UIOverlay {
         floatingBottomTable.setVisible(true);
     }
 
+    /**
+     * Sets the visibility to false for the group of tables visible by default
+     */
     public void hide() {
         recipeBookRoot.setVisible(false);
         root.setVisible(false);

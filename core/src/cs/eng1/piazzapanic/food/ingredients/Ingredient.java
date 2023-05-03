@@ -3,8 +3,16 @@ package cs.eng1.piazzapanic.food.ingredients;
 import com.badlogic.gdx.graphics.Texture;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
+import cs.eng1.piazzapanic.food.recipes.Recipe;
 
-public class Ingredient implements Holdable {
+/**
+ * Base class for all ingredients. Used to distinguish ingredients used in the preparation process and Recipes.
+ * @see Recipe
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
+ */
+public abstract class Ingredient implements Holdable {
 
     private final String type;
     protected final FoodTextureManager textureManager;

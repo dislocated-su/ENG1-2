@@ -16,8 +16,12 @@ import java.util.Stack;
 
 /**
  * The RecipeStation class is a station representing the place in the kitchen
- * where you combine ingredients to create food. The food can then be served to
- * the customer via the station.
+ * where you combine ingredients to create food. The food then can be picked up.
+ *
+ * @author Matt Fitzpatrick
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class RecipeStation extends Station {
 
@@ -67,7 +71,7 @@ public class RecipeStation extends Station {
      *
      * @param id                  The unique identifier of the station
      * @param textureRegion       The rectangular area of the texture
-     * @param stationUIController The controller from which we can get show and hide
+     * @param uiController The controller from which we can get show and hide
      *                            the action
      *                            buttons belonging to the station
      * @param alignment           Dictates where the action buttons are shown
@@ -79,12 +83,12 @@ public class RecipeStation extends Station {
     public RecipeStation(
         int id,
         TextureRegion textureRegion,
-        StationUIController stationUIController,
+        StationUIController uiController,
         ActionAlignment alignment,
         Boolean locked,
         FoodTextureManager textureManager
     ) {
-        super(id, textureRegion, stationUIController, alignment, locked);
+        super(id, textureRegion, uiController, alignment, locked);
         this.textureManager = textureManager;
     }
 

@@ -7,19 +7,33 @@ import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.interfaces.Grillable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
 
-public class BasicGrillable extends Ingredient implements Grillable {
+/**
+ * A base class for ingredients that need to be grilled, such as {@link Patty}.
+ * Implements the {@link Grillable} interface to enable the chopping functionality.
+ *
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
+public abstract class BasicGrillable extends Ingredient implements Grillable {
 
     private float accumulator = 0f;
     private final float grillStepTime = 2f;
     private final float failTime = 3f;
-
     private boolean halfGrilled = false;
     private boolean flipped = false;
 
+    /**
+     * Constructor for BasicGrillable.
+     * @param type the type of ingredient.
+     * @param textureManager the texture manager to use.
+     */
     public BasicGrillable(String type, FoodTextureManager textureManager) {
         super(type, textureManager);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean grillTick(float delta) {
         accumulator +=
@@ -60,6 +74,10 @@ public class BasicGrillable extends Ingredient implements Grillable {
         return false;
     }
 
+    /**
+     * Gets the current grilling progress as a percentage.
+     * @return the current grilling progress as a percentage.
+     */
     @Override
     public float getGrillProgress() {
         return (accumulator / grillStepTime) * 100f;
@@ -103,11 +121,17 @@ public class BasicGrillable extends Ingredient implements Grillable {
         return halfGrilled;
     }
 
+    /**
+     * @return {@code boolean} representing whether the ingredient is ready to be flipped or picked up.
+     */
     @Override
     public boolean grillStepComplete() {
         return (accumulator >= grillStepTime);
     }
 
+    /**
+     * Flip the {@link BasicGrillable}. This action is done by the player and prevents the object from becoming burnt.
+     */
     @Override
     public void flip() {
         accumulator = 0;

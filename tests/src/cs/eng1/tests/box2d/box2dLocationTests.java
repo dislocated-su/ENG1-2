@@ -9,13 +9,20 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Asserts the expected function of the box2dLocation class, being newLocation, vectorToAngle and angleToVector
+ */
 @RunWith(GdxTestRunner.class)
 public class box2dLocationTests {
 
+    /**
+     * Assert that newLocation creates a new box2dlocation with default position and
+     * orientation of 0.
+     */
     @Test
     public void newLocationTests() {
-        Box2dLocation fake = new Box2dLocation(new Vector2(1, 0), 1f);
-        Location<Vector2> location = fake.newLocation();
+        Box2dLocation functionless = new Box2dLocation(new Vector2(1, 1), 1f);
+        Location<Vector2> location = functionless.newLocation();
         assertEquals(
             "A new location should have co-ordinates (0, 0).",
             new Vector2(),
@@ -36,6 +43,9 @@ public class box2dLocationTests {
         );
     }
 
+    /**
+     * Asserts that vectorToAngle gets the right angle from a vector.
+     */
     @Test
     public void vectorToAngleTests() {
         Box2dLocation location = new Box2dLocation(new Vector2(), 0);
@@ -71,6 +81,9 @@ public class box2dLocationTests {
         );
     }
 
+    /**
+     * Asserts that angleToVector gets the proper Vector from the given angle.
+     */
     @Test
     public void angleToVectorTests() {
         Box2dLocation location = new Box2dLocation(Vector2.Zero, 0);

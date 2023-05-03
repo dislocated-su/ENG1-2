@@ -8,11 +8,21 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the behaviour of the KeyboardInput class, being not processing
+ * disallowed keys, processing allowed keys, and removing unused functions in
+ * the class by default.
+ *
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class KeyboardInputTests {
 
     KeyboardInput kbInput = new KeyboardInput();
 
+    /**
+     * Asserts non allowed keys are not processed.
+     */
     @Test
     public void nullTest() {
         assertFalse(
@@ -21,6 +31,9 @@ public class KeyboardInputTests {
         );
     }
 
+    /**
+     * Asserts movement is disabled by default.
+     */
     @Test
     public void variablesTest() {
         assertFalse(
@@ -33,6 +46,9 @@ public class KeyboardInputTests {
         );
     }
 
+    /**
+     * Assert keyDown processes all enabled keys.
+     */
     @Test
     public void keyDownTest() {
         assertTrue(
@@ -49,6 +65,9 @@ public class KeyboardInputTests {
         );
     }
 
+    /**
+     * Assert keyUp processes all enabled keys.
+     */
     @Test
     public void keyUpTest() {
         assertTrue(
@@ -65,6 +84,10 @@ public class KeyboardInputTests {
         );
     }
 
+    /*
+     * Assert unused but necessary implemented functions that have been changed all
+     * return false.
+     */
     @Test
     public void absentFunctionTest() {
         assertFalse(

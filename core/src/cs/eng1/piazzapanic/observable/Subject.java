@@ -6,6 +6,8 @@ package cs.eng1.piazzapanic.observable;
  *
  * @param <T> The type that is stored within the subject that is sent to all the registered
  *            observers whenever it is updated.
+ *
+ * @author Alistair Foggin
  */
 public interface Subject<T> {
     /**

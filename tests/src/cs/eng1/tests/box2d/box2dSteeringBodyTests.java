@@ -11,16 +11,23 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the public function of box2dSteeringBody, being vectorToAngle, angleToVector, and default behaviour.
+ *
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class box2dSteeringBodyTests {
 
     World world = new World(Vector2.Zero, true);
     BodyDef bd = new BodyDef();
-    double dpi = Math.PI;
-    float pi = (float) dpi;
+    float pi = (float) Math.PI;
     Body body = world.createBody(bd);
     Box2dSteeringBody steeringBody = new Box2dSteeringBody(body, true, 1f);
 
+    /**
+     * Asserts that vectorToAngle gets the right angle from a vector.
+     */
     @Test
     public void vectorToAngleTests() {
         assertEquals(
@@ -61,6 +68,9 @@ public class box2dSteeringBodyTests {
         );
     }
 
+    /**
+     * Asserts that angleToVector gets the proper Vector from the given angle.
+     */
     @Test
     public void angleToVectorTests() {
         Vector2 vector = Vector2.Zero;
@@ -98,6 +108,9 @@ public class box2dSteeringBodyTests {
         }
     }
 
+    /**
+     * Asserts that steeringBehavior is null by default.
+     */
     @Test
     public void steeringBehaviorTests() {
         assertNull(

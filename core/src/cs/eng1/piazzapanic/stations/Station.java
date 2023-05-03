@@ -13,10 +13,15 @@ import cs.eng1.piazzapanic.observable.Observer;
 import cs.eng1.piazzapanic.observable.Subject;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
-import cs.eng1.piazzapanic.utility.saving.SavedStation;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Base class for all Stations. Implements {@link Observer}
+ *
+ * @author Alistair Foggin
+ * @author Matt Fitzpatrick
+ */
 public class Station extends Actor implements Observer<Chef> {
 
     protected final int id;
@@ -33,6 +38,17 @@ public class Station extends Actor implements Observer<Chef> {
 
     protected boolean locked;
 
+    /**
+     * The constructor method for the class
+     *
+     * @param id           The unique identifier of the station
+     * @param image        The rectangular area of the texture
+     * @param uiController The controller from which we can get show and hide the
+     *                     action
+     *                     buttons belonging to the station
+     * @param alignment    Dictates where the action buttons are shown
+     * @param locked       Whether the station is locked and has to be purchased before it can be used.
+     */
     public Station(
         int id,
         TextureRegion image,
@@ -40,7 +56,7 @@ public class Station extends Actor implements Observer<Chef> {
         StationActionUI.ActionAlignment alignment,
         Boolean locked
     ) {
-        this.locked = locked == null ? false : locked;
+        this.locked = locked != null && locked;
         this.id = id;
         stationImage = image; // Texture of the object
         actionAlignment = alignment;

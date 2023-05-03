@@ -22,6 +22,12 @@ import java.util.ArrayList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the function of ChefManager - being initialising, init, hireChef and act.
+ *
+ * @author Joel Paxman
+ * @author Ross Holmes
+ */
 @RunWith(GdxTestRunner.class)
 public class ChefManagerTests {
 
@@ -55,8 +61,8 @@ public class ChefManagerTests {
     @Test
     public void startTests() {
         assertEquals(
-            "The game should start with 2 chefs.",
-            2,
+            "The game should start with 3 chefs.",
+            3,
             chefManager.getChefs().size()
         );
         for (Chef chef : chefManager.getChefs()) {
@@ -127,12 +133,12 @@ public class ChefManagerTests {
             customerManager
         );
         ArrayList<Vector2> spawnPoints = mapLoader.cookSpawnpoints;
-        for (int i = 2; i < 4; i++) {
-            chefManager.hireChef(spawnPoints.get(i - 2), stage);
+        for (int i = 3; i < 5; i++) {
+            chefManager.hireChef(spawnPoints.get(i - 3), stage);
             assertEquals(
                 new Vector2(
-                    Math.round(spawnPoints.get(i - 2).x),
-                    Math.round(spawnPoints.get(i - 2).y)
+                    Math.round(spawnPoints.get(i - 3).x),
+                    Math.round(spawnPoints.get(i - 3).y)
                 ),
                 new Vector2(
                     Math.round(chefManager.getChefs().get(i).getX()),
@@ -152,8 +158,8 @@ public class ChefManagerTests {
         }
         chefManager.hireChef(spawnPoints.get(0), stage);
         assertEquals(
-            "Hire Chef shouldn't add chefs over 4.",
-            4,
+            "Hire Chef shouldn't add chefs over 5.",
+            5,
             chefManager.getChefs().size()
         );
     }

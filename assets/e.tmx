@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="128" tileheight="128" infinite="0" nextlayerid="13" nextobjectid="136">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="30" tilewidth="128" tileheight="128" infinite="0" nextlayerid="13" nextobjectid="137">
  <tileset firstgid="1" source="Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/Tilesheet/Topdown Shooter Full 2.xml"/>
  <layer id="1" name="Background" width="32" height="30" locked="1">
   <data encoding="csv">
@@ -139,51 +139,51 @@
   </object>
  </objectgroup>
  <objectgroup id="7" name="Stations" locked="1">
-  <object id="3" class="Station" gid="483" x="2432" y="1280" width="128" height="128">
+  <object id="3" type="Station" gid="483" x="2432" y="1280" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="6"/>
     <property name="ingredients" propertytype="Ingredient" value="patty"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="4" class="Station" gid="483" x="2176" y="1280" width="128" height="128">
+  <object id="4" type="Station" gid="483" x="2176" y="1280" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="7"/>
     <property name="ingredients" propertytype="Ingredient" value="patty"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="12" class="Station" gid="214" x="1792" y="1408" width="128" height="128">
+  <object id="12" type="Station" gid="214" x="1792" y="1408" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="17"/>
     <property name="stationType" propertytype="StationType" value="recipeStation"/>
    </properties>
   </object>
-  <object id="13" class="Station" gid="214" x="1280" y="1408" width="128" height="128">
+  <object id="13" type="Station" gid="214" x="1280" y="1408" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="16"/>
     <property name="stationType" propertytype="StationType" value="recipeStation"/>
    </properties>
   </object>
-  <object id="14" class="Station" gid="214" x="1408" y="1792" width="128" height="128">
+  <object id="14" type="Station" gid="214" x="1408" y="1792" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="21"/>
     <property name="stationType" propertytype="StationType" value="recipeStation"/>
    </properties>
   </object>
-  <object id="15" class="Station" gid="214" x="2432" y="1792" width="128" height="128">
+  <object id="15" type="Station" gid="214" x="2432" y="1792" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="22"/>
     <property name="stationType" propertytype="StationType" value="recipeStation"/>
    </properties>
   </object>
-  <object id="23" class="Station" gid="1073742091" x="1280" y="1152" width="128" height="128">
+  <object id="23" type="Station" gid="1073742091" x="1280" y="1152" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="30"/>
     <property name="stationType" propertytype="StationType" value="choppingStation"/>
    </properties>
   </object>
-  <object id="24" class="Station" gid="1073742091" x="1792" y="1152" width="128" height="128">
+  <object id="24" type="Station" gid="1073742091" x="1792" y="1152" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="32"/>
     <property name="stationType" propertytype="StationType" value="choppingStation"/>
@@ -196,7 +196,7 @@
     <property name="stationType" propertytype="StationType" value="choppingStation"/>
    </properties>
   </object>
-  <object id="26" class="Station" gid="267" x="2816" y="1408" width="128" height="128" rotation="90">
+  <object id="26" type="Station" gid="267" x="2816" y="1408" width="128" height="128" rotation="90">
    <properties>
     <property name="actionAlignment" propertytype="ActionAlignment" value="LEFT"/>
     <property name="collisionObjectIDs" value="34"/>
@@ -204,119 +204,119 @@
     <property name="stationType" propertytype="StationType" value="choppingStation"/>
    </properties>
   </object>
-  <object id="35" class="Station" gid="129" x="3072" y="896" width="128" height="128">
+  <object id="35" type="Station" gid="129" x="3072" y="896" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="43"/>
     <property name="ingredients" propertytype="Ingredient" value="tomato"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="36" class="Station" gid="129" x="3328" y="896" width="128" height="128">
+  <object id="36" type="Station" gid="129" x="3328" y="896" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="43"/>
     <property name="ingredients" propertytype="Ingredient" value="lettuce"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="38" class="Station" gid="129" x="3328" y="1664" width="128" height="128">
+  <object id="38" type="Station" gid="129" x="3328" y="1664" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="52"/>
     <property name="ingredients" propertytype="Ingredient" value="bun"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="40" class="Station" gid="129" x="3328" y="1152" width="128" height="128">
+  <object id="40" type="Station" gid="129" x="3328" y="1152" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="50"/>
     <property name="ingredients" propertytype="Ingredient" value="cheese"/>
     <property name="stationType" propertytype="StationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="53" class="Station" gid="129" x="3072" y="1664" width="128" height="128">
+  <object id="53" type="Station" gid="129" x="3072" y="1664" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="52"/>
     <property name="ingredients" value="dough"/>
     <property name="stationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="54" class="Station" gid="129" x="3328" y="1408" width="128" height="128">
+  <object id="54" type="Station" gid="129" x="3328" y="1408" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="51"/>
     <property name="ingredients" value="potato"/>
     <property name="stationType" value="ingredientStation"/>
    </properties>
   </object>
-  <object id="55" class="Station" gid="3221225769" x="1024" y="1536" width="128" height="128" rotation="-90">
+  <object id="55" type="Station" gid="3221225769" x="1024" y="1536" width="128" height="128" rotation="-90">
    <properties>
     <property name="collisionObjectIDs" value="70"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
-  <object id="56" class="Station" gid="3221225769" x="1536" y="768" width="128" height="128">
+  <object id="56" type="Station" gid="3221225769" x="1536" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="60"/>
     <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
-  <object id="57" class="Station" gid="3221225769" x="1152" y="768" width="128" height="128">
+  <object id="57" type="Station" gid="3221225769" x="1152" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="61"/>
     <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
-  <object id="58" class="Station" gid="2147483945" x="1152" y="1792" width="128" height="128">
+  <object id="58" type="Station" gid="2147483945" x="1152" y="1792" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="62"/>
     <property name="stationType" propertytype="StationType" value="grillingStation"/>
    </properties>
   </object>
-  <object id="63" class="Station" gid="296" x="2048" y="640" width="128" height="128" rotation="180">
+  <object id="63" type="Station" gid="296" x="2048" y="640" width="128" height="128" rotation="180">
    <properties>
     <property name="collisionObjectIDs" value="59"/>
     <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
-  <object id="64" class="Station" gid="296" x="896" y="1152" width="128" height="128" rotation="90">
+  <object id="64" type="Station" gid="296" x="896" y="1152" width="128" height="128" rotation="90">
    <properties>
     <property name="collisionObjectIDs" value="68"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
-  <object id="65" class="Station" gid="296" x="896" y="896" width="128" height="128" rotation="90">
+  <object id="65" type="Station" gid="296" x="896" y="896" width="128" height="128" rotation="90">
    <properties>
     <property name="collisionObjectIDs" value="69"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
-  <object id="66" class="Station" gid="1073742120" x="2304" y="768" width="128" height="128">
+  <object id="66" type="Station" gid="1073742120" x="2304" y="768" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="71"/>
     <property name="locked" type="bool" value="true"/>
     <property name="stationType" propertytype="StationType" value="cookingStation"/>
    </properties>
   </object>
-  <object id="75" class="Station" gid="511" x="1536" y="2048" width="128" height="128">
+  <object id="75" type="Station" gid="511" x="1536" y="2048" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="79"/>
     <property name="stationType" propertytype="StationType" value="submitStation"/>
    </properties>
   </object>
-  <object id="76" class="Station" gid="511" x="1792" y="2048" width="128" height="128">
+  <object id="76" type="Station" gid="511" x="1792" y="2048" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="80"/>
     <property name="stationType" propertytype="StationType" value="submitStation"/>
    </properties>
   </object>
-  <object id="77" class="Station" gid="511" x="2048" y="2048" width="128" height="128">
+  <object id="77" type="Station" gid="511" x="2048" y="2048" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="82"/>
     <property name="stationType" propertytype="StationType" value="submitStation"/>
    </properties>
   </object>
-  <object id="78" class="Station" gid="511" x="2304" y="2048" width="128" height="128">
+  <object id="78" type="Station" gid="511" x="2304" y="2048" width="128" height="128">
    <properties>
     <property name="collisionObjectIDs" value="83"/>
     <property name="stationType" propertytype="StationType" value="submitStation"/>
@@ -433,6 +433,12 @@
   <object id="135" x="2115.15" y="2363.64">
    <properties>
     <property name="aiobjective" type="int" value="-2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="136" x="2048" y="1536">
+   <properties>
+    <property name="cookspawnid" type="int" value="2"/>
    </properties>
    <point/>
   </object>

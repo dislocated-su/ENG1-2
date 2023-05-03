@@ -18,10 +18,15 @@ import cs.eng1.piazzapanic.ui.SettingsOverlay;
 import cs.eng1.piazzapanic.ui.TutorialOverlay;
 import cs.eng1.piazzapanic.utility.saving.SaveManager;
 
+/**
+ * Main menu screen. Allows the user to access all other parts of the application.
+ *
+ * @author Alistair Foggin
+ */
 public class HomeScreen implements Screen {
 
     private final Stage uiStage;
-    private Table table;
+    private final Table table;
 
     public HomeScreen(final PiazzaPanicGame game) {
         // Initialize the root UI stage and table

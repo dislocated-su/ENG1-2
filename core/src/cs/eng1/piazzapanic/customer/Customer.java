@@ -18,21 +18,31 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.piazzapanic.utility.saving.SavedCustomer;
 
+/**
+ * In-game customer, displayed as a Scene2D actor.
+ * World collisions are handled by box2d and station interaction collisions are handled using StationCollider and Scene2D.
+ * @author Ross Holmes
+ * @author Andrey Samoilov
+ */
 public class Customer extends Actor implements Disposable {
 
+    /**
+     * Wrapper for a steering agent responsible for moving the body.
+     * @see Box2dSteeringBody
+     */
+    public Box2dSteeringBody steeringBody;
+    /**
+     * Current objective of the steering agent. Represented as an ID for a map in CustomerManager.
+     */
+    public Integer currentObjective = null;
     private final Timer repTimer;
     private final Recipe order;
     private final CustomerManager customerManager;
-    private boolean reputation = true;
-    private boolean orderCompleted = false;
     private final Texture texture;
     private final Vector2 textureBounds;
-
-    public Box2dSteeringBody steeringBody;
-
-    public Integer currentObjective = null;
-
-    private Body body;
+    private final Body body;
+    private boolean reputation = true;
+    private boolean orderCompleted = false;
     private Box2dLocation endObjective;
 
     public Customer(
@@ -48,10 +58,7 @@ public class Customer extends Actor implements Disposable {
         this.texture = texture;
         this.textureBounds = bounds;
         setPosition(position.x, position.y);
-        createBody();
-    }
 
-    public void createBody() {
         CircleShape circle = new CircleShape();
         circle.setRadius(0.4f);
         FixtureDef fDef = new FixtureDef();
@@ -71,10 +78,16 @@ public class Customer extends Actor implements Disposable {
         this.steeringBody = new Box2dSteeringBody(this.body, true, 0.4f);
     }
 
+    /**
+     * @return this customer's order.
+     */
     public Recipe getOrder() {
         return order;
     }
 
+    /**
+     * @return {@link Timer} that when elapsed loses reputation of the player.
+     */
     public Timer getRepTimer() {
         return repTimer;
     }
@@ -91,6 +104,12 @@ public class Customer extends Actor implements Disposable {
         return orderCompleted;
     }
 
+    /**
+     * Procedure for fulfilling the customers order:
+     *  Completes the order of the current customer.
+     *  Updates the player's cash.
+     *  Makes the customer walk away.
+     */
     public void fulfillOrder() {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
         PlayerState.getInstance().earnCash(100, happiness);

@@ -77,12 +77,7 @@ public class KeyboardInput implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        boolean processed = true;
-        switch (character) {
-            default:
-                processed = false;
-        }
-        return processed;
+        return false;
     }
 
     @Override

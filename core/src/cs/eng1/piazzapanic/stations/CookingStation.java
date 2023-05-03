@@ -3,16 +3,22 @@ package cs.eng1.piazzapanic.stations;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
+import cs.eng1.piazzapanic.food.ingredients.Potato;
 import cs.eng1.piazzapanic.food.interfaces.Cookable;
 import cs.eng1.piazzapanic.food.interfaces.Holdable;
+import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.ui.StationActionUI;
 import cs.eng1.piazzapanic.ui.StationUIController;
 import java.util.LinkedList;
 
 /**
  * The CookingStation class is a station representing the place in the kitchen
- * where you cook
- * patties to be used in making burgers.
+ * where you process {@link Potato} or {@link Pizza}, i.e. an oven.
+ *
+ * @author Matt Fitzpatrick
+ * @author Alistair Foggin
+ * @author Andrey Samoilov
+ * @author Ross Holmes
  */
 public class CookingStation extends Station {
 
@@ -26,10 +32,10 @@ public class CookingStation extends Station {
      * @param id           The unique identifier of the station
      * @param image        The rectangular area of the texture
      * @param uiController The controller from which we can get show and hide the
-     *                     action buttons
-     *                     belonging to the station
+     *                     action
+     *                     buttons belonging to the station
      * @param alignment    Dictates where the action buttons are shown
-     * @param locked
+     * @param locked       Whether the station is locked and has to be purchased before it can be used.
      */
     public CookingStation(
         int id,

@@ -26,6 +26,12 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the behaviour of the SubmitStation class, being empty actiontypes and
+ * testing that the chef holding the correct recipe enables submitting.
+ *
+ * @author Sabid Hossain
+ */
 @RunWith(GdxTestRunner.class)
 public class SubmitStationTests {
 

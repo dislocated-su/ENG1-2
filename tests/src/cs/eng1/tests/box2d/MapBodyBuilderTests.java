@@ -18,6 +18,11 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the public function of MapBodyBuilder - being buildShapes and decideShapes - given a map.
+ *
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class MapBodyBuilderTests {
 
@@ -27,6 +32,9 @@ public class MapBodyBuilderTests {
     Array<Body> bodies = MapBodyBuilder.buildShapes(layer, 16, world);
     MapBodyBuilder bodyBuilder = new MapBodyBuilder();
 
+    /**
+     * Asserts that buildShapes finds each shape in a given map.
+     */
     @Test
     public void buildShapesTest() {
         for (int i = 0; i < bodies.size; i++) {
@@ -42,11 +50,14 @@ public class MapBodyBuilderTests {
         );
     }
 
+    /**
+     * Asserts the function of decideShape - being parsing Polygons, Lines, and Rectangles - within a map.
+     */
     @Test
     public void decideShapeTest() {
-        MapObject rectangle = layer.getObjects().get(2);
-        MapObject line = layer.getObjects().get(1);
         MapObject polygon = layer.getObjects().get(0);
+        MapObject line = layer.getObjects().get(1);
+        MapObject rectangle = layer.getObjects().get(2);
         MapObject fake = new MapObject();
         assertNull(
             "Decideshape (getShape) should return null if the given MapObject is of indeterminate shape.",

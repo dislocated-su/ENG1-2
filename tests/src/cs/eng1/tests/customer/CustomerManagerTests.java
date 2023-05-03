@@ -23,6 +23,12 @@ import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the functionality of CustomerManager (and for convenience customer) being:
+ * init, some of endless mode, act and customer movement.
+ *
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class CustomerManagerTests {
 
@@ -242,26 +248,25 @@ public class CustomerManagerTests {
         for (
             int i = customerManager.getSpawnTimer().getDelay();
             i >= customerManager.getMaxSpawnRate();
-            Math.round(i *= 0.95)
+            Math.round(i *= 0.95f)
         ) {
-            customerManager.act(
-                customerManager.getEndlessTimer().getRemainingTime() + 1
-            );
             assertEquals(
                 "spawnTimer should decrease by 5% when endlessTimer.tick(delta) is true",
                 i,
-                customerManager.getSpawnTimer().getRemainingTime()
+                customerManager.getSpawnTimer().getDelay(),
+                10f
             );
+            customerManager.act(customerManager.getEndlessTimer().getDelay());
         }
         customerManager.act(1000f);
         assertEquals(
             customerManager.getMaxSpawnRate(),
-            customerManager.getSpawnTimer().getRemainingTime()
+            customerManager.getSpawnTimer().getDelay()
         );
     }
 
     /**
-     * Test the functionality of act in CustomerManager by relation Customer.
+     * Test the functionality of act in CustomerManager, and by relation Customer.
      */
     @Test
     public void actTests() {
@@ -290,7 +295,6 @@ public class CustomerManagerTests {
         );
         float spawnTime =
             (customerManager.getSpawnTimer().getRemainingTime()) / 500;
-        int x = customerManager.getObjectives().size();
         assertEquals(
             "Reputation should be 3 by default.",
             3,
@@ -308,16 +312,26 @@ public class CustomerManagerTests {
             2,
             customerManager.getReputation()
         );
-        for (int i = 0; i <= x; i++) {
-            act(spawnTime);
-            assertEquals(
-                "Act should spawn customers if the correct amount of time has passed.",
-                Math.min(i + 2, 5),
-                customerManager.getCustomerQueue().size()
-            );
-        }
-        for (float i = 0; i < spawnTime * 2; i += 1f / 60) {
-            customerManager.act(1f / 60);
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            2,
+            customerManager.getCustomerQueue().size()
+        );
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            3,
+            customerManager.getCustomerQueue().size()
+        );
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            4,
+            customerManager.getCustomerQueue().size()
+        );
+        for (float i = 0; i < 2; i++) {
+            customerManager.act(spawnTime);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",
                 5,
@@ -326,7 +340,7 @@ public class CustomerManagerTests {
         }
         for (int i = 1; i < 5; i++) {
             act(spawnTime * 500);
-            customerManager.nextRecipe(chef, customerManager.getCustomer(0));
+            customerManager.nextRecipe(customerManager.getCustomer(0));
             assertEquals(
                 "Act combined with getRecipe should spawn the correct number of total customers and complete orders.",
                 i,
@@ -379,7 +393,7 @@ public class CustomerManagerTests {
             act(spawnTime);
             Customer currentCustomer = customerManager.getCustomer(i);
             Box2dLocation objective = customerManager.getObjective(i);
-            for (float n = 0; n <= spawnTime; n += 1f / 60) {
+            for (float n = 0; n <= 10f; n += 1f / 60) {
                 currentCustomer.act(1f / 60);
                 world.step(1f / 60, 6, 2);
             }
