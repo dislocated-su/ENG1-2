@@ -133,7 +133,7 @@ public class ChefManager implements Disposable {
             Vector2 pos = spawnPoints.get(index);
             chef.init(pos.x, pos.y);
             index++;
-            if (index == 2) {
+            if (index == 3) {
                 index = 0;
             }
         }
