@@ -69,14 +69,12 @@ public class GameScreen implements Screen {
     private final InputMultiplexer multiplexer = new InputMultiplexer();
     private final ArrayList<Vector2> extraCook;
     private int currentChefSpawn = 0;
-    private final PiazzaPanicGame game;
 
     public GameScreen(
         final PiazzaPanicGame game,
         int totalCustomers,
         int difficulty
     ) {
-        this.game = game;
 
         PlayerState.reset();
 
@@ -163,7 +161,6 @@ public class GameScreen implements Screen {
     }
 
     public GameScreen(PiazzaPanicGame game, SaveState save) {
-        this.game = game;
         world = new World(new Vector2(0, 0), true);
         box2dDebugRenderer = new Box2DDebugRenderer();
 

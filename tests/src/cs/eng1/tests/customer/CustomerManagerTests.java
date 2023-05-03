@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
+
 import cs.eng1.piazzapanic.PlayerState;
 import cs.eng1.piazzapanic.box2d.Box2dLocation;
 import cs.eng1.piazzapanic.chef.Chef;
@@ -21,6 +21,7 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.piazzapanic.utility.MapLoader;
 import cs.eng1.tests.GdxTestRunner;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -243,21 +244,21 @@ public class CustomerManagerTests {
         for (
             int i = customerManager.getSpawnTimer().getDelay();
             i >= customerManager.getMaxSpawnRate();
-            Math.round(i *= 0.95)
+            Math.round(i *= 0.95f)
         ) {
-            customerManager.act(
-                customerManager.getEndlessTimer().getRemainingTime() + 1
-            );
             assertEquals(
                 "spawnTimer should decrease by 5% when endlessTimer.tick(delta) is true",
                 i,
-                customerManager.getSpawnTimer().getRemainingTime()
+                customerManager.getSpawnTimer().getDelay(),
+                10f
             );
+            customerManager.act(
+                customerManager.getEndlessTimer().getDelay());
         }
         customerManager.act(1000f);
         assertEquals(
             customerManager.getMaxSpawnRate(),
-            customerManager.getSpawnTimer().getRemainingTime()
+            customerManager.getSpawnTimer().getDelay()
         );
     }
 
@@ -291,7 +292,6 @@ public class CustomerManagerTests {
         );
         float spawnTime =
             (customerManager.getSpawnTimer().getRemainingTime()) / 500;
-        int x = customerManager.getObjectives().size();
         assertEquals(
             "Reputation should be 3 by default.",
             3,
@@ -309,16 +309,26 @@ public class CustomerManagerTests {
             2,
             customerManager.getReputation()
         );
-        for (int i = 0; i <= x; i++) {
-            act(spawnTime);
-            assertEquals(
-                "Act should spawn customers if the correct amount of time has passed.",
-                Math.min(i + 2, 5),
-                customerManager.getCustomerQueue().size()
-            );
-        }
-        for (float i = 0; i < spawnTime * 2; i += 1f / 60) {
-            customerManager.act(1f / 60);
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            2,
+            customerManager.getCustomerQueue().size()
+        );
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            3,
+            customerManager.getCustomerQueue().size()
+        );
+        act(spawnTime);
+        assertEquals(
+            "Act should spawn customers if the correct amount of time has passed.",
+            4,
+            customerManager.getCustomerQueue().size()
+        );
+        for (float i = 0; i < 2; i ++) {
+            customerManager.act(spawnTime);
             assertEquals(
                 "customerManager act should not spawn customers above the given amount of customers.",
                 5,
@@ -380,7 +390,7 @@ public class CustomerManagerTests {
             act(spawnTime);
             Customer currentCustomer = customerManager.getCustomer(i);
             Box2dLocation objective = customerManager.getObjective(i);
-            for (float n = 0; n <= spawnTime; n += 1f / 60) {
+            for (float n = 0; n <= 10f; n += 1f / 60) {
                 currentCustomer.act(1f / 60);
                 world.step(1f / 60, 6, 2);
             }

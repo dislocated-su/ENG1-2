@@ -20,8 +20,7 @@ import java.util.List;
 
 /**
  * The controller that handles switching control between chefs and tells them
- * about the surrounding
- * environment.
+ * about the surrounding environment.
  *
  * @author Alistair Foggin
  * @author Ross Holmes
@@ -44,14 +43,13 @@ public class ChefManager implements Disposable {
 
     /**
      * @param chefScale the amount to scale the texture by so that each chef is an
-     *                  accurate
-     *                  size.
+     *                  accurate size.
      * @param overlay   the user interface overlay to display information about the
-     *                  current chef
-     *                  and time, and to provide more controls.
+     *                  current chef and time, and to provide more controls.
      * @param world     Box2D world to use for Chef collision and movement.
      *
-     * @param keyboardInput Input processor for input from the keyboard. Passed down to the chefs this class owns.
+     * @param keyboardInput Input processor for input from the keyboard. Passed down
+     *                      to the chefs this class owns.
      */
     public ChefManager(
         float chefScale,
@@ -135,6 +133,9 @@ public class ChefManager implements Disposable {
         }
     }
 
+    /**
+     * 
+     */
     public void hireChef(Vector2 position, Stage stage) {
         if (chefs.size() >= 4) {
             return;

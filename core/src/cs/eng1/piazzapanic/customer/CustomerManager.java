@@ -76,7 +76,7 @@ public class CustomerManager {
         this.customerScale = customerScale;
         this.world = world;
 
-        spawnTimer = new Timer(1000, false, true);
+        spawnTimer = new Timer(60000, false, true);
         endlessTimer = new Timer(8000, false, true);
 
         objectiveAvailability = new HashMap<>();
@@ -159,6 +159,7 @@ public class CustomerManager {
     ) {
         this(customerScale, overlay, world, customers);
         randomOrders.setSeed(seed);
+        randomCustomerCount.setSeed(seed);
     }
 
     /**

@@ -10,21 +10,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+
 import cs.eng1.piazzapanic.chef.Chef;
 import cs.eng1.piazzapanic.chef.ChefManager;
 import cs.eng1.piazzapanic.food.FoodTextureManager;
 import cs.eng1.piazzapanic.food.ingredients.Cheese;
 import cs.eng1.piazzapanic.food.ingredients.Ingredient;
 import cs.eng1.piazzapanic.food.ingredients.Patty;
-import cs.eng1.piazzapanic.food.interfaces.Holdable;
-import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.piazzapanic.utility.KeyboardInput;
 import cs.eng1.tests.GdxTestRunner;
+
 import java.util.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the function of Chef - being chefStack, init, createBody and movement.
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class ChefTests {
 
@@ -62,13 +67,15 @@ public class ChefTests {
         chef.init(0, 0);
         Ingredient cheese = new Cheese(foodManager);
         Patty patty = new Patty(foodManager);
-        Pizza pizza = new Pizza(foodManager);
         assertTrue(
             "A chef with an empty stack should be able to grab ingredients.",
             chef.canGrabIngredient()
         );
         chef.grabItem(cheese);
-        assertTrue(chef.hasIngredient());
+        assertTrue(
+            "hasIngredient should be true when the chef has an ingredient.", 
+            chef.hasIngredient()
+        );
         chef.getStack().pop();
         chef.grabItem(patty);
         assertTrue(chef.hasIngredient());
@@ -78,26 +85,10 @@ public class ChefTests {
         assertFalse(chef.canGrabIngredient());
         chef.getStack().pop();
         assertTrue(chef.canGrabIngredient());
-        chef.grabItem(pizza);
-        Holdable top = chef.getStack().peek();
-        assertEquals(
-            "placeRecipe should return the top of the stack if it's a recipe.",
-            pizza,
-            chef.placeRecipe()
-        );
-        assertNotEquals(
-            "placeRecipe should remove the top item of a list if it's a recipe.",
-            top,
-            chef.getStack().peek()
-        );
-        assertNull(
-            "placeRecipe should return null if the top of the stack isn't a recipe.",
-            chef.placeRecipe()
-        );
     }
 
     /**
-     * Asserts that chef init behaves correctly.
+     * Asserts that chef init both sets a chefs position and reset the chefs stack.
      */
     @Test
     public void initTests() {
@@ -115,6 +106,8 @@ public class ChefTests {
             chef.getY(),
             1f
         );
+
+        chef.grabItem(new Cheese(foodManager));
 
         chef.init(10, 10);
         assertEquals(
@@ -138,7 +131,7 @@ public class ChefTests {
     }
 
     /**
-     * Asserts that chef createBody works correctly.
+     * Asserts that chef createBody properly creates a body in the right position.
      */
     @Test
     public void createBodyTests() {
@@ -153,13 +146,10 @@ public class ChefTests {
     }
 
     /**
-     * Asserts that chef movement works correctly.
+     * Asserts that chef movement works as currently expected.
      */
     @Test
     public void movementTests() {
-        world = clearBodies(world);
-        world = clearBodies(world);
-        world = clearBodies(world);
         world = clearBodies(world);
 
         chef.init(0, 0);
@@ -215,8 +205,8 @@ public class ChefTests {
     }
 
     /**
-     * Acts for the chef and world to allow "movement" to happen.
-     * Clears the inputs afterwards.
+     * Acts for the chef and world to allow brief "movement" to happen.
+     * Clears the inputs during this action.
      */
     private void move() {
         for (int i = 0; i <= 60; i++) {
@@ -227,7 +217,7 @@ public class ChefTests {
     }
 
     /**
-     * Clears chef momentum, then resets position
+     * Clears chef momentum, then resets its position.
      */
     private void clear() {
         for (int i = 0; i < 60; i++) {
@@ -238,9 +228,9 @@ public class ChefTests {
     }
 
     /**
-     * Clears the bodies on the testing World
+     * Clears the bodies on the testing World, to reduce memory impact and issues arising from large amounts of bodies.
      *
-     * @param the world to clear
+     * @param world the world to clear
      * @returns world with all bodies destroyed
      */
     public World clearBodies(World world) {

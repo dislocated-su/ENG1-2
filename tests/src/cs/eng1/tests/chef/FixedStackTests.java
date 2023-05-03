@@ -6,7 +6,11 @@ import cs.eng1.piazzapanic.chef.FixedStack;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+/**
+ * Tests the functionality of fixedStack - being having a right length and interacting with the space in a stack
+ * 
+ * @author Joel Paxman
+ */
 @RunWith(GdxTestRunner.class)
 public class FixedStackTests {
 

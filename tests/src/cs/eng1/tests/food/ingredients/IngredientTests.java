@@ -257,17 +257,17 @@ public class IngredientTests {
         );
         assertEquals(
             "getTexture() should return the correct texture for a patty.",
-            textureManager.getTexture("patty"),
+            textureManager.getTexture("patty_raw"),
             patty.getTexture()
         );
         assertEquals(
             "getTexture() should return the correct texture for lettuce.",
-            textureManager.getTexture("lettuce"),
+            textureManager.getTexture("lettuce_raw"),
             lettuce.getTexture()
         );
         assertEquals(
             "getTexture() should return the correct texture for tomato.",
-            textureManager.getTexture("tomato"),
+            textureManager.getTexture("tomato_raw"),
             tomato.getTexture()
         );
     }
