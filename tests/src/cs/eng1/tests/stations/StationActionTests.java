@@ -8,9 +8,10 @@ import cs.eng1.piazzapanic.stations.StationAction.ActionType;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the stationAction class, being the correct descriptions.
- * 
+ *
  * @author Sabid Hossain
  */
 @RunWith(GdxTestRunner.class)

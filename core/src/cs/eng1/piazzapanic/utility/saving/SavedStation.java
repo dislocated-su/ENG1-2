@@ -8,9 +8,9 @@ import cs.eng1.piazzapanic.stations.Station;
 
 /**
  * SavedStation stores the values of an instance of a station relevant for saving in a manner that can be stored as a json
- * 
+ *
  * SavedStation stores the station ID and its type, whether it is locked or in use and the food stored in that station
- * 
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -23,8 +23,7 @@ public class SavedStation {
     public String type;
     public SavedIngredientStack ingredientStack;
 
-    public SavedStation() {
-    }
+    public SavedStation() {}
 
     public SavedStation(Station station) {
         this.id = station.getId();
@@ -33,35 +32,41 @@ public class SavedStation {
 
         if (station instanceof RecipeStation) {
             RecipeStation recipeStation = (RecipeStation) station;
-            ingredientStack = new SavedIngredientStack(recipeStation.ingredientStack);
+            ingredientStack =
+                new SavedIngredientStack(recipeStation.ingredientStack);
             items = new SavedFood[recipeStation.displayIngredient.size()];
             for (int i = 0; i < recipeStation.displayIngredient.size(); i++) {
-                items[i] = new SavedFood(recipeStation.displayIngredient.get(i));
+                items[i] =
+                    new SavedFood(recipeStation.displayIngredient.get(i));
             }
             type = "Recipe";
         } else {
             items = new SavedFood[1];
             if (station instanceof ChoppingStation) {
                 ChoppingStation choppingStation = (ChoppingStation) station;
-                items[0] = choppingStation.currentIngredient != null
+                items[0] =
+                    choppingStation.currentIngredient != null
                         ? new SavedFood(choppingStation.currentIngredient)
                         : null;
                 type = "Chopping";
             } else if (station instanceof CookingStation) {
                 CookingStation cookingStation = (CookingStation) station;
-                items[0] = cookingStation.currentIngredient != null
+                items[0] =
+                    cookingStation.currentIngredient != null
                         ? new SavedFood(cookingStation.currentIngredient)
                         : null;
                 type = "Cooking";
             } else if (station instanceof GrillingStation) {
                 GrillingStation grillingStation = (GrillingStation) station;
-                items[0] = grillingStation.currentIngredient != null
+                items[0] =
+                    grillingStation.currentIngredient != null
                         ? new SavedFood(grillingStation.currentIngredient)
                         : null;
                 type = "Grilling";
             } else {
                 throw new AssertionError(
-                        "Attempting to save a station of invalid type");
+                    "Attempting to save a station of invalid type"
+                );
             }
         }
     }

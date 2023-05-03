@@ -24,9 +24,10 @@ import cs.eng1.tests.GdxTestRunner;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the behaviour of ingredientStation, being getActionTypes returning correct values and performing those actions, as well as reset.
- * 
+ *
  * @author Sabid Hossain
  */
 @RunWith(GdxTestRunner.class)

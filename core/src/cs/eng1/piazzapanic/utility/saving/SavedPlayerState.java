@@ -7,10 +7,10 @@ import cs.eng1.piazzapanic.utility.Timer;
 /**
  * SavedPlayerState stores the relevant values of PlayerState so that it can be
  * saved as part of a json file
- * 
+ *
  * SavedPlayerState stores the player's cash, selected difficulty, their power
  * up timers and their progress in purchasing stations and hiring chefs
- * 
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -20,8 +20,7 @@ public class SavedPlayerState {
     public int difficulty, hireCost, purchaseChefs;
     public SerializableMap<PowerUp, Timer> powerUpTimers;
 
-    public SavedPlayerState() {
-    }
+    public SavedPlayerState() {}
 
     public SavedPlayerState(PlayerState state) {
         this.powerUpTimers = new SerializableMap<>(state.getPowerUpTimers());

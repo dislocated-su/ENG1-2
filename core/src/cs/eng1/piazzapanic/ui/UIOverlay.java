@@ -169,9 +169,10 @@ public class UIOverlay {
 
         createRecipeTable();
     }
+
     /**
      * Initialises the UI to show both the current chef and their ingredient stack, as well as the background behind them.
-     * 
+     *
      * @param background The background drawable to show behind the chef inventory.
      */
     private void createChefInventory(Drawable background) {
@@ -194,9 +195,10 @@ public class UIOverlay {
     private Label reputationLabel;
     private Label moneyLabel;
     private UIStopwatch timer;
+
     /**
      * Initialises the timer to display at the top of the screen, which now also displays reputation and current money.
-     * 
+     *
      * @param background The background to show behind the timer, reputation counter, and money counter.
      */
     private void createGameTimer(Drawable background) {
@@ -253,6 +255,7 @@ public class UIOverlay {
 
     private Label recipeName;
     public UpgradesUi upgradesUi;
+
     //TODO: Check over this, not sure I'm right.
     /**
      * Creates the recipe table, which shows the orders from the customers and the recipe steps UI.
@@ -313,6 +316,7 @@ public class UIOverlay {
 
         uiStage.addActor(recipeBookRoot);
     }
+
     /**
      * Updates the reputation counter at the top of the screen when necessary.
      */
@@ -650,7 +654,7 @@ public class UIOverlay {
     }
 
     /**
-     * Pauses the game 
+     * Pauses the game
      */
     private void pause() {
         paused = true;
@@ -681,6 +685,7 @@ public class UIOverlay {
         root.setVisible(true);
         floatingBottomTable.setVisible(true);
     }
+
     /**
      * Sets the visibility to false for the group of tables visible by default
      */

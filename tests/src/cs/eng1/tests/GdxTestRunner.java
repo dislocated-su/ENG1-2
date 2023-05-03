@@ -18,26 +18,26 @@ import org.junit.runners.model.InitializationError;
  * The test runner used to create a headless environment by mocking openGL.
  */
 public class GdxTestRunner
-        extends BlockJUnit4ClassRunner
-        implements ApplicationListener {
+    extends BlockJUnit4ClassRunner
+    implements ApplicationListener {
 
-    public Map<FrameworkMethod, RunNotifier> invokeInRender = new HashMap<FrameworkMethod, RunNotifier>();
+    public Map<FrameworkMethod, RunNotifier> invokeInRender =
+        new HashMap<FrameworkMethod, RunNotifier>();
 
     public GdxTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
-        HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
+        HeadlessApplicationConfiguration conf =
+            new HeadlessApplicationConfiguration();
 
         new HeadlessApplication(this, conf);
         Gdx.gl = mock(GL20.class);
     }
 
     @Override
-    public void create() {
-    }
+    public void create() {}
 
     @Override
-    public void resume() {
-    }
+    public void resume() {}
 
     @Override
     public void render() {
@@ -50,16 +50,13 @@ public class GdxTestRunner
     }
 
     @Override
-    public void resize(int width, int height) {
-    }
+    public void resize(int width, int height) {}
 
     @Override
-    public void pause() {
-    }
+    public void pause() {}
 
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
 
     @Override
     protected void runChild(FrameworkMethod method, RunNotifier notifier) {
@@ -76,8 +73,7 @@ public class GdxTestRunner
             while (true) {
                 Thread.sleep(10);
                 synchronized (invokeInRender) {
-                    if (invokeInRender.isEmpty())
-                        break;
+                    if (invokeInRender.isEmpty()) break;
                 }
             }
         } catch (InterruptedException e) {

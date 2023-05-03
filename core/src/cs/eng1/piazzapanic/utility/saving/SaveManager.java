@@ -15,8 +15,8 @@ import java.util.List;
 
 /**
  * SaveManager is a singleton class that is used to perform saving and loading
- * 
-  * @author Ross Holmes
+ *
+ * @author Ross Holmes
  * @author Andrey Samoilov
  */
 public class SaveManager {
@@ -35,9 +35,9 @@ public class SaveManager {
 
     /**
      * intiates saving to savefile.json
-     * 
+     *
      * This creates the Saved files and assigns them in SaveState, including looping through all actors to locate stations and save them into SaveState before saving SaveState
-     * 
+     *
      * @param chefManager
      * @param customerManager
      * @param stage
@@ -77,7 +77,7 @@ public class SaveManager {
 
     /**
      * loads the file give in fileHandle
-     * 
+     *
      * @param fileHandle, the name of the file to load
      */
     public SaveState load(String fileHandle) {

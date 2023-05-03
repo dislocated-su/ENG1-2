@@ -38,7 +38,7 @@ public class ChefManager implements Disposable {
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
         "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Old/womanOld_hold.png"
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Old/womanOld_hold.png",
     };
     private final float chefScale;
 

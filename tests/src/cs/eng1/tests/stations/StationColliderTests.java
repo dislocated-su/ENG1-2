@@ -15,9 +15,10 @@ import cs.eng1.piazzapanic.ui.UIOverlay;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
- * Tests the StationCollider class, the behaviour of which being determined by notify observer, registering (as well as deregister), and act. 
- * 
+ * Tests the StationCollider class, the behaviour of which being determined by notify observer, registering (as well as deregister), and act.
+ *
  * @author Sabid Hossain
  */
 @RunWith(GdxTestRunner.class)
@@ -110,8 +111,8 @@ public class StationColliderTests {
     }
 
     /**
-    * tests that act works corectly
-    */
+     * tests that act works corectly
+     */
     @Test
     public void testAct() {
         StationCollider stationCollider = new StationCollider(chefManager);

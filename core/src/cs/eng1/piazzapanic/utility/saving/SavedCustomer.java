@@ -7,11 +7,11 @@ import cs.eng1.piazzapanic.utility.Timer;
 /**
  * SavedCustomer stores the values of a Customer relevant for saving in a manner
  * that can be stored as a json
- * 
+ *
  * SavedCustomer stores the customer's position, whether they have deducted rep
  * or had their order already, their time until they deduct rep, their order,
  * their image and their current destination
- * 
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -24,8 +24,7 @@ public class SavedCustomer {
     public Integer currentObjective;
     public String imagePath;
 
-    public SavedCustomer() {
-    }
+    public SavedCustomer() {}
 
     public SavedCustomer(Customer customer) {
         this.position = customer.steeringBody.getBody().getPosition();

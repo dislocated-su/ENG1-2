@@ -11,8 +11,8 @@ import java.util.Map;
 
 /**
  * SavedIngredientStack saves the values of IngredientStack in a way that means they can be serialized over for the purposes of saving to a json file
- * 
-  * @author Ross Holmes
+ *
+ * @author Ross Holmes
  * @author Andrey Samoilov
  */
 public class SavedIngredientStack {
@@ -44,12 +44,11 @@ public class SavedIngredientStack {
         this.stack = new SerializableMap<>(map);
     }
 
-    SavedIngredientStack() {
-    }
+    SavedIngredientStack() {}
 
     /**
      * converts the SavedIngredientStack into an equivalent IngredientStack
-     * 
+     *
      * @param manager, the instance FoodTextureManager
      * @returns an IngredientStack object containing all the saved values
      */
@@ -62,13 +61,15 @@ public class SavedIngredientStack {
 
         for (String key : savedFoodMap.keySet()) {
             SavedFood[] arr = json.fromJson(
-                    SavedFood[].class,
-                    savedFoodMap.get(key));
+                SavedFood[].class,
+                savedFoodMap.get(key)
+            );
 
             for (SavedFood savedFood : arr) {
                 ingredientStack.addIngredient(
-                        key,
-                        (Ingredient) savedFood.get(manager));
+                    key,
+                    (Ingredient) savedFood.get(manager)
+                );
             }
         }
         return ingredientStack;

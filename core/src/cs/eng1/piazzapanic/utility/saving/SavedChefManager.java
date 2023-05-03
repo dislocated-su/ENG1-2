@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * SavedChefManager stores the relevant values for saving the ChefManager class
  * as a json
- * 
+ *
  * SavedChefManager stores an array of SavedChefs, which is the currently
  * available chefs
- * 
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */
@@ -26,13 +26,14 @@ public class SavedChefManager {
             if (chefManager.getCurrentChef() == null) {
                 savedChefs[i] = new SavedChef(chefs.get(i), false);
             } else {
-                savedChefs[i] = new SavedChef(
+                savedChefs[i] =
+                    new SavedChef(
                         chefs.get(i),
-                        chefManager.getCurrentChef().equals(chefs.get(i)));
+                        chefManager.getCurrentChef().equals(chefs.get(i))
+                    );
             }
         }
     }
 
-    public SavedChefManager() {
-    }
+    public SavedChefManager() {}
 }
