@@ -27,10 +27,7 @@ public class SavedChefManager {
                 savedChefs[i] = new SavedChef(chefs.get(i), false);
             } else {
                 savedChefs[i] =
-                    new SavedChef(
-                        chefs.get(i),
-                        chefManager.getCurrentChef().equals(chefs.get(i))
-                    );
+                    new SavedChef(chefs.get(i), chefManager.getCurrentChef().equals(chefs.get(i)));
             }
         }
     }

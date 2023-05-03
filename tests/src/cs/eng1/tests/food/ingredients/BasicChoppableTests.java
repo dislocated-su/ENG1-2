@@ -135,10 +135,7 @@ public class BasicChoppableTests {
      */
     @Test
     public void getChoppedTests() {
-        assertFalse(
-            "A BasicChoppable should not become chopped immediately,",
-            tomato.getChopped()
-        );
+        assertFalse("A BasicChoppable should not become chopped immediately,", tomato.getChopped());
         tomato.choppingTick(1);
         assertFalse(
             "A BasicChoppable should not be chopped before it has chopped for its chopTime.",
@@ -178,9 +175,7 @@ public class BasicChoppableTests {
     @Test
     public void getTextureTests() {
         final Texture rawTomato = foodTextureManager.getTexture("tomato_raw");
-        final Texture choppedTomato = foodTextureManager.getTexture(
-            "tomato_chopped"
-        );
+        final Texture choppedTomato = foodTextureManager.getTexture("tomato_chopped");
         final Texture ruinedTomato = foodTextureManager.getTexture("rotten");
         assertEquals(
             "The BasicChoppable texture should be += _raw, as it is unchopped.",

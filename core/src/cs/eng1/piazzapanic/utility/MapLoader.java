@@ -85,10 +85,7 @@ public class MapLoader {
         String lightSpawnProperty,
         String aiObjectiveProperty
     ) {
-        MapObjects objects = map
-            .getLayers()
-            .get(waypointLayerName)
-            .getObjects();
+        MapObjects objects = map.getLayers().get(waypointLayerName).getObjects();
 
         for (MapObject object : objects) {
             if (object instanceof RectangleMapObject) {
@@ -102,31 +99,19 @@ public class MapLoader {
                 if (properties.containsKey(cookSpawnProperty)) {
                     Gdx.app.log(
                         "Loading Waypoint",
-                        String.format(
-                            "Cook spawnpoint at (%.2f,%.2f)",
-                            waypoint.x,
-                            waypoint.y
-                        )
+                        String.format("Cook spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
                     cookSpawnpoints.add(waypoint);
                 } else if (properties.containsKey(aiSpawnProperty)) {
                     Gdx.app.log(
                         "Loading Waypoint",
-                        String.format(
-                            "AI spawnpoint at (%.2f,%.2f)",
-                            waypoint.x,
-                            waypoint.y
-                        )
+                        String.format("AI spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
                     aiSpawnpoints.add(waypoint);
                 } else if (properties.containsKey(aiObjectiveProperty)) {
                     Gdx.app.log(
                         "Loading Waypoint",
-                        String.format(
-                            "AI objective at (%.2f,%.2f)",
-                            waypoint.x,
-                            waypoint.y
-                        )
+                        String.format("AI objective at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
                     aiObjectives.put(
                         properties.get(aiObjectiveProperty, int.class),
@@ -135,17 +120,10 @@ public class MapLoader {
                 } else if (properties.containsKey(lightSpawnProperty)) {
                     Gdx.app.log(
                         "Loading Waypoint",
-                        String.format(
-                            "Light spawnpoint at (%.2f,%.2f)",
-                            waypoint.x,
-                            waypoint.y
-                        )
+                        String.format("Light spawnpoint at (%.2f,%.2f)", waypoint.x, waypoint.y)
                     );
                     lights.add(
-                        new Vector3(
-                            waypoint,
-                            properties.get(lightSpawnProperty, int.class)
-                        )
+                        new Vector3(waypoint, properties.get(lightSpawnProperty, int.class))
                     );
                 }
             }
@@ -200,24 +178,15 @@ public class MapLoader {
             // Get basic station properties
             Station station;
             int id = tileObject.getProperties().get("id", Integer.class);
-            String ingredients = tileObject
-                .getProperties()
-                .get("ingredients", String.class);
-            StationActionUI.ActionAlignment alignment =
-                StationActionUI.ActionAlignment.valueOf(
-                    tileObject
-                        .getProperties()
-                        .get("actionAlignment", "TOP", String.class)
-                );
+            String ingredients = tileObject.getProperties().get("ingredients", String.class);
+            StationActionUI.ActionAlignment alignment = StationActionUI.ActionAlignment.valueOf(
+                tileObject.getProperties().get("actionAlignment", "TOP", String.class)
+            );
 
-            Boolean locked = tileObject
-                .getProperties()
-                .get("locked", Boolean.class);
+            Boolean locked = tileObject.getProperties().get("locked", Boolean.class);
 
             // Initialize specific station types
-            switch (
-                tileObject.getProperties().get("stationType", String.class)
-            ) {
+            switch (tileObject.getProperties().get("stationType", String.class)) {
                 case "cookingStation":
                     station =
                         new CookingStation(
@@ -236,10 +205,7 @@ public class MapLoader {
                             stationUIController,
                             alignment,
                             locked,
-                            Ingredient.fromString(
-                                ingredients,
-                                foodTextureManager
-                            )
+                            Ingredient.fromString(ingredients, foodTextureManager)
                         );
                     break;
                 case "choppingStation":
@@ -314,9 +280,7 @@ public class MapLoader {
             station.setImageRotation(-tileObject.getRotation());
             stage.addActor(station);
 
-            String colliderIDs = tileObject
-                .getProperties()
-                .get("collisionObjectIDs", String.class);
+            String colliderIDs = tileObject.getProperties().get("collisionObjectIDs", String.class);
             for (String idString : colliderIDs.split(",")) {
                 try {
                     Integer colliderID = Integer.parseInt(idString);
@@ -325,9 +289,7 @@ public class MapLoader {
                         collider.register(station);
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println(
-                        "Error parsing collider ID: " + e.getMessage()
-                    );
+                    System.out.println("Error parsing collider ID: " + e.getMessage());
                 }
             }
         }

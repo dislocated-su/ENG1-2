@@ -32,12 +32,10 @@ public class SavedStation {
 
         if (station instanceof RecipeStation) {
             RecipeStation recipeStation = (RecipeStation) station;
-            ingredientStack =
-                new SavedIngredientStack(recipeStation.ingredientStack);
+            ingredientStack = new SavedIngredientStack(recipeStation.ingredientStack);
             items = new SavedFood[recipeStation.displayIngredient.size()];
             for (int i = 0; i < recipeStation.displayIngredient.size(); i++) {
-                items[i] =
-                    new SavedFood(recipeStation.displayIngredient.get(i));
+                items[i] = new SavedFood(recipeStation.displayIngredient.get(i));
             }
             type = "Recipe";
         } else {
@@ -64,9 +62,7 @@ public class SavedStation {
                         : null;
                 type = "Grilling";
             } else {
-                throw new AssertionError(
-                    "Attempting to save a station of invalid type"
-                );
+                throw new AssertionError("Attempting to save a station of invalid type");
             }
         }
     }

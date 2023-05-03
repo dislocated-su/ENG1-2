@@ -73,9 +73,7 @@ public class HomeScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (Gdx.files.internal("savefile.json").exists()) {
-                        game.loadGameScreen(
-                            SaveManager.getInstance().load("savefile.json")
-                        );
+                        game.loadGameScreen(SaveManager.getInstance().load("savefile.json"));
                     }
                 }
             }
@@ -109,10 +107,7 @@ public class HomeScreen implements Screen {
         );
         TextButton quitButton = game
             .getButtonManager()
-            .createTextButton(
-                "Exit to Desktop",
-                ButtonManager.ButtonColour.RED
-            );
+            .createTextButton("Exit to Desktop", ButtonManager.ButtonColour.RED);
         quitButton.sizeBy(3f);
         quitButton.addListener(
             new ClickListener() {

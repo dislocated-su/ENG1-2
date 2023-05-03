@@ -17,17 +17,14 @@ import org.junit.runners.model.InitializationError;
 /**
  * The test runner used to create a headless environment by mocking openGL.
  */
-public class GdxTestRunner
-    extends BlockJUnit4ClassRunner
-    implements ApplicationListener {
+public class GdxTestRunner extends BlockJUnit4ClassRunner implements ApplicationListener {
 
     public Map<FrameworkMethod, RunNotifier> invokeInRender =
         new HashMap<FrameworkMethod, RunNotifier>();
 
     public GdxTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
-        HeadlessApplicationConfiguration conf =
-            new HeadlessApplicationConfiguration();
+        HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
 
         new HeadlessApplication(this, conf);
         Gdx.gl = mock(GL20.class);

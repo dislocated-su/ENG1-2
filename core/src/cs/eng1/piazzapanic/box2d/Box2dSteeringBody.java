@@ -49,11 +49,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
     private static final SteeringAcceleration<Vector2> steeringOutput =
         new SteeringAcceleration<Vector2>(new Vector2());
 
-    public Box2dSteeringBody(
-        Body body,
-        boolean independentFacing,
-        float boundingRadius
-    ) {
+    public Box2dSteeringBody(Body body, boolean independentFacing, float boundingRadius) {
         this.body = body;
         this.independentFacing = independentFacing;
         this.boundingRadius = boundingRadius;
@@ -139,9 +135,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
         return steeringBehavior;
     }
 
-    public void setSteeringBehavior(
-        SteeringBehavior<Vector2> steeringBehavior
-    ) {
+    public void setSteeringBehavior(SteeringBehavior<Vector2> steeringBehavior) {
         this.steeringBehavior = steeringBehavior;
     }
 
@@ -154,10 +148,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
         }
     }
 
-    protected void applySteering(
-        SteeringAcceleration<Vector2> steering,
-        float deltaTime
-    ) {
+    protected void applySteering(SteeringAcceleration<Vector2> steering, float deltaTime) {
         boolean anyAccelerations = false;
 
         // Update position and linear velocity.
@@ -183,9 +174,7 @@ public class Box2dSteeringBody implements Steerable<Vector2> {
             float maxLinearSpeed = getMaxLinearSpeed();
             if (currentSpeedSquare > maxLinearSpeed * maxLinearSpeed) {
                 body.setLinearVelocity(
-                    velocity.scl(
-                        maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare)
-                    )
+                    velocity.scl(maxLinearSpeed / (float) Math.sqrt(currentSpeedSquare))
                 );
             }
 

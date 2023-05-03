@@ -22,11 +22,7 @@ public class FixedStackTests {
      */
     @Test
     public void fixedStackLengthTest() {
-        assertEquals(
-            "The stack has a max size equal to its size.",
-            5,
-            fixedStack.maxSize
-        );
+        assertEquals("The stack has a max size equal to its size.", 5, fixedStack.maxSize);
     }
 
     /**
@@ -35,10 +31,7 @@ public class FixedStackTests {
     @Test
     public void hasSpaceTest() {
         FixedStack<Integer> fixedStack = new FixedStack<Integer>(1);
-        assertTrue(
-            "hasSpace is true when the stack isn't full",
-            fixedStack.hasSpace()
-        );
+        assertTrue("hasSpace is true when the stack isn't full", fixedStack.hasSpace());
     }
 
     /**
@@ -47,10 +40,7 @@ public class FixedStackTests {
     @Test
     public void hasNoSpaceTest() {
         FixedStack<Integer> fixedStack = new FixedStack<Integer>(0);
-        assertFalse(
-            "hasSpace is false when at max size",
-            fixedStack.hasSpace()
-        );
+        assertFalse("hasSpace is false when at max size", fixedStack.hasSpace());
     }
 
     /**

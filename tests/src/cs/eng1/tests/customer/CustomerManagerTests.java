@@ -37,17 +37,8 @@ public class CustomerManagerTests {
     World world = new World(Vector2.Zero, true);
     KeyboardInput kbInput = new KeyboardInput();
     FoodTextureManager textureManager = new FoodTextureManager();
-    StationUIController stationUIController = new StationUIController(
-        stage,
-        null
-    );
-    CustomerManager customerManager = new CustomerManager(
-        1,
-        overlay,
-        world,
-        5,
-        0
-    );
+    StationUIController stationUIController = new StationUIController(stage, null);
+    CustomerManager customerManager = new CustomerManager(1, overlay, world, 5, 0);
 
     ChefManager chefManager = new ChefManager(1, overlay, world, kbInput);
 
@@ -65,13 +56,7 @@ public class CustomerManagerTests {
      */
     @Test
     public void initTests() {
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -103,11 +88,7 @@ public class CustomerManagerTests {
             1,
             customerManager.getCustomerQueue().size()
         );
-        assertEquals(
-            "Init should identify the correct number of objectives.",
-            10,
-            objectives
-        );
+        assertEquals("Init should identify the correct number of objectives.", 10, objectives);
         assertEquals(
             "Init should identify objectives correctly.",
             new Vector2(21, 11),
@@ -182,11 +163,7 @@ public class CustomerManagerTests {
             objectives,
             customerManager.getObjectives().size()
         );
-        assertEquals(
-            "Init should reset customers.",
-            1,
-            customerManager.getCustomerQueue().size()
-        );
+        assertEquals("Init should reset customers.", 1, customerManager.getCustomerQueue().size());
         assertEquals(
             "A PlayerState difficulty of 2 should multiply the difficulty by 0.75",
             1.5f * defaultTime,
@@ -216,13 +193,7 @@ public class CustomerManagerTests {
     @Test
     public void endlessTests() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -259,10 +230,7 @@ public class CustomerManagerTests {
             customerManager.act(customerManager.getEndlessTimer().getDelay());
         }
         customerManager.act(1000f);
-        assertEquals(
-            customerManager.getMaxSpawnRate(),
-            customerManager.getSpawnTimer().getDelay()
-        );
+        assertEquals(customerManager.getMaxSpawnRate(), customerManager.getSpawnTimer().getDelay());
     }
 
     /**
@@ -271,13 +239,7 @@ public class CustomerManagerTests {
     @Test
     public void actTests() {
         customerManager = new CustomerManager(1, overlay, world, 5, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -293,13 +255,8 @@ public class CustomerManagerTests {
             mapLoader.aiObjectives,
             mapLoader.aiSpawnpoints
         );
-        float spawnTime =
-            (customerManager.getSpawnTimer().getRemainingTime()) / 500;
-        assertEquals(
-            "Reputation should be 3 by default.",
-            3,
-            customerManager.getReputation()
-        );
+        float spawnTime = (customerManager.getSpawnTimer().getRemainingTime()) / 500;
+        assertEquals("Reputation should be 3 by default.", 3, customerManager.getReputation());
         customerManager.getCustomer(0).act(spawnTime * 500);
         assertEquals(
             "Customers should cause a loss of reputation when they have not been served in a timely manner.",
@@ -352,11 +309,7 @@ public class CustomerManagerTests {
             1,
             customerManager.getCustomerQueue().size()
         );
-        assertEquals(
-            "Reputation should not go below 0.",
-            0,
-            customerManager.getReputation()
-        );
+        assertEquals("Reputation should not go below 0.", 0, customerManager.getReputation());
     }
 
     /**
@@ -366,13 +319,7 @@ public class CustomerManagerTests {
     public void movementTests() {
         int customers = 30;
         customerManager = new CustomerManager(1, overlay, world, customers, 0);
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
         mapLoader.createStations(
             "Stations",
             "Sensors",
@@ -397,16 +344,8 @@ public class CustomerManagerTests {
                 currentCustomer.act(1f / 60);
                 world.step(1f / 60, 6, 2);
             }
-            assertEquals(
-                objective.getPosition().x,
-                currentCustomer.getPosition().x,
-                1f
-            );
-            assertTrue(
-                objective
-                    .getPosition()
-                    .epsilonEquals(currentCustomer.getPosition(), 1f)
-            );
+            assertEquals(objective.getPosition().x, currentCustomer.getPosition().x, 1f);
+            assertTrue(objective.getPosition().epsilonEquals(currentCustomer.getPosition(), 1f));
         }
     }
 

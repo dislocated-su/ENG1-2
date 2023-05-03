@@ -70,11 +70,7 @@ public class GameScreen implements Screen {
     private final ArrayList<Vector2> extraCook;
     private int currentChefSpawn = 0;
 
-    public GameScreen(
-        final PiazzaPanicGame game,
-        int totalCustomers,
-        int difficulty
-    ) {
+    public GameScreen(final PiazzaPanicGame game, int totalCustomers, int difficulty) {
         PlayerState.reset();
 
         world = new World(new Vector2(0, 0), true);
@@ -110,21 +106,10 @@ public class GameScreen implements Screen {
         );
         PlayerState.getInstance().setDifficulty(difficulty);
 
-        chefManager =
-            new ChefManager(
-                mapLoader.unitScale * 2.5f,
-                uiOverlay,
-                world,
-                kbInput
-            );
+        chefManager = new ChefManager(mapLoader.unitScale * 2.5f, uiOverlay, world, kbInput);
 
         customerManager =
-            new CustomerManager(
-                mapLoader.unitScale * 2.5f,
-                uiOverlay,
-                world,
-                totalCustomers
-            );
+            new CustomerManager(mapLoader.unitScale * 2.5f, uiOverlay, world, totalCustomers);
 
         mapLoader.createStations(
             "Stations",
@@ -136,13 +121,7 @@ public class GameScreen implements Screen {
             customerManager
         );
 
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
 
         customerManager.init(
             foodTextureManager,
@@ -219,19 +198,9 @@ public class GameScreen implements Screen {
             customerManager
         );
 
-        mapLoader.loadWaypoints(
-            "Waypoints",
-            "cookspawnid",
-            "aispawnid",
-            "lightid",
-            "aiobjective"
-        );
+        mapLoader.loadWaypoints("Waypoints", "cookspawnid", "aispawnid", "lightid", "aiobjective");
 
-        customerManager.load(
-            stage,
-            mapLoader.aiObjectives,
-            mapLoader.aiSpawnpoints
-        );
+        customerManager.load(stage, mapLoader.aiObjectives, mapLoader.aiSpawnpoints);
 
         // Add box2d colliders
         mapLoader.createBox2DBodies("Obstacles", world);
@@ -268,30 +237,22 @@ public class GameScreen implements Screen {
 
                 chopTemp.currentIngredient =
                     savedStation.items[0] != null
-                        ? (BasicChoppable) (
-                            savedStation.items[0].get(foodTextureManager)
-                        )
+                        ? (BasicChoppable) (savedStation.items[0].get(foodTextureManager))
                         : null;
             } else if (tempStation instanceof CookingStation) {
                 CookingStation cookTemp = (CookingStation) tempStation;
                 cookTemp.currentIngredient =
                     savedStation.items[0] != null
-                        ? (BasicCookable) (
-                            savedStation.items[0].get(foodTextureManager)
-                        )
+                        ? (BasicCookable) (savedStation.items[0].get(foodTextureManager))
                         : null;
             } else if (tempStation instanceof GrillingStation) {
                 GrillingStation grillTemp = (GrillingStation) tempStation;
                 grillTemp.currentIngredient =
                     savedStation.items[0] != null
-                        ? (BasicGrillable) (
-                            savedStation.items[0].get(foodTextureManager)
-                        )
+                        ? (BasicGrillable) (savedStation.items[0].get(foodTextureManager))
                         : null;
             } else {
-                throw new AssertionError(
-                    "Attempting to load a station of invalid type"
-                );
+                throw new AssertionError("Attempting to load a station of invalid type");
             }
         }
     }
@@ -349,10 +310,8 @@ public class GameScreen implements Screen {
                 ),
                 0.1f
             );
-            camera.position.x =
-                (float) Math.round(camera.position.x * 100f) / 100f;
-            camera.position.y =
-                (float) Math.round(camera.position.y * 100f) / 100f;
+            camera.position.x = (float) Math.round(camera.position.x * 100f) / 100f;
+            camera.position.y = (float) Math.round(camera.position.y * 100f) / 100f;
         } else {
             stage.getCamera().position.set(15, 15, 1);
         }

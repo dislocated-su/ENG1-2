@@ -50,10 +50,7 @@ public abstract class Ingredient implements Holdable {
      *                       Tiled
      * @return the Ingredient of the type defined by the input
      */
-    public static Ingredient fromString(
-        String ingredientName,
-        FoodTextureManager textureManager
-    ) {
+    public static Ingredient fromString(String ingredientName, FoodTextureManager textureManager) {
         switch (ingredientName) {
             case "patty":
                 return new Patty(textureManager);

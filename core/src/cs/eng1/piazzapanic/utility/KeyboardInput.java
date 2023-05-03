@@ -81,12 +81,7 @@ public class KeyboardInput implements InputProcessor {
     }
 
     @Override
-    public boolean touchDown(
-        int screenX,
-        int screenY,
-        int pointer,
-        int button
-    ) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 

@@ -82,10 +82,7 @@ public class Recipe implements Holdable {
      * @return The created {@link Recipe} instance.
      * @throws IllegalArgumentException If the specified {@link ActionType} is not valid.
      */
-    public static Recipe fromAction(
-        ActionType action,
-        FoodTextureManager textureManager
-    ) {
+    public static Recipe fromAction(ActionType action, FoodTextureManager textureManager) {
         switch (action) {
             case MAKE_BURGER:
                 return new Burger(textureManager);
@@ -96,19 +93,14 @@ public class Recipe implements Holdable {
             case MAKE_PIZZA:
                 return new Pizza(textureManager);
             default:
-                throw new IllegalArgumentException(
-                    action.name() + "is not a valid recipe type"
-                );
+                throw new IllegalArgumentException(action.name() + "is not a valid recipe type");
         }
     }
 
     /**
      * @see Recipe#fromAction(ActionType, FoodTextureManager)
      */
-    public static Recipe fromString(
-        String type,
-        FoodTextureManager textureManager
-    ) {
+    public static Recipe fromString(String type, FoodTextureManager textureManager) {
         switch (type) {
             case "burger":
                 return new Burger(textureManager);
@@ -119,9 +111,7 @@ public class Recipe implements Holdable {
             case "pizza":
                 return new Pizza(textureManager);
             default:
-                throw new IllegalArgumentException(
-                    type + "is not a valid recipe type"
-                );
+                throw new IllegalArgumentException(type + "is not a valid recipe type");
         }
     }
 

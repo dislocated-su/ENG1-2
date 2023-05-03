@@ -60,16 +60,10 @@ public class SavedIngredientStack {
         Json json = new Json();
 
         for (String key : savedFoodMap.keySet()) {
-            SavedFood[] arr = json.fromJson(
-                SavedFood[].class,
-                savedFoodMap.get(key)
-            );
+            SavedFood[] arr = json.fromJson(SavedFood[].class, savedFoodMap.get(key));
 
             for (SavedFood savedFood : arr) {
-                ingredientStack.addIngredient(
-                    key,
-                    (Ingredient) savedFood.get(manager)
-                );
+                ingredientStack.addIngredient(key, (Ingredient) savedFood.get(manager));
             }
         }
         return ingredientStack;

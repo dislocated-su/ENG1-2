@@ -52,10 +52,7 @@ public class StationTests {
         );
         chefSubject.deregister(station);
         station.update(null);
-        assertNull(
-            "tests that nearbyChef is set to null if there is no chef",
-            station.nearbyChef
-        );
+        assertNull("tests that nearbyChef is set to null if there is no chef", station.nearbyChef);
     }
 
     /**
@@ -112,10 +109,6 @@ public class StationTests {
     @Test
     public void testGetId() {
         Station station = new Station(0, null, uiController, null, null);
-        assertEquals(
-            "tests that getId returns the correct id",
-            0,
-            station.getId()
-        );
+        assertEquals("tests that getId returns the correct id", 0, station.getId());
     }
 }

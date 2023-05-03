@@ -26,19 +26,9 @@ public class IngredientStationTests {
      */
     @Test
     public void testGetActionTypesNoChef() {
-        IngredientStation station = new IngredientStation(
-            1,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
+        IngredientStation station = new IngredientStation(1, null, null, null, null, null);
         List<StationAction.ActionType> actionTypes = station.getActionTypes();
-        assertTrue(
-            "nothing is added to action types if no chef is nearby",
-            actionTypes.isEmpty()
-        );
+        assertTrue("nothing is added to action types if no chef is nearby", actionTypes.isEmpty());
     }
 
     /**
@@ -46,14 +36,7 @@ public class IngredientStationTests {
      */
     @Test
     public void testGetActionTypesWithChef() {
-        IngredientStation station = new IngredientStation(
-            1,
-            null,
-            null,
-            null,
-            null,
-            null
-        );
+        IngredientStation station = new IngredientStation(1, null, null, null, null, null);
         Chef chef = new Chef(null, null, null);
         station.nearbyChef = chef;
         List<StationAction.ActionType> actionTypes = station.getActionTypes();

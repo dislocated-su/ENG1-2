@@ -35,13 +35,12 @@ public class ModeSelectOverlay {
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
 
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(new Texture(bgPixmap));
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+            new Texture(bgPixmap)
+        );
         table.setBackground(textureRegionDrawableBg);
 
-        final TextField scenarioNumber = game
-            .getButtonManager()
-            .createTextField("");
+        final TextField scenarioNumber = game.getButtonManager().createTextField("");
 
         final SelectBox<String> difficultySelection = game
             .getButtonManager()
@@ -86,10 +85,7 @@ public class ModeSelectOverlay {
             new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.loadGameScreen(
-                        0,
-                        difficultySelection.getSelectedIndex()
-                    );
+                    game.loadGameScreen(0, difficultySelection.getSelectedIndex());
                 }
             }
         );

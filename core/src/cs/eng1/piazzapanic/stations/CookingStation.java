@@ -75,10 +75,7 @@ public class CookingStation extends Station {
                 checkUpdateUI = true;
             }
 
-            uiController.updateProgressValue(
-                this,
-                currentIngredient.getCookingProgress()
-            );
+            uiController.updateProgressValue(this, currentIngredient.getCookingProgress());
 
             if (currentIngredient.cookingStepComplete() && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -103,8 +100,7 @@ public class CookingStation extends Station {
         if (itemToCheck instanceof Ingredient) {
             if (itemToCheck instanceof Cookable) {
                 return (
-                    !((Cookable) itemToCheck).getCooked() &&
-                    ((Ingredient) itemToCheck).getUseable()
+                    !((Cookable) itemToCheck).getCooked() && ((Ingredient) itemToCheck).getUseable()
                 );
             }
         }
@@ -120,8 +116,7 @@ public class CookingStation extends Station {
      */
     @Override
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -129,10 +124,7 @@ public class CookingStation extends Station {
             return actionTypes;
         }
         if (currentIngredient == null) {
-            if (
-                nearbyChef.hasIngredient() &&
-                isCorrectIngredient(nearbyChef.getStack().peek())
-            ) {
+            if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
@@ -146,10 +138,7 @@ public class CookingStation extends Station {
                 actionTypes.add(StationAction.ActionType.FLIP_ACTION);
             }
 
-            if (
-                currentIngredient.getCooked() ||
-                !(((Ingredient) currentIngredient).getUseable())
-            ) {
+            if (currentIngredient.getCooked() || !(((Ingredient) currentIngredient).getUseable())) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
 
@@ -191,9 +180,7 @@ public class CookingStation extends Station {
                     nearbyChef.hasIngredient() &&
                     currentIngredient == null
                 ) {
-                    if (
-                        this.isCorrectIngredient(nearbyChef.getStack().peek())
-                    ) {
+                    if (this.isCorrectIngredient(nearbyChef.getStack().peek())) {
                         currentIngredient = (Cookable) nearbyChef.popFood();
                     }
                 }

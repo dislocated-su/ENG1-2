@@ -195,9 +195,7 @@ public class BasicGrillableTests {
     @Test
     public void getTextureTests() {
         final Texture rawPatty = foodTextureManager.getTexture("patty_raw");
-        final Texture cookedPatty = foodTextureManager.getTexture(
-            "patty_grilled"
-        );
+        final Texture cookedPatty = foodTextureManager.getTexture("patty_grilled");
         final Texture ruinedPatty = foodTextureManager.getTexture("burnt");
         assertEquals(
             "The BasicGrillable texture should be += _raw, as it is ungrilled",

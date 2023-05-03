@@ -93,15 +93,10 @@ public class StationActionUI extends Table {
     public void showActions(List<StationAction.ActionType> actions) {
         hideActions();
         for (final StationAction.ActionType action : actions) {
-            String actionDescription = StationAction.getActionDescription(
-                action
-            );
+            String actionDescription = StationAction.getActionDescription(action);
             TextButton actionButton = game
                 .getButtonManager()
-                .createTextButton(
-                    actionDescription,
-                    ButtonManager.ButtonColour.BLUE
-                );
+                .createTextButton(actionDescription, ButtonManager.ButtonColour.BLUE);
             actionButton.addListener(
                 new ClickListener() {
                     @Override
@@ -185,10 +180,7 @@ public class StationActionUI extends Table {
                 worldPosition.y = station.getY();
                 break;
         }
-        Vector3 screenPosition = station
-            .getStage()
-            .getCamera()
-            .project(worldPosition);
+        Vector3 screenPosition = station.getStage().getCamera().project(worldPosition);
         setPosition(screenPosition.x, screenPosition.y);
     }
 }

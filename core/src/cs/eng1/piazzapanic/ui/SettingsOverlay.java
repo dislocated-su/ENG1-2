@@ -33,8 +33,9 @@ public class SettingsOverlay {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(new Texture(bgPixmap));
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+            new Texture(bgPixmap)
+        );
         table.setBackground(textureRegionDrawableBg);
 
         TextButton backButton = game
@@ -57,9 +58,7 @@ public class SettingsOverlay {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (fullscreenCheckbox.isChecked()) {
-                        Gdx.graphics.setFullscreenMode(
-                            Gdx.graphics.getDisplayMode()
-                        );
+                        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                     } else {
                         Gdx.graphics.setWindowedMode(1920 / 2, 1080 / 2);
                     }

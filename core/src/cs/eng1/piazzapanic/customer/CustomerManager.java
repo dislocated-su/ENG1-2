@@ -61,12 +61,7 @@ public class CustomerManager {
      * @param world         {@link World}
      * @param customers     how many customers will spawn total. For endless mode, set this to 0.
      */
-    public CustomerManager(
-        float customerScale,
-        UIOverlay overlay,
-        World world,
-        int customers
-    ) {
+    public CustomerManager(float customerScale, UIOverlay overlay, World world, int customers) {
         this.overlay = overlay;
         this.recipeStations = new HashMap<>();
 
@@ -118,9 +113,7 @@ public class CustomerManager {
 
         customerQueue = new LinkedList<>();
         for (SavedCustomer savedCustomer : save.customerQueue) {
-            Texture texture = new Texture(
-                Gdx.files.internal(savedCustomer.imagePath)
-            );
+            Texture texture = new Texture(Gdx.files.internal(savedCustomer.imagePath));
             Customer customer = new Customer(
                 texture,
                 new Vector2(
@@ -266,15 +259,9 @@ public class CustomerManager {
         if (endlessTimer.getRunning()) {
             if (endlessTimer.tick(delta)) {
                 spawnTimer.setDelay(
-                    Math.max(
-                        Math.round(spawnTimer.getDelay() * 0.95f),
-                        maxSpawnRate
-                    )
+                    Math.max(Math.round(spawnTimer.getDelay() * 0.95f), maxSpawnRate)
                 );
-                Gdx.app.log(
-                    "Changing spawnTimer delay",
-                    spawnTimer.getDelay() + ""
-                );
+                Gdx.app.log("Changing spawnTimer delay", spawnTimer.getDelay() + "");
             }
         }
         checkSpawn(delta);
@@ -348,9 +335,7 @@ public class CustomerManager {
             spawnedCustomers++;
             // implement random generation of two or three customers at once here
             Texture texture = new Texture(
-                customerSprites[randomTextures.nextInt(
-                        customerSprites.length - 1
-                    )]
+                customerSprites[randomTextures.nextInt(customerSprites.length - 1)]
             );
             Customer customer = new Customer(
                 texture,
@@ -411,39 +396,27 @@ public class CustomerManager {
             .setDecelerationRadius(2)
             .setTarget(there);
 
-        Proximity<Vector2> proximity = new Box2dRadiusProximity(
+        Proximity<Vector2> proximity = new Box2dRadiusProximity(customer.steeringBody, world, 0.5f);
+        CollisionAvoidance<Vector2> collisionAvoidance = new CollisionAvoidance<>(
             customer.steeringBody,
-            world,
-            0.5f
+            proximity
         );
-        CollisionAvoidance<Vector2> collisionAvoidance =
-            new CollisionAvoidance<>(customer.steeringBody, proximity);
 
-        RaycastObstacleAvoidance<Vector2> wallAvoidance =
-            new RaycastObstacleAvoidance<>(customer.steeringBody);
+        RaycastObstacleAvoidance<Vector2> wallAvoidance = new RaycastObstacleAvoidance<>(
+            customer.steeringBody
+        );
         wallAvoidance
             .setRayConfiguration(
-                new CentralRayWithWhiskersConfiguration<>(
-                    customer.steeringBody,
-                    0.1f,
-                    0.3f,
-                    0.35f
-                )
+                new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f)
             )
-            .setRaycastCollisionDetector(
-                new Box2dRaycastCollisionDetector(world)
-            )
+            .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
             .setDistanceFromBoundary(locationID);
 
-        BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(
-            customer.steeringBody
-        )
+        BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(customer.steeringBody)
             .add(collisionAvoidance, 0.5f)
             .add(wallAvoidance, 0.5f);
 
-        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(
-            customer.steeringBody
-        )
+        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(customer.steeringBody)
             .add(blendedAvoidance)
             .add(arrive);
 

@@ -100,9 +100,7 @@ public class ChefManager implements Disposable {
         chefs = new ArrayList<>();
 
         for (SavedChef savedChef : save.savedChefs) {
-            Texture chefTexture = new Texture(
-                Gdx.files.internal(savedChef.imagePath)
-            );
+            Texture chefTexture = new Texture(Gdx.files.internal(savedChef.imagePath));
             Chef chef = new Chef(
                 chefTexture,
                 new Vector2(
@@ -147,15 +145,10 @@ public class ChefManager implements Disposable {
             return;
         }
 
-        Texture chefTexture = new Texture(
-            Gdx.files.internal(chefSprites[chefs.size()])
-        );
+        Texture chefTexture = new Texture(Gdx.files.internal(chefSprites[chefs.size()]));
         Chef chef = new Chef(
             chefTexture,
-            new Vector2(
-                chefTexture.getWidth() * chefScale,
-                chefTexture.getHeight() * chefScale
-            ),
+            new Vector2(chefTexture.getWidth() * chefScale, chefTexture.getHeight() * chefScale),
             this
         );
 

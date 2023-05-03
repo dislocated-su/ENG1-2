@@ -62,10 +62,7 @@ public class ChoppingStation extends Station {
         if (inUse) {
             boolean complete = currentIngredient.choppingTick(delta);
 
-            uiController.updateProgressValue(
-                this,
-                currentIngredient.getChoppingProgress()
-            );
+            uiController.updateProgressValue(this, currentIngredient.getChoppingProgress());
 
             if (complete && progressVisible) {
                 uiController.hideProgressBar(this);
@@ -108,8 +105,7 @@ public class ChoppingStation extends Station {
      */
     @Override
     public LinkedList<StationAction.ActionType> getActionTypes() {
-        LinkedList<StationAction.ActionType> actionTypes =
-            super.getActionTypes();
+        LinkedList<StationAction.ActionType> actionTypes = super.getActionTypes();
         if (nearbyChef == null) {
             return new LinkedList<>();
         }
@@ -118,16 +114,12 @@ public class ChoppingStation extends Station {
         }
 
         if (currentIngredient == null) {
-            if (
-                nearbyChef.hasIngredient() &&
-                isCorrectIngredient(nearbyChef.getStack().peek())
-            ) {
+            if (nearbyChef.hasIngredient() && isCorrectIngredient(nearbyChef.getStack().peek())) {
                 actionTypes.add(StationAction.ActionType.PLACE_INGREDIENT);
             }
         } else {
             if (
-                currentIngredient.getChopped() ||
-                !(((Ingredient) currentIngredient).getUseable())
+                currentIngredient.getChopped() || !(((Ingredient) currentIngredient).getUseable())
             ) {
                 actionTypes.add(StationAction.ActionType.GRAB_INGREDIENT);
             }
@@ -163,9 +155,7 @@ public class ChoppingStation extends Station {
                     nearbyChef.hasIngredient() &&
                     currentIngredient == null
                 ) {
-                    if (
-                        (this.isCorrectIngredient(nearbyChef.getStack().peek()))
-                    ) {
+                    if ((this.isCorrectIngredient(nearbyChef.getStack().peek()))) {
                         currentIngredient = (Choppable) nearbyChef.popFood();
                     }
                 }

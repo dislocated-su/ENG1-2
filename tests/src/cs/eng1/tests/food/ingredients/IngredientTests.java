@@ -31,10 +31,7 @@ public class IngredientTests {
      */
     @Test
     public void testFromString() {
-        Ingredient pattyFromString = Ingredient.fromString(
-            "patty",
-            textureManager
-        );
+        Ingredient pattyFromString = Ingredient.fromString("patty", textureManager);
         assertNotNull("fromString should find an ingredient.", pattyFromString);
         assertEquals(
             "The class of the ingredient found should be the correct class.",
@@ -48,22 +45,13 @@ public class IngredientTests {
      */
     @Test
     public void testIsCooked() {
-        assertFalse(
-            "The ingredient shouldn't be immediately cooked.",
-            patty.getCooked()
-        );
+        assertFalse("The ingredient shouldn't be immediately cooked.", patty.getCooked());
 
         patty.setIsCooked(true);
-        assertTrue(
-            "getCooked should be true when cooked is true.",
-            patty.getCooked()
-        );
+        assertTrue("getCooked should be true when cooked is true.", patty.getCooked());
 
         patty.setIsCooked(false);
-        assertFalse(
-            "getCooked should be false when cooked is false.",
-            patty.getCooked()
-        );
+        assertFalse("getCooked should be false when cooked is false.", patty.getCooked());
     }
 
     /**
@@ -71,22 +59,13 @@ public class IngredientTests {
      */
     @Test
     public void testIsChopped() {
-        assertFalse(
-            "An ingredient should not be chopped immediately.",
-            lettuce.getChopped()
-        );
+        assertFalse("An ingredient should not be chopped immediately.", lettuce.getChopped());
 
         lettuce.setChopped(true);
-        assertTrue(
-            "getChopped should be true when chopped is true.",
-            lettuce.getChopped()
-        );
+        assertTrue("getChopped should be true when chopped is true.", lettuce.getChopped());
 
         lettuce.setChopped(false);
-        assertFalse(
-            "getChopped should be false when chopped is false.",
-            lettuce.getChopped()
-        );
+        assertFalse("getChopped should be false when chopped is false.", lettuce.getChopped());
     }
 
     /**
@@ -113,22 +92,13 @@ public class IngredientTests {
      */
     @Test
     public void testIsGrilled() {
-        assertFalse(
-            "An ingredient should not be grilled immediately.",
-            patty.getGrilled()
-        );
+        assertFalse("An ingredient should not be grilled immediately.", patty.getGrilled());
 
         patty.setIsGrilled(true);
-        assertTrue(
-            "getGrilled should be true when grilled is true.",
-            patty.getGrilled()
-        );
+        assertTrue("getGrilled should be true when grilled is true.", patty.getGrilled());
 
         patty.setIsGrilled(false);
-        assertFalse(
-            "getGrilled should be false when grilled is false.",
-            patty.getGrilled()
-        );
+        assertFalse("getGrilled should be false when grilled is false.", patty.getGrilled());
     }
 
     /**
@@ -194,11 +164,7 @@ public class IngredientTests {
             "cheese_chopped",
             cheese.toString()
         );
-        assertEquals(
-            "Ingredient should be _raw when raw",
-            "uncooked_pizza_raw",
-            pizza.toString()
-        );
+        assertEquals("Ingredient should be _raw when raw", "uncooked_pizza_raw", pizza.toString());
         pizza.setIsCooked(true);
         assertEquals(
             "Ingredient should be _raw when raw",
@@ -212,22 +178,13 @@ public class IngredientTests {
      */
     @Test
     public void testUseable() {
-        assertTrue(
-            "Ingredient should be useable by default",
-            patty.getUseable()
-        );
+        assertTrue("Ingredient should be useable by default", patty.getUseable());
 
         patty.setUseable(false);
-        assertFalse(
-            "getUseable should be false when useable is false.",
-            patty.getUseable()
-        );
+        assertFalse("getUseable should be false when useable is false.", patty.getUseable());
 
         patty.setUseable(true);
-        assertTrue(
-            "getUseable should be true when useable is true.",
-            patty.getUseable()
-        );
+        assertTrue("getUseable should be true when useable is true.", patty.getUseable());
     }
 
     /**
@@ -303,9 +260,6 @@ public class IngredientTests {
         pizza.setUseable(false);
 
         assertEquals(textureManager.getTexture("burnt"), unPizza.getTexture());
-        assertEquals(
-            "uncooked_pizza_ruined",
-            unPizza.getCookingResult().toString()
-        );
+        assertEquals("uncooked_pizza_ruined", unPizza.getCookingResult().toString());
     }
 }

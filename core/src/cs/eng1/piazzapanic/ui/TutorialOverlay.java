@@ -30,15 +30,13 @@ public class TutorialOverlay {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
         bgPixmap.setColor(Color.LIGHT_GRAY);
         bgPixmap.fill();
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(new Texture(bgPixmap));
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+            new Texture(bgPixmap)
+        );
         table.setBackground(textureRegionDrawableBg);
 
         // Initialize movement instructions label
-        LabelStyle labelStyle = new LabelStyle(
-            game.getFontManager().getHeaderFont(),
-            Color.BLACK
-        );
+        LabelStyle labelStyle = new LabelStyle(game.getFontManager().getHeaderFont(), Color.BLACK);
         Label chefMovement = new Label(
             "Left click on a chef to select them. Then use WASD or the arrow keys to move around.",
             labelStyle

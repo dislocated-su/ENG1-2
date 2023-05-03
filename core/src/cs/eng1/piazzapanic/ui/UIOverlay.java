@@ -92,16 +92,12 @@ public class UIOverlay {
         // X button
         crossButtonDrawable =
             new TextureRegionDrawable(
-                new Texture(
-                    "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png"
-                )
+                new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_crossWhite.png")
             );
 
         // Arrow down
         pointer =
-            new Texture(
-                "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png"
-            );
+            new Texture("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/blue_sliderDown.png");
 
         // Initialize table
         root = new Table();
@@ -206,10 +202,7 @@ public class UIOverlay {
      */
     private void createGameTimer(Drawable background) {
         // Initialize the timer
-        LabelStyle timerStyle = new Label.LabelStyle(
-            game.getFontManager().getHeaderFont(),
-            null
-        );
+        LabelStyle timerStyle = new Label.LabelStyle(game.getFontManager().getHeaderFont(), null);
 
         background.setMinWidth(300);
         timerStyle.background = background;
@@ -219,8 +212,7 @@ public class UIOverlay {
         reputationLabel.setAlignment(Align.center);
         moneyLabel =
             new Label(
-                " Money: £" +
-                String.format("%.0f", PlayerState.getInstance().getCash()),
+                " Money: £" + String.format("%.0f", PlayerState.getInstance().getCash()),
                 timerStyle
             );
         moneyLabel.setAlignment(Align.center);
@@ -269,10 +261,7 @@ public class UIOverlay {
 
         recipeBookRoot.right().padRight(chefDisplay.getWidth());
 
-        LabelStyle recipeNameStyle = new LabelStyle(
-            game.getFontManager().getHeaderFont(),
-            null
-        );
+        LabelStyle recipeNameStyle = new LabelStyle(game.getFontManager().getHeaderFont(), null);
         recipeName = new Label("Recipe", recipeNameStyle);
 
         Stack titleStack = new Stack();
@@ -306,14 +295,11 @@ public class UIOverlay {
 
         recipeBook.add(recipeBookSteps).colspan(2).expand();
 
-        TextureRegionDrawable textureRegionDrawableBg =
-            new TextureRegionDrawable(
-                new Texture(
-                    Gdx.files.internal(
-                        "Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png"
-                    )
-                )
-            );
+        TextureRegionDrawable textureRegionDrawableBg = new TextureRegionDrawable(
+            new Texture(
+                Gdx.files.internal("Kenney-Game-Assets-1/2D assets/UI Base Pack/PNG/grey_panel.png")
+            )
+        );
         recipeBook.setBackground(textureRegionDrawableBg.tint(Color.GRAY));
         recipeBookRoot.row();
 
@@ -368,11 +354,7 @@ public class UIOverlay {
         if (!chef.getStack().isEmpty()) {
             ImageButton btn = game
                 .getButtonManager()
-                .createImageButton(
-                    crossButtonDrawable,
-                    ButtonColour.RED,
-                    -1.5f
-                );
+                .createImageButton(crossButtonDrawable, ButtonColour.RED, -1.5f);
             btn.addListener(
                 new ClickListener() {
                     @Override
@@ -392,11 +374,7 @@ public class UIOverlay {
         pause();
         hide();
         game.setScreen(
-            new EndScreen(
-                game,
-                timer.getTimeString(),
-                reputationLabel.getText().toString()
-            )
+            new EndScreen(game, timer.getTimeString(), reputationLabel.getText().toString())
         );
     }
 
@@ -410,9 +388,7 @@ public class UIOverlay {
         upgradesUi.addToStage(uiStage);
 
         upgrades =
-            game
-                .getButtonManager()
-                .createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
+            game.getButtonManager().createTextButton("Upgrades", ButtonManager.ButtonColour.BLUE);
         upgrades.addListener(
             new ClickListener() {
                 @Override
@@ -488,9 +464,7 @@ public class UIOverlay {
         lastShown = recipe;
 
         String recipeString = recipe.getType().replaceAll("_", " ");
-        recipeString =
-            Character.toUpperCase(recipeString.charAt(0)) +
-            recipeString.substring(1);
+        recipeString = Character.toUpperCase(recipeString.charAt(0)) + recipeString.substring(1);
 
         recipeName.setText(recipeString);
 
@@ -514,9 +488,7 @@ public class UIOverlay {
                 }
             }
 
-            Image ingredientImage = new Image(
-                recipe.getTextureManager().getTexture(foodName)
-            );
+            Image ingredientImage = new Image(recipe.getTextureManager().getTexture(foodName));
 
             ingredientImage.getDrawable().setMinWidth(64);
             ingredientImage.getDrawable().setMinHeight(64);
@@ -528,9 +500,7 @@ public class UIOverlay {
 
         // Intermediary cooked ingredients
         for (String recipeIngredient : recipe.getRecipeIngredients()) {
-            Image image = new Image(
-                recipe.getTextureManager().getTexture(recipeIngredient)
-            );
+            Image image = new Image(recipe.getTextureManager().getTexture(recipeIngredient));
             image.getDrawable().setMinWidth(64);
             image.getDrawable().setMinHeight(64);
             recipeBookSteps.add(image);
@@ -540,9 +510,7 @@ public class UIOverlay {
         if (recipe.getType().equals("pizza")) {
             recipeBookSteps.row();
             recipeBookSteps.add(new Image(pointer)).colspan(5).center().row();
-            Image uncooked = new Image(
-                recipe.getTextureManager().getTexture("uncooked_pizza")
-            );
+            Image uncooked = new Image(recipe.getTextureManager().getTexture("uncooked_pizza"));
             uncooked.getDrawable().setMinWidth(64);
             uncooked.getDrawable().setMinHeight(64);
             recipeBookSteps.add(uncooked).colspan(5).center();
@@ -569,11 +537,7 @@ public class UIOverlay {
     /**
      * Resizes the orders to the current screen size.
      */
-    public void resizeOrders(
-        Collection<Recipe> orders,
-        float width,
-        float height
-    ) {
+    public void resizeOrders(Collection<Recipe> orders, float width, float height) {
         generateOrders(orders, 0.04f * width, 0.075f * height);
     }
 
@@ -584,11 +548,7 @@ public class UIOverlay {
      * @param width  The width of the order images.
      * @param height The height of the order images.
      */
-    private void generateOrders(
-        Collection<Recipe> orders,
-        float width,
-        float height
-    ) {
+    private void generateOrders(Collection<Recipe> orders, float width, float height) {
         orderGroup.clearChildren();
 
         for (Recipe order : orders) {
@@ -630,17 +590,12 @@ public class UIOverlay {
                 activePowerups.setVisible(true);
                 Label activePowerupLabel = new Label(
                     "",
-                    new LabelStyle(
-                        game.getFontManager().getMediumFont(),
-                        Color.WHITE
-                    )
+                    new LabelStyle(game.getFontManager().getMediumFont(), Color.WHITE)
                 );
 
                 String labelText = state.getPowerupName(powerup);
 
-                labelText +=
-                    ": " +
-                    String.format("%d", state.getBuffRemaining(powerup) / 1000);
+                labelText += ": " + String.format("%d", state.getBuffRemaining(powerup) / 1000);
 
                 activePowerupLabel.setText(labelText);
                 activePowerups.add(activePowerupLabel).width(130).padRight(15);
@@ -653,8 +608,7 @@ public class UIOverlay {
      */
     private void updateCash() {
         moneyLabel.setText(
-            " Money: £" +
-            String.format("%.0f", PlayerState.getInstance().getCash())
+            " Money: £" + String.format("%.0f", PlayerState.getInstance().getCash())
         );
     }
 

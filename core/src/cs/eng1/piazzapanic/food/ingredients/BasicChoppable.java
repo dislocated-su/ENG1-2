@@ -35,29 +35,13 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
     @Override
     public boolean choppingTick(float delta) {
         accumulator +=
-            (
-                delta *
-                (
-                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
-                        ? 2
-                        : 1
-                )
-            );
+            (delta * ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST)) ? 2 : 1));
 
         if (
             accumulator >=
             (
                 chopTime +
-                (
-                    failTime *
-                    (
-                        PlayerState
-                                .getInstance()
-                                .getBuffActive(PowerUp.COOK_FAST)
-                            ? 2
-                            : 1
-                    )
-                )
+                (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))
             ) &&
             !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
         ) {

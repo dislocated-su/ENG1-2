@@ -114,10 +114,7 @@ public class Customer extends Actor implements Disposable {
         boolean happiness = (repTimer.getDelay() / repTimer.getElapsed()) > 0.5;
         PlayerState.getInstance().earnCash(100, happiness);
         orderCompleted = true;
-        Gdx.app.log(
-            "Current cash",
-            Float.toString(PlayerState.getInstance().getCash())
-        );
+        Gdx.app.log("Current cash", Float.toString(PlayerState.getInstance().getCash()));
         customerManager.walkBack(this);
         endObjective = customerManager.getObjective(currentObjective);
     }

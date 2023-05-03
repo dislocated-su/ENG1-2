@@ -52,11 +52,7 @@ public class StationAction {
             case ASSEMBLE_PIZZA:
                 return "Assemble Pizza";
             case BUY_STATION:
-                return (
-                    "Unlock station (" +
-                    PlayerState.getInstance().getUpgradeCost(false) +
-                    ")"
-                );
+                return ("Unlock station (" + PlayerState.getInstance().getUpgradeCost(false) + ")");
             default:
                 return "Unknown Action";
         }

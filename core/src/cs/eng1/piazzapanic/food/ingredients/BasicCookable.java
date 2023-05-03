@@ -37,14 +37,7 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
     @Override
     public boolean cookingTick(float delta) {
         accumulator +=
-            (
-                delta *
-                (
-                    (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST))
-                        ? 2
-                        : 1
-                )
-            );
+            (delta * ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST)) ? 2 : 1));
         if (
             // fail time is doubled when double prep speed is active (since delta is
             // doubled)
@@ -52,16 +45,7 @@ public abstract class BasicCookable extends Ingredient implements Cookable {
             accumulator >=
             (
                 cookingStepTime +
-                (
-                    failTime *
-                    (
-                        PlayerState
-                                .getInstance()
-                                .getBuffActive(PowerUp.COOK_FAST)
-                            ? 2
-                            : 1
-                    )
-                )
+                (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))
             ) &&
             !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
         ) {

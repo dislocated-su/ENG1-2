@@ -111,11 +111,7 @@ public class Station extends Actor implements Observer<Chef> {
      * @param scale       how big the texture is to be drawn (relative to default
      *                    size of .6f)
      */
-    protected void drawFoodTexture(
-        Batch batch,
-        Texture foodTexture,
-        float scale
-    ) {
+    protected void drawFoodTexture(Batch batch, Texture foodTexture, float scale) {
         batch.draw(
             foodTexture,
             getX() + (float) (.2f / Math.pow(scale, 2)),
@@ -153,10 +149,7 @@ public class Station extends Actor implements Observer<Chef> {
         for (Subject<Chef> chefSubject : chefSubjects) {
             if (chefSubject instanceof Actor) {
                 Actor collider = (Actor) chefSubject;
-                Vector2 start = new Vector2(
-                    getX() + getWidth() / 2f,
-                    getY() + getHeight() / 2f
-                );
+                Vector2 start = new Vector2(getX() + getWidth() / 2f, getY() + getHeight() / 2f);
                 Vector2 end = new Vector2(
                     collider.getX() + collider.getWidth() / 2f,
                     collider.getY() + collider.getHeight() / 2f
@@ -232,8 +225,7 @@ public class Station extends Actor implements Observer<Chef> {
     public LinkedList<StationAction.ActionType> getActionTypes() {
         PlayerState state = PlayerState.getInstance();
         if (locked && state.getCash() > state.getUpgradeCost(false)) {
-            LinkedList<StationAction.ActionType> actionTypes =
-                new LinkedList<>();
+            LinkedList<StationAction.ActionType> actionTypes = new LinkedList<>();
             actionTypes.add(StationAction.ActionType.BUY_STATION);
             return actionTypes;
         } else {

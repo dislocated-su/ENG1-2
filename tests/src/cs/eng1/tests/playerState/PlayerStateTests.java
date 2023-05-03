@@ -26,22 +26,12 @@ public class PlayerStateTests {
         PlayerState state = PlayerState.getInstance();
         float initialCost = state.getUpgradeCost(false);
         assertEquals("", initialCost, state.getUpgradeCost(true), 0.1f);
-        assertEquals(
-            "",
-            initialCost += 100f,
-            state.getUpgradeCost(false),
-            0.1f
-        );
+        assertEquals("", initialCost += 100f, state.getUpgradeCost(false), 0.1f);
         assertEquals("", initialCost, state.getUpgradeCost(false), 0.1f);
 
         int initialChefCost = state.getChefHireCost(false);
         assertEquals("", initialChefCost, state.getChefHireCost(true), 0.1f);
-        assertEquals(
-            "",
-            initialChefCost *= 10,
-            state.getChefHireCost(false),
-            0.1f
-        );
+        assertEquals("", initialChefCost *= 10, state.getChefHireCost(false), 0.1f);
         assertEquals("", initialChefCost, state.getChefHireCost(false), 0.1f);
     }
 
@@ -87,12 +77,7 @@ public class PlayerStateTests {
         );
 
         state.spendCash(0);
-        assertEquals(
-            "Cash should be 690 after spending 0 cash.",
-            690,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 690 after spending 0 cash.", 690, state.getCash(), 0);
 
         state.spendCash(700);
         assertEquals(
@@ -103,20 +88,10 @@ public class PlayerStateTests {
         );
 
         state.spendCash(350);
-        assertEquals(
-            "Cash should be 340 after spending 350 cash.",
-            340,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 340 after spending 350 cash.", 340, state.getCash(), 0);
 
         state.spendCash(340);
-        assertEquals(
-            "Cash should be 0 after spending 340 cash.",
-            0,
-            state.getCash(),
-            0
-        );
+        assertEquals("Cash should be 0 after spending 340 cash.", 0, state.getCash(), 0);
     }
 
     /**
@@ -162,10 +137,7 @@ public class PlayerStateTests {
         PlayerState state = PlayerState.getInstance();
 
         for (Timer powerUp : state.getPowerUpTimers().values()) {
-            assertFalse(
-                "All PowerUps should be inactive by default.",
-                powerUp.getRunning()
-            );
+            assertFalse("All PowerUps should be inactive by default.", powerUp.getRunning());
         }
 
         state.activateBuff(PowerUp.COOK_FAST);

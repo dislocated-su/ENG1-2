@@ -91,41 +91,18 @@ public class ChefTests {
     @Test
     public void initTests() {
         chef.init(0, 0);
-        assertEquals(
-            "Init(0, 0) should set the chef X to 0.",
-            0,
-            chef.getX(),
-            1f
-        );
+        assertEquals("Init(0, 0) should set the chef X to 0.", 0, chef.getX(), 1f);
 
-        assertEquals(
-            "Init(0, 0) should set the chef Y to 0.",
-            0,
-            chef.getY(),
-            1f
-        );
+        assertEquals("Init(0, 0) should set the chef Y to 0.", 0, chef.getY(), 1f);
 
         chef.grabItem(new Cheese(foodManager));
 
         chef.init(10, 10);
-        assertEquals(
-            "Init(10, 10) should set the chef X to 10.",
-            10,
-            chef.getX(),
-            1f
-        );
+        assertEquals("Init(10, 10) should set the chef X to 10.", 10, chef.getX(), 1f);
 
-        assertEquals(
-            "Init(10, 10) should set the chef Y to 10.",
-            10,
-            chef.getY(),
-            1f
-        );
+        assertEquals("Init(10, 10) should set the chef Y to 10.", 10, chef.getY(), 1f);
 
-        assertFalse(
-            "init should set the chef stack to an empty list.",
-            chef.hasIngredient()
-        );
+        assertFalse("init should set the chef stack to an empty list.", chef.hasIngredient());
     }
 
     /**
