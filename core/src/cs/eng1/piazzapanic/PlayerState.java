@@ -12,7 +12,7 @@ public class PlayerState {
 
     private static PlayerState instance = null;
 
-    private float cash = 1000000;
+    private float cash = 0;
 
     private int difficultyLevel = 1;
 
@@ -170,7 +170,7 @@ public class PlayerState {
      *
      * @param amount, the amount of cash to be spent
      */
-    public void spendCash(double amount) {
+    public void spendCash(float amount) {
         if (cash < amount) {
             return;
         }

@@ -65,11 +65,11 @@ public class SaveManager {
         );
     }
 
-    public SaveState load() {
+    public SaveState load(String fileHandle) {
         Json json = new Json();
         SaveState state = json.fromJson(
             SaveState.class,
-            new FileHandle("savefile.json")
+            new FileHandle(fileHandle)
         );
 
         return state;

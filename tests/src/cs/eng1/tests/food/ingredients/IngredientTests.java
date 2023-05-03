@@ -275,13 +275,18 @@ public class IngredientTests {
     @Test
     public void testUncookedPizza() {
         UncookedPizza unPizza = new UncookedPizza(textureManager);
+
         assertNull(unPizza.getCookingResult());
         assertEquals(pizza.getTexture(), unPizza.getTexture());
+
         unPizza.setIsCooked(true);
+
         assertEquals(textureManager.getTexture("pizza"), unPizza.getTexture());
         assertEquals(Pizza.class, unPizza.getCookingResult().getClass());
+
         unPizza.setUseable(false);
         pizza.setUseable(false);
+
         assertEquals(textureManager.getTexture("burnt"), unPizza.getTexture());
         assertEquals(
             "uncooked_pizza_ruined",

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.mock;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -56,6 +55,9 @@ public class CustomerManagerTests {
 
     MapLoader mapLoader = new MapLoader("test-map.tmx");
 
+    /**
+     * Test the functionality of init()
+     */
     @Test
     public void initTests() {
         mapLoader.loadWaypoints(
@@ -203,6 +205,9 @@ public class CustomerManagerTests {
         );
     }
 
+    /**
+     * Test the functionality of endless mode in relation to customerManager.
+     */
     @Test
     public void endlessTests() {
         customerManager = new CustomerManager(1, overlay, world, 0, 0);
@@ -232,31 +237,33 @@ public class CustomerManagerTests {
             "EndlessTimer should be running in endless mode.",
             customerManager.getEndlessTimer().getRunning()
         );
-        // Makes variable spawn timers work
-        double log1 = Math.log(0.95);
-        double log2 = Math.log(
-            10000 / customerManager.getSpawnTimer().getRemainingTime()
-        );
-        double iterations = log1 / log2;
-        for (int i = 0; i < iterations; i++) {
-            int spawnTimer = customerManager.getSpawnTimer().getRemainingTime();
-            act(customerManager.getEndlessTimer().getRemainingTime() + 1);
-            customerManager.getEndlessTimer().reset();
+
+        customerManager.getSpawnTimer().reset();
+        // Loops until it reaches maxSpawnRate
+        for (
+            int i = customerManager.getSpawnTimer().getDelay();
+            i >= customerManager.getMaxSpawnRate();
+            Math.round(i *= 0.95)
+        ) {
+            customerManager.act(
+                customerManager.getEndlessTimer().getRemainingTime() + 1
+            );
             assertEquals(
                 "spawnTimer should decrease by 5% when endlessTimer.tick(delta) is true",
-                Math.round(spawnTimer * 0.95f),
-                customerManager.getSpawnTimer().getRemainingTime(),
-                0.1
+                i,
+                customerManager.getSpawnTimer().getRemainingTime()
             );
-            if (i == iterations - 1) {
-                assertEquals(
-                    10000,
-                    customerManager.getSpawnTimer().getRemainingTime()
-                );
-            }
         }
+        customerManager.act(1000f);
+        assertEquals(
+            customerManager.getMaxSpawnRate(),
+            customerManager.getSpawnTimer().getRemainingTime()
+        );
     }
 
+    /**
+     * Test the functionality of act in CustomerManager by relation Customer.
+     */
     @Test
     public void actTests() {
         customerManager = new CustomerManager(1, overlay, world, 5, 0);
@@ -337,9 +344,11 @@ public class CustomerManagerTests {
             0,
             customerManager.getReputation()
         );
-        world = clearBodies(world);
     }
 
+    /**
+     * Test the movement of customers and its relation to CustomerManager.
+     */
     @Test
     public void movementTests() {
         int customers = 30;
@@ -386,22 +395,17 @@ public class CustomerManagerTests {
                     .epsilonEquals(currentCustomer.getPosition(), 1f)
             );
         }
-        world = clearBodies(world);
     }
 
-    public void act(float delta) {
+    /**
+     * Acts for customerManager and each customer within it.
+     *
+     * @param delta Time in seconds
+     */
+    private void act(float delta) {
         customerManager.act(delta);
         for (Customer customer : customerManager.getCustomerQueue()) {
             customer.act(delta);
         }
-    }
-
-    public World clearBodies(World world) {
-        Array<Body> bodies = new Array<>(100);
-        world.getBodies(bodies);
-        for (Body body : bodies) {
-            world.destroyBody(body);
-        }
-        return world;
     }
 }

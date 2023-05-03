@@ -14,9 +14,6 @@ import org.junit.runner.RunWith;
 @RunWith(GdxTestRunner.class)
 public class box2dSteeringBodyTests {
 
-    // SteeringBehavior<Vector2> behaviour;
-    // Limiter limiter;
-    // Location<Vector2> location;
     World world = new World(Vector2.Zero, true);
     BodyDef bd = new BodyDef();
     double dpi = Math.PI;
@@ -66,7 +63,6 @@ public class box2dSteeringBodyTests {
 
     @Test
     public void angleToVectorTests() {
-        //These can't be in a single assert, delta can't be defined for vector2 so they are always equal if they are both a Vector2.
         Vector2 vector = Vector2.Zero;
         steeringBody.angleToVector(vector, 0);
         assertEquals(0, vector.x, 0.1);
@@ -108,16 +104,5 @@ public class box2dSteeringBodyTests {
             "SteeringBehaviour should be null by default.",
             steeringBody.getSteeringBehavior()
         );
-        // Tried testing this then realised it was protected, I'll leave this for if we change it.
-        //     behaviour.setEnabled(true);
-        //     behaviour.setOwner(steeringBody);
-        //     behaviour.setLimiter(limiter);
-        //     location = steeringBody.newLocation();
-        //     behaviour.newVector(location);
-        //     steeringBody.setSteeringBehavior(behaviour);
-        //     assertEquals(
-        //         location,
-        //         steeringBody.getSteeringBehavior().get(0)
-        //     );
     }
 }

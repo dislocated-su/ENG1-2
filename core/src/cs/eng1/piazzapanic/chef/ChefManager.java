@@ -209,8 +209,6 @@ public class ChefManager implements Disposable {
         );
     }
 
-    public void addChefToStage() {}
-
     /**
      * Given a chef, update the state of the chefs to make sure that only one has
      * input enabled.
