@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests the functionality of the abstract class BasicGrillable - being grillTick adding grill progress, 
+ * Tests the functionality of the abstract class BasicGrillable - being grillTick adding grill progress,
  * getGrillProgress / getGrillResult / getGrilled / getHalfGrilled / grillStepComplete returning the proper step in grilling,
  * flip() flipping the Grillable.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)

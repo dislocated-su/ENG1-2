@@ -11,11 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests the functionality of the abstract class BasicChoppable - being choppingTick adding chopping progress, 
+ * Tests the functionality of the abstract class BasicChoppable - being choppingTick adding chopping progress,
  * getChoppingProgress / getChoppingResult returning the proper step in chopping,
  * getChopped returning chopped,
  * and getTexture returning the correct texture.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)

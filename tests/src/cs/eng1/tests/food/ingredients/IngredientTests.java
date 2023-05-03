@@ -8,10 +8,11 @@ import cs.eng1.piazzapanic.food.recipes.Pizza;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
- * Tests the behaviour of Ingredient and various ingredients - being getTexture, 
+ * Tests the behaviour of Ingredient and various ingredients - being getTexture,
  * getType, getRecipeIngredients, fromString and getTextureManager.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)

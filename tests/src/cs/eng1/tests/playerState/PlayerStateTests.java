@@ -8,9 +8,10 @@ import cs.eng1.piazzapanic.utility.Timer;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
  * Tests the functionality of PlayerState - being functions related to costs, cash, powerUps and act().
- * 
+ *
  * @author Ross Holmes
  * @author Joel Paxman
  */

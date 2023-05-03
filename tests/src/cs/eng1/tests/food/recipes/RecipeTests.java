@@ -7,10 +7,11 @@ import cs.eng1.piazzapanic.food.recipes.Recipe;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
- * Tests the functionality of Recipe and various Recipes, as well as their behaviour - 
+ * Tests the functionality of Recipe and various Recipes, as well as their behaviour -
  * being getTexture, getType, getRecipeIngredients, and fromString.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)

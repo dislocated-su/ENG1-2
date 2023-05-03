@@ -8,11 +8,12 @@ import cs.eng1.piazzapanic.food.interfaces.Cookable;
 import cs.eng1.tests.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 /**
- * Tests the functionality of the abstract class BasicCookable - being cookingTick adding cooking progress, 
+ * Tests the functionality of the abstract class BasicCookable - being cookingTick adding cooking progress,
  * getHalfCooked / getCookingResult / cookingStepComplete / getCookingProgress returning the proper step in cooking,
  * flip() flipping the cookable.
- * 
+ *
  * @author Joel Paxman
  */
 @RunWith(GdxTestRunner.class)
