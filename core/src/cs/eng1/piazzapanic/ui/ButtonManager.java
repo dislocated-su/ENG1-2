@@ -184,7 +184,7 @@ public class ButtonManager implements Disposable {
 
     public SelectBox<String> createSelectBox(String[] options) {
         SelectBox<String> temp = new SelectBox<>(
-                (Skin) assetManager.get("skin/skin.json")
+            (Skin) assetManager.get("skin/skin.json")
         );
         temp.setItems(options);
         return temp;
