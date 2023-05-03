@@ -40,11 +40,11 @@ public class CustomerManager {
     private final List<Integer> objectiveIds = new ArrayList<>();
     private final Map<Integer, Boolean> objectiveAvailability;
     private final String[] customerSprites = new String[] {
-            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 1/hitman1_hold.png",
-            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 2/hitman2_hold.png",
-            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Old/manOld_hold.png",
-            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 2/survivor2_hold.png",
-            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 1/survivor1_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 1/hitman1_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Hitman 2/hitman2_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Old/manOld_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 2/survivor2_hold.png",
+        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Survivor 1/survivor1_hold.png",
     };
     private int completedOrders = 0;
     private Recipe[] possibleRecipes;
@@ -81,11 +81,12 @@ public class CustomerManager {
     }
 
     public CustomerManager(
-            SavedCustomerManager save,
-            float customerScale,
-            UIOverlay overlay,
-            World world,
-            FoodTextureManager textureManager) {
+        SavedCustomerManager save,
+        float customerScale,
+        UIOverlay overlay,
+        World world,
+        FoodTextureManager textureManager
+    ) {
         this.overlay = overlay;
         this.recipeStations = new HashMap<>();
 
@@ -103,22 +104,24 @@ public class CustomerManager {
         randomCustomerCount = new Random();
         objectiveAvailability = save.objectiveAvailabilities.get();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         customerQueue = new LinkedList<>();
         for (SavedCustomer savedCustomer : save.customerQueue) {
             Texture texture = new Texture(Gdx.files.internal(savedCustomer.imagePath));
             Customer customer = new Customer(
-                    texture,
-                    new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
-                    savedCustomer.position,
-                    Recipe.fromString(savedCustomer.order, textureManager),
-                    this);
+                texture,
+                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
+                savedCustomer.position,
+                Recipe.fromString(savedCustomer.order, textureManager),
+                this
+            );
             customer.currentObjective = savedCustomer.currentObjective;
             this.customerQueue.addLast(customer);
         }
@@ -154,18 +157,20 @@ public class CustomerManager {
      * @param spawnLocations Spawn locations loaded from the map
      */
     public void init(
-            FoodTextureManager textureManager,
-            Stage stage,
-            Map<Integer, Box2dLocation> objectives,
-            List<Vector2> spawnLocations) {
+        FoodTextureManager textureManager,
+        Stage stage,
+        Map<Integer, Box2dLocation> objectives,
+        List<Vector2> spawnLocations
+    ) {
         customerQueue.clear();
 
-        possibleRecipes = new Recipe[] {
+        possibleRecipes =
+            new Recipe[] {
                 new Burger(textureManager),
                 new Salad(textureManager),
                 new Pizza(textureManager),
                 new JacketPotato(textureManager),
-        };
+            };
 
         this.stage = stage;
         this.objectives = objectives;
@@ -322,11 +327,12 @@ public class CustomerManager {
             // implement random generation of two or three customers at once here
             Texture texture = new Texture(customerSprites[randomTextures.nextInt(customerSprites.length - 1)]);
             Customer customer = new Customer(
-                    texture,
-                    new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
-                    spawnLocations.get(0),
-                    possibleRecipes[randomOrders.nextInt(4)],
-                    this);
+                texture,
+                new Vector2(texture.getWidth() * customerScale, texture.getHeight() * customerScale),
+                spawnLocations.get(0),
+                possibleRecipes[randomOrders.nextInt(4)],
+                this
+            );
             customerQueue.addLast(customer);
             stage.addActor(customer);
             updateCustomerLocation(customer, customerObjective);
@@ -359,10 +365,10 @@ public class CustomerManager {
 
     /**
      * Give the customer an objective to go to.
-     * 
-     * 
+     *
+     *
      * This is a brought-over implementation of gdx-ai from asessment 1.
-     * 
+     *
      * @param locationID and id from objectives
      */
     private void makeItGoThere(Customer customer, int locationID) {
@@ -374,10 +380,10 @@ public class CustomerManager {
 
         // Arrive behaviour moves the customer to their target
         Arrive<Vector2> arrive = new Arrive<>(customer.steeringBody)
-                .setTimeToTarget(3f)
-                .setArrivalTolerance(0.1f)
-                .setDecelerationRadius(2)
-                .setTarget(there);
+            .setTimeToTarget(3f)
+            .setArrivalTolerance(0.1f)
+            .setDecelerationRadius(2)
+            .setTarget(there);
 
         // Proximity set to trigger at a distance of 0.5f
         Proximity<Vector2> proximity = new Box2dRadiusProximity(customer.steeringBody, world, 0.5f);
@@ -387,20 +393,19 @@ public class CustomerManager {
         // Collision avoidance using raycast (more suitable for walls)
         RaycastObstacleAvoidance<Vector2> wallAvoidance = new RaycastObstacleAvoidance<>(customer.steeringBody);
         wallAvoidance
-                .setRayConfiguration(
-                        new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f))
-                .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
-                .setDistanceFromBoundary(locationID);
+            .setRayConfiguration(new CentralRayWithWhiskersConfiguration<>(customer.steeringBody, 0.1f, 0.3f, 0.35f))
+            .setRaycastCollisionDetector(new Box2dRaycastCollisionDetector(world))
+            .setDistanceFromBoundary(locationID);
 
         // Both collision avoidance behaviours are blended to combine output from both.
         BlendedSteering<Vector2> blendedAvoidance = new BlendedSteering<>(customer.steeringBody)
-                .add(collisionAvoidance, 0.5f)
-                .add(wallAvoidance, 0.5f);
+            .add(collisionAvoidance, 0.5f)
+            .add(wallAvoidance, 0.5f);
 
         // Collision avoidance takes priority over arriving at the target
         PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(customer.steeringBody)
-                .add(blendedAvoidance)
-                .add(arrive);
+            .add(blendedAvoidance)
+            .add(arrive);
 
         customer.steeringBody.setSteeringBehavior(prioritySteering);
         customer.currentObjective = locationID;

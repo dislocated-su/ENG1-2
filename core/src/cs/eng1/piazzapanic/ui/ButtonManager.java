@@ -60,16 +60,19 @@ public class ButtonManager implements Disposable {
             // Generate all the different base colour styles from images and store them in a
             // HashMap
             TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
-                    new TextureRegionDrawable(
-                            new Texture(
-                                    Gdx.files.internal(
-                                            basePath + buttonColour.name().toLowerCase() + "_button_flat_up.png"))),
-                    new TextureRegionDrawable(
-                            new Texture(
-                                    Gdx.files.internal(
-                                            basePath + buttonColour.name().toLowerCase() + "_button_flat_down.png"))),
-                    null,
-                    fontManager.getLabelFont());
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_flat_up.png")
+                    )
+                ),
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_flat_down.png")
+                    )
+                ),
+                null,
+                fontManager.getLabelFont()
+            );
             if (buttonColour == ButtonColour.GREY || buttonColour == ButtonColour.YELLOW) {
                 textButtonStyle.fontColor = Color.BLACK;
             }
@@ -77,26 +80,31 @@ public class ButtonManager implements Disposable {
 
             // Generate all the base image button colour styles
             Button.ButtonStyle imageButtonBaseStyle = new Button.ButtonStyle(
-                    new TextureRegionDrawable(
-                            new Texture(
-                                    Gdx.files.internal(basePath + buttonColour.name().toLowerCase()
-                                            + "_button_square_flat_up.png"))),
-                    new TextureRegionDrawable(
-                            new Texture(
-                                    Gdx.files.internal(
-                                            basePath + buttonColour.name().toLowerCase()
-                                                    + "_button_square_flat_down.png"))),
-                    null);
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_button_square_flat_up.png")
+                    )
+                ),
+                new TextureRegionDrawable(
+                    new Texture(
+                        Gdx.files.internal(
+                            basePath + buttonColour.name().toLowerCase() + "_button_square_flat_down.png"
+                        )
+                    )
+                ),
+                null
+            );
             imageButtonBaseStyles.put(buttonColour, imageButtonBaseStyle);
 
             // Generate all the base checkbox colour styles
             CheckBoxStyle checkBoxStyle = new CheckBoxStyle(
-                    new TextureRegionDrawable(checkboxUnchecked),
-                    new TextureRegionDrawable(
-                            new Texture(Gdx.files
-                                    .internal(basePath + buttonColour.name().toLowerCase() + "_boxCheckmark.png"))),
-                    fontManager.getLabelFont(),
-                    Color.BLACK);
+                new TextureRegionDrawable(checkboxUnchecked),
+                new TextureRegionDrawable(
+                    new Texture(Gdx.files.internal(basePath + buttonColour.name().toLowerCase() + "_boxCheckmark.png"))
+                ),
+                fontManager.getLabelFont(),
+                Color.BLACK
+            );
             checkBoxStyles.put(buttonColour, checkBoxStyle);
         }
 
@@ -108,8 +116,7 @@ public class ButtonManager implements Disposable {
         assetManager.load("skin/skin.json", Skin.class, parameter);
 
         // Run until assetManager finishes loading
-        while (!assetManager.update()) {
-        }
+        while (!assetManager.update()) {}
     }
 
     /**
@@ -143,7 +150,7 @@ public class ButtonManager implements Disposable {
 
     /**
      * Made for assessment 2.
-     * 
+     *
      * @param text The text to be turned into a text field.
      * @return generated text field
      */

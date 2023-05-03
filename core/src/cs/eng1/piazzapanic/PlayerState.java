@@ -50,8 +50,7 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    public PlayerState() {
-    }
+    public PlayerState() {}
 
     public PlayerState(SavedPlayerState state) {
         setDifficulty(state.difficulty);

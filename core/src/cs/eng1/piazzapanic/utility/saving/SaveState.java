@@ -7,7 +7,7 @@ import cs.eng1.piazzapanic.customer.CustomerManager;
 /**
  * SaveState stores all other types of Saved classes and serves to hold the json
  * values read and written to file
- * 
+ *
  * @author Ross Holmes
  * @author Andrey Samoilov
  */

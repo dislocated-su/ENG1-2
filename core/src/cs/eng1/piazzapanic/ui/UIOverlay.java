@@ -68,9 +68,10 @@ public class UIOverlay {
     private final Value scale;
 
     public PauseOverlay pauseOverlay;
+
     /**
      * Constructs a new UIOverlay for purposes of showing every section of the main game screen.
-     * 
+     *
      * @param uiStage The stage for actors to be added on to.
      * @param game The game to set the UIOverlay game to.
      */

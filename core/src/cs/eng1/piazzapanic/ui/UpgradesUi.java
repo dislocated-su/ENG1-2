@@ -18,7 +18,7 @@ import cs.eng1.piazzapanic.PlayerState.PowerUp;
 
 /**
  * UpgradesUi is an upgrades menu that appears over the main stage.
- * 
+ *
  * This class was introduced to meet assessment 2 requirements.
  * @author Andrey Samoilov
  * @author Louis Warren

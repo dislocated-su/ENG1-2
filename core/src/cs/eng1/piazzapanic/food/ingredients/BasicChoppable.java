@@ -23,7 +23,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Constructor for BasicChoppable.
-     * 
+     *
      * @param type           the type of ingredient.
      * @param textureManager the texture manager to use.
      */
@@ -38,9 +38,11 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
     public boolean choppingTick(float delta) {
         accumulator += (delta * ((PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST)) ? 2 : 1));
 
-        if (accumulator >= (chopTime
-                + (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))) &&
-                !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)) {
+        if (
+            accumulator >=
+            (chopTime + (failTime * (PlayerState.getInstance().getBuffActive(PowerUp.COOK_FAST) ? 2 : 1))) &&
+            !PlayerState.getInstance().getBuffActive(PowerUp.NO_SPOILING)
+        ) {
             setUseable(false);
             return false;
         } else if (accumulator >= chopTime) {
@@ -51,7 +53,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Gets the current chopping progress as a percentage.
-     * 
+     *
      * @return the current chopping progress as a percentage.
      */
     @Override
@@ -61,7 +63,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Gets the result of the chopping.
-     * 
+     *
      * @return the chopped ingredient.
      */
     @Override
@@ -71,7 +73,7 @@ public abstract class BasicChoppable extends Ingredient implements Choppable {
 
     /**
      * Get texture based on ingredient type and chopping status.
-     * 
+     *
      * @see Holdable
      * @return Texture
      */

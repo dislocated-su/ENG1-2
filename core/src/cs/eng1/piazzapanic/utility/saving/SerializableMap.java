@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * A simple container for a Map<K,V> that stores the values as arrays for
  * serialisation.
- * 
+ *
  * @param <K> the key type of the Map
  * @param <V> the value type of the Map
  *
@@ -25,8 +25,7 @@ public class SerializableMap<K, V> {
         values = (V[]) map.values().toArray();
     }
 
-    public SerializableMap() {
-    }
+    public SerializableMap() {}
 
     /**
      * Construct a map from Serializable map
