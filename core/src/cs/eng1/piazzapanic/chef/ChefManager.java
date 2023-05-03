@@ -34,30 +34,31 @@ public class ChefManager implements Disposable {
     private Chef currentChef = null;
     private final UIOverlay overlay;
     final String[] chefSprites = new String[] {
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
-        "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Old/womanOld_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Brown/manBrown_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Green/womanGreen_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Blue/manBlue_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Man Red/manRed_hold.png",
+            "Kenney-Game-Assets-2/2D assets/Topdown Shooter (620 assets)/PNG/Woman Old/womanOld_hold.png",
     };
     private final float chefScale;
 
     /**
-     * @param chefScale the amount to scale the texture by so that each chef is an
-     *                  accurate size.
-     * @param overlay   the user interface overlay to display information about the
-     *                  current chef and time, and to provide more controls.
-     * @param world     Box2D world to use for Chef collision and movement.
+     * @param chefScale     the amount to scale the texture by so that each chef is
+     *                      an
+     *                      accurate size.
+     * @param overlay       the user interface overlay to display information about
+     *                      the
+     *                      current chef and time, and to provide more controls.
+     * @param world         Box2D world to use for Chef collision and movement.
      *
      * @param keyboardInput Input processor for input from the keyboard. Passed down
      *                      to the chefs this class owns.
      */
     public ChefManager(
-        float chefScale,
-        UIOverlay overlay,
-        World world,
-        KeyboardInput keyboardInput
-    ) {
+            float chefScale,
+            UIOverlay overlay,
+            World world,
+            KeyboardInput keyboardInput) {
         this.overlay = overlay;
         this.world = world;
         this.keyboardInput = keyboardInput;
@@ -70,26 +71,23 @@ public class ChefManager implements Disposable {
             String sprite = chefSprites[i];
             Texture chefTexture = new Texture(Gdx.files.internal(sprite));
             Chef chef = new Chef(
-                chefTexture,
-                new Vector2(
-                    chefTexture.getWidth() * chefScale,
-                    chefTexture.getHeight() * chefScale
-                ),
-                this
-            );
+                    chefTexture,
+                    new Vector2(
+                            chefTexture.getWidth() * chefScale,
+                            chefTexture.getHeight() * chefScale),
+                    this);
             chef.setInputEnabled(false);
             chefs.add(chef);
         }
     }
 
     public ChefManager(
-        SavedChefManager save,
-        float chefScale,
-        UIOverlay overlay,
-        World world,
-        KeyboardInput keyboardInput,
-        FoodTextureManager textureManager
-    ) {
+            SavedChefManager save,
+            float chefScale,
+            UIOverlay overlay,
+            World world,
+            KeyboardInput keyboardInput,
+            FoodTextureManager textureManager) {
         this.overlay = overlay;
         this.world = world;
         this.keyboardInput = keyboardInput;
@@ -99,16 +97,13 @@ public class ChefManager implements Disposable {
 
         for (SavedChef savedChef : save.savedChefs) {
             Texture chefTexture = new Texture(
-                Gdx.files.internal(savedChef.imagePath)
-            );
+                    Gdx.files.internal(savedChef.imagePath));
             Chef chef = new Chef(
-                chefTexture,
-                new Vector2(
-                    chefTexture.getWidth() * chefScale,
-                    chefTexture.getHeight() * chefScale
-                ),
-                this
-            );
+                    chefTexture,
+                    new Vector2(
+                            chefTexture.getWidth() * chefScale,
+                            chefTexture.getHeight() * chefScale),
+                    this);
             chef.init(savedChef.position.x, savedChef.position.y);
             for (SavedFood item : savedChef.inventory) {
                 chef.grabItem(item.get(textureManager));
@@ -131,6 +126,9 @@ public class ChefManager implements Disposable {
             Vector2 pos = spawnPoints.get(index);
             chef.init(pos.x, pos.y);
             index++;
+            if (index == 2) {
+                index = 0;
+            }
         }
     }
 
@@ -138,21 +136,18 @@ public class ChefManager implements Disposable {
      *
      */
     public void hireChef(Vector2 position, Stage stage) {
-        if (chefs.size() >= 4) {
+        if (chefs.size() >= 5) {
             return;
         }
 
         Texture chefTexture = new Texture(
-            Gdx.files.internal(chefSprites[chefs.size()])
-        );
+                Gdx.files.internal(chefSprites[chefs.size()]));
         Chef chef = new Chef(
-            chefTexture,
-            new Vector2(
-                chefTexture.getWidth() * chefScale,
-                chefTexture.getHeight() * chefScale
-            ),
-            this
-        );
+                chefTexture,
+                new Vector2(
+                        chefTexture.getWidth() * chefScale,
+                        chefTexture.getHeight() * chefScale),
+                this);
 
         chef.init(position.x, position.y);
         chef.setInputEnabled(false);
@@ -161,16 +156,15 @@ public class ChefManager implements Disposable {
         stage.addActor(chef);
         final ChefManager manager = this;
         stage.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Actor actorHit = stage.hit(x, y, false);
-                    if (actorHit instanceof Chef) {
-                        manager.setCurrentChef((Chef) actorHit);
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Actor actorHit = stage.hit(x, y, false);
+                        if (actorHit instanceof Chef) {
+                            manager.setCurrentChef((Chef) actorHit);
+                        }
                     }
-                }
-            }
-        );
+                });
     }
 
     public List<Chef> getChefs() {
@@ -199,16 +193,15 @@ public class ChefManager implements Disposable {
         }
         final ChefManager manager = this;
         stage.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Actor actorHit = stage.hit(x, y, false);
-                    if (actorHit instanceof Chef) {
-                        manager.setCurrentChef((Chef) actorHit);
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Actor actorHit = stage.hit(x, y, false);
+                        if (actorHit instanceof Chef) {
+                            manager.setCurrentChef((Chef) actorHit);
+                        }
                     }
-                }
-            }
-        );
+                });
     }
 
     /**

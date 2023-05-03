@@ -12,7 +12,7 @@ public class PlayerState {
 
     private static PlayerState instance = null;
 
-    private float cash = 0;
+    private float cash = 1000000;
 
     private int difficultyLevel = 1;
 
@@ -32,16 +32,15 @@ public class PlayerState {
         }
     };
 
-    private final HashMap<PowerUp, Integer> powerUpCosts =
-        new HashMap<PowerUp, Integer>() {
-            {
-                put(PowerUp.WALK_FAST, 100);
-                put(PowerUp.COOK_FAST, 100);
-                put(PowerUp.NO_SPOILING, 100);
-                put(PowerUp.NO_REP_LOSS, 100);
-                put(PowerUp.MORE_MONEY, 100);
-            }
-        };
+    private final HashMap<PowerUp, Integer> powerUpCosts = new HashMap<PowerUp, Integer>() {
+        {
+            put(PowerUp.WALK_FAST, 100);
+            put(PowerUp.COOK_FAST, 100);
+            put(PowerUp.NO_SPOILING, 100);
+            put(PowerUp.NO_REP_LOSS, 100);
+            put(PowerUp.MORE_MONEY, 100);
+        }
+    };
 
     public enum PowerUp {
         WALK_FAST,
@@ -51,7 +50,8 @@ public class PlayerState {
         MORE_MONEY,
     }
 
-    public PlayerState() {}
+    public PlayerState() {
+    }
 
     public PlayerState(SavedPlayerState state) {
         setDifficulty(state.difficulty);
@@ -68,7 +68,7 @@ public class PlayerState {
      *
      * @param buying whether the call is at time of buying, meaning when it will
      *               increase price as well
-     * {@code @returns} returnCost, the cost of purchasing the station
+     *               {@code @returns} returnCost, the cost of purchasing the station
      */
     public float getUpgradeCost(boolean buying) {
         float returnCost = upgradeCost;
@@ -107,7 +107,7 @@ public class PlayerState {
      * class and can be called to access the same object across the program
      *
      * @return instance, the instance of PlayerState, newly created if no one
-     *          exists prior
+     *         exists prior
      */
     public static PlayerState getInstance() {
         if (instance == null) {
@@ -236,7 +236,7 @@ public class PlayerState {
     /**
      * @param powerUp to return name of
      * @return the formatted name of the PowerUp (capitalized first letter, removed
-     *          underscore)
+     *         underscore)
      */
     public String getPowerupName(PowerUp powerUp) {
         String output = powerUp.name().replaceAll("_", " ").toLowerCase();
